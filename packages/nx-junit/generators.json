@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "nx-junit",
+  "version": "0.0.1",
+  "generators": {
+    "nx-junit": {
+      "aliases": ["app"],
+      "factory": "./src/generators/nx-junit/generator",
+      "schema": "./src/generators/nx-junit/schema.json",
+      "description": "nx-junit generator"
+    }
+  }
+}

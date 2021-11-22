@@ -2,16 +2,42 @@
   "name": "gb-nx",
   "version": "0.0.1",
   "description": "Some miscellaneous NX plugins",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nx serve",
+    "build": "nx build",
+    "test": "nx test"
+  },
+  "private": true,
+  "devDependencies": {
+    "@nrwl/cli": "13.1.4",
+    "@nrwl/devkit": "13.1.4",
+    "@nrwl/eslint-plugin-nx": "13.1.4",
+    "@nrwl/jest": "13.1.4",
+    "@nrwl/linter": "13.1.4",
+    "@nrwl/node": "13.1.4",
+    "@nrwl/nx-plugin": "^13.1.4",
+    "@nrwl/tao": "13.1.4",
+    "@nrwl/workspace": "13.1.4",
+    "@types/jest": "27.0.2",
+    "@types/node": "14.14.33",
+    "@typescript-eslint/eslint-plugin": "~4.33.0",
+    "@typescript-eslint/parser": "~4.33.0",
+    "eslint": "7.32.0",
+    "eslint-config-prettier": "8.1.0",
+    "eslint-plugin-gb": "^1.1.0",
+    "jest": "27.2.3",
+    "prettier": "^2.3.1",
+    "ts-jest": "27.0.5",
+    "tslib": "^2.0.0",
+    "typescript": "~4.3.5"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GaryB432/gb-nx.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/GaryB432/gb-nx/issues"

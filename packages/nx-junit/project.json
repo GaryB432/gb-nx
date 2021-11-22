@@ -1,0 +1,56 @@
+{
+  "root": "packages/nx-junit",
+  "sourceRoot": "packages/nx-junit/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/nx-junit/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/nx-junit"],
+      "options": {
+        "jestConfig": "packages/nx-junit/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nx-junit",
+        "tsConfig": "packages/nx-junit/tsconfig.lib.json",
+        "packageJson": "packages/nx-junit/package.json",
+        "main": "packages/nx-junit/src/index.ts",
+        "assets": [
+          "packages/nx-junit/*.md",
+          {
+            "input": "./packages/nx-junit/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-junit/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-junit",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-junit",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    }
+  },
+  "tags": []
+}
