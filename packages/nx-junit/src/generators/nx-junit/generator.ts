@@ -3,17 +3,20 @@ import {
   formatFiles,
   getProjects,
   getWorkspaceLayout,
+  installPackagesTask,
   names,
-  Tree,
+  ProjectType,
+  Tree
 } from "@nrwl/devkit";
+import { posix } from "path";
 import * as ts from "typescript";
 import { NxJunitGeneratorSchema } from "./schema";
 
 interface NormalizedSchema extends NxJunitGeneratorSchema {
-  projectName: string;
+  tbd: boolean;
 }
 
-function handleJestConfig(sourceFile: ts.SourceFile, project: string): string {
+function handleJestConfig(sourceFile: ts.SourceFile, rptrs: string): string {
   const exp = sourceFile.getChildAt(0).getChildAt(0) as ts.ExpressionStatement;
 
   const sourceText = sourceFile.getFullText();
@@ -24,24 +27,11 @@ function handleJestConfig(sourceFile: ts.SourceFile, project: string): string {
       const lt = ole.getLastToken();
       const position = lt.getFullStart();
       let alreadyReporters = false;
-      let last: ts.PropertyAssignment | null = null;
       ole.forEachChild((pa: ts.PropertyAssignment) => {
         if (pa.name.getText() === "reporters") {
           alreadyReporters = true;
         }
-        last = pa;
       });
-
-      const rptrs = `reporters: [
-        'default',
-        [
-          'jest-junit',
-          {
-            outputDirectory: 'junit/apps',
-            outputName: '${project}.xml',
-          },
-        ],
-      ]`;
 
       return alreadyReporters
         ? sourceText
@@ -58,8 +48,9 @@ function normalizeOptions(
   _tree: Tree,
   options: NxJunitGeneratorSchema
 ): NormalizedSchema {
-  const projectName = options.projectName ?? "tbd";
-  return { projectName };
+  const projectName = options.projectName || "N/A";
+  const reporterVersion = options.reporterVersion ?? "^13.0.0";
+  return { projectName, reporterVersion, tbd: true };
 }
 
 export default async function (
@@ -67,6 +58,7 @@ export default async function (
   options: NxJunitGeneratorSchema
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
+  const ws = getWorkspaceLayout(tree);
   const ps = getProjects(tree);
 
   const proj = ps.get(normalizedOptions.projectName);
@@ -76,6 +68,14 @@ export default async function (
   }
 
   const testtarget = proj.targets["test"];
+
+  const dirMap = new Map<ProjectType, string>([
+    ["application", ws.appsDir],
+    ["library", ws.libsDir],
+  ]);
+
+  const outputDirectory = posix.join("junit", dirMap.get(proj.projectType));
+  const outputName = names(normalizedOptions.projectName).fileName + ".xml";
 
   if (testtarget) {
     const buff = tree.read(testtarget.options.jestConfig);
@@ -88,20 +88,29 @@ export default async function (
         true,
         ts.ScriptKind.JS
       ),
-      normalizedOptions.projectName
+      `reporters: [
+        'default',
+        [
+          'jest-junit',
+          {
+            outputDirectory: '${outputDirectory}',
+            outputName: '${outputName}',
+          },
+        ],
+      ]`
     );
     if (newContents !== contents) {
       tree.write(testtarget.options.jestConfig, newContents);
     }
   }
-  const cb = addDependenciesToPackageJson(
+  addDependenciesToPackageJson(
     tree,
     {},
     {
-      "jest-junit": "^13.0.0",
+      "jest-junit": normalizedOptions.reporterVersion,
     }
   );
 
   await formatFiles(tree);
-  return cb();
+  return installPackagesTask(tree);
 }

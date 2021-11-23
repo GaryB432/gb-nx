@@ -12,6 +12,10 @@
         "$source": "argv",
         "index": 0
       }
+    },
+    "reporterVersion": {
+      "type": "string",
+      "description": "Version of jest-junit to use"
     }
   },
   "required": []

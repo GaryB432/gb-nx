@@ -43,8 +43,8 @@ nx g @gb-nx/nx-junit:app my-app
 | ----------- | ---------------------------- |
 | `<project>` | The project to add junit to. |
 
-| Options        | Default | Description                                |
-| -------------- | ------- | ------------------------------------------ |
-| `--tags`       | -       | Tags to use for linting (comma-delimited). |
-| `--directory`  | `apps`  | A directory where the project is placed.   |
-| `--skipFormat` | `false` | Skip formatting files.                     |
+| Options             | Default   | Description                                |
+| ------------------- | --------- | ------------------------------------------ |
+| `--tags`            | -         | Tags to use for linting (comma-delimited). |
+| `--reporterVersion` | `^13.0.0` | The version of `junit-reporter` to use.    |
+| `--skipFormat`      | `false`   | Skip formatting files.                     |
