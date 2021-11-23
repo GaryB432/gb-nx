@@ -50,6 +50,16 @@
           }
         ]
       }
+    },
+    "show": {
+      "builder": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npx ts-node --project tools/tsconfig.tools.json tools/scripts/show-box --siteName tbd-package-compare --outputPath dist/apps/package-compare"
+          }
+        ]
+      }
     }
   },
   "tags": []

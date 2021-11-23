@@ -1,0 +1,25 @@
+{
+  "cli": "nx",
+  "id": "bump-version",
+  "type": "object",
+  "properties": {
+    "part": {
+      "type": "string",
+      "description": "Which part to increment",
+      "enum": [
+        "major",
+        "premajor",
+        "minor",
+        "preminor",
+        "patch",
+        "prepatch",
+        "prerelease"
+      ],
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    }
+  },
+  "required": ["part"]
+}
