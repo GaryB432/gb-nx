@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "name": "nx-junit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "generators": {
     "nx-junit": {
       "aliases": ["app"],
