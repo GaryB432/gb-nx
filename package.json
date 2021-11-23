@@ -1,6 +1,6 @@
 {
   "name": "gb-nx",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Some miscellaneous NX plugins",
   "scripts": {
     "start": "nx serve",
