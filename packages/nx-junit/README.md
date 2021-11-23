@@ -1,6 +1,9 @@
 # gb-nx nx-junit
 
-> First class support for [Jest Junit Reporter](https://www.npmjs.com/package/jest-junit) in your [Nx](https://nx.dev/) workspace.
+[![CI](https://img.shields.io/github/workflow/status/GaryB432/gb-nx/CI)](https://github.com/GaryB432/gb-nx/actions)
+[![latest](https://img.shields.io/npm/v/@gb-nx/nx-junit/latest.svg)](https://www.npmjs.com/package/@gb-nx/nx-junit)
+
+> This plugin will add [Jest Junit Reporter](https://www.npmjs.com/package/jest-junit) to your [Nx](https://nx.dev/) project.
 
 ## Prerequisite
 
@@ -24,8 +27,9 @@ yarn add @gb-nx/nx-junit --dev
 
 ### Add Junit reporter to your app
 
+You will need to have an app in your workspace. You can create one with `nx g @nrwl/node:app my-app`.
+
 ```
-nx g @nrwl/node:app my-app
 nx g @gb-nx/nx-junit:app my-app
 ```
 
