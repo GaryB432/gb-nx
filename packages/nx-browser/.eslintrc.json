@@ -8,7 +8,11 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "rules": {}
+      "extends": ["plugin:gb/recommended"],
+      "rules": {},
+      "parserOptions": {
+        "project": ["./tsconfig.base.json"]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

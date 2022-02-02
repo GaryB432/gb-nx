@@ -9,7 +9,10 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:gb/recommended"],
-      "rules": {}
+      "rules": {},
+      "parserOptions": {
+        "project": ["./tsconfig.base.json"]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

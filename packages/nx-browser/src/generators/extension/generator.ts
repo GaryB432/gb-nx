@@ -12,10 +12,10 @@ import initGenerator from '../init/generator';
 import { ExtensionGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends ExtensionGeneratorSchema {
+  parsedTags: string[];
+  projectDirectory: string;
   projectName: string;
   projectRoot: string;
-  projectDirectory: string;
-  parsedTags: string[];
 }
 
 function normalizeOptions(
@@ -56,7 +56,10 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 }
 
-export default async function (tree: Tree, options: ExtensionGeneratorSchema) {
+export default async function (
+  tree: Tree,
+  options: ExtensionGeneratorSchema
+): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,

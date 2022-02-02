@@ -21,35 +21,35 @@ interface GBConsole {
 }
 
 interface Message {
-  type: 'debug' | 'warn' | 'log' | 'error' | 'info';
   text: string;
+  type: 'debug' | 'warn' | 'log' | 'error' | 'info';
 }
 
 export class Logger implements GBConsole {
   private messages: Message[] = [];
-  clear(): void {
+  public clear(): void {
     this.messages = [];
   }
-  debug(...data: string[]): void {
+  public debug(...data: string[]): void {
     this.messages.push({ type: 'debug', text: data.join('#') });
   }
-  error(...data: string[]): void {
+  public error(...data: string[]): void {
     this.messages.push({ type: 'error', text: data.join('#') });
   }
-  private getStrings(): string[] {
-    return this.messages.map((m) => `${m.type} ${m.text}`);
-  }
-  flush(): void {
+  public flush(): void {
     console.log(this.getStrings().join('\n'));
     this.clear();
   }
-  info(...data: string[]): void {
+  public info(...data: string[]): void {
     this.messages.push({ type: 'info', text: data.join('#') });
   }
-  log(...data: string[]): void {
+  public log(...data: string[]): void {
     this.messages.push({ type: 'log', text: data.join('#') });
   }
-  warn(...data: string[]): void {
+  public warn(...data: string[]): void {
     this.messages.push({ type: 'warn', text: data.join('#') });
+  }
+  private getStrings(): string[] {
+    return this.messages.map((m) => `${m.type} ${m.text}`);
   }
 }

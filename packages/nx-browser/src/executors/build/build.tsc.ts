@@ -13,20 +13,20 @@ export default async function build(
   context: BuildExecutorContext
 ): Promise<{ success: boolean }> {
   function compile(fileNames: string[], options: ts.CompilerOptions): boolean {
-    let program = ts.createProgram(fileNames, options);
-    let emitResult = program.emit();
+    const program = ts.createProgram(fileNames, options);
+    const emitResult = program.emit();
 
-    let allDiagnostics = ts
+    const allDiagnostics = ts
       .getPreEmitDiagnostics(program)
       .concat(emitResult.diagnostics);
 
     allDiagnostics.forEach((diagnostic) => {
       if (diagnostic.file) {
-        let { line, character } = ts.getLineAndCharacterOfPosition(
+        const { line, character } = ts.getLineAndCharacterOfPosition(
           diagnostic.file,
-          diagnostic.start!
+          diagnostic.start
         );
-        let message = ts.flattenDiagnosticMessageText(
+        const message = ts.flattenDiagnosticMessageText(
           diagnostic.messageText,
           '\n'
         );

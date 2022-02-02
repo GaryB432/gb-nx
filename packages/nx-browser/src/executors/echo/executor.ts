@@ -6,7 +6,7 @@ import { EchoExecutorSchema } from './schema';
 export default async function runExecutor(
   options: EchoExecutorSchema,
   _context: ExecutorContext
-) {
+): Promise<{ success: boolean }> {
   console.info(`Executing "echo"...`);
   console.info(`Options: ${JSON.stringify(options, null, 2)}`);
 
