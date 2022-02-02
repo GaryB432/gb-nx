@@ -1,19 +1,24 @@
-import { Workspaces } from "@nrwl/tao/src/shared/workspace";
-import { readdir, readFile, stat } from "fs/promises";
+import { Workspaces } from '@nrwl/tao/src/shared/workspace';
+import { readdir, readFile, stat } from 'fs/promises';
 
 // import * as fg from "fast-glob";
 
-import fg from "fast-glob";
+import fg from 'fast-glob';
 
 const ns: string[] = [];
 
 async function doFolder(p: string): Promise<void> {
   // const dfd = await readdir(p);
   // console.log(p);
-  const f = await fg("D:/Users/bort1/Documents/GitHub/gb-grocery@6.0.0/src/**", {
-    ignore: [".git", "node_modules", "dist", ".angular/cache"].map((d) => `**/${d}`),
-    dot: true,
-  });
+  const f = await fg(
+    'D:/Users/bort1/Documents/GitHub/gb-grocery@6.0.0/src/**',
+    {
+      ignore: ['.git', 'node_modules', 'dist', '.angular/cache'].map(
+        (d) => `**/${d}`
+      ),
+      dot: true,
+    }
+  );
   for (const dfd of f) {
     console.log(dfd);
   }

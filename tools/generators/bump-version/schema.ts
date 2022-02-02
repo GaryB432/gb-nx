@@ -1,10 +1,10 @@
 export interface SchematicOptions {
   part:
-    | "major"
-    | "premajor"
-    | "minor"
-    | "preminor"
-    | "patch"
-    | "prepatch"
-    | "prerelease";
+    | 'major'
+    | 'premajor'
+    | 'minor'
+    | 'preminor'
+    | 'patch'
+    | 'prepatch'
+    | 'prerelease';
 }

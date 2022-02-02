@@ -1,15 +1,15 @@
 module.exports = {
-  displayName: "nx-junit",
-  preset: "../../jest.preset.js",
+  displayName: 'nx-junit',
+  preset: '../../jest.preset.js',
   globals: {
-    "ts-jest": {
-      tsconfig: "<rootDir>/tsconfig.spec.json",
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
-  testEnvironment: "node",
+  testEnvironment: 'node',
   transform: {
-    "^.+\\.[tj]sx?$": "ts-jest",
+    '^.+\\.[tj]sx?$': 'ts-jest',
   },
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
-  coverageDirectory: "../../coverage/packages/nx-junit",
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  coverageDirectory: '../../coverage/packages/nx-junit',
 };

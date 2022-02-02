@@ -1,4 +1,4 @@
-import { BuildExecutorSchema } from "./schema";
+import { BuildExecutorSchema } from './schema';
 
 export interface NxJunitExecutorResult {
   success: boolean;
@@ -7,7 +7,7 @@ export interface NxJunitExecutorResult {
 export default async function runExecutor(
   options: BuildExecutorSchema
 ): Promise<NxJunitExecutorResult> {
-  console.log("Executor ran for Build", options);
+  console.log('Executor ran for Build', options);
   return {
     success: true,
   };
