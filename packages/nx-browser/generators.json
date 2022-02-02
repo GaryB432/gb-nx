@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "nx-browser",
+  "version": "0.0.1",
+  "generators": {
+    "extension": {
+      "factory": "./src/generators/extension/generator",
+      "schema": "./src/generators/extension/schema.json",
+      "description": "extension generator"
+    },
+    "init": {
+      "factory": "./src/generators/init/generator",
+      "schema": "./src/generators/init/schema.json",
+      "description": "init generator"
+    }
+  }
+}

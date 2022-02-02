@@ -1,0 +1,56 @@
+{
+  "root": "packages/nx-browser",
+  "sourceRoot": "packages/nx-browser/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/nx-browser/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/nx-browser"],
+      "options": {
+        "jestConfig": "packages/nx-browser/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nx-browser",
+        "tsConfig": "packages/nx-browser/tsconfig.lib.json",
+        "packageJson": "packages/nx-browser/package.json",
+        "main": "packages/nx-browser/src/index.ts",
+        "assets": [
+          "packages/nx-browser/*.md",
+          {
+            "input": "./packages/nx-browser/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-browser/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-browser",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-browser",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    }
+  },
+  "tags": []
+}
