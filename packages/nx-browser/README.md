@@ -2,6 +2,52 @@
 
 This library was generated with [Nx](https://nx.dev).
 
-## Running unit tests
+[![CI](https://img.shields.io/github/workflow/status/GaryB432/gb-nx/CI)](https://github.com/GaryB432/gb-nx/actions)
+[![npm version](https://img.shields.io/npm/v/@gb-nx/nx-browser?style=flat-square)](https://www.npmjs.com/package/@gb-nx/nx-browser)
 
-Run `nx test nx-browser` to execute the unit tests via [Jest](https://jestjs.io).
+> Nx Plugin adding first class support for Browser Extension applications in your Nx workspace
+
+## Features
+
+Here is a list of some of the coolest features of the plugin:
+
+- ✅ Generation of browser extensions applications
+- ✅ Building, testing, etc your extension projects
+
+## Prerequisite
+
+If you have not already, [create an Nx workspace](https://github.com/nrwl/nx#creating-an-nx-workspace) with the following:
+
+```
+# npm
+npx create-nx-workspace@latest
+
+# yarn
+yarn create nx-workspace@latest
+```
+
+## Getting Started
+
+Then you need to install the plugin in order to generate extension applications later on.
+
+### Installing Plugin
+
+```
+# npm
+npm install @gb-nx/nx-browser --save-dev
+
+# yarn
+yarn add @gb-nx/nx-browser --dev
+```
+
+### Generating Project
+
+Simply run the `extension` generator with the following command:
+
+```
+nx g @gb-nx/nx-browser:extension my-extension
+```
+
+## License
+
+Copyright (c) 2021-2022 Gary Bortosky. Licensed under the MIT License (MIT)
