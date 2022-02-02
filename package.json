@@ -1,6 +1,6 @@
 {
   "name": "gb-nx",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Some miscellaneous NX plugins",
   "scripts": {
     "start": "nx serve",
@@ -33,8 +33,13 @@
     "typescript": "~4.3.5"
   },
   "dependencies": {
-    "fast-glob": "^3.2.7",
     "tslib": "^2.0.0"
+  },
+  "peerDependencies": {
+    "chalk": "4.1.0",
+    "fast-glob": "^3.2.7",
+    "fs-extra": "^9.1.0",
+    "glob": "7.1.4"
   },
   "repository": {
     "type": "git",
