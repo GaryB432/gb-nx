@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="popup.css" />
+    <title>CLASSNAME Popup</title>
+  </head>
+  <body>
+    <h1>The answer is <span id="answer">TBD</span></h1>
+    <button id="b1">Go</button>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+let counter = 1;
+let lastTabId = -1;
+function sendMessage() {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        for (const tab of tabs) {
+            lastTabId = tab.id;
+            if (lastTabId) {
+                chrome.tabs.sendMessage(lastTabId, 'Background page started.');
+            }
+        }
+    });
+}
+sendMessage();
+chrome.browserAction.setBadgeText({ text: 'ON' });
+console.log('Loaded.');
+chrome.runtime.onInstalled.addListener(() => {
+    console.log('Installed.');
+    localStorage.counter = 1;
+});
+chrome.browserAction.onClicked.addListener(() => {
+    sendMessage();
+});
+chrome.commands.onCommand.addListener((_command) => {
+    chrome.tabs.create({ url: 'https://github.com/GaryB432/gb-nx' });
+});
+chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+    if (msg.setAlarm) {
+        chrome.alarms.create({ delayInMinutes: 0.1 });
+    }
+    else if (msg.delayedResponse) {
+        setTimeout(() => {
+            sendResponse('Got your message.');
+        }, 5000);
+        return true;
+    }
+    else if (msg.getCounters) {
+        sendResponse({
+            counter: counter++,
+            persistentCounter: localStorage.counter++,
+        });
+    }
+});
+chrome.alarms.onAlarm.addListener(() => {
+    alert("Time's up!");
+});
+chrome.runtime.onSuspend.addListener(() => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (_tabs) => {
+        // After the unload event listener runs, the page will unload, so any
+        // asynchronous callbacks will not fire.
+        // alert("Yet This does show up.");
+    });
+    console.log('Unloading.');
+    chrome.browserAction.setBadgeText({ text: '' });
+    if (lastTabId) {
+        chrome.tabs.sendMessage(lastTabId, 'Background page unloaded.');
+    }
+});

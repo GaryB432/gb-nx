@@ -1,0 +1,43 @@
+{
+  "manifest_version":2,
+  "name":"<%= fileName %>",
+  "description":"<%= className %> Browser Extension",
+  "version":"1.0",
+  "options_ui":{
+    "page":"options.html",
+    "chrome_style":true
+  },
+  "browser_action":{
+    "default_icon":"icon.png",
+    "default_popup":"popup.html"
+  },
+  "content_scripts":[
+    {
+      "matches":[
+        "<all_urls>"
+      ],
+      "js":[
+        "<%= fileName %>.content_script.js"
+      ]
+    }
+  ],
+  "background":{
+    "scripts":[
+      "background.js"
+    ]
+  },
+  "commands":{
+    "open-gn-nx":{
+      "description":"Open a tab to GbNx",
+      "suggested_key":{
+        "default":"Ctrl+Shift+L"
+      }
+    }
+  },
+  "permissions":[
+    "alarms",
+    "tabs",
+    "storage",
+    "<all_urls>"
+  ]
+}
