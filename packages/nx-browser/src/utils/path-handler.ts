@@ -14,8 +14,6 @@ export function translateToOutputPath(
     throw new Error('source root not found');
   }
 
-  // const base = name.concat(ext);
-
   const { dir } = parse(
     joinPathFragments(
       sourcePath.slice(0, rndx),
