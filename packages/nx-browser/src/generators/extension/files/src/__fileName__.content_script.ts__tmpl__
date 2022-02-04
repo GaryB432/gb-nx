@@ -1,9 +1,7 @@
 const template = document.createElement('template');
 template.innerHTML = `<style>
-* {
-  background: white;
-}
 #<%= fileName %>-container {
+  background: white;
   position: fixed;
   top: 2px;
   left: 2px;
@@ -25,10 +23,14 @@ template.innerHTML = `<style>
     <div id="log"></div>
   </div>
 </div>`;
-const el = template.content.cloneNode(true) as HTMLElement;
-const logDiv = el.querySelector('#log');
-const buttons = el.querySelectorAll('button');
-function log(message: string) {
+const host = document.createElement('div');
+host.id = '<%= fileName %>';
+host.style.all = 'initial';
+const shadowRoot = host.attachShadow({ mode: 'open' });
+shadowRoot.appendChild(template.content.cloneNode(true));
+const logDiv = shadowRoot.querySelector('#log');
+const buttons = shadowRoot.querySelectorAll('button');
+function log(message) {
   if (logDiv) {
     logDiv.innerHTML += message.concat('<br />');
   }
@@ -58,5 +60,5 @@ buttons[3].addEventListener('click', () => {
 chrome.runtime.onMessage.addListener((msg, _, _sendResponse) => {
   log('Got message from background page: ' + msg);
 });
-log(document.title)
-document.body.appendChild(el);
+log(document.title);
+document.body.appendChild(host);
