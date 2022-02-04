@@ -28,11 +28,15 @@ template.innerHTML = `<style>
 const el = template.content.cloneNode(true) as HTMLElement;
 const logDiv = el.querySelector('#log');
 const buttons = el.querySelectorAll('button');
-function log(message) {
-  logDiv.innerHTML += message.concat('<br />');
+function log(message: string) {
+  if (logDiv) {
+    logDiv.innerHTML += message.concat('<br />');
+  }
 }
 buttons[0].addEventListener('click', () => {
-  logDiv.innerHTML = ''
+  if (logDiv) {
+    logDiv.innerHTML = '';
+  }
 });
 buttons[1].addEventListener('click', () => {
   const message = { delayedResponse: true };

@@ -1,4 +1,4 @@
-export function greet() {
-    console.log('<%= className %> Options');
+export function greet(): void {
+  console.log('<%= className %> Options');
 }
 greet();
