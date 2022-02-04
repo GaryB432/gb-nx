@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { joinPathFragments } from '@nrwl/devkit';
 import * as ts from 'typescript';
 import { changeExtension } from '../../utils/path-handler';
@@ -24,7 +25,7 @@ export default async function build(
       if (diagnostic.file) {
         const { line, character } = ts.getLineAndCharacterOfPosition(
           diagnostic.file,
-          diagnostic.start
+          diagnostic.start!
         );
         const message = ts.flattenDiagnosticMessageText(
           diagnostic.messageText,

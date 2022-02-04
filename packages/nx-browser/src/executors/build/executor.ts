@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { joinPathFragments } from '@nrwl/devkit';
 import * as fg from 'fast-glob';
 import { parse, ParsedPath } from 'path';
@@ -12,31 +13,28 @@ import {
 import buildCopy from '../build/build.copy';
 import buildSass from '../build/build.sass';
 import buildTsc from '../build/build.tsc';
-import { ProjectConverter } from '@nrwl/linter';
 
 async function getInOuts(
   schema: BuildExecutorOptions,
   context: BuildExecutorContext
 ): Promise<InOutInfo[]> {
-  const project = context.workspace.projects[context.projectName];
+  const project = context.workspace.projects[context.projectName!];
 
-  const allSrcs = await fg(joinPathFragments(project.sourceRoot, '**/*.*'), {
-    // absolute: true,
+  const allSrcs = await fg(joinPathFragments(project.sourceRoot!, '**/*.*'), {
     dot: true,
     cwd: context.root,
   });
 
   return allSrcs.map((s) => ({
     in: parse(s),
-    out: translateToOutputPath(s, project.sourceRoot, schema.outputPath),
+    out: translateToOutputPath(s, project.sourceRoot!, schema.outputPath),
   }));
 }
 
 async function normalizeOptions(
   schema: BuildExecutorSchema,
-  context: BuildExecutorContext
+  _context: BuildExecutorContext
 ): Promise<BuildExecutorOptions> {
-  // const extensionSources = getExtensionSources(allSrcs);
   return { ...schema, textToEcho: schema.manifest };
 }
 
