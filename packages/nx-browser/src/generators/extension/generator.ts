@@ -18,8 +18,8 @@ import initGenerator from '../init/generator';
 import { ExtensionGeneratorSchema } from './schema';
 
 interface LintOverride {
-  files: string[];
   extends?: string[];
+  files: string[];
 }
 
 interface NormalizedSchema extends ExtensionGeneratorSchema {
@@ -27,18 +27,6 @@ interface NormalizedSchema extends ExtensionGeneratorSchema {
   projectDirectory: string;
   projectName: string;
   projectRoot: string;
-  // setParserOptionsProject: boolean;
-  // testEnvironment: any;
-  // compiler: any;
-}
-
-function addGbLintPlugin(tree: Tree, options: NormalizedSchema): void {
-  // console.log(options);
-  const { root, plugins } = readJson(tree, '.eslintrc.json') as {
-    root: boolean;
-    plugins: string[];
-  };
-  // console.log({ root, plugins });
 }
 
 function addCustomLint(tree: Tree, options: NormalizedSchema): void {
@@ -100,7 +88,6 @@ function addLint(
   tree: Tree,
   options: NormalizedSchema
 ): Promise<GeneratorCallback> {
-  addGbLintPlugin(tree, options);
   const generateLint = lintProjectGenerator(tree, {
     project: options.name,
     linter: Linter.EsLint,
@@ -128,18 +115,12 @@ function normalizeOptions(
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
-
-  // options.unitTestRunner = 'none';
-  // options.linter = Linter.None;
-
   return {
     ...options,
     projectName,
     projectRoot,
     projectDirectory,
     parsedTags,
-    // setParserOptionsProject: true,
-    // testEnvironment: 'jsdom',
   };
 }
 

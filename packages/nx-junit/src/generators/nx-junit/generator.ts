@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   addDependenciesToPackageJson,
   formatFiles,
@@ -24,12 +25,15 @@ function handleJestConfig(sourceFile: ts.SourceFile, rptrs: string): string {
   if (bex.kind === ts.SyntaxKind.BinaryExpression) {
     if (bex.left.getText() === 'module.exports') {
       const ole = bex.right as ts.ObjectLiteralExpression;
-      const lt = ole.getLastToken();
+      const lt = ole.getLastToken()!;
       const position = lt.getFullStart();
       let alreadyReporters = false;
-      ole.forEachChild((pa: ts.PropertyAssignment) => {
-        if (pa.name.getText() === 'reporters') {
-          alreadyReporters = true;
+      ole.forEachChild((n: ts.Node) => {
+        if (n.kind === ts.SyntaxKind.PropertyAssignment) {
+          const pa = n as ts.PropertyAssignment;
+          if (pa.name.getText() === 'reporters') {
+            alreadyReporters = true;
+          }
         }
       });
 
@@ -42,6 +46,7 @@ function handleJestConfig(sourceFile: ts.SourceFile, rptrs: string): string {
           ].join('');
     }
   }
+  return sourceText;
 }
 
 function normalizeOptions(
@@ -61,21 +66,21 @@ export default async function (
   const ws = getWorkspaceLayout(tree);
   const ps = getProjects(tree);
 
-  const proj = ps.get(normalizedOptions.projectName);
+  const proj = ps.get(normalizedOptions.projectName!);
 
   if (!proj) {
     throw new Error('project not found');
   }
 
-  const testtarget = proj.targets['test'];
+  const testtarget = proj.targets!['test'];
 
   const dirMap = new Map<ProjectType, string>([
     ['application', ws.appsDir],
     ['library', ws.libsDir],
   ]);
 
-  const outputDirectory = posix.join('junit', dirMap.get(proj.projectType));
-  const outputName = names(normalizedOptions.projectName).fileName + '.xml';
+  const outputDirectory = posix.join('junit', dirMap.get(proj.projectType!)!);
+  const outputName = names(normalizedOptions.projectName!).fileName + '.xml';
 
   if (testtarget) {
     const buff = tree.read(testtarget.options.jestConfig);
@@ -107,7 +112,7 @@ export default async function (
     tree,
     {},
     {
-      'jest-junit': normalizedOptions.reporterVersion,
+      'jest-junit': normalizedOptions.reporterVersion || '*',
     }
   );
 
