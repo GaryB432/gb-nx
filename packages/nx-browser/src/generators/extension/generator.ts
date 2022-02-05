@@ -14,13 +14,9 @@ import {
 import { jestProjectGenerator } from '@nrwl/jest';
 import { Linter, lintProjectGenerator } from '@nrwl/linter';
 import { join } from 'path';
+import { addCustomConfig, ESLintConfiguration } from '../../utils/eslint';
 import initGenerator from '../init/generator';
 import { ExtensionGeneratorSchema } from './schema';
-
-interface LintOverride {
-  extends?: string[];
-  files: string[];
-}
 
 interface NormalizedSchema extends ExtensionGeneratorSchema {
   parsedTags: string[];
@@ -32,24 +28,15 @@ interface NormalizedSchema extends ExtensionGeneratorSchema {
 function addCustomLint(tree: Tree, options: NormalizedSchema): void {
   const projectRc = joinPathFragments(options.projectRoot, '.eslintrc.json');
   const customPath = 'eslint-custom.json';
-  const rc = readJson(tree, projectRc) as {
-    overrides: LintOverride[];
-  };
-  if (!rc.overrides) {
-    rc.overrides = [{ files: ['*.ts'] }];
-  }
-  let tso = rc.overrides.find(
-    (o) => o.files.includes('*.ts') && !o.files.includes('*.js')
+  const rc = readJson(tree, projectRc) as ESLintConfiguration;
+  writeJson(
+    tree,
+    projectRc,
+    addCustomConfig(
+      rc,
+      joinPathFragments(offsetFromRoot(options.projectRoot), customPath)
+    )
   );
-  if (!tso) {
-    tso = { files: ['*.ts', '*.tsx'] };
-    rc.overrides.push(tso);
-  }
-  tso.extends = tso.extends ?? [];
-  tso.extends.push(
-    joinPathFragments(offsetFromRoot(options.projectRoot), customPath)
-  );
-  writeJson(tree, projectRc, rc);
   writeJson(tree, customPath, {
     overrides: [
       {
