@@ -4,7 +4,7 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import generator from './generator';
 import { NxJunitGeneratorSchema } from './schema';
 
-describe('nx-junit generator', () => {
+describe('junit generator', () => {
   let appTree: Tree;
   const options: NxJunitGeneratorSchema = { projectName: 'test' };
 

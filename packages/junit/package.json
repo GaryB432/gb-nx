@@ -1,5 +1,5 @@
 {
-  "name": "@gb-nx/nx-junit",
+  "name": "@gb-nx/junit",
   "version": "1.0.0",
   "main": "src/index.js",
   "generators": "./generators.json",

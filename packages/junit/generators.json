@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "junit",
+  "version": "1.0.0",
+  "generators": {
+    "junit": {
+      "aliases": ["app"],
+      "factory": "./src/generators/junit/generator",
+      "schema": "./src/generators/junit/schema.json",
+      "description": "junit generator"
+    }
+  }
+}

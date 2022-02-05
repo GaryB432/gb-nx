@@ -1,7 +1,7 @@
-# gb-nx nx-junit
+# gb-nx junit
 
 [![CI](https://img.shields.io/github/workflow/status/GaryB432/gb-nx/CI)](https://github.com/GaryB432/gb-nx/actions)
-[![latest](https://img.shields.io/npm/v/@gb-nx/nx-junit/latest.svg)](https://www.npmjs.com/package/@gb-nx/nx-junit)
+[![latest](https://img.shields.io/npm/v/@gb-nx/junit/latest.svg)](https://www.npmjs.com/package/@gb-nx/junit)
 
 > This plugin will add [Jest Junit Reporter](https://www.npmjs.com/package/jest-junit) to your [Nx](https://nx.dev/) project.
 
@@ -19,10 +19,10 @@ npx create-nx-workspace@^12.0.0
 
 ```
 # npm
-npm install @gb-nx/nx-junit --save-dev
+npm install @gb-nx/junit --save-dev
 
 # yarn
-yarn add @gb-nx/nx-junit --dev
+yarn add @gb-nx/junit --dev
 ```
 
 ### Add Junit reporter to your app
@@ -30,14 +30,14 @@ yarn add @gb-nx/nx-junit --dev
 You will need to have an app in your workspace. You can create one with `nx g @nrwl/node:app my-app`.
 
 ```
-nx g @gb-nx/nx-junit:app my-app
+nx g @gb-nx/junit:app my-app
 ```
 
 ## Generators (i.e. code generation)
 
 ### Application
 
-`nx g @gb-nx/nx-junit:app <project> [options]`
+`nx g @gb-nx/junit:app <project> [options]`
 
 | Arguments   | Description                  |
 | ----------- | ---------------------------- |
