@@ -4,6 +4,7 @@ import {
   generateFiles,
   GeneratorCallback,
   getWorkspaceLayout,
+  installPackagesTask,
   joinPathFragments,
   names,
   offsetFromRoot,
@@ -152,4 +153,5 @@ export default async function (
   await addJest(tree, normalizedOptions);
   await addLint(tree, normalizedOptions);
   await formatFiles(tree);
+  return installPackagesTask(tree);
 }
