@@ -4,7 +4,7 @@ import { Logger } from './logger';
 export const context: BuildExecutorContext = {
   root: 'drive:/gb-nx-dogfood',
   target: {
-    executor: '@gb-nx/nx-browser:build',
+    executor: '@gb-nx/browser:build',
     outputs: ['{options.outputPath}'],
     options: {
       outputPath: 'dist/packages/build-me',
@@ -22,7 +22,7 @@ export const context: BuildExecutorContext = {
         projectType: 'application',
         targets: {
           build: {
-            executor: '@gb-nx/nx-browser:build',
+            executor: '@gb-nx/browser:build',
             outputs: ['{options.outputPath}'],
             options: {
               outputPath: 'dist/packages/build-me',
@@ -32,14 +32,14 @@ export const context: BuildExecutorContext = {
             },
           },
           echo: {
-            executor: '@gb-nx/nx-browser-extension:echo',
+            executor: '@gb-nx/browser-extension:echo',
             outputs: ['{options.outputFile}'],
             options: {
               textToEcho: 'Hello World',
             },
           },
           lint: {
-            executor: '@gb-nx/nx-browser-extension:lint',
+            executor: '@gb-nx/browser-extension:lint',
             outputs: ['{options.outputFile}'],
             options: {
               textToEcho: 'LINTING NOW',

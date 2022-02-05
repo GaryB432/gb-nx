@@ -1,20 +1,20 @@
 {
-  "root": "packages/nx-browser",
-  "sourceRoot": "packages/nx-browser/src",
+  "root": "packages/browser",
+  "sourceRoot": "packages/browser/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/nx-browser/**/*.ts"]
+        "lintFilePatterns": ["packages/browser/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/nx-browser"],
+      "outputs": ["coverage/packages/browser"],
       "options": {
-        "jestConfig": "packages/nx-browser/jest.config.js",
+        "jestConfig": "packages/browser/jest.config.js",
         "passWithNoTests": true
       }
     },
@@ -22,29 +22,29 @@
       "executor": "@nrwl/node:package",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/nx-browser",
-        "tsConfig": "packages/nx-browser/tsconfig.lib.json",
-        "packageJson": "packages/nx-browser/package.json",
-        "main": "packages/nx-browser/src/index.ts",
+        "outputPath": "dist/packages/browser",
+        "tsConfig": "packages/browser/tsconfig.lib.json",
+        "packageJson": "packages/browser/package.json",
+        "main": "packages/browser/src/index.ts",
         "assets": [
-          "packages/nx-browser/*.md",
+          "packages/browser/*.md",
           {
-            "input": "./packages/nx-browser/src",
+            "input": "./packages/browser/src",
             "glob": "**/!(*.ts)",
             "output": "./src"
           },
           {
-            "input": "./packages/nx-browser/src",
+            "input": "./packages/browser/src",
             "glob": "**/*.d.ts",
             "output": "./src"
           },
           {
-            "input": "./packages/nx-browser",
+            "input": "./packages/browser",
             "glob": "generators.json",
             "output": "."
           },
           {
-            "input": "./packages/nx-browser",
+            "input": "./packages/browser",
             "glob": "executors.json",
             "output": "."
           }

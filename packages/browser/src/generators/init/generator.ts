@@ -7,7 +7,7 @@ export default async function (
   tree: Tree,
   options: InitGeneratorSchema
 ): Promise<() => void> {
-  setDefaultCollection(tree, '@gb-nx/nx-browser-extension');
+  setDefaultCollection(tree, '@gb-nx/browser-extension');
   const installTask = addDependenciesToPackageJson(
     tree,
     {},

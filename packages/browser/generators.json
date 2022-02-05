@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "name": "nx-browser",
+  "name": "browser",
   "version": "0.0.1",
   "extends": ["@nrwl/workspace"],
   "generators": {

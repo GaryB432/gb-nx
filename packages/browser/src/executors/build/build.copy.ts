@@ -13,8 +13,10 @@ export default async function build(
     const dest = joinPathFragments(i.out.dir, i.out.base);
     try {
       void (await copy(src, dest));
-    } catch (e) {
-      context.logger.error(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        context.logger.error(e.message);
+      }
     }
     context.logger.log(i.out.base);
   }

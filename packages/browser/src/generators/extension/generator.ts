@@ -137,7 +137,7 @@ export default async function (
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: '@gb-nx/nx-browser:build',
+        executor: '@gb-nx/browser:build',
         outputs: ['{options.outputPath}'],
         options: {
           outputPath: `dist/${normalizedOptions.projectRoot}/extension`,

@@ -1,9 +1,9 @@
-# nx-browser
+# browser
 
 This library was generated with [Nx](https://nx.dev).
 
 [![CI](https://img.shields.io/github/workflow/status/GaryB432/gb-nx/CI)](https://github.com/GaryB432/gb-nx/actions)
-[![npm version](https://img.shields.io/npm/v/@gb-nx/nx-browser?style=flat-square)](https://www.npmjs.com/package/@gb-nx/nx-browser)
+[![npm version](https://img.shields.io/npm/v/@gb-nx/browser?style=flat-square)](https://www.npmjs.com/package/@gb-nx/browser)
 
 > Nx Plugin adding first class support for Browser Extension applications in your Nx workspace
 
@@ -34,10 +34,10 @@ Then you need to install the plugin in order to generate extension applications 
 
 ```
 # npm
-npm install @gb-nx/nx-browser --save-dev
+npm install @gb-nx/browser --save-dev
 
 # yarn
-yarn add @gb-nx/nx-browser --dev
+yarn add @gb-nx/browser --dev
 ```
 
 ### Generating Project
@@ -45,7 +45,7 @@ yarn add @gb-nx/nx-browser --dev
 Simply run the `extension` generator with the following command:
 
 ```
-nx g @gb-nx/nx-browser:extension my-extension
+nx g @gb-nx/browser:extension my-extension
 ```
 
 ## License
