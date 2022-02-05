@@ -16,8 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@gb-nx/nx-browser": ["packages/nx-browser/src/index.ts"],
-      "@gb-nx/nx-junit": ["packages/nx-junit/src/index.ts"]
+      "@gb-nx/browser": ["packages/browser/src/index.ts"],
+      "@gb-nx/junit": ["packages/junit/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

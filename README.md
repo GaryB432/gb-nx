@@ -8,8 +8,8 @@
 
 | Status | Name                              | Description                                                                                                                                                            |
 | ------ | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ✅     | [nx-browser](packages/nx-browser) | [Nx](https://nx.dev) plugin to generate and build [Browser Extensions](https://chrome.google.com/webstore/category/extensions?hl=en) projects inside your Nx workspace |
-| ✅     | [nx-junit](packages/nx-junit)     | [Nx](https://nx.dev) plugin adding [Jest Junit Reporter](https://www.npmjs.com/package/jest-junit) to your project.                                                    |
+| ✅     | [browser](packages/browser) | [Nx](https://nx.dev) plugin to generate and build [Browser Extensions](https://chrome.google.com/webstore/category/extensions?hl=en) projects inside your Nx workspace |
+| ✅     | [junit](packages/junit)     | [Nx](https://nx.dev) plugin adding [Jest Junit Reporter](https://www.npmjs.com/package/jest-junit) to your project.                                                    |
 
 ## License
 

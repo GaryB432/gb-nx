@@ -1,7 +1,7 @@
 {
   "version": 2,
   "projects": {
-    "nx-browser": "packages/nx-browser",
-    "nx-junit": "packages/nx-junit"
+    "browser": "packages/browser",
+    "junit": "packages/junit"
   }
 }
