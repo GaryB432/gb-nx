@@ -8,6 +8,10 @@ import {
   InOutInfo,
 } from './schema';
 
+function ignore(io: InOutInfo): boolean {
+  return io.in.name.endsWith('.spec');
+}
+
 export default async function build(
   inOuts: InOutInfo[],
   options: BuildExecutorOptions,
@@ -49,18 +53,21 @@ export default async function build(
 
   for (const i of inOuts) {
     i.out = changeExtension(i.out, '.js');
-    context.logger.log(i.out.base);
   }
-  const files = inOuts.map((io) => joinPathFragments(io.in.dir, io.in.base));
-  const success = compile(files, {
-    types: ['chrome'],
-    outDir: options.outputPath,
-    noEmitOnError: true,
-    strict: false,
-    esModuleInterop: true,
-    moduleResolution: ts.ModuleResolutionKind.NodeJs,
-    target: ts.ScriptTarget.ES2015,
-    module: ts.ModuleKind.ES2020,
-  });
+  const srcFiles = inOuts.filter((io) => !ignore(io));
+  srcFiles.forEach((io) => context.logger.log(io.in.base));
+  const success = compile(
+    srcFiles.map((io) => joinPathFragments(io.in.dir, io.in.base)),
+    {
+      types: ['chrome'],
+      outDir: options.outputPath,
+      noEmitOnError: true,
+      strict: false,
+      esModuleInterop: true,
+      moduleResolution: ts.ModuleResolutionKind.NodeJs,
+      target: ts.ScriptTarget.ES2015,
+      module: ts.ModuleKind.ES2020,
+    }
+  );
   return { success };
 }
