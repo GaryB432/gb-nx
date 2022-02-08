@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { exec } from 'child_process';
+import { execSync } from 'child_process';
 import { join } from 'path';
-import { promisify } from 'util';
 import { BuildExecutorContext, BuildExecutorOptions } from './schema';
 
 export default async function build(
@@ -19,10 +18,16 @@ export default async function build(
   if (context.isVerbose) {
     cmds.push('--listemittedfiles');
   }
-  const { stdout, stderr } = await promisify(exec)(cmds.join(' '));
-  console.log(stdout);
-  console.error(stderr);
 
-  const success = !stderr;
-  return { success };
+  const execute = cmds.join(' ');
+
+  try {
+    console.log(`Executing command: ${execute}`);
+    const { cwd } = context;
+    execSync(execute, { cwd, stdio: [0, 1, 2] });
+    return { success: true };
+  } catch (e) {
+    console.error(`Failed to execute command: ${execute}`, e);
+    return { success: false };
+  }
 }
