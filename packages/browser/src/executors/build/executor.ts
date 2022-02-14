@@ -51,7 +51,6 @@ export default async function runExecutor(
   const inOuts = await getInOuts(options, context);
 
   const ts = await buildTsc(
-    inOuts.filter((i) => isTsc(i.in)),
     options,
     context
   );

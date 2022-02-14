@@ -48,6 +48,14 @@ Simply run the `extension` generator with the following command:
 nx g @gb-nx/browser:extension my-extension
 ```
 
+### Useful resources
+
+- [Developer Dashboard](https://chrome.google.com/webstore/developer/dashboard)
+- [Chrome Web Store - Chrome Developers](https://developer.chrome.com/docs/webstore/?hl=en)
+- [Chrome Web Store - Extensions](https://chrome.google.com/webstore/category/extensions)
+- [Resize a PNG - Online PNG Maker](https://onlinepngtools.com/resize-png)
+
+
 ## License
 
 Copyright (c) 2021-2022 Gary Bortosky. Licensed under the MIT License (MIT)
