@@ -5,7 +5,7 @@ import { Workspaces } from '@nrwl/tao/src/shared/workspace';
   try {
     const ws = new Workspaces(process.cwd());
 
-    console.log(ws.isNxGenerator('./packages/nx-junit', 'nx-junit'));
+    console.log(ws.isNxGenerator('./packages/junit', 'junit'));
 
     // console.log(ws.readGenerator('cccnnn', 'tbd'));
 
