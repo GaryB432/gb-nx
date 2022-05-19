@@ -48,13 +48,26 @@ Simply run the `extension` generator with the following command:
 nx g @gb-nx/browser:extension my-extension
 ```
 
+### Working with your Project
+
+> nx build my-extension
+
+Load (or reload) the unpacked extension from `dist/apps/my-extension/extension` with `Manage Extensions`
+
+Refresh a browser page
+
+Observe changes
+
+Make changes to `my-application\src`
+
+Repeat
+
 ### Useful resources
 
 - [Developer Dashboard](https://chrome.google.com/webstore/developer/dashboard)
 - [Chrome Web Store - Chrome Developers](https://developer.chrome.com/docs/webstore/?hl=en)
 - [Chrome Web Store - Extensions](https://chrome.google.com/webstore/category/extensions)
 - [Resize a PNG - Online PNG Maker](https://onlinepngtools.com/resize-png)
-
 
 ## License
 
