@@ -1,4 +1,4 @@
-import { Workspaces } from '@nrwl/tao/src/shared/workspace';
+import { Workspaces } from "@nrwl/devkit";
 
 (async () => {
   const opts = { path: '.' };
