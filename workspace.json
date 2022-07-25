@@ -3,5 +3,6 @@
   "projects": {
     "browser": "packages/browser",
     "junit": "packages/junit"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
