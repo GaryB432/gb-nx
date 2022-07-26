@@ -47,13 +47,5 @@
     "fs-extra": "^10.0.0",
     "glob": "7.1.4"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GaryB432/gb-nx.git"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/GaryB432/gb-nx/issues"
-  },
-  "homepage": "https://github.com/GaryB432/gb-nx#readme"
+  "license": "MIT"
 }
