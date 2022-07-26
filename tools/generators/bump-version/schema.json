@@ -19,6 +19,11 @@
         "$source": "argv",
         "index": 0
       }
+    },
+    "project": {
+      "type": "string",
+      "description": "Project where the package configuration is updated",
+      "alias": "p"
     }
   },
   "required": ["part"]

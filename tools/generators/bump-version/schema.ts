@@ -7,4 +7,5 @@ export interface SchematicOptions {
     | 'patch'
     | 'prepatch'
     | 'prerelease';
+  project?: string;
 }
