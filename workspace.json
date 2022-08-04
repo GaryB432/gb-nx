@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "browser": "packages/browser",
+    "cli": "packages/cli",
     "junit": "packages/junit"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"

@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@gb-nx/browser": ["packages/browser/src/index.ts"],
+      "@gb-nx/cli": ["packages/cli/src/index.ts"],
       "@gb-nx/junit": ["packages/junit/src/index.ts"]
     }
   },

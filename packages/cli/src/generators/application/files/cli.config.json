@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "global": {
+    "options": {
+      "dryRun": {
+        "alias": "-d",
+        "description": "Do not write changes to disk",
+        "type": "boolean",
+        "default": false
+      },
+      "config": {
+        "description": "Provide path to config file",
+        "type": "string",
+        "default": "cli.config.json"
+      },
+      "verbose": {
+        "description": "Log extra information",
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  "commands": {}
+}

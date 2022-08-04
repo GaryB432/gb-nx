@@ -1,0 +1,7 @@
+import { <%= propertyName %>Command } from './<%= fileName %>.command';
+
+describe('<%= className %> Command', () => {
+  it('should create an instance', () => {
+    expect(<%= propertyName %>Command).toBeTruthy();
+  });
+});

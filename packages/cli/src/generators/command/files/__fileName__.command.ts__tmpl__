@@ -1,0 +1,12 @@
+import colors = require('ansi-colors');
+import { CommandArgs } from './<%= fileName %>.types';
+
+export async function <%= propertyName %>Command(<%= commandParameters %>: CommandArgs): Promise<void> {
+  if (opts.dryRun) {
+    console.log(colors.bgYellow.black('Dry Run. Nothing written.'));
+  }
+  console.log(colors.bgGreenBright.whiteBright('<%= name %> works'));
+  if (opts.verbose) {
+    console.log(<%= commandParameters %>);
+  }
+}
