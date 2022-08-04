@@ -50,10 +50,7 @@ export default async function runExecutor(
 
   const inOuts = await getInOuts(options, context);
 
-  const ts = await buildTsc(
-    options,
-    context
-  );
+  const ts = await buildTsc(options, context);
   context.logger.flush();
 
   const ss = await buildSass(

@@ -1,4 +1,4 @@
-import { Workspaces } from "@nrwl/devkit";
+import { Workspaces } from '@nrwl/devkit';
 
 (async () => {
   const opts = { path: '.' };
