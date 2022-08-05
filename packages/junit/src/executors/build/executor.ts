@@ -1,4 +1,4 @@
-import { BuildExecutorSchema } from './schema';
+import { Schema as BuildExecutorSchema } from './schema';
 
 export interface NxJunitExecutorResult {
   success: boolean;

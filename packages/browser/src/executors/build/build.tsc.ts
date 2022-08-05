@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { ExecutorContext } from '@nrwl/devkit';
 import { execSync } from 'child_process';
 import { join } from 'path';
-import { BuildExecutorContext, BuildExecutorOptions } from './schema';
+import { Schema as BuildExecutorOptions } from './schema';
 
 export default async function build(
   options: BuildExecutorOptions,
-  context: BuildExecutorContext
+  context: ExecutorContext
 ): Promise<{ success: boolean }> {
   const project = context.workspace.projects[context.projectName!];
   const cmds = [

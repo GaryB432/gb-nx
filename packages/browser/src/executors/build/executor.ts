@@ -1,21 +1,35 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { joinPathFragments } from '@nrwl/devkit';
+import { ExecutorContext, joinPathFragments } from '@nrwl/devkit';
 import * as fg from 'fast-glob';
 import { parse, ParsedPath } from 'path';
 import { Logger } from '../../utils/logger';
 import { translateToOutputPath } from '../../utils/path-handler';
-import {
-  BuildExecutorContext,
-  BuildExecutorOptions,
-  BuildExecutorSchema,
-  InOutInfo,
-} from './schema';
 import buildCopy from '../build/build.copy';
 import buildSass from '../build/build.sass';
 import buildTsc from '../build/build.tsc';
+import { Schema as BuildExecutorSchema } from './schema';
+
+interface BuildExecutorSchemax {
+  manifest: string;
+  outputPath: string;
+  watch?: boolean;
+}
+
+export interface InOutInfo {
+  in: ParsedPath;
+  out: ParsedPath;
+}
+
+interface BuildExecutorOptionsx extends BuildExecutorSchema {
+  textToEcho: string;
+}
+
+export interface BuildExecutorContext extends ExecutorContext {
+  logger: Logger;
+}
 
 async function getInOuts(
-  schema: BuildExecutorOptions,
+  schema: BuildExecutorSchema,
   context: BuildExecutorContext
 ): Promise<InOutInfo[]> {
   const project = context.workspace.projects[context.projectName!];
@@ -27,14 +41,14 @@ async function getInOuts(
 
   return allSrcs.map((s) => ({
     in: parse(s),
-    out: translateToOutputPath(s, project.sourceRoot!, schema.outputPath),
+    out: translateToOutputPath(s, project.sourceRoot!, schema.outputPath!),
   }));
 }
 
 async function normalizeOptions(
   schema: BuildExecutorSchema,
   _context: BuildExecutorContext
-): Promise<BuildExecutorOptions> {
+): Promise<BuildExecutorSchema> {
   return { ...schema, textToEcho: schema.manifest };
 }
 

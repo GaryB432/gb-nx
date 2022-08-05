@@ -1,7 +1,9 @@
-import { BuildExecutorContext } from '../../src/executors/build/schema';
+// import { BuildExecutorContext } from '../../src/executors/build/schema';
 import { Logger } from './logger';
 
-export const context: BuildExecutorContext = {
+
+
+export const context = {
   root: 'drive:/gb-nx-dogfood',
   target: {
     executor: '@gb-nx/browser:build',

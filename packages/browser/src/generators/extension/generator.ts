@@ -17,7 +17,7 @@ import { Linter, lintProjectGenerator } from '@nrwl/linter';
 import { join } from 'path';
 import { addCustomConfig, ESLintConfiguration } from '../../utils/eslint';
 import initGenerator from '../init/generator';
-import { ExtensionGeneratorSchema } from './schema';
+import { Schema as ExtensionGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends ExtensionGeneratorSchema {
   parsedTags: string[];

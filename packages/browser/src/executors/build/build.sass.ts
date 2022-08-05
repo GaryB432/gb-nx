@@ -1,21 +1,9 @@
 import { joinPathFragments } from '@nrwl/devkit';
 import { exec } from 'child_process';
 import { join } from 'path';
-// import { ErrnoException } from 'fast-glob/out/types';
 import { promisify } from 'util';
 import { changeExtension } from '../../utils/path-handler';
-import { BuildExecutorContext, InOutInfo } from './schema';
-
-// var sass = require('sass');
-
-// sass.render(
-//   {
-//     file: scss_filename,
-//   },
-//   function (err, result) {
-//     /* ... */
-//   }
-// );
+import { BuildExecutorContext, InOutInfo } from './executor';
 
 export default async function build(
   inOuts: InOutInfo[],

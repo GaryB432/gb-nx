@@ -1,4 +1,14 @@
-export interface InitGeneratorSchema {
+/* eslint-disable */
+/* from ./src/generators/init/schema.json */
+
+export interface InitBrowserExtensionPlugin {
+  /**
+   * Adds the specified unit test runner
+   */
+  unitTestRunner?: "jest" | "none";
+  /**
+   * Skip formatting files
+   */
   skipFormat?: boolean;
-  unitTestRunner?: 'jest' | 'none';
+  [k: string]: unknown;
 }

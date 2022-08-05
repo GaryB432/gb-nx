@@ -1,22 +1,18 @@
-import { ExecutorContext } from '@nrwl/devkit';
-import { ParsedPath } from 'path';
-import { Logger } from '../../utils/logger';
+/* eslint-disable */
+/* from ./src/executors/build/schema.json */
 
-export interface BuildExecutorSchema {
-  manifest: string;
-  outputPath: string;
+export interface Schema {
+  /**
+   * The name of the extension manifest.
+   */
+  manifest?: string;
+  /**
+   * The output path of the generated files.
+   */
+  outputPath?: string;
+  /**
+   * Enable re-building when files change.
+   */
   watch?: boolean;
-}
-
-export interface InOutInfo {
-  in: ParsedPath;
-  out: ParsedPath;
-}
-
-export interface BuildExecutorOptions extends BuildExecutorSchema {
-  textToEcho: string;
-}
-
-export interface BuildExecutorContext extends ExecutorContext {
-  logger: Logger;
+  [k: string]: unknown;
 }

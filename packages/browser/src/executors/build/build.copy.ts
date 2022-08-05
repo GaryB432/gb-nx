@@ -1,7 +1,8 @@
 import { changeExtension } from '../../utils/path-handler';
-import { BuildExecutorContext, InOutInfo } from './schema';
+// import { Schema as  BuildExecutorContext } from './schema';
 import { copy } from 'fs-extra';
 import { joinPathFragments } from '@nrwl/devkit';
+import { InOutInfo, BuildExecutorContext } from './executor';
 
 export default async function build(
   inOuts: InOutInfo[],

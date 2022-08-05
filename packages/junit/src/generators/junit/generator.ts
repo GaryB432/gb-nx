@@ -11,7 +11,7 @@ import {
 } from '@nrwl/devkit';
 import { posix } from 'path';
 import * as ts from 'typescript';
-import { NxJunitGeneratorSchema } from './schema';
+import { Schema as NxJunitGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxJunitGeneratorSchema {
   tbd: boolean;
