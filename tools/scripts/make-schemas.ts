@@ -29,6 +29,7 @@ async function writeSchemaTypeDef(
   const dts = await compileFromFile(join(root, sdef.schema), {
     bannerComment: `/* eslint-disable */
     /* from ${sdef.schema} */`,
+    strictIndexSignatures: true,
   });
   void writeFile(
     join(root, path.dir, [path.name, ...argv, 'd', 'ts'].join('.')),

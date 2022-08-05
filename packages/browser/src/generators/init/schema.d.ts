@@ -10,5 +10,5 @@ export interface InitBrowserExtensionPlugin {
    * Skip formatting files
    */
   skipFormat?: boolean;
-  [k: string]: unknown;
+  [k: string]: unknown | undefined;
 }

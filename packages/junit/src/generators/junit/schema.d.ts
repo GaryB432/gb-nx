@@ -10,5 +10,5 @@ export interface Schema {
    * Version of jest-junit to use
    */
   reporterVersion?: string;
-  [k: string]: unknown;
+  [k: string]: unknown | undefined;
 }

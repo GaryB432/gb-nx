@@ -14,5 +14,5 @@ export interface Schema {
    * Enable re-building when files change.
    */
   watch?: boolean;
-  [k: string]: unknown;
+  [k: string]: unknown | undefined;
 }
