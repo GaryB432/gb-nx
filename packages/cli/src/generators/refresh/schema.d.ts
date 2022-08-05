@@ -7,6 +7,10 @@ export interface Schema {
    */
   project?: string;
   /**
+   * Specifies if all files should be generated
+   */
+  all?: boolean;
+  /**
    * Specifies if command typescript definitions should be generated
    */
   ts?: boolean;

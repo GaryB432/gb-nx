@@ -13,6 +13,10 @@
         "$source": "projectName"
       }
     },
+    "all": {
+      "type": "boolean",
+      "description": "Specifies if all files should be generated"
+    },
     "ts": {
       "type": "boolean",
       "description": "Specifies if command typescript definitions should be generated"

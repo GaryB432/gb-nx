@@ -52,7 +52,7 @@ export async function refreshGenerator(
 
       if (targets) {
         const buildTarget = targets['build'];
-        if (buildTarget && buildTarget.options) {
+        if (buildTarget && buildTarget.options && buildTarget.options.main) {
           const gls = [
             'prog',
             ".version('0.0.1-0')",
@@ -83,6 +83,8 @@ export async function refreshGenerator(
           ];
           const content = prog.join('\n');
           tree.write(buildTarget.options.main, content);
+        } else {
+          throw new Error('no build options main');
         }
       }
     }

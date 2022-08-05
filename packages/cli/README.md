@@ -56,7 +56,7 @@ nx g @gb-nx/cli:application my-app
 Add a command to the project with the `command` generator
 
 ```
-nx g @gb-nx/cli:command purge --project my-app
+nx g @gb-nx/cli:command <name> --project my-app
 ```
 
 You'll want to edit the generated `cli.config.json` file to document your command. The values from the config file are used to generated the boilerplate for your project.

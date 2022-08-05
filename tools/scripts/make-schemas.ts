@@ -17,6 +17,10 @@ interface SchemaDefinedList {
   generators: Record<string, SchemaDefined>;
 }
 
+const argv = process.argv.slice(2);
+const ws = new Workspaces(process.cwd());
+const wsConfig = ws.readWorkspaceConfiguration();
+
 async function writeSchemaTypeDef(
   root: string,
   sdef: SchemaDefined,
@@ -26,7 +30,10 @@ async function writeSchemaTypeDef(
     bannerComment: `/* eslint-disable */
     /* from ${sdef.schema} */`,
   });
-  void writeFile(join(root, path.dir, `${path.name}.gen.d.ts`), dts);
+  void writeFile(
+    join(root, path.dir, [path.name, ...argv, 'd', 'ts'].join('.')),
+    dts
+  );
 }
 
 async function handleSchemaDefList(
@@ -44,10 +51,6 @@ async function handleSchemaDefList(
 }
 
 async function main() {
-  const cwd = posix.resolve('.');
-  const ws = new Workspaces(cwd);
-
-  const wsConfig = ws.readWorkspaceConfiguration();
   for (const projName in wsConfig.projects) {
     const proj = wsConfig.projects[projName];
     const pjb = await readFile(join(proj.root, 'package.json'));

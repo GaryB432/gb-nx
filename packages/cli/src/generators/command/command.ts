@@ -16,6 +16,7 @@ import { Schema as CommandGeneratorSchema } from './schema';
 export interface NormalizedCommandSchema extends CommandGeneratorSchema {
   description?: string;
   buildTargetMain?: string;
+  projectName: string;
   projectRoot: string;
   projectSrcRoot: string;
 }
@@ -25,15 +26,15 @@ function normalizeOptions(
   options: CommandGeneratorSchema
 ): NormalizedCommandSchema {
   const ws = readWorkspaceConfiguration(tree);
-  const projName = options.project ?? ws.defaultProject;
+  const projectName = options.project ?? ws.defaultProject;
   const projects = getProjects(tree);
-  if (!projName) {
+  if (!projectName) {
     throw new Error('no project');
   }
-  const project = projects.get(projName);
+  const project = projects.get(projectName);
 
   if (!project) {
-    throw new Error(`Project "${projName}" not found`);
+    throw new Error(`Project "${projectName}" not found`);
   }
 
   let buildTargetMain = 'none';
@@ -50,6 +51,7 @@ function normalizeOptions(
   return {
     ...options,
     buildTargetMain,
+    projectName,
     projectRoot,
     projectSrcRoot,
   };
@@ -116,6 +118,11 @@ export async function commandGenerator(
     updateIndex(tree, normalizedOptions);
   }
   writeCliConfig(tree, normalizedOptions.projectRoot, config);
-  refreshGenerator(tree, { ts: true, main: true });
+  refreshGenerator(tree, {
+    ts: true,
+    main: true,
+    markdown: true,
+    project: normalizedOptions.projectName,
+  });
   return await formatFiles(tree);
 }
