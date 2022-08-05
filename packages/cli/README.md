@@ -59,13 +59,20 @@ Add a command to the project with the `command` generator
 nx g @gb-nx/cli:command <name> --project my-app
 ```
 
-You'll want to edit the generated `cli.config.json` file to document your command. The values from the config file are used to generated the boilerplate for your project.
+**You'll want to edit the generated `cli.config.json` file to document your command. The values from the config file are used to generated the boilerplate for your project.**
 
-The `refersh` generator can refresh your `my-app/src/main.ts`, command reference file, `my-app/commands.md` and the type definitions for your commands. Run this command when you change your `cli.config.json` file.
+The `refersh` generator can refresh your project's boilerplate. See the options below. Run this command when you change your `cli.config.json` file.
 
 ```
-nx g @gb-nx/cli:refresh --project my-app --main --ts --markdown
+nx g @gb-nx/cli:refresh --project my-app --main --ts --markdown --all
 ```
+
+| OPTION       | DESCRIPTION                                          |
+| ------------ | ---------------------------------------------------- |
+| `--main`     | generate the build target main entry point           |
+| `--markdown` | generate the `commands.md` file in your project root |
+| `--ts`       | generate the typing files for your commands          |
+| `--all`      | generate all the things                              |
 
 ## License
 

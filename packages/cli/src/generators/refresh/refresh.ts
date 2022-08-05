@@ -29,8 +29,12 @@ export async function refreshGenerator(
       throw new Error(`Project "${projName}" not found`);
     }
 
+    if (!(options.all || options.main || options.markdown || options.ts)) {
+      throw new Error('choose an option');
+    }
+
     const config = readCliConfig(tree, project.root);
-    if (options.ts) {
+    if (options.all || options.ts) {
       for (const [name, cmd] of Object.entries(config.commands)) {
         tree.write(
           joinPathFragments(
@@ -47,7 +51,7 @@ export async function refreshGenerator(
       }
     }
 
-    if (options.main) {
+    if (options.all || options.main) {
       const targets = project.targets;
 
       if (targets) {
@@ -89,7 +93,7 @@ export async function refreshGenerator(
       }
     }
 
-    if (options.markdown) {
+    if (options.all || options.markdown) {
       const prog = [
         '# Command Reference\n',
         ...Object.keys(config.commands).map((name) => {

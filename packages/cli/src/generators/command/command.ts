@@ -119,9 +119,7 @@ export async function commandGenerator(
   }
   writeCliConfig(tree, normalizedOptions.projectRoot, config);
   refreshGenerator(tree, {
-    ts: true,
-    main: true,
-    markdown: true,
+    all: true,
     project: normalizedOptions.projectName,
   });
   return await formatFiles(tree);
