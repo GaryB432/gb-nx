@@ -30,6 +30,13 @@ export function getCommandTs(
   const argz = [...pz, 'opts'].join();
   const line = [names.name, ...pz.map((p) => `<${p}>`)].join(' ');
 
+  const checks = os
+    .filter((o) => command.options[o].type === 'number')
+    .map(
+      (o) =>
+        `if (typeof opts.${o} !== 'number') throw new Error('${o} must be a number');`
+    );
+
   const lns = [
     `command('${line}')`,
     `describe('${command.description}')`,
@@ -37,7 +44,11 @@ export function getCommandTs(
 
     // `example('${command} src build --dryRun')`,
     // `example('${command} app public -o main.js')`,
-    `action(async (${argz}) => { await ${names.propertyName}Command({ ${argz} }); })`,
+    //
+
+    `action(async (${argz}) => { ${checks.join('')}await ${
+      names.propertyName
+    }Command({ ${argz} }); })`,
   ];
   const code = ['prog', ...lns].join('\n.') + ';';
   return code;

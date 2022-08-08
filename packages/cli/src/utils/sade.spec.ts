@@ -92,6 +92,7 @@ describe('sade', () => {
               description: 'put some quotes on me',
               default: 'testingSubject',
             },
+
             limit: { type: 'number', description: 'some junkk', default: 5 },
             grocery: {
               type: 'boolean',
@@ -100,6 +101,7 @@ describe('sade', () => {
             },
           },
         },
+
         pnames
       )
     ).toMatchInlineSnapshot(`
@@ -109,7 +111,7 @@ describe('sade', () => {
       .option('--alfa','put some quotes on me','testingSubject')
       .option('--limit','some junkk',5)
       .option('--grocery','an important boolean argument',true)
-      .action(async (a,b,opts) => { await testingSubjectCommand({ a,b,opts }); });"
+      .action(async (a,b,opts) => { if (typeof opts.limit !== 'number') throw new Error('limit must be a number');await testingSubjectCommand({ a,b,opts }); });"
     `);
   });
   it('should use proper case', () => {
@@ -128,6 +130,7 @@ describe('sade', () => {
               description: 'put some quotes on me',
               default: 'testingSubject',
             },
+
             limit: { type: 'number', description: 'some junkk', default: 5 },
             grocery: {
               type: 'boolean',
@@ -136,6 +139,7 @@ describe('sade', () => {
             },
           },
         },
+
         { name: 'DoTheWeirdestStuff', propertyName: 'doTheWeirdestStuff' }
       )
     ).toMatchInlineSnapshot(`
@@ -145,7 +149,50 @@ describe('sade', () => {
       .option('--alfa','put some quotes on me','testingSubject')
       .option('--limit','some junkk',5)
       .option('--grocery','an important boolean argument',true)
-      .action(async (a,b,opts) => { await doTheWeirdestStuffCommand({ a,b,opts }); });"
+      .action(async (a,b,opts) => { if (typeof opts.limit !== 'number') throw new Error('limit must be a number');await doTheWeirdestStuffCommand({ a,b,opts }); });"
+    `);
+  });
+
+  it('should throw non number', () => {
+    expect(
+      getCommandTs(
+        {
+          description: 'this here',
+          parameters: {
+            a: { type: 'unknown', description: 'fun stuff' },
+            b: { type: 'unknown' },
+          },
+
+          options: {
+            alfa: {
+              type: 'string',
+              description: 'put some quotes on me',
+              default: 'testingSubject',
+            },
+
+            limit: { type: 'number', description: 'some junkk', default: 5 },
+            age: { type: 'number' },
+            banana: { type: 'number' },
+            grocery: {
+              type: 'boolean',
+              description: 'an important boolean argument',
+              default: true,
+            },
+          },
+        },
+
+        { name: 'Test', propertyName: 'test' }
+      )
+    ).toMatchInlineSnapshot(`
+      "prog
+      .command('Test <a> <b>')
+      .describe('this here')
+      .option('--alfa','put some quotes on me','testingSubject')
+      .option('--limit','some junkk',5)
+      .option('--age','description of age option')
+      .option('--banana','description of banana option')
+      .option('--grocery','an important boolean argument',true)
+      .action(async (a,b,opts) => { if (typeof opts.limit !== 'number') throw new Error('limit must be a number');if (typeof opts.age !== 'number') throw new Error('age must be a number');if (typeof opts.banana !== 'number') throw new Error('banana must be a number');await testCommand({ a,b,opts }); });"
     `);
   });
 });
