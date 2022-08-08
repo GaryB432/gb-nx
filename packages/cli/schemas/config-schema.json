@@ -1,0 +1,92 @@
+{
+  "$id": "https://gb-nx/cli/config-schema.json",
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "$schema": true,
+    "version": {
+      "type": "number",
+      "const": 2
+    },
+    "global": {
+      "type": "object",
+      "description": "Configuration available to all commands",
+      "properties": {
+        "options": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/option"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "commands": {
+      "type": "object",
+      "description": "Commands available for this project",
+      "additionalProperties": {
+        "$ref": "#/$defs/command"
+      }
+    }
+  },
+  "$defs": {
+    "argument": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "option": {
+      "type": "object",
+      "properties": {
+        "alias": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["string", "number", "boolean"]
+        },
+        "default": {
+          "type": ["string", "number", "boolean"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "command": {
+      "type": "object",
+      "properties": {
+        "alias": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/argument"
+          }
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/option"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["version", "commands"],
+  "additionalProperties": false
+}

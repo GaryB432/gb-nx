@@ -18,6 +18,11 @@
             "output": "./src"
           },
           {
+            "input": "./packages/cli/schemas",
+            "glob": "**/*.json",
+            "output": "./schemas"
+          },
+          {
             "input": "./packages/cli/src",
             "glob": "**/*.d.ts",
             "output": "./src"

@@ -11,6 +11,6 @@ export type Option = KindThing;
 
 export interface Command {
   alias?: string;
-  options?: Record<string, KindThing>;
-  parameters?: Record<string, KindThing>;
+  options?: Record<string, Option>;
+  parameters?: Record<string, Argument>;
 }

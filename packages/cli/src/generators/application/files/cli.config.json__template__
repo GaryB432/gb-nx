@@ -1,12 +1,12 @@
 {
+  "$schema": "../../node_modules/@gb-nx/cli/schemas/config-schema.json",
   "version": 2,
   "global": {
     "options": {
       "dryRun": {
         "alias": "-d",
         "description": "Do not write changes to disk",
-        "type": "boolean",
-        "default": false
+        "type": "boolean"
       },
       "config": {
         "description": "Provide path to config file",
@@ -15,8 +15,7 @@
       },
       "verbose": {
         "description": "Log extra information",
-        "type": "boolean",
-        "default": false
+        "type": "boolean"
       }
     }
   },
