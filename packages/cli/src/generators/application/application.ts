@@ -91,7 +91,7 @@ export async function applicationGenerator(
   addDependenciesToPackageJson(
     tree,
     { 'ansi-colors': ansiColorsVersion, sade: sadeVersion },
-    { '@nrwl/node': nxVersion, 'eslint-plugin-gb': eslintPluginGbVersion }
+    { '@nrwl/node': nxVersion }
   );
   await formatFiles(tree);
   return () => {

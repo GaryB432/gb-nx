@@ -16,6 +16,10 @@ export interface ConfigCommand {
 
 export interface Config {
   version: number;
+  program?: {
+    name: string;
+    version: string;
+  }
   global?: ConfigCommand;
   commands: Record<string, ConfigCommand>;
 }

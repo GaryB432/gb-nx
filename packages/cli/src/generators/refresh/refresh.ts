@@ -34,6 +34,12 @@ export async function refreshGenerator(
     }
 
     const config = readCliConfig(tree, project.root);
+
+    const program = config.program ?? {
+      name: projName,
+      version: '0.0.0',
+    };
+
     if (options.all || options.ts) {
       for (const [name, cmd] of Object.entries(config.commands)) {
         tree.write(
@@ -59,9 +65,9 @@ export async function refreshGenerator(
         if (buildTarget && buildTarget.options && buildTarget.options.main) {
           const gls = [
             'prog',
-            ".version('0.0.1-0')",
-            ".option('--dryRun, -d', 'Do not write to disk', false)",
-            ".option('--verbose', 'Show extra information', false)",
+            `.version('${program.version}')`,
+            ".option('--dryRun, -d', 'Do not write to disk')",
+            ".option('--verbose', 'Show extra information')",
             ".option('-c, --config', 'Provide path to config file', 'cli.config.js');",
           ];
           const imports = [
@@ -80,7 +86,7 @@ export async function refreshGenerator(
             '#!/usr/bin/env node',
             "import sade = require('sade');",
             ...imports,
-            `const prog = sade('${projName}');`,
+            `const prog = sade('${program.name}');`,
             ...gls,
             ...cmds,
             'prog.parse(process.argv);',
