@@ -5,7 +5,7 @@ export async function <%= propertyName %>Command(<%= commandParameters %>: Comma
   if (opts.dryRun) {
     console.log(colors.bgYellow.black('Dry Run. Nothing written.'));
   }
-  console.log(colors.bgGreenBright.whiteBright('<%= name %> works'));
+  console.log(colors.bgGreenBright.whiteBright('<%= propertyName %>Command works'));
   if (opts.verbose) {
     console.log(<%= commandParameters %>);
   }
