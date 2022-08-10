@@ -5,7 +5,7 @@ export interface InitBrowserExtensionPlugin {
   /**
    * Adds the specified unit test runner
    */
-  unitTestRunner?: "jest" | "none";
+  unitTestRunner?: 'jest' | 'none';
   /**
    * Skip formatting files
    */

@@ -19,7 +19,7 @@ export interface Config {
   program?: {
     name: string;
     version: string;
-  }
+  };
   global?: ConfigCommand;
   commands: Record<string, ConfigCommand>;
 }
