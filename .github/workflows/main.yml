@@ -14,6 +14,7 @@ jobs:
       - name: Run a multi-line script
         run: |
           npm install
+          npx browserslist@latest --update-db
           npx nx run-many --all --target=lint
           npx nx run-many --all --target=test --coverage
           npx nx run-many --all --target=build
