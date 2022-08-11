@@ -1,13 +1,11 @@
 import { addDependenciesToPackageJson, formatFiles, Tree } from '@nrwl/devkit';
-import { setDefaultCollection } from '@nrwl/workspace/src/utilities/set-default-collection';
 import { chromeTypingsVersion, sassVersion } from '../../utils/versions';
-import { InitBrowserExtensionPlugin as InitGeneratorSchema } from './schema';
+import { Schema as InitGeneratorSchema } from './schema';
 
 export default async function (
   tree: Tree,
   options: InitGeneratorSchema
 ): Promise<() => void> {
-  setDefaultCollection(tree, '@gb-nx/browser-extension');
   const installTask = addDependenciesToPackageJson(
     tree,
     {},

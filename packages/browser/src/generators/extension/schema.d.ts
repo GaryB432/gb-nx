@@ -21,7 +21,7 @@ export interface Schema {
   /**
    * Test runner to use for unit tests
    */
-  unitTestRunner?: 'jest' | 'none';
+  unitTestRunner?: "jest" | "none";
   /**
    * Add tags to the application (used for linting)
    */

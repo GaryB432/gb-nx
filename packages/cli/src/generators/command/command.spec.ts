@@ -30,7 +30,7 @@ describe('command', () => {
         if (opts.dryRun) {
           console.log(colors.bgYellow.black('Dry Run. Nothing written.'));
         }
-        console.log(colors.bgGreenBright.whiteBright('Hello works'));
+        console.log(colors.bgGreenBright.whiteBright('helloCommand works'));
         if (opts.verbose) {
           console.log({ src, FunDest, opts });
         }
@@ -48,8 +48,8 @@ describe('command', () => {
       const prog = sade('my-app');
       prog
       .version('0.0.1-0')
-      .option('--dryRun, -d', 'Do not write to disk', false)
-      .option('--verbose', 'Show extra information', false)
+      .option('--dryRun, -d', 'Do not write to disk')
+      .option('--verbose', 'Show extra information')
       .option('-c, --config', 'Provide path to config file', 'cli.config.js');
       prog
       .command('Hello <src> <FunDest>')

@@ -7,7 +7,7 @@ import {
 } from '@nrwl/devkit';
 
 import generator from './generator';
-import { InitGeneratorSchema } from './schema';
+import { Schema as InitGeneratorSchema } from './schema';
 
 xdescribe('init generator', () => {
   let appTree: Tree;
