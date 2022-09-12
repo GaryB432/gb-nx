@@ -5,7 +5,10 @@ import {
   Tree,
 } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
-import { gbSchematicsVersion } from '../../utils/versions';
+import {
+  angularDevkitVersion,
+  gbSchematicsVersion,
+} from '../../utils/versions';
 import { Schema } from './schema';
 
 function updateDependencies(tree: Tree) {
@@ -14,6 +17,7 @@ function updateDependencies(tree: Tree) {
     {},
     {
       'gb-schematics': gbSchematicsVersion,
+      '@angular-devkit/core': angularDevkitVersion,
     }
   );
 }
