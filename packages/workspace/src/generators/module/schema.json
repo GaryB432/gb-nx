@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "description": "Module Options Schema.",
+  "cli": "nx",
+  "$id": "Module",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "The name of the module.",
+      "type": "string",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?"
+    },
+    "project": {
+      "description": "The project to target.",
+      "type": "string",
+      "$default": {
+        "$source": "projectName"
+      },
+      "alias": "p",
+      "x-prompt": "What project would you like to target?"
+    },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false
+    },
+    "directory": {
+      "type": "string",
+      "format": "path",
+      "description": "The directory to create the module, relative to your project source."
+    },
+    "kind": {
+      "type": "string",
+      "description": "The kind of module.",
+      "default": "values",
+      "enum": ["class", "values"]
+    },
+    "skipTests": {
+      "type": "boolean",
+      "description": "Do not create \"spec.ts\" test files for the new module.",
+      "default": false,
+      "x-user-analytics": 12
+    }
+  },
+  "additionalProperties": false,
+  "required": ["name", "project"]
+}
