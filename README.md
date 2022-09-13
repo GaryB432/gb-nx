@@ -6,11 +6,12 @@
 
 ## Projects
 
-| Status | Name                        | Description                                                                                                                                                            |
-| ------ | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ✅     | [browser](packages/browser) | [Nx](https://nx.dev) plugin to generate and build [Browser Extensions](https://chrome.google.com/webstore/category/extensions?hl=en) projects inside your Nx workspace |
-| ✅     | [cli](packages/cli)         | [Nx](https://nx.dev) plugin to generate and build command-line projects inside your Nx workspace                                                                       |
-| ✅     | [junit](packages/junit)     | [Nx](https://nx.dev) plugin adding [Jest Junit Reporter](https://www.npmjs.com/package/jest-junit) to your project.                                                    |
+| Status | Name                            | Description                                                                                                                             |
+| ------ | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| ✅     | [browser](packages/browser)     | generate and build [Browser Extensions](https://chrome.google.com/webstore/category/extensions?hl=en) projects inside your Nx workspace |
+| ✅     | [cli](packages/cli)             | generate and build command-line projects inside your Nx workspace                                                                       |
+| ✅     | [junit](packages/junit)         | add [Jest Junit Reporter](https://www.npmjs.com/package/jest-junit) to your project.                                                    |
+| ✅     | [workspace](packages/workspace) | plugin adding general content to your project.                                                                                          |
 
 ## License
 

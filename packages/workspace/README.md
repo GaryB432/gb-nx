@@ -3,7 +3,7 @@
 This library was generated with [Nx](https://nx.dev).
 
 [![CI](https://img.shields.io/github/workflow/status/GaryB432/gb-nx/CI)](https://github.com/GaryB432/gb-nx/actions)
-[![npm version](https://img.shields.io/npm/v/@gb-nx/svelte?style=flat-square)](https://www.npmjs.com/package/@gb-nx/svelte)
+[![npm version](https://img.shields.io/npm/v/@gb-nx/workspace?style=flat-square)](https://www.npmjs.com/package/@gb-nx/workspace)
 
 > Nx Plugin for workspace utilities in your Nx workspace
 
