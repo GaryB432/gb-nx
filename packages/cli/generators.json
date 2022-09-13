@@ -4,22 +4,22 @@
   "version": "0.0.1",
   "generators": {
     "init": {
-      "factory": "./src/generators/init/init#initGenerator",
+      "factory": "./src/generators/init/init",
       "schema": "./src/generators/init/schema.json",
       "description": "init generator"
     },
     "application": {
-      "factory": "./src/generators/application/application#applicationGenerator",
+      "factory": "./src/generators/application/application",
       "schema": "./src/generators/application/schema.json",
       "description": "application generator"
     },
     "command": {
-      "factory": "./src/generators/command/command#commandGenerator",
+      "factory": "./src/generators/command/command",
       "schema": "./src/generators/command/schema.json",
       "description": "command generator"
     },
     "refresh": {
-      "factory": "./src/generators/refresh/refresh#refreshGenerator",
+      "factory": "./src/generators/refresh/refresh",
       "schema": "./src/generators/refresh/schema.json",
       "description": "refresh generator"
     }

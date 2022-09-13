@@ -66,7 +66,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 }
 
-export async function applicationGenerator(
+export default async function applicationGenerator(
   tree: Tree,
   options: ApplicationGeneratorSchema
 ) {

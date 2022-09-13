@@ -12,7 +12,7 @@ import { getCommandTs } from '../../utils/sade';
 import { makeCommandDeclarations } from '../../utils/typescript';
 import { Schema as RefreshGeneratorSchema } from './schema';
 
-export async function refreshGenerator(
+export default async function refreshGenerator(
   tree: Tree,
   options: RefreshGeneratorSchema
 ) {

@@ -99,7 +99,7 @@ function getDefaultProps(names: string[]): Record<string, ConfigProp> {
   }, {} as Record<string, ConfigProp>);
 }
 
-export async function commandGenerator(
+export default async function commandGenerator(
   tree: Tree,
   options: CommandGeneratorSchema
 ): Promise<void> {
