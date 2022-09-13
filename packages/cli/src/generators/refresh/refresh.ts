@@ -1,5 +1,6 @@
 import {
   formatFiles,
+  GeneratorCallback,
   getProjects,
   joinPathFragments,
   names,
@@ -15,7 +16,7 @@ import { Schema as RefreshGeneratorSchema } from './schema';
 export default async function refreshGenerator(
   tree: Tree,
   options: RefreshGeneratorSchema
-) {
+): Promise<GeneratorCallback> {
   const ws = readWorkspaceConfiguration(tree);
   const projects = getProjects(tree);
   if (projects) {
@@ -111,5 +112,7 @@ export default async function refreshGenerator(
     }
   }
 
-  return formatFiles(tree);
+  return async () => {
+    await formatFiles(tree);
+  };
 }

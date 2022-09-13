@@ -18,7 +18,10 @@ function updateDependencies(tree: Tree) {
   );
 }
 
-export default async function initGenerator(host: Tree, schema: Schema) {
+export default async function initGenerator(
+  host: Tree,
+  schema: Schema
+): Promise<GeneratorCallback> {
   const tasks: GeneratorCallback[] = [];
   const installTask = updateDependencies(host);
   tasks.push(installTask);

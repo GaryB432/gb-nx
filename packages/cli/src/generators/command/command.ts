@@ -118,7 +118,7 @@ export default async function commandGenerator(
     updateIndex(tree, normalizedOptions);
   }
   writeCliConfig(tree, normalizedOptions.projectRoot, config);
-  refreshGenerator(tree, {
+  await refreshGenerator(tree, {
     all: true,
     project: normalizedOptions.projectName,
   });

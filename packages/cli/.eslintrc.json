@@ -9,7 +9,9 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:gb/recommended"],
-      "rules": {},
+      "rules": {
+        "@typescript-eslint/member-ordering": "off"
+      },
       "parserOptions": {
         "project": ["./tsconfig.base.json"]
       }

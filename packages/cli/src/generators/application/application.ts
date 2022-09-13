@@ -2,6 +2,7 @@ import {
   addDependenciesToPackageJson,
   formatFiles,
   generateFiles,
+  GeneratorCallback,
   getWorkspaceLayout,
   installPackagesTask,
   names,
@@ -69,7 +70,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 export default async function applicationGenerator(
   tree: Tree,
   options: ApplicationGeneratorSchema
-) {
+): Promise<GeneratorCallback> {
   const normalizedOptions = normalizeOptions(tree, options);
 
   // await initGenerator(tree, {});

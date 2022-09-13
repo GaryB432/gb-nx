@@ -4,9 +4,9 @@ import initGenerator from '../init/generator';
 import { Schema as ComponentGeneratorSchema } from './schema';
 
 interface SchematicOptions {
-  name: string;
   directory?: string;
   kind?: 'class' | 'values';
+  name: string;
   skipTests?: boolean;
   sourceRoot?: string;
 }
