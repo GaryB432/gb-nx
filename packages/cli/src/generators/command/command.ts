@@ -45,7 +45,7 @@ function normalizeOptions(
     buildTargetMain = (build.options && build.options.main) || 'none';
   }
 
-  const projectSrcRoot = sourceRoot!;
+  const projectSrcRoot = sourceRoot ?? 'src';
   const projectRoot = project.root;
 
   return {
