@@ -31,6 +31,7 @@ describe('component generator', () => {
 
   it('should create files', async () => {
     await generator(appTree, options);
-    expect(appTree.exists('test/root/src/abc/def/banana.ts')).toBeTruthy();
+    // expect(appTree.listChanges().map((j) => j.path)).toEqual([]);
+    expect(appTree.exists('/test/root/src/abc/def/banana.ts')).toBeTruthy();
   });
 });

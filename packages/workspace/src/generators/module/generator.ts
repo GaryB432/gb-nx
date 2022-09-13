@@ -1,5 +1,6 @@
-import { getProjects, ProjectType, Tree } from '@nrwl/devkit';
+import { formatFiles, getProjects, ProjectType, Tree } from '@nrwl/devkit';
 import { wrapAngularDevkitSchematic } from '@nrwl/devkit/ngcli-adapter';
+import initGenerator from '../init/generator';
 import { Schema as ComponentGeneratorSchema } from './schema';
 
 interface SchematicOptions {
@@ -21,7 +22,10 @@ export const libraryGenerator = wrapAngularDevkitSchematic(
   'module'
 );
 
-export default async function (tree: Tree, options: ComponentGeneratorSchema) {
+export default async function (
+  tree: Tree,
+  options: ComponentGeneratorSchema
+): Promise<void> {
   const projects = getProjects(tree);
   const project = projects.get(options.project);
 
@@ -41,5 +45,9 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     sourceRoot: project.sourceRoot,
   };
 
+  await initGenerator(tree, { ...options, skipFormat: true });
   await libraryGenerator(tree, schematicOptions);
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 }

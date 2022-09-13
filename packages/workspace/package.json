@@ -1,7 +1,19 @@
 {
   "name": "@gb-nx/workspace",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GaryB432/gb-nx.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GaryB432/gb-nx/issues"
+  },
+  "homepage": "https://github.com/GaryB432/gb-nx/tree/master/packages/workspace",
   "generators": "./generators.json",
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "dependencies": {
+    "gb-schematics": "^2.9.0"
+  }
 }

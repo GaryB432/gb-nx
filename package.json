@@ -29,6 +29,7 @@
     "eslint": "8.15.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-gb": "^1.2.0",
+    "gb-schematics": "^2.9.0",
     "jest": "27.5.1",
     "json-schema-to-typescript": "^10.1.5",
     "json2ts": "^0.0.7",

@@ -28,84 +28,34 @@ yarn create nx-workspace@latest
 
 ## Getting Started
 
-Then you need to install the plugin in order to work with svelte applications later on.
+Then you need to install the plugin in order to work with applications later on.
 
 ### Installing Plugin
 
 ```
 # npm
-npm install @gb-nx/svelte --save-dev
+npm install @gb-nx/workspace --save-dev
 
 # yarn
-yarn add @gb-nx/svelte --dev
+yarn add @gb-nx/workspace --dev
 ```
 
-### Generating Project
-
-The plugin will create an Nx project for an existing svelte-kit application. Do so with commands similar to the following
-
-```shell
-npx create-nx-workspace@latest sample-workspace
-cd sample-workspace/apps
-npm create svelte@latest web
-cd web
-npm install
-cd ..\..
-nx g @gb-nx/svelte:application web
-nx build web
-nx lint web
-nx test web
-```
-
-### Add a route
+### Add a module
 
 ```
-nx g @gb-nx/svelte:route admin/[area] --project web
+nx g @nrwl/node:application payroll
+
+nx g @gb-nx/workspace:module employee --kind class --project payroll
 ```
 
-### Add a component
-
-```
-nx g @gb-nx/svelte:component SocialMedia --project web
-```
-
-### Add a lib dependency
-
-```json
-// apps/svelte-app/tsconfig.json
-...
-	"paths": {
-			"$lib": ["src/lib"],
-			"$lib/*": ["src/lib/*"],
-      "@example/vector": ["../../libs/vector/src/index.ts"]
-		}
-```
-
-```javascript
-// apps/svelte-app/vite.config.js
-import { sveltekit } from '@sveltejs/kit/vite';
-import path from 'path';
-
-/** @type {import('vite').UserConfig} */
-const config = {
-  plugins: [sveltekit()],
-
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: '@use "src/variables.scss" as *;',
-      },
-    },
-  },
-  resolve: {
-    alias: {
-      '@example/vector': path.resolve('../../libs/vector/src/index.ts'),
-    },
-  },
-};
-
-export default config;
-```
+| OPTION       | DESCRIPTION                                                                                                     |
+| ------------ | --------------------------------------------------------------------------------------------------------------- |
+| --name       | The name of the module.                                                                                         |
+| --project    | The project to target.                                                                                          |
+| --skipFormat | Skip formatting files.                                                                                          |
+| --directory  | The directory to create the module, relative to your project source.                                            |
+| --kind       | The kind of module. `class` for a class or `values` for a general module to export expressions or functions etc |
+| --skipTests  | Do not create "spec.ts" test files for the new module.                                                          |
 
 ## License
 
