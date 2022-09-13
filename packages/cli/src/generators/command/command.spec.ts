@@ -1,7 +1,7 @@
 import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { applicationGenerator } from '../application/application';
-import { commandGenerator } from './command';
+import applicationGenerator from '../application/application';
+import commandGenerator from './command';
 
 describe('command', () => {
   let tree: Tree;

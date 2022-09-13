@@ -3,7 +3,7 @@ import * as devkit from '@nrwl/devkit';
 import { parseJson, readJson, readWorkspaceConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import type { Schema } from '@nrwl/node/src/generators/application/schema';
-import { applicationGenerator } from './application';
+import applicationGenerator from './application';
 
 describe('app', () => {
   let appTree: Tree;

@@ -10,7 +10,7 @@ import {
 } from '@nrwl/devkit';
 import { join } from 'path';
 import { ConfigProp, readCliConfig, writeCliConfig } from '../../utils/config';
-import { refreshGenerator } from '../refresh/refresh';
+import refreshGenerator from '../refresh/refresh';
 import { Schema as CommandGeneratorSchema } from './schema';
 
 export interface NormalizedCommandSchema extends CommandGeneratorSchema {
