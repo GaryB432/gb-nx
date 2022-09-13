@@ -23,8 +23,6 @@ export default async function initGenerator(host: Tree, schema: Schema) {
   const installTask = updateDependencies(host);
   tasks.push(installTask);
 
-  console.log('initializing!!')
-
   if (!schema.skipFormat) {
     await formatFiles(host);
   }
