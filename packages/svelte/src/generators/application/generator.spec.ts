@@ -59,6 +59,7 @@ describe('application generator', () => {
     const config = readProjectConfiguration(appTree, 'test');
     expect(config).toMatchInlineSnapshot(`
       Object {
+        "$schema": "../../node_modules/nx/schemas/project-schema.json",
         "projectType": "application",
         "root": "apps/test",
         "sourceRoot": "apps/test/src",
