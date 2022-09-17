@@ -1,20 +1,20 @@
 name: CI
 on:
   push:
-    branches: [master]
+    branches: [master, feature/*]
   pull_request:
-    branches: [master]
+    branches: [master, feature/*]
   workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2.1.5
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
       - name: Run a multi-line script
         run: |
           npm install
           npx browserslist@latest --update-db
-          npx nx run-many --all --target=lint
-          npx nx run-many --all --target=test --coverage
-          npx nx run-many --all --target=build
+          npx nx run-many --target lint
+          npx nx run-many --target test --coverage
+          npx nx run-many --target build

@@ -7,9 +7,6 @@ import {
   installPackagesTask,
   names,
   offsetFromRoot,
-  ProjectConfiguration,
-  readProjectConfiguration,
-  TargetConfiguration,
   Tree,
 } from '@nrwl/devkit';
 import { applicationGenerator as nodeAppGenerator } from '@nrwl/node';
@@ -17,7 +14,6 @@ import { Schema as ApplicationGeneratorSchema } from '@nrwl/node/src/generators/
 import * as path from 'path';
 import {
   ansiColorsVersion,
-  eslintPluginGbVersion,
   nxVersion,
   sadeVersion,
 } from '../../utils/versions';

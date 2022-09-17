@@ -5,6 +5,7 @@
     "browser": "packages/browser",
     "cli": "packages/cli",
     "junit": "packages/junit",
+    "svelte": "packages/svelte",
     "workspace": "packages/workspace"
   }
 }

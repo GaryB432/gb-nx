@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "svelte",
+  "version": "0.0.1",
+  "generators": {
+    "route": {
+      "factory": "./src/generators/route/generator",
+      "schema": "./src/generators/route/schema.json",
+      "description": "route generator"
+    },
+    "component": {
+      "factory": "./src/generators/component/generator",
+      "schema": "./src/generators/component/schema.json",
+      "description": "component generator"
+    },
+    "dependency": {
+      "factory": "./src/generators/dependency/generator",
+      "schema": "./src/generators/dependency/schema.json",
+      "description": "dependency generator"
+    },
+    "application": {
+      "factory": "./src/generators/application/generator",
+      "schema": "./src/generators/application/schema.json",
+      "description": "application generator"
+    },
+    "init": {
+      "factory": "./src/generators/init/generator",
+      "schema": "./src/generators/init/schema.json",
+      "description": "init generator"
+    }
+  }
+}

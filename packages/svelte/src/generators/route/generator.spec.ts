@@ -1,14 +1,19 @@
-import { readProjectConfiguration, Tree } from '@nrwl/devkit';
+import {
+  addProjectConfiguration,
+  readProjectConfiguration,
+  Tree,
+} from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import generator from './generator';
-import { Schema as ExtensionGeneratorSchema } from './schema';
+import { Schema as RouteGeneratorSchema } from './schema';
 
-xdescribe('application generator', () => {
+describe('component generator', () => {
   let appTree: Tree;
-  const options: ExtensionGeneratorSchema = { name: 'test' };
+  const options: RouteGeneratorSchema = { name: 'tbd', project: 'test' };
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
+    addProjectConfiguration(appTree, 'test', { root: 'hmmm' });
   });
 
   it('should run successfully', async () => {
