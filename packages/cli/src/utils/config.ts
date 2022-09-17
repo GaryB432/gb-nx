@@ -1,5 +1,6 @@
-import { joinPathFragments, Tree } from '@nrwl/devkit';
-import { Kind, KindThing } from './types';
+import type { Tree } from '@nrwl/devkit';
+import { joinPathFragments } from '@nrwl/devkit';
+import type { Kind, KindThing } from './types';
 
 export interface ConfigProp {
   default?: string | number | boolean;

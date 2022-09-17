@@ -1,17 +1,19 @@
 import { getSveltePackageVersions, isSvelte } from '$utils/svelte';
+import type {
+  GeneratorCallback,
+  ProjectConfiguration,
+  Tree,
+} from '@nrwl/devkit';
 import {
   addProjectConfiguration,
   formatFiles,
-  GeneratorCallback,
   getWorkspaceLayout,
   joinPathFragments,
   names,
   output,
-  ProjectConfiguration,
-  Tree,
 } from '@nrwl/devkit';
 import { join } from 'path';
-import { Schema as ApplicationGeneratorSchema } from './schema';
+import type { Schema as ApplicationGeneratorSchema } from './schema';
 
 function sveltekitConfig(o: NormalizedSchema): ProjectConfiguration {
   const cwd = joinPathFragments(o.appsDir, o.name);

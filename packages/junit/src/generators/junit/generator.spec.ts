@@ -1,8 +1,9 @@
+import type { Tree } from '@nrwl/devkit';
+import { readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import generator from './generator';
-import { Schema as NxJunitGeneratorSchema } from './schema';
+import type { Schema as NxJunitGeneratorSchema } from './schema';
 
 describe('junit generator', () => {
   let appTree: Tree;

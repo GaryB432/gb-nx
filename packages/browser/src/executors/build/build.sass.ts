@@ -3,7 +3,7 @@ import { exec } from 'child_process';
 import { join } from 'path';
 import { promisify } from 'util';
 import { changeExtension } from '../../utils/path-handler';
-import { BuildExecutorContext, InOutInfo } from './executor';
+import type { BuildExecutorContext, InOutInfo } from './executor';
 
 export default async function build(
   inOuts: InOutInfo[],

@@ -1,16 +1,15 @@
+import type { GeneratorCallback, Tree } from '@nrwl/devkit';
 import {
   addDependenciesToPackageJson,
   formatFiles,
   generateFiles,
-  GeneratorCallback,
   getWorkspaceLayout,
   installPackagesTask,
   names,
   offsetFromRoot,
-  Tree,
 } from '@nrwl/devkit';
 import { applicationGenerator as nodeAppGenerator } from '@nrwl/node';
-import { Schema as ApplicationGeneratorSchema } from '@nrwl/node/src/generators/application/schema';
+import type { Schema as ApplicationGeneratorSchema } from '@nrwl/node/src/generators/application/schema';
 import * as path from 'path';
 import {
   ansiColorsVersion,

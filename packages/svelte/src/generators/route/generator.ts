@@ -1,6 +1,7 @@
-import { GeneratorCallback, getProjects, Tree } from '@nrwl/devkit';
+import type { GeneratorCallback, Tree } from '@nrwl/devkit';
+import { getProjects } from '@nrwl/devkit';
 import { wrapAngularDevkitSchematic } from '@nrwl/devkit/ngcli-adapter';
-import { Schema as ComponentGeneratorSchema } from './schema';
+import type { Schema as ComponentGeneratorSchema } from './schema';
 
 export const libraryGenerator = wrapAngularDevkitSchematic(
   'gb-schematics',

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import type { ProjectType, Tree } from '@nrwl/devkit';
 import {
   addDependenciesToPackageJson,
   formatFiles,
@@ -6,12 +7,10 @@ import {
   getWorkspaceLayout,
   installPackagesTask,
   names,
-  ProjectType,
-  Tree,
 } from '@nrwl/devkit';
 import { posix } from 'path';
 import * as ts from 'typescript';
-import { Schema as NxJunitGeneratorSchema } from './schema';
+import type { Schema as NxJunitGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxJunitGeneratorSchema {
   tbd: boolean;

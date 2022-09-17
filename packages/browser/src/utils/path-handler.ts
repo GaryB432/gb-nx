@@ -1,5 +1,6 @@
 import { joinPathFragments } from '@nrwl/devkit';
-import { parse, ParsedPath } from 'path';
+import type { ParsedPath } from 'path';
+import { parse } from 'path';
 
 export function translateToOutputPath(
   sourcePath: string,

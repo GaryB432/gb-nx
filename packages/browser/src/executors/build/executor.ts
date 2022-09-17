@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ExecutorContext, joinPathFragments } from '@nrwl/devkit';
+import type { ExecutorContext } from '@nrwl/devkit';
+import { joinPathFragments } from '@nrwl/devkit';
 import * as fg from 'fast-glob';
-import { parse, ParsedPath } from 'path';
+import type { ParsedPath } from 'path';
+import { parse } from 'path';
 import { Logger } from '../../utils/logger';
 import { translateToOutputPath } from '../../utils/path-handler';
 import buildCopy from '../build/build.copy';
 import buildSass from '../build/build.sass';
 import buildTsc from '../build/build.tsc';
-import { Schema as BuildExecutorSchema } from './schema';
+import type { Schema as BuildExecutorSchema } from './schema';
 
 interface BuildExecutorSchemax {
   manifest: string;

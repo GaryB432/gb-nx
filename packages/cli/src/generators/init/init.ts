@@ -1,11 +1,10 @@
+import type { GeneratorCallback, Tree } from '@nrwl/devkit';
 import {
   addDependenciesToPackageJson,
-  GeneratorCallback,
   installPackagesTask,
-  Tree,
 } from '@nrwl/devkit';
 import { initGenerator as NodeInit } from '@nrwl/node';
-import { Schema as InitGeneratorSchema } from '@nrwl/node/src/generators/init/schema';
+import type { Schema as InitGeneratorSchema } from '@nrwl/node/src/generators/init/schema';
 import { eslintPluginGbVersion, nxVersion } from '../../utils/versions';
 
 export default async function initGenerator(

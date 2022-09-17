@@ -1,17 +1,16 @@
+import type { GeneratorCallback, Tree } from '@nrwl/devkit';
 import {
   formatFiles,
-  GeneratorCallback,
   getProjects,
   joinPathFragments,
   names,
   readWorkspaceConfiguration,
-  Tree,
 } from '@nrwl/devkit';
 import { getKindTypes, readCliConfig } from '../../utils/config';
 import { getCommandMarkdown } from '../../utils/markdown';
 import { getCommandTs } from '../../utils/sade';
 import { makeCommandDeclarations } from '../../utils/typescript';
-import { Schema as RefreshGeneratorSchema } from './schema';
+import type { Schema as RefreshGeneratorSchema } from './schema';
 
 export default async function refreshGenerator(
   tree: Tree,

@@ -1,4 +1,4 @@
-import { ConfigCommand } from './config';
+import type { ConfigCommand } from './config';
 import { getCommandMarkdown, tableHeader } from './markdown';
 
 const testCommand: ConfigCommand = {

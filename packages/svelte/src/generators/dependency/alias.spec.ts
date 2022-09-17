@@ -1,10 +1,10 @@
 import { factory } from 'typescript';
+import type { Alias } from './alias';
 import {
-  Alias,
-  initializerString,
-  aliasFromPropertyAssignment,
   addToSvelteConfiguration,
+  aliasFromPropertyAssignment,
   getConfiguredAliases,
+  initializerString,
 } from './alias';
 
 describe('Alias', () => {

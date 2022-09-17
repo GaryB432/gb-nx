@@ -1,23 +1,23 @@
+import type { GeneratorCallback, Tree } from '@nrwl/devkit';
 import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
-  GeneratorCallback,
   getWorkspaceLayout,
   installPackagesTask,
   joinPathFragments,
   names,
   offsetFromRoot,
   readJson,
-  Tree,
   writeJson,
 } from '@nrwl/devkit';
 import { jestProjectGenerator } from '@nrwl/jest';
 import { Linter, lintProjectGenerator } from '@nrwl/linter';
 import { join } from 'path';
-import { addCustomConfig, ESLintConfiguration } from '../../utils/eslint';
+import type { ESLintConfiguration } from '../../utils/eslint';
+import { addCustomConfig } from '../../utils/eslint';
 import initGenerator from '../init/generator';
-import { Schema as ExtensionGeneratorSchema } from './schema';
+import type { Schema as ExtensionGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends ExtensionGeneratorSchema {
   parsedTags: string[];

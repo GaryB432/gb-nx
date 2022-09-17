@@ -1,4 +1,5 @@
-import { readProjectConfiguration, Tree } from '@nrwl/devkit';
+import type { Tree } from '@nrwl/devkit';
+import { readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator, libraryGenerator } from '@nrwl/node';
 import { createSvelteKitApp, getSvelteConfig, isSvelte } from './svelte';

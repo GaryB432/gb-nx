@@ -1,6 +1,7 @@
-import { addDependenciesToPackageJson, formatFiles, Tree } from '@nrwl/devkit';
+import type { Tree } from '@nrwl/devkit';
+import { addDependenciesToPackageJson, formatFiles } from '@nrwl/devkit';
 import { chromeTypingsVersion, sassVersion } from '../../utils/versions';
-import { Schema as InitGeneratorSchema } from './schema';
+import type { Schema as InitGeneratorSchema } from './schema';
 
 export default async function (
   tree: Tree,

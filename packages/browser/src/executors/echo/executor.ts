@@ -1,7 +1,7 @@
-import { ExecutorContext } from '@nrwl/devkit';
+import type { ExecutorContext } from '@nrwl/devkit';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { Schema as EchoExecutorSchema } from './schema';
+import type { Schema as EchoExecutorSchema } from './schema';
 
 export default async function runExecutor(
   options: EchoExecutorSchema,

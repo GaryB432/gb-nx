@@ -1,7 +1,8 @@
-import { readProjectConfiguration, Tree } from '@nrwl/devkit';
+import type { Tree } from '@nrwl/devkit';
+import { readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import generator from './generator';
-import { Schema as ExtensionGeneratorSchema } from './schema';
+import type { Schema as ExtensionGeneratorSchema } from './schema';
 
 xdescribe('application generator', () => {
   let appTree: Tree;

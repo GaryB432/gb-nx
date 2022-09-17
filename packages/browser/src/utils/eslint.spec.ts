@@ -1,4 +1,5 @@
-import { addCustomConfig, ESLintConfiguration } from './eslint';
+import type { ESLintConfiguration } from './eslint';
+import { addCustomConfig } from './eslint';
 
 const someConfig = `{
   "extends": ["../../.eslintrc.json"],

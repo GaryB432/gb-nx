@@ -1,8 +1,9 @@
 import { createSvelteKitApp } from '$utils/svelte';
-import { readProjectConfiguration, Tree } from '@nrwl/devkit';
+import type { Tree } from '@nrwl/devkit';
+import { readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import generator from './generator';
-import { Schema as ApplicationGeneratorSchema } from './schema';
+import type { Schema as ApplicationGeneratorSchema } from './schema';
 
 const PRETTIERIGNORE = '.prettierignore';
 

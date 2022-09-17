@@ -1,14 +1,14 @@
 import { stringInsert } from '$utils/strings';
 import { tsquery } from '@phenomnomnominal/tsquery';
-import {
+import type {
   Identifier,
   ObjectLiteralExpression,
   PropertyAssignment,
   SourceFile,
   StringLiteral,
-  SyntaxKind,
   SyntaxList,
 } from 'typescript';
+import { SyntaxKind } from 'typescript';
 
 export interface Alias {
   name: string;

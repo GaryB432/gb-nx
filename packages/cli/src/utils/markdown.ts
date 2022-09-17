@@ -1,4 +1,4 @@
-import { ConfigCommand } from './config';
+import type { ConfigCommand } from './config';
 
 export function tableHeader(...cells: string[]): string {
   const row = tableRow(...cells);

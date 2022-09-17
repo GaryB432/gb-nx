@@ -1,4 +1,4 @@
-import { ConfigCommand, ConfigProp } from './config';
+import type { ConfigCommand, ConfigProp } from './config';
 
 function enQuote(s: string): string {
   return `'${s}'`;

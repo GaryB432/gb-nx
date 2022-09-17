@@ -1,13 +1,9 @@
+import type { Tree } from '@nrwl/devkit';
+import { readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import {
-  Tree,
-  readProjectConfiguration,
-  addProjectConfiguration,
-  readJson,
-} from '@nrwl/devkit';
 
 import generator from './generator';
-import { Schema as InitGeneratorSchema } from './schema';
+import type { Schema as InitGeneratorSchema } from './schema';
 
 xdescribe('init generator', () => {
   let appTree: Tree;

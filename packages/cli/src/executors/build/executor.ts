@@ -1,4 +1,4 @@
-import { Schema as BuildExecutorSchema } from './schema';
+import type { Schema as BuildExecutorSchema } from './schema';
 
 export default async function runExecutor(
   options: BuildExecutorSchema

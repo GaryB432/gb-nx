@@ -1,4 +1,5 @@
-import { Tree, ProjectConfiguration, joinPathFragments } from '@nrwl/devkit';
+import type { ProjectConfiguration, Tree } from '@nrwl/devkit';
+import { joinPathFragments } from '@nrwl/devkit';
 import { readModulePackageJson } from './paths';
 
 export const SVELTE_CONFIG = 'svelte.config.js';

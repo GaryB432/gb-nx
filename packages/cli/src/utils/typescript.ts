@@ -1,7 +1,7 @@
 // https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API
 
 import * as ts from 'typescript';
-import { Kind, KindThing } from './types';
+import type { Kind, KindThing } from './types';
 
 const typeNodes: Record<Kind, ts.TypeNode> = {
   string: ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),

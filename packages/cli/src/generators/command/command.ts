@@ -1,3 +1,4 @@
+import type { TargetConfiguration, Tree } from '@nrwl/devkit';
 import {
   formatFiles,
   generateFiles,
@@ -5,13 +6,12 @@ import {
   joinPathFragments,
   names,
   readWorkspaceConfiguration,
-  TargetConfiguration,
-  Tree,
 } from '@nrwl/devkit';
 import { join } from 'path';
-import { ConfigProp, readCliConfig, writeCliConfig } from '../../utils/config';
+import type { ConfigProp } from '../../utils/config';
+import { readCliConfig, writeCliConfig } from '../../utils/config';
 import refreshGenerator from '../refresh/refresh';
-import { Schema as CommandGeneratorSchema } from './schema';
+import type { Schema as CommandGeneratorSchema } from './schema';
 
 export interface NormalizedCommandSchema extends CommandGeneratorSchema {
   description?: string;

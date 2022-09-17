@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ExecutorContext } from '@nrwl/devkit';
+import type { ExecutorContext } from '@nrwl/devkit';
 import { execSync } from 'child_process';
 import { join } from 'path';
-import { Schema as BuildExecutorOptions } from './schema';
+import type { Schema as BuildExecutorOptions } from './schema';
 
 export default async function build(
   options: BuildExecutorOptions,
