@@ -224,10 +224,10 @@ describe('add-alias', () => {
     const file = `const config = {} };`;
 
     // ACT
-    const updatedFile = getConfiguredAliases(file);
+    const aliases = getConfiguredAliases(file);
 
     // ASSERT
-    expect(updatedFile).toEqual([]);
+    expect(aliases).toEqual([]);
   });
 
   it('should get no configured aliases empty assignment', () => {
@@ -241,10 +241,10 @@ describe('add-alias', () => {
     };`;
 
     // ACT
-    const updatedFile = getConfiguredAliases(file);
+    const aliases = getConfiguredAliases(file);
 
     // ASSERT
-    expect(updatedFile).toEqual([]);
+    expect(aliases).toEqual([]);
   });
 
   it('should get no configured aliases weird assignment', () => {
@@ -258,10 +258,10 @@ describe('add-alias', () => {
     };`;
 
     // ACT
-    const updatedFile = getConfiguredAliases(file);
+    const aliases = getConfiguredAliases(file);
 
     // ASSERT
-    expect(updatedFile).toEqual([]);
+    expect(aliases).toEqual([]);
   });
 
   it('should get some configured aliases', () => {
@@ -292,10 +292,10 @@ describe('add-alias', () => {
     `;
 
     // ACT
-    const updatedFile = getConfiguredAliases(file);
+    const aliases = getConfiguredAliases(file);
 
     // ASSERT
-    expect(updatedFile).toEqual([
+    expect(aliases).toEqual([
       { name: 'my-file', path: 'path/to/my-file.js' },
       { name: '@lets-go-out/vector', path: '../../libs/vector/src/index.ts' },
       { name: 'my-directory/*', path: 'path/to/my-directory/*' },
