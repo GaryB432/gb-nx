@@ -18,6 +18,19 @@ export interface Alias {
 const SVELTE_CONFIG_KIT_OBJECT_LITERAL_SELECTOR =
   'PropertyAssignment:has(Identifier[name=kit]) ObjectLiteralExpression';
 
+function getKitLiteral(
+  configContents: string
+): ObjectLiteralExpression | undefined {
+  const ast: SourceFile = tsquery.ast(configContents);
+  const qresults = tsquery<ObjectLiteralExpression>(
+    ast,
+    SVELTE_CONFIG_KIT_OBJECT_LITERAL_SELECTOR,
+    { visitAllChildren: true }
+  );
+
+  return qresults[0];
+}
+
 function getAliasesFromPropertyAssignment(
   aliasAssignment: PropertyAssignment
 ): Alias[] {
@@ -44,16 +57,9 @@ function getAliasesFromPropertyAssignment(
 }
 
 export function getConfiguredAliases(configContents: string): Alias[] {
-  const ast: SourceFile = tsquery.ast(configContents);
-  const qresults = tsquery<ObjectLiteralExpression>(
-    ast,
-    SVELTE_CONFIG_KIT_OBJECT_LITERAL_SELECTOR,
-    { visitAllChildren: true }
-  );
+  const kitLiteral = getKitLiteral(configContents);
 
-  if (qresults && qresults.length > 0) {
-    const kitLiteral = qresults[0] as ObjectLiteralExpression;
-
+  if (kitLiteral) {
     const syntaxList = kitLiteral.getChildren().find((node) => {
       return node.kind === SyntaxKind.SyntaxList;
     }) as SyntaxList;
@@ -87,16 +93,9 @@ export function addToSvelteConfiguration(
   configContents: string,
   alias: Alias
 ): string {
-  const ast: SourceFile = tsquery.ast(configContents);
-  const qresults = tsquery<ObjectLiteralExpression>(
-    ast,
-    SVELTE_CONFIG_KIT_OBJECT_LITERAL_SELECTOR,
-    { visitAllChildren: true }
-  );
+  const kitLiteral = getKitLiteral(configContents);
 
-  if (qresults && qresults.length > 0) {
-    const kitLiteral = qresults[0] as ObjectLiteralExpression;
-
+  if (kitLiteral) {
     const syntaxList = kitLiteral.getChildren().find((node) => {
       return node.kind === SyntaxKind.SyntaxList;
     }) as SyntaxList;
