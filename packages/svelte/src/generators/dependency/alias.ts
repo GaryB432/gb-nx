@@ -15,6 +15,11 @@ export interface Alias {
   path: string;
 }
 
+export interface AliasConfiguration {
+  aliases: Alias[];
+  useComma: boolean;
+}
+
 const SVELTE_CONFIG_KIT_OBJECT_LITERAL_SELECTOR =
   'PropertyAssignment:has(Identifier[name=kit]) ObjectLiteralExpression';
 
@@ -32,33 +37,15 @@ function getKitLiteral(
 }
 
 function isCommaNeeded(aliasAssignment: PropertyAssignment): boolean {
-  const objectLiteral = aliasAssignment.getChildren().find((node) => {
-    return node.kind === SyntaxKind.ObjectLiteralExpression;
-  }) as ObjectLiteralExpression | undefined;
-
-  if (!objectLiteral) {
-    return false;
+  if (aliasAssignment.getChildCount() !== 3) {
+    throw new Error('expecting 3');
   }
+  const aliasInitializer =
+    aliasAssignment.initializer as ObjectLiteralExpression;
+  const aliasSyntaxList = aliasInitializer.getChildAt(1) as SyntaxList;
 
-  const syntaxList = objectLiteral.getChildren().find((node) => {
-    return node.kind === SyntaxKind.SyntaxList;
-  }) as SyntaxList | undefined;
-
-  if (!syntaxList) {
-    return false;
-  }
-
-  if (syntaxList.getChildCount() === 0) {
-    return false;
-  }
-
-  const lastToken = syntaxList.getLastToken();
-
-  if (!lastToken) {
-    throw new Error(`no last token`);
-  }
-
-  return lastToken.kind !== SyntaxKind.CommaToken;
+  const lastToken = aliasSyntaxList.getLastToken();
+  return lastToken ? lastToken.kind !== SyntaxKind.CommaToken : false;
 }
 
 function getAliasesFromPropertyAssignment(
@@ -141,11 +128,10 @@ export function addToSvelteConfiguration(
     if (aliasAssignment) {
       const brace = aliasAssignment.getLastToken();
       if (brace && brace.kind === SyntaxKind.CloseBraceToken) {
-        const commaNeeded = isCommaNeeded(aliasAssignment);
         configContents = stringInsert(
           configContents,
           brace.getFullStart(),
-          commaNeeded,
+          isCommaNeeded(aliasAssignment),
           initializerString(alias)
         );
       }

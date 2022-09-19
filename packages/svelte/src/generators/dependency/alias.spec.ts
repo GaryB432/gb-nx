@@ -364,3 +364,182 @@ describe('add-alias', () => {
     ]);
   });
 });
+
+describe('comma handling', () => {
+  let alias: Alias;
+
+  beforeEach(() => {
+    alias = { name: '@name/fun', path: '../a/b/c/moar.ts' };
+  });
+
+  it('one with comma', () => {
+    // ARRANGE
+    const file = `const config = {
+      kit: {
+        alias: {
+          'my-file': 'path/to/my-file.js',
+        },
+      }
+    }`;
+
+    // ACT
+    const updatedFile = addToSvelteConfiguration(file, alias);
+
+    // ASSERT
+    expect(updatedFile).toMatchInlineSnapshot(`
+      "const config = {
+            kit: {
+              alias: {
+                'my-file': 'path/to/my-file.js','@name/fun': '../a/b/c/moar.ts'
+              },
+            }
+          }"
+    `);
+  });
+
+  it('one with no comma', () => {
+    // ARRANGE
+    const file = `const config = {
+      kit: {
+        alias: {
+          'my-file': 'path/to/my-file.js'
+        },
+      }
+    }`;
+
+    // ACT
+    const updatedFile = addToSvelteConfiguration(file, alias);
+
+    // ASSERT
+    expect(updatedFile).toMatchInlineSnapshot(`
+      "const config = {
+            kit: {
+              alias: {
+                'my-file': 'path/to/my-file.js','@name/fun': '../a/b/c/moar.ts'
+              },
+            }
+          }"
+    `);
+  });
+
+  it('none without comma', () => {
+    // ARRANGE
+    const file = `const config = {
+      kit: {
+        alias: {},
+      }
+    }`;
+
+    // ACT
+    const updatedFile = addToSvelteConfiguration(file, alias);
+
+    // ASSERT
+    expect(updatedFile).toMatchInlineSnapshot(`
+      "const config = {
+            kit: {
+              alias: {'@name/fun': '../a/b/c/moar.ts'},
+            }
+          }"
+    `);
+  });
+
+  it('many with comma', () => {
+    // ARRANGE
+    const file = `const config = {
+      kit: {
+        alias: {
+          'my-file': 'path/to/my-file.js',
+          'apple': 'path/to/my-file.js',
+          'banana': 'path/to/my-file.js',
+        },
+      }
+    }`;
+
+    // ACT
+    const updatedFile = addToSvelteConfiguration(file, alias);
+
+    // ASSERT
+    expect(updatedFile).toMatchInlineSnapshot(`
+      "const config = {
+            kit: {
+              alias: {
+                'my-file': 'path/to/my-file.js',
+                'apple': 'path/to/my-file.js',
+                'banana': 'path/to/my-file.js','@name/fun': '../a/b/c/moar.ts'
+              },
+            }
+          }"
+    `);
+  });
+
+  it('many without comma', () => {
+    // ARRANGE
+    const file = `const config = {
+      kit: {
+        alias: {
+          'my-file': 'path/to/my-file.js',
+          'apple': 'path/to/my-file.js',
+          'banana': 'path/to/my-file.js'
+        },
+      }
+    }`;
+
+    // ACT
+    const updatedFile = addToSvelteConfiguration(file, alias);
+
+    // ASSERT
+    expect(updatedFile).toMatchInlineSnapshot(`
+      "const config = {
+            kit: {
+              alias: {
+                'my-file': 'path/to/my-file.js',
+                'apple': 'path/to/my-file.js',
+                'banana': 'path/to/my-file.js','@name/fun': '../a/b/c/moar.ts'
+              },
+            }
+          }"
+    `);
+  });
+
+  it('handles weirdness', () => {
+    // ARRANGE
+    const file = `const config = {
+      kit: {
+        alias: { ok: false },
+      }
+    }`;
+
+    // ACT
+    const updatedFile = addToSvelteConfiguration(file, alias);
+
+    // ASSERT
+    expect(updatedFile).toMatchInlineSnapshot(`
+      "const config = {
+            kit: {
+              alias: { ok: false,'@name/fun': '../a/b/c/moar.ts' },
+            }
+          }"
+    `);
+  });
+
+  it('handles weirdness with comma', () => {
+    // ARRANGE
+    const file = `const config = {
+      kit: {
+        alias: { ok: false, }
+      }
+    }`;
+
+    // ACT
+    const updatedFile = addToSvelteConfiguration(file, alias);
+
+    // ASSERT
+    expect(updatedFile).toMatchInlineSnapshot(`
+      "const config = {
+            kit: {
+              alias: { ok: false,'@name/fun': '../a/b/c/moar.ts' }
+            }
+          }"
+    `);
+  });
+});
