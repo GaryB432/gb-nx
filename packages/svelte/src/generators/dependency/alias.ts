@@ -31,6 +31,36 @@ function getKitLiteral(
   return qresults[0];
 }
 
+function isCommaNeeded(aliasAssignment: PropertyAssignment): boolean {
+  const objectLiteral = aliasAssignment.getChildren().find((node) => {
+    return node.kind === SyntaxKind.ObjectLiteralExpression;
+  }) as ObjectLiteralExpression | undefined;
+
+  if (!objectLiteral) {
+    return false;
+  }
+
+  const syntaxList = objectLiteral.getChildren().find((node) => {
+    return node.kind === SyntaxKind.SyntaxList;
+  }) as SyntaxList | undefined;
+
+  if (!syntaxList) {
+    return false;
+  }
+
+  if (syntaxList.getChildCount() === 0) {
+    return false;
+  }
+
+  const lastToken = syntaxList.getLastToken();
+
+  if (!lastToken) {
+    throw new Error(`no last token`);
+  }
+
+  return lastToken.kind !== SyntaxKind.CommaToken;
+}
+
 function getAliasesFromPropertyAssignment(
   aliasAssignment: PropertyAssignment
 ): Alias[] {
@@ -109,10 +139,9 @@ export function addToSvelteConfiguration(
       ) as PropertyAssignment;
 
     if (aliasAssignment) {
-      const aliases = getConfiguredAliases(configContents);
       const brace = aliasAssignment.getLastToken();
       if (brace && brace.kind === SyntaxKind.CloseBraceToken) {
-        const commaNeeded = aliases.length > 0;
+        const commaNeeded = isCommaNeeded(aliasAssignment);
         configContents = stringInsert(
           configContents,
           brace.getFullStart(),

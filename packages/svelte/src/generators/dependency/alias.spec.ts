@@ -60,7 +60,7 @@ describe('add-alias', () => {
         alias: {
           'my-file': 'path/to/my-file.js',
           '@lets-go-out/vector': '../../libs/vector/src/index.ts',
-          'my-directory/*': 'path/to/my-directory/*'
+          'my-directory/*': 'path/to/my-directory/*',
         },
         whoKnows: true,
       },
@@ -102,7 +102,7 @@ describe('add-alias', () => {
           "
     `);
   });
-  it('should add the given alias to a svelte alias configuration', () => {
+  it('should add the given alias to a svelte alias configuration no comma', () => {
     // ARRANGE
     const file = `const config = {
       kit: {
@@ -110,6 +110,39 @@ describe('add-alias', () => {
           'my-file': 'path/to/my-file.js',
           '@lets-go-out/vector': '../../libs/vector/src/index.ts',
           'my-directory/*': 'path/to/my-directory/*'
+        },
+      }
+    };
+    export default config;
+    `;
+
+    // ACT
+    const updatedFile = addToSvelteConfiguration(file, alias);
+
+    // ASSERT
+    expect(updatedFile).toMatchInlineSnapshot(`
+      "const config = {
+            kit: {
+              alias: {
+                'my-file': 'path/to/my-file.js',
+                '@lets-go-out/vector': '../../libs/vector/src/index.ts',
+                'my-directory/*': 'path/to/my-directory/*','@name/ok': '../a/b/c/fun.ts'
+              },
+            }
+          };
+          export default config;
+          "
+    `);
+  });
+
+  it('should handle trailing comma', () => {
+    // ARRANGE
+    const file = `const config = {
+      kit: {
+        alias: {
+          'my-file': 'path/to/my-file.js',
+          '@lets-go-out/vector': '../../libs/vector/src/index.ts',
+          'my-directory/*': 'path/to/my-directory/*',
         },
       }
     };
