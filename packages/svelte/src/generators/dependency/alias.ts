@@ -112,7 +112,7 @@ export function addToSvelteConfiguration(
       const aliases = getConfiguredAliases(configContents);
       const brace = aliasAssignment.getLastToken();
       if (brace && brace.kind === SyntaxKind.CloseBraceToken) {
-        const commaNeeded = aliases.length > 1;
+        const commaNeeded = aliases.length > 0;
         configContents = stringInsert(
           configContents,
           brace.getFullStart(),

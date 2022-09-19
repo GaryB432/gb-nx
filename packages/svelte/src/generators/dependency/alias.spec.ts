@@ -135,6 +135,35 @@ describe('add-alias', () => {
     `);
   });
 
+  it('should add the given alias to a svelte just one alias configuration', () => {
+    // ARRANGE
+    const file = `const config = {
+      kit: {
+        alias: {
+          'my-directory/*': 'path/to/my-directory/*'
+        },
+      }
+    };
+    export default config;
+    `;
+
+    // ACT
+    const updatedFile = addToSvelteConfiguration(file, alias);
+
+    // ASSERT
+    expect(updatedFile).toMatchInlineSnapshot(`
+      "const config = {
+            kit: {
+              alias: {
+                'my-directory/*': 'path/to/my-directory/*','@name/ok': '../a/b/c/fun.ts'
+              },
+            }
+          };
+          export default config;
+          "
+    `);
+  });
+
   it('should add the given alias to a svelte kit configuration', () => {
     // ARRANGE
     const file = `const config = {
