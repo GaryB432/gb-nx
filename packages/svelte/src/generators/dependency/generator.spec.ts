@@ -1,8 +1,8 @@
-import { createSvelteKitApp } from '$utils/svelte';
 import type { Tree } from '@nrwl/devkit';
 import { readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator, libraryGenerator } from '@nrwl/node';
+import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
 import type { Schema as DependencyGeneratorSchema } from './schema';
 

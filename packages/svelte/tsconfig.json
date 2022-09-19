@@ -1,10 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "paths": {
-      "$utils/*": ["packages/svelte/src/utils/*"]
-    }
+    "module": "commonjs"
   },
   "files": [],
   "include": [],

@@ -1,4 +1,3 @@
-import { getSvelteConfig } from '$utils/svelte';
 import type { ProjectConfiguration, Tree } from '@nrwl/devkit';
 import {
   formatFiles,
@@ -9,6 +8,7 @@ import {
   readWorkspaceConfiguration,
   updateProjectConfiguration,
 } from '@nrwl/devkit';
+import { getSvelteConfig } from '../../utils/svelte';
 import type { Alias } from './alias';
 import { addToSvelteConfiguration, getConfiguredAliases } from './alias';
 import type { Schema as DependencyGeneratorSchema } from './schema';

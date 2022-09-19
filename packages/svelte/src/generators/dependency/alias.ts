@@ -1,4 +1,3 @@
-import { stringInsert } from '$utils/strings';
 import { tsquery } from '@phenomnomnominal/tsquery';
 import type {
   Identifier,
@@ -9,6 +8,7 @@ import type {
   SyntaxList,
 } from 'typescript';
 import { SyntaxKind } from 'typescript';
+import { stringInsert } from '../../utils/strings';
 
 export interface Alias {
   name: string;

@@ -1,4 +1,3 @@
-import { getSveltePackageVersions, isSvelte } from '$utils/svelte';
 import type {
   GeneratorCallback,
   ProjectConfiguration,
@@ -13,6 +12,7 @@ import {
   output,
 } from '@nrwl/devkit';
 import { join } from 'path';
+import { getSveltePackageVersions, isSvelte } from '../../utils/svelte';
 import type { Schema as ApplicationGeneratorSchema } from './schema';
 
 function sveltekitConfig(o: NormalizedSchema): ProjectConfiguration {

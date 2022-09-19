@@ -1,7 +1,7 @@
-import { gbSchematicsVersion } from '$utils/versions';
 import type { GeneratorCallback, Tree } from '@nrwl/devkit';
 import { addDependenciesToPackageJson, formatFiles } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import { gbSchematicsVersion } from '../../utils/versions';
 import type { Schema } from './schema';
 
 function updateDependencies(tree: Tree) {
