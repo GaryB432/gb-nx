@@ -77,7 +77,7 @@ The generator will
 - add an implicit dependency to the SvelteKit project
 
 ```
-nx g @gb-nx/svelte:dependency --project web --dependency my-lib --scope @my-scope
+nx g @gb-nx/svelte:dependency --project web --dependency my-lib
 ```
 
 | OPTION         | DESCRIPTION                                                    |
