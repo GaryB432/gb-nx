@@ -28,3 +28,13 @@ export function readModulePackageJson(
     root: joinPathFragments(config.root, 'node_modules', mod),
   });
 }
+
+export function makeAliasName(name: string, scope?: string): string {
+  if (!scope) {
+    return name;
+  }
+  if (!name) {
+    return '';
+  }
+  return ['@'.concat(scope), name].join('/');
+}

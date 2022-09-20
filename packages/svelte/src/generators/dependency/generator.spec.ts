@@ -1,5 +1,8 @@
 import type { Tree } from '@nrwl/devkit';
-import { readProjectConfiguration } from '@nrwl/devkit';
+import {
+  readProjectConfiguration,
+  readWorkspaceConfiguration,
+} from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator, libraryGenerator } from '@nrwl/node';
 import { createSvelteKitApp } from '../../utils/svelte';
@@ -28,8 +31,10 @@ describe('dependency generator', () => {
 
   it('should add dep', async () => {
     await generator(appTree, options);
+    const ws = readWorkspaceConfiguration(appTree);
+    expect(ws.npmScope).toEqual('proj');
     const content = appTree.read('apps/test/svelte.config.js');
-    expect(content?.toString()).toContain("'dep': '../../libs/dep/src'");
+    expect(content?.toString()).toContain("'@proj/dep': '../../libs/dep/src'");
   });
 });
 
@@ -38,7 +43,7 @@ describe('dependency generator with scope', () => {
   const options: DependencyGeneratorSchema = {
     project: 'test',
     dependency: 'dep',
-    scope: '@tbd',
+    scope: 'tbd',
   };
 
   beforeEach(async () => {

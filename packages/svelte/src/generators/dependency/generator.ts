@@ -8,6 +8,7 @@ import {
   readWorkspaceConfiguration,
   updateProjectConfiguration,
 } from '@nrwl/devkit';
+import { makeAliasName } from '../../utils/paths';
 import { getSvelteConfig } from '../../utils/svelte';
 import type { Alias } from './alias';
 import { addToSvelteConfiguration, getConfiguredAliases } from './alias';
@@ -35,6 +36,8 @@ export default async function (
     `project '${p}' is not configured for svelte`;
   const ws = readWorkspaceConfiguration(tree);
   const projName = schema.project ?? ws.defaultProject;
+  const aliasScope = schema.scope ?? ws.npmScope;
+
   const projects = getProjects(tree);
   const project = projects.get(projName);
 
@@ -57,10 +60,7 @@ export default async function (
   }
 
   const aliases = getConfiguredAliases(config).slice(0);
-
-  const depName = schema.scope
-    ? [schema.scope, schema.dependency].join('/')
-    : schema.dependency;
+  const depName = makeAliasName(schema.dependency, aliasScope);
 
   if (dsrc && psrc) {
     const path = joinPathFragments(offsetFromRoot(dep.root), dsrc);
