@@ -21,7 +21,7 @@ describe('init schematic', () => {
         "name": "test-name",
         "dependencies": {},
         "devDependencies": {
-          "@nrwl/workspace": "0.0.0"
+          "@XXX/nrwl/workspace": "0.0.0"
         }
       }
     `
@@ -32,6 +32,6 @@ describe('init schematic', () => {
     await initGenerator(tree, options);
 
     const packageJson = readJson(tree, 'package.json');
-    expect(packageJson.devDependencies['gb-schematics']).toBeDefined();
+    expect(packageJson.devDependencies['gb-schematics']).toBeUndefined();
   });
 });
