@@ -41,6 +41,26 @@ describe('application generator', () => {
     `);
   });
 
+  it('should not update prettier twice', async () => {
+    appTree.write(
+      PRETTIERIGNORE,
+      '# hi\n\ndist\nstuff\n\n# Svelte-kit output\n**/.svelte-kit\n**/build\n'
+    );
+    await generator(appTree, options);
+    const p = appTree.read(PRETTIERIGNORE);
+    expect(p?.toString()).toMatchInlineSnapshot(`
+      "# hi
+
+      dist
+      stuff
+
+      # Svelte-kit output
+      **/.svelte-kit
+      **/build
+      "
+    `);
+  });
+
   it('should create prettier', async () => {
     await generator(appTree, options);
     const p = appTree.read(PRETTIERIGNORE);
