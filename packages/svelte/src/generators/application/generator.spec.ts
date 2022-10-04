@@ -57,37 +57,27 @@ describe('application generator', () => {
   it('should go', async () => {
     await generator(appTree, options);
     const config = readProjectConfiguration(appTree, 'test');
-    expect(config).toMatchInlineSnapshot(`
-      Object {
-        "$schema": "../../node_modules/nx/schemas/project-schema.json",
-        "projectType": "application",
-        "root": "apps/test",
-        "sourceRoot": "apps/test/src",
-        "tags": Array [],
-        "targets": Object {
-          "build": Object {
-            "executor": "@nrwl/workspace:run-commands",
-            "options": Object {
-              "command": "npx vite build",
-              "cwd": "apps/test",
-            },
-          },
-          "lint": Object {
-            "executor": "@nrwl/workspace:run-commands",
-            "options": Object {
-              "command": "npx eslint .",
-              "cwd": "apps/test",
-            },
-          },
-          "serve": Object {
-            "executor": "@nrwl/workspace:run-commands",
-            "options": Object {
-              "command": "npx vite dev",
-              "cwd": "apps/test",
-            },
-          },
+    expect(config).toEqual({
+      $schema: '../../node_modules/nx/schemas/project-schema.json',
+      root: 'apps/test',
+      name: 'test',
+      projectType: 'application',
+      sourceRoot: 'apps/test/src',
+      targets: {
+        build: {
+          executor: 'nx:run-commands',
+          options: { command: 'npx vite build', cwd: 'apps/test' },
         },
-      }
-    `);
+        serve: {
+          executor: 'nx:run-commands',
+          options: { command: 'npx vite dev', cwd: 'apps/test' },
+        },
+        lint: {
+          executor: 'nx:run-commands',
+          options: { command: 'npx eslint .', cwd: 'apps/test' },
+        },
+      },
+      tags: [],
+    });
   });
 });

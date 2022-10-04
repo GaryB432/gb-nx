@@ -20,25 +20,26 @@ function sveltekitConfig(o: NormalizedSchema): ProjectConfiguration {
   const root = cwd;
   return {
     root,
+    name: o.name,
     projectType: 'application',
     sourceRoot: joinPathFragments(root, 'src'),
     targets: {
       build: {
-        executor: '@nrwl/workspace:run-commands',
+        executor: 'nx:run-commands',
         options: {
           command: 'npx vite build',
           cwd,
         },
       },
       serve: {
-        executor: '@nrwl/workspace:run-commands',
+        executor: 'nx:run-commands',
         options: {
           command: 'npx vite dev',
           cwd,
         },
       },
       lint: {
-        executor: '@nrwl/workspace:run-commands',
+        executor: 'nx:run-commands',
         options: {
           command: 'npx eslint .',
           cwd,
