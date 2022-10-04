@@ -86,8 +86,8 @@ function normalizeOptions(
 
 function updatePrettierIgnore(tree: Tree, options: NormalizedSchema) {
   const fname = '.prettierignore';
-  const comment = '# Svelte-kit output';
-  const newPatterns = ['**/.svelte-kit', '**/build'];
+  const tbs = ['.svelte-kit', 'build'];
+  const newPatterns = tbs.map((p) => joinPathFragments(options.projectRoot, p));
 
   const buf = tree.read(fname);
   const content = buf
@@ -96,10 +96,12 @@ function updatePrettierIgnore(tree: Tree, options: NormalizedSchema) {
 
   const patterns = content.split('\n');
 
-  if (!patterns.includes(comment)) {
-    const lines = [...patterns, comment, ...newPatterns, ''];
-    tree.write(fname, lines.join('\n'));
-  }
+  const lines = patterns
+    .concat(newPatterns.filter((p) => !patterns.includes(p)))
+    .concat('');
+
+  // const lines = [...patterns, ...newPatterns, ''];
+  tree.write(fname, lines.join('\n'));
 }
 
 // function addFiles(tree: Tree, options: NormalizedSchema) {

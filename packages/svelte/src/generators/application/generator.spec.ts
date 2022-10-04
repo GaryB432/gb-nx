@@ -34,9 +34,8 @@ describe('application generator', () => {
       dist
       stuff
 
-      # Svelte-kit output
-      **/.svelte-kit
-      **/build
+      apps/test/.svelte-kit
+      apps/test/build
       "
     `);
   });
@@ -44,7 +43,7 @@ describe('application generator', () => {
   it('should not update prettier twice', async () => {
     appTree.write(
       PRETTIERIGNORE,
-      '# hi\n\ndist\nstuff\n\n# Svelte-kit output\n**/.svelte-kit\n**/build\n'
+      '# hi\n\ndist\nstuff\n\napps/test/.svelte-kit\napps/test/build\n'
     );
     await generator(appTree, options);
     const p = appTree.read(PRETTIERIGNORE);
@@ -54,9 +53,9 @@ describe('application generator', () => {
       dist
       stuff
 
-      # Svelte-kit output
-      **/.svelte-kit
-      **/build
+      apps/test/.svelte-kit
+      apps/test/build
+
       "
     `);
   });
@@ -67,9 +66,8 @@ describe('application generator', () => {
     expect(p?.toString()).toMatchInlineSnapshot(`
       "# Add files here to ignore them from prettier formatting
 
-      # Svelte-kit output
-      **/.svelte-kit
-      **/build
+      apps/test/.svelte-kit
+      apps/test/build
       "
     `);
   });
