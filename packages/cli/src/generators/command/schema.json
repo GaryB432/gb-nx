@@ -16,7 +16,8 @@
       "description": "The name of the project.",
       "$default": {
         "$source": "projectName"
-      }
+      },
+      "alias": "p"
     },
     "name": {
       "type": "string",

@@ -11,7 +11,8 @@
       "$default": {
         "$source": "argv",
         "index": 0
-      }
+      },
+      "alias": "p"
     },
     "dependency": {
       "type": "string",
