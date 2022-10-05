@@ -8,6 +8,7 @@ import {
   formatFiles,
   getWorkspaceLayout,
   joinPathFragments,
+  logger,
   names,
   output,
 } from '@nrwl/devkit';
@@ -123,6 +124,9 @@ export default async function (
   tree: Tree,
   options: ApplicationGeneratorSchema
 ): Promise<GeneratorCallback> {
+  logger.warn(
+    'The generator is deprecated and will be removed in @gb-nx/svelte@2.0.0'
+  );
   const normalizedOptions = normalizeOptions(tree, options);
   const config = sveltekitConfig(normalizedOptions);
 
