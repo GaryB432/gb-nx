@@ -12,5 +12,8 @@
   },
   "homepage": "https://github.com/GaryB432/gb-nx/tree/master/packages/cli",
   "generators": "./generators.json",
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "publishConfig": {
+    "access": "public"
+  }
 }

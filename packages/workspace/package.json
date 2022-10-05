@@ -15,5 +15,8 @@
   "executors": "./executors.json",
   "dependencies": {
     "gb-schematics": "^2.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
