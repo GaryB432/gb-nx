@@ -1,30 +1,36 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { GeneratorCallback, Tree } from '@nrwl/devkit';
 import {
   addDependenciesToPackageJson,
   formatFiles,
+  GeneratorCallback,
   getProjects,
   getWorkspaceLayout,
+  installPackagesTask,
   joinPathFragments,
   logger,
   names,
+  TargetConfiguration,
+  Tree,
+  updateProjectConfiguration,
 } from '@nrwl/devkit';
 import * as ts from 'typescript';
 import type { Schema as NxJunitGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxJunitGeneratorSchema {
-  tbd: boolean;
+interface JestTargetOptions {
+  jestConfig: string;
 }
 
 function handleJestConfig(sourceFile: ts.SourceFile, rptrs: string): string {
   const sourceText = sourceFile.getFullText();
-  const ea = sourceFile.getChildAt(0).getChildAt(0) as ts.ExportAssignment;
+  const exportAssignment = sourceFile
+    .getChildAt(0)
+    .getChildAt(0) as ts.ExportAssignment;
 
-  if (ea.kind !== ts.SyntaxKind.ExportAssignment) {
+  if (exportAssignment.kind !== ts.SyntaxKind.ExportAssignment) {
     logger.warn('unexpected configuration');
   }
 
-  const ole = ea.expression as ts.ObjectLiteralExpression;
+  const ole = exportAssignment.expression as ts.ObjectLiteralExpression;
   const lt = ole.getLastToken()!;
   const position = lt.getFullStart();
   let alreadyReporters = false;
@@ -40,48 +46,23 @@ function handleJestConfig(sourceFile: ts.SourceFile, rptrs: string): string {
       );
 }
 
-function normalizeOptions(
-  _tree: Tree,
-  options: NxJunitGeneratorSchema
-): NormalizedSchema {
-  const project = options.project || 'N/A';
-  const reporterVersion = options.reporterVersion ?? '^14.0.0';
-  return { project, reporterVersion, tbd: true };
-}
-
-export default async function (
+function updateProjectJestConfig(
   tree: Tree,
-  options: NxJunitGeneratorSchema
-): Promise<GeneratorCallback> {
-  const normalizedOptions = normalizeOptions(tree, options);
-  const ws = getWorkspaceLayout(tree);
-  const ps = getProjects(tree);
-
-  const proj = ps.get(normalizedOptions.project ?? '');
-
-  if (!proj) {
-    throw new Error('project not found');
-  }
-
-  const testtarget = proj.targets!['test'];
-  const outputDirectory = joinPathFragments(
-    'junit',
-    proj.projectType === 'application' ? ws.appsDir : ws.libsDir
-  );
-  const outputName = names(normalizedOptions.project!).fileName + '.xml';
-
-  if (testtarget) {
-    const buff = tree.read(testtarget.options.jestConfig);
-    const contents = buff ? buff.toString() : 'export default {};';
-    const newContents = handleJestConfig(
-      ts.createSourceFile(
-        '',
-        contents,
-        ts.ScriptTarget.ES2015,
-        true,
-        ts.ScriptKind.TS
-      ),
-      `reporters: [
+  jestConfig: string,
+  outputDirectory: string,
+  outputName: string
+) {
+  const buff = tree.read(jestConfig);
+  const contents = buff ? buff.toString() : 'export default {};';
+  const newContents = handleJestConfig(
+    ts.createSourceFile(
+      '',
+      contents,
+      ts.ScriptTarget.ES2015,
+      true,
+      ts.ScriptKind.TS
+    ),
+    `reporters: [
         'default',
         [
           'jest-junit',
@@ -91,16 +72,57 @@ export default async function (
           },
         ],
       ]`
-    );
-    if (newContents !== contents) {
-      tree.write(testtarget.options.jestConfig, newContents);
+  );
+  if (newContents !== contents) {
+    tree.write(jestConfig, newContents);
+  }
+}
+
+export default async function (
+  tree: Tree,
+  options: NxJunitGeneratorSchema
+): Promise<GeneratorCallback> {
+  // const normalizedOptions = normalizeOptions(tree, options);
+  const ws = getWorkspaceLayout(tree);
+  const ps = getProjects(tree);
+
+  const proj = ps.get(options.project ?? '');
+
+  if (!proj) {
+    throw new Error('project not found');
+  }
+
+  proj.name = proj.name ?? '';
+
+  if (proj.targets) {
+    const testtarget: TargetConfiguration<JestTargetOptions> =
+      proj.targets['test'];
+
+    if (testtarget && testtarget.options) {
+      const targetOutputs = testtarget.outputs ?? [];
+      const outputName = names(proj.name).fileName + '.xml';
+      const outputDirectory = joinPathFragments(
+        'junit',
+        proj.projectType === 'application' ? ws.appsDir : ws.libsDir
+      );
+
+      updateProjectJestConfig(
+        tree,
+        testtarget.options.jestConfig,
+        outputDirectory,
+        outputName
+      );
+      targetOutputs.push(joinPathFragments(outputDirectory, outputName));
+      testtarget.outputs = targetOutputs;
+      updateProjectConfiguration(tree, proj.name, proj);
     }
   }
+
   const installTask = addDependenciesToPackageJson(
     tree,
     {},
     {
-      'jest-junit': normalizedOptions.reporterVersion || '*',
+      'jest-junit': options.reporterVersion || '*',
     }
   );
 
@@ -108,5 +130,6 @@ export default async function (
 
   return async () => {
     await installTask();
+    installPackagesTask(tree);
   };
 }

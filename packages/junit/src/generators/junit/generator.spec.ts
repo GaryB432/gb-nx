@@ -143,6 +143,7 @@ describe('junit generator', () => {
       'coverage/apps/test',
       'more/files/test',
       'way/more/than/normal',
+      'junit/apps/test.xml',
     ]);
   });
 });
