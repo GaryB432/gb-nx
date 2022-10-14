@@ -3,6 +3,7 @@
   "cli": "nx",
   "$id": "NxJunit",
   "title": "",
+  "description": "Add Junit reporter to your project",
   "type": "object",
   "properties": {
     "project": {

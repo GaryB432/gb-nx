@@ -116,6 +116,7 @@ describe('junit generator', () => {
       },
       tags: [],
     });
+    appTree.write('.gitignore', 'a\nb\nc\n')
     appTree.write('apps/test/jest.config.ts', jestConfigScript);
   });
 
@@ -145,5 +146,10 @@ describe('junit generator', () => {
       'way/more/than/normal',
       'junit/apps/test.xml',
     ]);
+  });
+
+  it('should add to gitignore', async () => {
+    await generator(appTree, options);
+    expect(appTree.read('.gitignore')?.toString()).toContain('\n/junit\n');
   });
 });

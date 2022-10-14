@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import type {
+  GeneratorCallback,
+  TargetConfiguration,
+  Tree,
+} from '@nrwl/devkit';
 import {
   addDependenciesToPackageJson,
   formatFiles,
-  GeneratorCallback,
   getProjects,
   getWorkspaceLayout,
   installPackagesTask,
   joinPathFragments,
   logger,
   names,
-  TargetConfiguration,
-  Tree,
   updateProjectConfiguration,
 } from '@nrwl/devkit';
 import * as ts from 'typescript';
@@ -46,7 +48,7 @@ function handleJestConfig(sourceFile: ts.SourceFile, rptrs: string): string {
       );
 }
 
-function updateProjectJestConfig(
+function updateJestConfig(
   tree: Tree,
   jestConfig: string,
   outputDirectory: string,
@@ -78,21 +80,34 @@ function updateProjectJestConfig(
   }
 }
 
+function updateGitIgnore(tree: Tree) {
+  const fn = '.gitignore';
+  const newIgnore = '/junit';
+  const buff = tree.read(fn);
+  const ignoreds = buff
+    ? buff.toString().split('\n')
+    : [
+        '# See http://help.github.com/ignore-files/ for more about ignoring files.',
+      ];
+  if (!ignoreds.includes(newIgnore)) {
+    tree.write(fn, [...ignoreds, newIgnore, ''].join('\n'));
+  }
+}
+
 export default async function (
   tree: Tree,
   options: NxJunitGeneratorSchema
 ): Promise<GeneratorCallback> {
-  // const normalizedOptions = normalizeOptions(tree, options);
   const ws = getWorkspaceLayout(tree);
   const ps = getProjects(tree);
 
-  const proj = ps.get(options.project ?? '');
+  options.project = options.project ?? '';
+
+  const proj = ps.get(options.project);
 
   if (!proj) {
     throw new Error('project not found');
   }
-
-  proj.name = proj.name ?? '';
 
   if (proj.targets) {
     const testtarget: TargetConfiguration<JestTargetOptions> =
@@ -100,21 +115,24 @@ export default async function (
 
     if (testtarget && testtarget.options) {
       const targetOutputs = testtarget.outputs ?? [];
-      const outputName = names(proj.name).fileName + '.xml';
+      const outputName = names(options.project).fileName + '.xml';
       const outputDirectory = joinPathFragments(
         'junit',
         proj.projectType === 'application' ? ws.appsDir : ws.libsDir
       );
 
-      updateProjectJestConfig(
+      updateJestConfig(
         tree,
         testtarget.options.jestConfig,
         outputDirectory,
         outputName
       );
-      targetOutputs.push(joinPathFragments(outputDirectory, outputName));
-      testtarget.outputs = targetOutputs;
-      updateProjectConfiguration(tree, proj.name, proj);
+      testtarget.outputs = [
+        ...targetOutputs,
+        joinPathFragments(outputDirectory, outputName),
+      ];
+      updateProjectConfiguration(tree, options.project, proj);
+      updateGitIgnore(tree);
     }
   }
 
