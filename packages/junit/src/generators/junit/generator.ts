@@ -129,7 +129,7 @@ export default async function (
       );
       testtarget.outputs = [
         ...targetOutputs,
-        joinPathFragments(outputDirectory, outputName),
+        joinPathFragments('{workspaceRoot}', outputDirectory, outputName),
       ];
       updateProjectConfiguration(tree, options.project, proj);
       updateGitIgnore(tree);
