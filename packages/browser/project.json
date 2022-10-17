@@ -12,7 +12,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/browser"],
+      "outputs": ["{workspaceRoot}/coverage/packages/browser"],
       "options": {
         "jestConfig": "packages/browser/jest.config.ts",
         "passWithNoTests": true

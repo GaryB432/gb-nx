@@ -49,7 +49,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/svelte"],
+      "outputs": ["{workspaceRoot}/coverage/packages/svelte"],
       "options": {
         "jestConfig": "packages/svelte/jest.config.ts",
         "passWithNoTests": true

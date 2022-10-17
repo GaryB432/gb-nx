@@ -3,12 +3,11 @@
 
 export interface Schema {
   /**
-   * The project to add junit to
+   * The project to target.
    */
-  projectName?: string;
+  project?: string;
   /**
    * Version of jest-junit to use
    */
   reporterVersion?: string;
-  [k: string]: unknown | undefined;
 }
