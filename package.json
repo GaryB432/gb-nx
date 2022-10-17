@@ -9,8 +9,6 @@
   },
   "private": true,
   "devDependencies": {
-    "@angular-devkit/core": "^14.1.2",
-    "@angular-devkit/schematics": "^14.1.2",
     "@nrwl/cli": "15.0.0",
     "@nrwl/devkit": "15.0.0",
     "@nrwl/eslint-plugin-nx": "15.0.0",
@@ -57,4 +55,3 @@
   },
   "license": "MIT"
 }
-
