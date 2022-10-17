@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/svelte",
-  "version": "1.5.0-alpha.2",
+  "version": "1.5.0-alpha.4",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
   "generators": "./generators.json",
   "executors": "./executors.json",
   "dependencies": {
-    "gb-schematics": "^2.9.0"
+    "gb-schematics": "^2.12.0"
   },
   "publishConfig": {
     "access": "public"
