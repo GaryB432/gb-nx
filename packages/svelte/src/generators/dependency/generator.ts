@@ -6,8 +6,9 @@ import {
   offsetFromRoot,
   output,
   readWorkspaceConfiguration,
-  updateProjectConfiguration,
 } from '@nrwl/devkit';
+
+
 import { makeAliasName } from '../../utils/paths';
 import { getSvelteConfig } from '../../utils/svelte';
 import type { Alias } from './alias';
@@ -79,10 +80,20 @@ export default async function (
     updateSvelteConfig(tree, project, aliasToAdd);
   }
 
-  project.implicitDependencies = project.implicitDependencies ?? [];
-  if (!project.implicitDependencies.includes(schema.dependency)) {
-    project.implicitDependencies.push(schema.dependency);
-    updateProjectConfiguration(tree, projName, project);
+  const pjbuff = tree.read(joinPathFragments(project.root, 'package.json'));
+  if (pjbuff) {
+    const pkg = JSON.parse(pjbuff.toString()) as {
+      name: string;
+      nx: { implicitDependencies: string[] };
+    };
+    const ideps = pkg.nx.implicitDependencies ?? [];
+    if (!ideps.includes(schema.dependency)) {
+      pkg.nx.implicitDependencies = [...ideps, schema.dependency];
+      tree.write(
+        joinPathFragments(project.root, 'package.json'),
+        JSON.stringify(pkg, undefined, 2).concat('\n')
+      );
+    }
   }
   await formatFiles(tree);
 }

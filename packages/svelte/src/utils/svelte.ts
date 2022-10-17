@@ -56,10 +56,20 @@ export function createSvelteKitApp(
   };`;
   appTree.write(joinPathFragments(projectRoot, 'svelte.config.js'), config);
   appTree.write(
+    joinPathFragments(projectRoot, 'package.json'),
+    JSON.stringify({
+      name: 'app',
+      version: '0.0.0',
+      nx: { ignore: true },
+    })
+  );
+
+  appTree.write(
     joinPathFragments(projectRoot, 'node_modules/@sveltejs/kit/package.json'),
     JSON.stringify({
       name: '',
       version,
+      nx: { ignore: true },
     })
   );
   appTree.write(
@@ -70,6 +80,7 @@ export function createSvelteKitApp(
     JSON.stringify({
       name: '',
       version,
+      nx: { ignore: true },
     })
   );
 }

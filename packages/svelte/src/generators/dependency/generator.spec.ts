@@ -1,8 +1,5 @@
 import type { Tree } from '@nrwl/devkit';
-import {
-  readProjectConfiguration,
-  readWorkspaceConfiguration,
-} from '@nrwl/devkit';
+import { readWorkspaceConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator, libraryGenerator } from '@nrwl/node';
 import { createSvelteKitApp } from '../../utils/svelte';
@@ -25,7 +22,18 @@ describe('dependency generator', () => {
 
   it('should run successfully', async () => {
     await generator(appTree, options);
-    const config = readProjectConfiguration(appTree, 'test');
+
+    const pbuff = appTree.read('apps/test/package.json');
+    if (!pbuff) {
+      throw new Error('no package json');
+    }
+
+    const pkg = JSON.parse(pbuff.toString()) as {
+      nx: { implicitDependencies: string[] };
+    };
+
+    const config = pkg.nx;
+
     expect(config.implicitDependencies).toEqual(['dep']);
   });
 
