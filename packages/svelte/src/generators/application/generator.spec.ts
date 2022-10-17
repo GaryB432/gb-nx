@@ -60,6 +60,7 @@ describe('application generator', () => {
     expect(config).toMatchInlineSnapshot(`
       Object {
         "$schema": "../../node_modules/nx/schemas/project-schema.json",
+        "name": "test",
         "projectType": "application",
         "root": "apps/test",
         "sourceRoot": "apps/test/src",

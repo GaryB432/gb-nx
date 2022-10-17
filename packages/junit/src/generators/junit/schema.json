@@ -3,20 +3,24 @@
   "cli": "nx",
   "$id": "NxJunit",
   "title": "",
+  "description": "Add Junit reporter to your project",
   "type": "object",
   "properties": {
-    "projectName": {
+    "project": {
+      "description": "The project to target.",
       "type": "string",
-      "description": "The project to add junit to",
       "$default": {
-        "$source": "argv",
-        "index": 0
-      }
+        "$source": "projectName"
+      },
+      "alias": "p",
+      "x-prompt": "What project would you like to target?"
     },
     "reporterVersion": {
       "type": "string",
-      "description": "Version of jest-junit to use"
+      "description": "Version of jest-junit to use",
+      "default": "^14.0.0"
     }
   },
+  "additionalProperties": false,
   "required": []
 }
