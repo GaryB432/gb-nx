@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "$id": "NxBrowerExtInit",
-  "title": "",
+  "title": "Initializes the @gb-nx/browser plugin",
   "type": "object",
   "properties": {
     "unitTestRunner": {

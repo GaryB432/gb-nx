@@ -15,7 +15,7 @@ export default async function build(
     const src = joinPathFragments(i.in.dir, i.in.base);
     const dest = joinPathFragments(i.out.dir, i.out.base);
     const { stderr } = await promisify(exec)(
-      `${join('node_modules', '.bin', 'sass')} ${src} ${dest}`
+      `${join(context.root, 'node_modules', '.bin', 'sass')} ${src} ${dest}`
     );
     // context.logger.log(stdout);
     if (stderr) {

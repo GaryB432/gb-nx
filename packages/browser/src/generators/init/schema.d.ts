@@ -1,5 +1,4 @@
 /* eslint-disable */
-/* from ./src/generators/init/schema.json */
 
 export interface Schema {
   /**

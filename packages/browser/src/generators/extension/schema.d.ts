@@ -1,6 +1,8 @@
 /* eslint-disable */
-/* from ./src/generators/extension/schema.json */
 
+/**
+ * Creates a browser extension application.
+ */
 export interface Schema {
   /**
    * The name of the extension.
@@ -30,5 +32,4 @@ export interface Schema {
    * Whether or not to configure the ESLint "parserOptions.project" option. We do not do this by default for lint performance reasons.
    */
   setParserOptionsProject?: boolean;
-  [k: string]: unknown | undefined;
 }

@@ -1,5 +1,4 @@
 /* eslint-disable */
-/* from ./src/executors/echo/schema.json */
 
 export interface Schema {
   /**
