@@ -5,37 +5,51 @@ import {
   runNxCommandAsync,
   uniq,
 } from '@nrwl/nx-plugin/testing';
-describe('browser e2e', () => {
-  it('should create browser', async () => {
-    const plugin = uniq('browser');
-    ensureNxProject('@gb-nx/browser', 'dist/packages/browser');
-    await runNxCommandAsync(`generate @gb-nx/browser:browser ${plugin}`);
 
-    const result = await runNxCommandAsync(`build ${plugin}`);
+describe('browser e2e', () => {
+  // Setting up individual workspaces per
+  // test can cause e2e runs to take a long time.
+  // For this reason, we recommend each suite only
+  // consumes 1 workspace. The tests should each operate
+  // on a unique project in the workspace, such that they
+  // are not dependant on one another.
+  beforeAll(() => {
+    ensureNxProject('@gb-nx/browser', 'dist/packages/browser');
+  });
+
+  afterAll(() => {
+    // `nx reset` kills the daemon, and performs
+    // some work which can help clean up e2e leftovers
+    runNxCommandAsync('reset');
+  });
+
+  it('should create browser', async () => {
+    const project = uniq('browser');
+    await runNxCommandAsync(`generate @gb-nx/browser:browser ${project}`);
+    const result = await runNxCommandAsync(`build ${project}`);
     expect(result.stdout).toContain('Executor ran');
   }, 120000);
 
   describe('--directory', () => {
     it('should create src in the specified directory', async () => {
-      const plugin = uniq('browser');
-      ensureNxProject('@gb-nx/browser', 'dist/packages/browser');
+      const project = uniq('browser');
       await runNxCommandAsync(
-        `generate @gb-nx/browser:browser ${plugin} --directory subdir`
+        `generate @gb-nx/browser:browser ${project} --directory subdir`
       );
       expect(() =>
-        checkFilesExist(`libs/subdir/${plugin}/src/index.ts`)
+        checkFilesExist(`libs/subdir/${project}/src/index.ts`)
       ).not.toThrow();
     }, 120000);
   });
 
   describe('--tags', () => {
     it('should add tags to the project', async () => {
-      const plugin = uniq('browser');
+      const projectName = uniq('browser');
       ensureNxProject('@gb-nx/browser', 'dist/packages/browser');
       await runNxCommandAsync(
-        `generate @gb-nx/browser:browser ${plugin} --tags e2etag,e2ePackage`
+        `generate @gb-nx/browser:browser ${projectName} --tags e2etag,e2ePackage`
       );
-      const project = readJson(`libs/${plugin}/project.json`);
+      const project = readJson(`libs/${projectName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 120000);
   });
