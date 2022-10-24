@@ -1,8 +1,11 @@
-import { output } from '@nrwl/devkit';
+import { existsSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
-import { compileFromFile } from 'json-schema-to-typescript';
+import { compile, JSONSchema } from 'json-schema-to-typescript';
 import { Workspaces } from 'nx/src/config/workspaces';
+import { output } from 'nx/src/utils/output'; // TODO use this from devkit
 import { join, parse, ParsedPath } from 'path';
+
+// TODO this should be a generator (probably)
 
 interface SchemaDefined {
   schema: string;
@@ -24,31 +27,33 @@ const wsConfig = ws.readWorkspaceConfiguration();
 
 const messages: string[] = [];
 
-function getDefFileName(path: ParsedPath, color = false): string {
-  if (!color) {
-    return [path.name, ...argv, 'd', 'ts'].join('.');
-  }
-  const plusArgs = ['', ...argv];
-  const parts = [
-    output.colors.cyan(join(path.dir, path.name)),
-    output.colors.red(plusArgs.map((v) => `${v}`).join('.')),
-    output.colors.cyan('.d.ts'),
-  ];
-  return parts.join('');
-}
-
 async function writeSchemaTypeDef(
   root: string,
   sdef: SchemaDefined,
   path: ParsedPath
 ): Promise<void> {
-  const dts = await compileFromFile(join(root, sdef.schema), {
-    bannerComment: `/* eslint-disable */
-    /* from ${sdef.schema} */`,
-    strictIndexSignatures: true,
-  });
-  messages.push(getDefFileName(path, true));
-  void writeFile(join(root, path.dir, getDefFileName(path)), dts);
+  const schemaContent = await readFile(join(root, sdef.schema));
+  try {
+    const schemaObj = JSON.parse(schemaContent.toString()) as JSONSchema;
+    schemaObj.title = 'Schema';
+    const dts = await compile(schemaObj, 'schema', {
+      bannerComment: '/* eslint-disable */',
+      strictIndexSignatures: true,
+      style: { singleQuote: true },
+    });
+    if (argv.includes('-d')) {
+      const message =
+        output.colors.cyan(join(root, path.dir, 'schema.d.ts')) +
+        output.colors.gray(' DRY RUN');
+      messages.push(message);
+    } else {
+      const message = output.colors.cyan(join(root, path.dir, 'schema.d.ts'));
+      messages.push(message);
+      void writeFile(join(root, path.dir, 'schema.d.ts'), dts);
+    }
+  } catch (e) {
+    messages.push(output.colors.red(`Error in "${path.dir}"`));
+  }
 }
 
 async function handleSchemaDefList(
@@ -68,15 +73,22 @@ async function main() {
   for (const projName in wsConfig.projects) {
     void messages.splice(0, messages.length);
     const proj = wsConfig.projects[projName];
-    const pjb = await readFile(join(proj.root, 'package.json'));
-    const pj = JSON.parse(pjb.toString()) as PackageConfig;
-    const { root } = proj;
-    await handleSchemaDefList(root, pj.executors, 'executors');
-    await handleSchemaDefList(root, pj.generators, 'generators');
-    output.log({
-      title: `Schema definitions generated for project '${projName}'`,
-      bodyLines: messages,
-    });
+    const pjn = join(proj.root, 'package.json');
+    if (existsSync(pjn)) {
+      const pj = JSON.parse((await readFile(pjn)).toString()) as PackageConfig;
+      const { root } = proj;
+      await handleSchemaDefList(root, pj.executors, 'executors');
+      await handleSchemaDefList(root, pj.generators, 'generators');
+      output.log({
+        title: `Schema definitions generated for project '${projName}'`,
+        bodyLines: messages,
+      });
+    } else {
+      output.log({
+        title: `No package for project '${projName}'`,
+        color: 'yellow',
+      });
+    }
   }
 }
 
