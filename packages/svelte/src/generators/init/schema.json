@@ -1,7 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "Init",
-  "title": "",
+  "$id": "GbNxSvelteInit",
+  "title": "Initializes the @gb-nx/svelte plugin.",
+  "description": "Initializes the @gb-nx/svelte plugin.",
   "type": "object",
   "cli": "nx",
   "properties": {

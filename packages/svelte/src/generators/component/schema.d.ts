@@ -1,5 +1,4 @@
 /* eslint-disable */
-/* from ./src/generators/component/schema.json */
 
 /**
  * Svelte Component Options Schema.

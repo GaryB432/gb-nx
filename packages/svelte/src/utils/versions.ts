@@ -1,1 +1,1 @@
-export const tbd = '^2.11.0';
+export const prettierPluginSvelteVersion = '^2.7.0';

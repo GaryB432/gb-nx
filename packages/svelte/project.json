@@ -3,13 +3,29 @@
   "sourceRoot": "packages/svelte/src",
   "projectType": "library",
   "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/svelte/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/svelte"],
+      "options": {
+        "jestConfig": "packages/svelte/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/svelte",
-        "main": "packages/svelte/src/index.ts",
         "tsConfig": "packages/svelte/tsconfig.lib.json",
+        "packageJson": "packages/svelte/package.json",
+        "main": "packages/svelte/src/index.ts",
         "assets": [
           "packages/svelte/*.md",
           {
@@ -33,26 +49,6 @@
             "output": "."
           }
         ]
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "packages/svelte/**/*.ts",
-          "packages/svelte/generators.json",
-          "packages/svelte/executors.json",
-          "packages/svelte/package.json"
-        ]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/packages/svelte"],
-      "options": {
-        "jestConfig": "packages/svelte/jest.config.ts",
-        "passWithNoTests": true
       }
     }
   },

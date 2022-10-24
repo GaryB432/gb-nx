@@ -3,7 +3,15 @@ import { getProjects } from '@nrwl/devkit';
 import { wrapAngularDevkitSchematic } from '@nrwl/devkit/ngcli-adapter';
 import type { Schema as ComponentGeneratorSchema } from './schema';
 
-export const libraryGenerator = wrapAngularDevkitSchematic(
+export interface SchematicOptions {
+  name: string;
+  directory?: string;
+  language?: 'js' | 'ts';
+  style?: 'css' | 'scss';
+  projectRoot?: string;
+}
+
+const libraryGenerator = wrapAngularDevkitSchematic(
   'gb-schematics',
   'sveltekit-component'
 );
@@ -26,5 +34,4 @@ export default async function (
     style,
     projectRoot: project.root,
   });
-  // await formatFiles(tree);
 }

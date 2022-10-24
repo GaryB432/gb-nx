@@ -8,22 +8,11 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:gb/recommended"],
-      "rules": {},
-      "parserOptions": {
-        "project": ["./tsconfig.base.json"]
-      }
+      "rules": {}
     },
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
-    },
-    {
-      "files": ["./package.json", "./generators.json", "./executors.json"],
-      "parser": "jsonc-eslint-parser",
-      "rules": {
-        "@nrwl/nx/nx-plugin-checks": "error"
-      }
     }
   ]
 }

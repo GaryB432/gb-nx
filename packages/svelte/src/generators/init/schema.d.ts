@@ -1,6 +1,8 @@
 /* eslint-disable */
-/* from ./src/generators/init/schema.json */
 
+/**
+ * Initializes the @gb-nx/svelte plugin.
+ */
 export interface Schema {
   /**
    * Skip formatting files.

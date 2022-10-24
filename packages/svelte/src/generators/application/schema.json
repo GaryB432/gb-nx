@@ -1,8 +1,15 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "Application",
-  "title": "",
+  "$id": "GbNxSvelteApplication",
+  "title": "Add NX configuration to your Svelte-kit package.",
+  "description": "Add NX configuration too your Svelte-kit package.",
+  "examples": [
+    {
+      "command": "nx g @gb-nx/svelte:application myapp",
+      "description": "Adds nx key to the svelte kit package.json in the workspace's myapp project"
+    }
+  ],
   "type": "object",
   "properties": {
     "name": {

@@ -22,10 +22,10 @@ export function readPackageJson(
 export function readModulePackageJson(
   tree: Tree,
   mod: string,
-  config: ProjectConfiguration
+  root: string
 ): Package | undefined {
   return readPackageJson(tree, {
-    root: joinPathFragments(config.root, 'node_modules', mod),
+    root: joinPathFragments(root, 'node_modules', mod),
   });
 }
 

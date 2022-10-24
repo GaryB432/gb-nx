@@ -1,8 +1,15 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "Dependency",
-  "title": "",
+  "$id": "GbNxSvelteDependency",
+  "title": "Add an implicit dependency to a Svelte Kit package.",
+  "description": "Add an implicit dependency to a Svelte Kit package.",
+  "examples": [
+    {
+      "command": "nx g @gb-nx/svelte:dependency --project myapp --dependency mylib --scope myorg",
+      "description": "Adds an implicit dependency to myapp/package.json nx to @myorg/mylib"
+    }
+  ],
   "type": "object",
   "properties": {
     "project": {

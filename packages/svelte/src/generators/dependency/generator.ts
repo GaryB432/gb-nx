@@ -4,10 +4,9 @@ import {
   getProjects,
   joinPathFragments,
   offsetFromRoot,
-  output,
+  // output,
   readWorkspaceConfiguration,
 } from '@nrwl/devkit';
-
 
 import { makeAliasName } from '../../utils/paths';
 import { getSvelteConfig } from '../../utils/svelte';
@@ -69,13 +68,13 @@ export default async function (
     const aliasToAdd = { name: depName, path };
     aliases.push(aliasToAdd);
 
-    output.log({
-      title: 'Configured Aliases',
-      bodyLines: aliases.map(
-        (p) =>
-          `${output.colors.white(p.name)}: "${output.colors.green(p.path)}"`
-      ),
-    });
+    // output.log({
+    //   title: 'Configured Aliases',
+    //   bodyLines: aliases.map(
+    //     (p) =>
+    //       `${output.colors.white(p.name)}: "${output.colors.green(p.path)}"`
+    //   ),
+    // });
 
     updateSvelteConfig(tree, project, aliasToAdd);
   }

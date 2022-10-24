@@ -1,5 +1,5 @@
 import executor from './executor';
-import type { BuildExecutor } from './schema';
+import type { Schema as BuildExecutor } from './schema';
 
 const options: BuildExecutor = {};
 

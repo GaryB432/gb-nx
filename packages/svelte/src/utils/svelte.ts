@@ -4,6 +4,11 @@ import { readModulePackageJson } from './paths';
 
 export const SVELTE_CONFIG = 'svelte.config.js';
 
+export interface NodeApplicationSchema {
+  name: string;
+  directory: string;
+}
+
 export function isSvelte(tree: Tree, config: ProjectConfiguration): boolean {
   return tree.exists(joinPathFragments(config.root, SVELTE_CONFIG));
 }
@@ -21,7 +26,7 @@ export function getSveltePackageVersions(
   config: ProjectConfiguration
 ): { name: string; version: string | undefined }[] {
   return ['@sveltejs/kit', '@sveltejs/vite-plugin-svelte'].map((name) => {
-    const pn = readModulePackageJson(tree, name, config);
+    const pn = readModulePackageJson(tree, name, config.root);
     const version = pn?.version;
     return { name, version };
   });
@@ -30,7 +35,7 @@ export function getSveltePackageVersions(
 export function createSvelteKitApp(
   appTree: Tree,
   version: string,
-  projectRoot: string
+  options: NodeApplicationSchema
 ): void {
   const config0 = 'const config = { kit: {} };';
 
@@ -54,20 +59,22 @@ export function createSvelteKitApp(
       }
     }
   };`;
+  const projectRoot = joinPathFragments(options.directory, options.name);
   appTree.write(joinPathFragments(projectRoot, 'svelte.config.js'), config);
   appTree.write(
     joinPathFragments(projectRoot, 'package.json'),
     JSON.stringify({
-      name: 'app',
+      name: options.name,
       version: '0.0.0',
-      nx: { ignore: true },
+      devDependencies: { 'prettier-plugin-svelte': '1.1.1' },
+      nx: { ignore: false },
     })
   );
 
   appTree.write(
     joinPathFragments(projectRoot, 'node_modules/@sveltejs/kit/package.json'),
     JSON.stringify({
-      name: '',
+      name: '@sveltejs/kit',
       version,
       nx: { ignore: true },
     })
@@ -78,7 +85,7 @@ export function createSvelteKitApp(
       'node_modules/@sveltejs/vite-plugin-svelte/package.json'
     ),
     JSON.stringify({
-      name: '',
+      name: '@sveltejs/vite-plugin-svelte',
       version,
       nx: { ignore: true },
     })

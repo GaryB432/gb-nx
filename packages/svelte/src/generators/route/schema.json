@@ -1,8 +1,15 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "Route",
-  "title": "",
+  "$id": "GbNxSvelteRoute",
+  "title": "Create a route in a Svelte Kit project.",
+  "description": "Create a route in a Svelte Kit project.",
+  "examples": [
+    {
+      "command": "nx g @gb-nx/svelte:route myroute --project myapp --language scss",
+      "description": "Generate a route in the myapp Svelte Kit package"
+    }
+  ],
   "type": "object",
   "properties": {
     "name": {

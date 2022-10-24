@@ -11,7 +11,7 @@ export const libraryGenerator = wrapAngularDevkitSchematic(
 export default async function (
   tree: Tree,
   options: ComponentGeneratorSchema
-): Promise<GeneratorCallback | void> {
+): Promise<void> {
   const projects = getProjects(tree);
   const project = projects.get(options.project);
 

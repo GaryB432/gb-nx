@@ -2,8 +2,8 @@
   "$schema": "http://json-schema.org/schema",
   "description": "Svelte Component Options Schema.",
   "cli": "nx",
-  "$id": "Component",
-  "title": "",
+  "$id": "GbNxSvelteComponent",
+  "title": "Add a component to a Svelte Kit project",
   "type": "object",
   "properties": {
     "name": {

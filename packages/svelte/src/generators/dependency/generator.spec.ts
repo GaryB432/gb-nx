@@ -17,7 +17,10 @@ describe('dependency generator', () => {
     appTree = createTreeWithEmptyWorkspace();
     void (await applicationGenerator(appTree, { name: 'test' }));
     void (await libraryGenerator(appTree, { name: 'dep', compiler: 'swc' }));
-    createSvelteKitApp(appTree, '0', 'apps/test');
+    createSvelteKitApp(appTree, '0', {
+      name: 'test',
+      directory: 'apps',
+    });
   });
 
   it('should run successfully', async () => {
@@ -58,7 +61,7 @@ describe('dependency generator with scope', () => {
     appTree = createTreeWithEmptyWorkspace();
     void (await applicationGenerator(appTree, { name: 'test' }));
     void (await libraryGenerator(appTree, { name: 'dep', compiler: 'swc' }));
-    createSvelteKitApp(appTree, '0', 'apps/test');
+    createSvelteKitApp(appTree, '0', { name: 'test', directory: 'apps' });
   });
 
   it('should add dep', async () => {

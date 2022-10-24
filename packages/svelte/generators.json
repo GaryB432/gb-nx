@@ -22,7 +22,8 @@
       "factory": "./src/generators/application/generator",
       "schema": "./src/generators/application/schema.json",
       "aliases": ["app"],
-      "description": "Create a svelte-kit application"
+      "x-type": "application",
+      "description": "application generator"
     },
     "init": {
       "factory": "./src/generators/init/generator",

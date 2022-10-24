@@ -1,54 +1,40 @@
-import type {
-  GeneratorCallback,
-  ProjectConfiguration,
-  Tree,
-} from '@nrwl/devkit';
+import type { Tree, GeneratorCallback } from '@nrwl/devkit';
 import {
-  addProjectConfiguration,
+  addDependenciesToPackageJson,
   formatFiles,
   getWorkspaceLayout,
+  installPackagesTask,
   joinPathFragments,
-  logger,
   names,
-  output,
 } from '@nrwl/devkit';
+import { output } from 'nx/src/utils/output'; // TODO use this from devkit
 import { join } from 'path';
 import { getSveltePackageVersions, isSvelte } from '../../utils/svelte';
+import { prettierPluginSvelteVersion } from '../../utils/versions';
 import type { Schema as ApplicationGeneratorSchema } from './schema';
 
-function sveltekitConfig(o: NormalizedSchema): ProjectConfiguration {
-  const cwd = joinPathFragments(o.appsDir, o.name);
-  const root = cwd;
-  return {
-    root,
-    name: o.name,
-    projectType: 'application',
-    sourceRoot: joinPathFragments(root, 'src'),
-    targets: {
-      build: {
-        executor: 'nx:run-commands',
-        options: {
-          command: 'npx vite build',
-          cwd,
-        },
-      },
-      serve: {
-        executor: 'nx:run-commands',
-        options: {
-          command: 'npx vite dev',
-          cwd,
-        },
-      },
-      lint: {
-        executor: 'nx:run-commands',
-        options: {
-          command: 'npx eslint .',
-          cwd,
-        },
-      },
+const nx = {
+  namedInputs: {
+    default: ['{projectRoot}/**/*'],
+    production: [
+      '!{projectRoot}/.svelte-kit/*',
+      '!{projectRoot}/build/*',
+      '!{projectRoot}/tests/*',
+    ],
+  },
+  targets: {
+    build: {
+      inputs: ['production', '^production'],
+      outputs: ['{projectRoot}/build'],
+      dependsOn: ['^build'],
     },
-    tags: [],
-  };
+  },
+};
+
+interface PackageJson {
+  name: string;
+  version: string;
+  devDependencies: Record<string, string>;
 }
 
 interface NormalizedSchema extends ApplicationGeneratorSchema {
@@ -101,54 +87,66 @@ function updatePrettierIgnore(tree: Tree, options: NormalizedSchema) {
     .concat(newPatterns.filter((p) => !patterns.includes(p)))
     .concat('');
 
-  // const lines = [...patterns, ...newPatterns, ''];
   tree.write(fname, lines.join('\n'));
 }
-
-// function addFiles(tree: Tree, options: NormalizedSchema) {
-//   const templateOptions = {
-//     ...options,
-//     ...names(options.name),
-//     offsetFromRoot: offsetFromRoot(options.projectRoot),
-//     template: '',
-//   };
-//   generateFiles(
-//     tree,
-//     join(__dirname, 'files'),
-//     options.projectRoot,
-//     templateOptions
-//   );
-// }
 
 export default async function (
   tree: Tree,
   options: ApplicationGeneratorSchema
 ): Promise<GeneratorCallback> {
-  logger.warn(
-    'The generator is deprecated and will be removed in @gb-nx/svelte@2.0.0'
-  );
+  // logger.warn(
+  //   'The generator is deprecated and will be removed in @gb-nx/svelte@2.0.0'
+  // );
+  const notSvelte = (p: string) =>
+    `project '${p}' is not configured for svelte`;
+  const noProject = (p: string) => `project '${p}' not found in workspace`;
+
   const normalizedOptions = normalizeOptions(tree, options);
-  const config = sveltekitConfig(normalizedOptions);
+  const config = { root: normalizedOptions.projectRoot };
 
   if (!isSvelte(tree, config)) {
-    throw new Error(
-      `Project '${normalizedOptions.name}' is not configured as a Svelte application`
-    );
+    throw new Error(notSvelte(normalizedOptions.name));
   }
 
-  const packs = getSveltePackageVersions(tree, config);
+  const pname = joinPathFragments(
+    normalizedOptions.projectRoot,
+    'package.json'
+  );
+  const pbuff = tree.read(pname);
+  if (pbuff) {
+    const sveltePackage = JSON.parse(pbuff.toString()) as PackageJson;
+    const pluginVersion =
+      sveltePackage.devDependencies['prettier-plugin-svelte'] ??
+      prettierPluginSvelteVersion;
+    if (pluginVersion) {
+      addDependenciesToPackageJson(
+        tree,
+        {},
+        { 'prettier-plugin-svelte': pluginVersion }
+      );
+    }
 
-  output.log({
-    title: 'Svelte Packages',
-    bodyLines: packs.map(
-      (p) => `${output.colors.white(p.name)}: ${output.colors.green(p.version)}`
-    ),
-  });
+    const packs = getSveltePackageVersions(tree, config);
+    output.log({
+      title: 'Svelte Packages',
+      bodyLines: packs.map(
+        (p) =>
+          `${output.colors.white(p.name)}: ${output.colors.green(p.version)}`
+      ),
+    });
 
-  updatePrettierIgnore(tree, normalizedOptions);
+    updatePrettierIgnore(tree, normalizedOptions);
+    tree.write(
+      pname,
+      JSON.stringify({ ...sveltePackage, nx }, undefined, 2) + '\n'
+    );
+  } else {
+    throw new Error(noProject(options.name));
+  }
 
-  addProjectConfiguration(tree, normalizedOptions.name, config);
+  installPackagesTask(tree);
+
   return async () => {
-    await formatFiles(tree);
+    formatFiles(tree);
   };
 }

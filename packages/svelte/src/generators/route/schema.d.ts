@@ -1,6 +1,8 @@
 /* eslint-disable */
-/* from ./src/generators/route/schema.json */
 
+/**
+ * Create a route in a Svelte Kit project.
+ */
 export interface Schema {
   /**
    * The name of the route.

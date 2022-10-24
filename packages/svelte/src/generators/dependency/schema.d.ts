@@ -1,6 +1,8 @@
 /* eslint-disable */
-/* from ./src/generators/dependency/schema.json */
 
+/**
+ * Add an implicit dependency to a Svelte Kit package.
+ */
 export interface Schema {
   /**
    * The project to add the dependency src to

@@ -1,6 +1,8 @@
 /* eslint-disable */
-/* from ./src/generators/application/schema.json */
 
+/**
+ * Add NX configuration too your Svelte-kit package.
+ */
 export interface Schema {
   name: string;
   /**
