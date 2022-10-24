@@ -1,6 +1,8 @@
 /* eslint-disable */
-/* from ./src/generators/init/schema.json */
 
+/**
+ * Initialize the @gb-nx/workspace plugin.
+ */
 export interface Schema {
   /**
    * Skip formatting files.

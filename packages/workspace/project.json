@@ -3,13 +3,29 @@
   "sourceRoot": "packages/workspace/src",
   "projectType": "library",
   "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/workspace/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/workspace"],
+      "options": {
+        "jestConfig": "packages/workspace/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/workspace",
-        "main": "packages/workspace/src/index.ts",
         "tsConfig": "packages/workspace/tsconfig.lib.json",
+        "packageJson": "packages/workspace/package.json",
+        "main": "packages/workspace/src/index.ts",
         "assets": [
           "packages/workspace/*.md",
           {
@@ -33,26 +49,6 @@
             "output": "."
           }
         ]
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "packages/workspace/**/*.ts",
-          "packages/workspace/generators.json",
-          "packages/workspace/executors.json",
-          "packages/workspace/package.json"
-        ]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/packages/workspace"],
-      "options": {
-        "jestConfig": "packages/workspace/jest.config.ts",
-        "passWithNoTests": true
       }
     }
   },

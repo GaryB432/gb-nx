@@ -7,7 +7,7 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import generator from './generator';
 import type { Schema as ComponentGeneratorSchema } from './schema';
 
-describe('component generator', () => {
+describe.skip('component generator', () => {
   let appTree: Tree;
   const options: ComponentGeneratorSchema = {
     name: 'banana',

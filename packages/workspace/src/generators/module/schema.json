@@ -1,10 +1,20 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "description": "Module Options Schema.",
   "cli": "nx",
-  "$id": "Module",
-  "title": "",
+  "$id": "GbNxWorkspaceModule",
+  "title": "Create a value or class module for a project.",
+  "description": "Create a value or class module for a project.",
   "type": "object",
+  "examples": [
+    {
+      "command": "nx g @gb-nx/workspace:module math --project myapp --kind class",
+      "description": "Generate a class file in the myapp project"
+    },
+    {
+      "command": "nx g @gb-nx/workspace:module math --project myapp --kind values",
+      "description": "Generate a module in the myapp project for exporting values"
+    }
+  ],
   "properties": {
     "name": {
       "description": "The name of the module.",

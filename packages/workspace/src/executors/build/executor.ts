@@ -1,5 +1,6 @@
-import type { BuildExecutor } from './schema';
+import type { Schema as BuildExecutor } from './schema';
 
+// TODO remove
 export default async function runExecutor(
   options: BuildExecutor
 ): Promise<{ success: boolean }> {

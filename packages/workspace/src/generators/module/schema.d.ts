@@ -1,8 +1,7 @@
 /* eslint-disable */
-/* from ./src/generators/module/schema.json */
 
 /**
- * Module Options Schema.
+ * Create a value or class module for a project.
  */
 export interface Schema {
   /**

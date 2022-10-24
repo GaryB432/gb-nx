@@ -1,6 +1,5 @@
 /* eslint-disable */
-/* from ./src/executors/build/schema.json */
 
-export interface BuildExecutor {
+export interface Schema {
   [k: string]: unknown | undefined;
 }

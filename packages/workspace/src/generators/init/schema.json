@@ -1,7 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "Init",
-  "title": "",
+  "$id": "GbNxWorkspaceInit",
+  "title": "Initialize the @gb-nx/workspace plugin.",
+  "description": "Initialize the @gb-nx/workspace plugin.",
   "type": "object",
   "cli": "nx",
   "properties": {
