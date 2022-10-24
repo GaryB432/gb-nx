@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "NxJunit",
-  "title": "",
+  "$id": "GbNxJunit",
+  "title": "Add Junit reporter to your project",
   "description": "Add Junit reporter to your project",
   "type": "object",
   "properties": {

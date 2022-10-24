@@ -18,6 +18,8 @@ import {
 import * as ts from 'typescript';
 import type { Schema as NxJunitGeneratorSchema } from './schema';
 
+// TODO Schema does not support positional arguments. Argument 'data-access' found
+
 interface JestTargetOptions {
   jestConfig: string;
 }
@@ -110,8 +112,7 @@ export default async function (
   }
 
   if (proj.targets) {
-    const testtarget: TargetConfiguration<JestTargetOptions> =
-      proj.targets['test'];
+    const testtarget: TargetConfiguration = proj.targets['test'];
 
     if (testtarget && testtarget.options) {
       const targetOutputs = testtarget.outputs ?? [];
@@ -127,6 +128,7 @@ export default async function (
         outputDirectory,
         outputName
       );
+      // TODO do not repeat these
       testtarget.outputs = [
         ...targetOutputs,
         joinPathFragments('{workspaceRoot}', outputDirectory, outputName),

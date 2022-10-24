@@ -1,6 +1,8 @@
 /* eslint-disable */
-/* from ./src/generators/junit/schema.json */
 
+/**
+ * Add Junit reporter to your project
+ */
 export interface Schema {
   /**
    * The project to target.

@@ -4,6 +4,7 @@ export interface NxJunitExecutorResult {
   success: boolean;
 }
 
+// TODO remove
 export default async function runExecutor(
   options: BuildExecutorSchema
 ): Promise<NxJunitExecutorResult> {

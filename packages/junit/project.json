@@ -12,7 +12,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/packages/junit"],
+      "outputs": ["coverage/packages/junit"],
       "options": {
         "jestConfig": "packages/junit/jest.config.ts",
         "passWithNoTests": true
@@ -47,16 +47,6 @@
             "input": "./packages/junit",
             "glob": "executors.json",
             "output": "."
-          }
-        ]
-      }
-    },
-    "show": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "commands": [
-          {
-            "command": "npx ts-node --project tools/tsconfig.tools.json tools/scripts/show-box --siteName tbd-package-compare --outputPath dist/apps/package-compare"
           }
         ]
       }

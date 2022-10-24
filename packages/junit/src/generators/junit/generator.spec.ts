@@ -116,7 +116,7 @@ describe('junit generator', () => {
       },
       tags: [],
     });
-    appTree.write('.gitignore', 'a\nb\nc\n')
+    appTree.write('.gitignore', 'a\nb\nc\n');
     appTree.write('apps/test/jest.config.ts', jestConfigScript);
   });
 
