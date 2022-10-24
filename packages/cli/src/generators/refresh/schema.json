@@ -1,8 +1,9 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "Refresh",
-  "title": "",
+  "$id": "GbNxRefreshCli",
+  "title": "Refreshes generated CLI application assets.",
+  "description": "Refreshes generated CLI application assets.",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -11,8 +12,7 @@
       "description": "The name of the project.",
       "$default": {
         "$source": "projectName"
-      },
-      "alias": "p"
+      }
     },
     "all": {
       "type": "boolean",

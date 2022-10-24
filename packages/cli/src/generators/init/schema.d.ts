@@ -1,6 +1,8 @@
 /* eslint-disable */
-/* from ./src/generators/init/schema.json */
 
+/**
+ * Initializes the @gb-nx/cli plugin.
+ */
 export interface Schema {
   name: string;
   /**
@@ -11,5 +13,4 @@ export interface Schema {
    * A directory where the project is placed
    */
   directory?: string;
-  [k: string]: unknown | undefined;
 }

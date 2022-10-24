@@ -5,7 +5,7 @@ import {
 } from '@nrwl/devkit';
 import { initGenerator as NodeInit } from '@nrwl/node';
 import type { Schema as InitGeneratorSchema } from '@nrwl/node/src/generators/init/schema';
-import { eslintPluginGbVersion, nxVersion } from '../../utils/versions';
+import { eslintPluginGbVersion } from '../../utils/versions';
 
 export default async function initGenerator(
   tree: Tree,
@@ -15,7 +15,7 @@ export default async function initGenerator(
   addDependenciesToPackageJson(
     tree,
     {},
-    { '@nrwl/node': nxVersion, 'eslint-plugin-gb': eslintPluginGbVersion }
+    { 'eslint-plugin-gb': eslintPluginGbVersion }
   );
   return () => {
     return installPackagesTask(tree, true);

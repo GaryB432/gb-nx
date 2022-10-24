@@ -1,6 +1,8 @@
 /* eslint-disable */
-/* from ./src/generators/command/schema.json */
 
+/**
+ * Generates a CLI command.
+ */
 export interface Schema {
   /**
    * The path at which to create the command file, relative to the current workspace. Default is a folder with the same name as the pipe in the project root.

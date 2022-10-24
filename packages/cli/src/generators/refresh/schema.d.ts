@@ -1,6 +1,8 @@
 /* eslint-disable */
-/* from ./src/generators/refresh/schema.json */
 
+/**
+ * Refreshes generated CLI application assets.
+ */
 export interface Schema {
   /**
    * The name of the project.

@@ -1,8 +1,9 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "Application",
-  "title": "",
+  "$id": "GbNxCliApplication",
+  "title": "Create a CLI application in your Nx workspace",
+  "description": "Create a CLI application in your Nx workspace",
   "type": "object",
   "properties": {
     "name": {

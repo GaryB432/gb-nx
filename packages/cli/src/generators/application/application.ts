@@ -11,11 +11,7 @@ import {
 import { applicationGenerator as nodeAppGenerator } from '@nrwl/node';
 import type { Schema as ApplicationGeneratorSchema } from '@nrwl/node/src/generators/application/schema';
 import * as path from 'path';
-import {
-  ansiColorsVersion,
-  nxVersion,
-  sadeVersion,
-} from '../../utils/versions';
+import { ansiColorsVersion, sadeVersion } from '../../utils/versions';
 
 interface NormalizedSchema extends ApplicationGeneratorSchema {
   projectName: string;
@@ -69,7 +65,11 @@ export default async function applicationGenerator(
   const normalizedOptions = normalizeOptions(tree, options);
 
   // await initGenerator(tree, {});
-  await nodeAppGenerator(tree, normalizedOptions);
+  await nodeAppGenerator(tree, {
+    unitTestRunner: 'jest',
+    setParserOptionsProject: true,
+    ...normalizedOptions,
+  });
 
   // updateProjectConfiguration(tree, normalizedOptions.projectName, {
   //   root: normalizedOptions.projectRoot,
@@ -86,8 +86,9 @@ export default async function applicationGenerator(
 
   addDependenciesToPackageJson(
     tree,
+    // TODO use chalk
     { 'ansi-colors': ansiColorsVersion, sade: sadeVersion },
-    { '@nrwl/node': nxVersion }
+    {}
   );
   await formatFiles(tree);
   return () => {

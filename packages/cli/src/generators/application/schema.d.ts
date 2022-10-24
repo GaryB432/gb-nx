@@ -1,6 +1,8 @@
 /* eslint-disable */
-/* from ./src/generators/application/schema.json */
 
+/**
+ * Create a CLI application in your Nx workspace
+ */
 export interface Schema {
   name: string;
   /**

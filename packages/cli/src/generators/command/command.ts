@@ -41,7 +41,7 @@ function normalizeOptions(
 
   const { sourceRoot, targets } = project;
   if (targets) {
-    const build: TargetConfiguration<{ main: string }> = targets['build'];
+    const build: TargetConfiguration = targets['build'];
     buildTargetMain = (build.options && build.options.main) || 'none';
   }
 

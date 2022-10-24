@@ -23,7 +23,7 @@ describe('app', () => {
     it('should generate files', async () => {
       await generateApp(appTree);
 
-      expect(appTree.exists(`apps/my-app/jest.config.ts`)).toBeTruthy();
+      // expect(appTree.exists(`apps/my-app/jest.config.ts`)).toBeTruthy();
       expect(appTree.exists('apps/my-app/src/main.ts')).toBeTruthy();
       expect(appTree.exists('apps/my-app/src/app/shared.ts')).toBeTruthy();
       expect(appTree.read('apps/my-app/src/main.ts', 'utf-8')).toContain(
@@ -74,15 +74,9 @@ describe('app', () => {
 
     it('should generate files', async () => {
       await generateApp(appTree, 'myApp', { directory: 'myDir' });
-
-      [
-        `apps/my-dir/my-app/jest.config.ts`,
-        'apps/my-dir/my-app/src/main.ts',
-        'apps/my-dir/my-app/src/app/commands/index.ts',
-        'apps/my-dir/my-app/src/app/shared.ts',
-      ].forEach((path) => {
-        expect(appTree.exists(path)).toBeTruthy();
-      });
+      expect(
+        appTree.read('apps/my-dir/my-app/src/main.ts')!.toString()
+      ).toContain("const prog = sade('my-dir-my-app');");
     });
   });
 });

@@ -1,8 +1,10 @@
 {
   "$schema": "http://json-schema.org/schema",
+  "$id": "GbNxCliCommandGenerator",
   "cli": "nx",
-  "$id": "cli-command",
   "type": "object",
+  "title": "Generates a CLI command.",
+  "description": "Generates a CLI command.",
   "additionalProperties": false,
   "properties": {
     "path": {
@@ -16,8 +18,7 @@
       "description": "The name of the project.",
       "$default": {
         "$source": "projectName"
-      },
-      "alias": "p"
+      }
     },
     "name": {
       "type": "string",
