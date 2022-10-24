@@ -4,7 +4,7 @@
 /dist
 /tmp
 /out-tsc
-/**/*.gen.d.ts
+
 # dependencies
 /node_modules
 
@@ -37,3 +37,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+migrations.json
