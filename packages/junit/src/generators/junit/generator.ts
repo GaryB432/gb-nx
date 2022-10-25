@@ -128,10 +128,11 @@ export default async function (
         outputDirectory,
         outputName
       );
-      // TODO do not repeat these
       testtarget.outputs = [
-        ...targetOutputs,
-        joinPathFragments('{workspaceRoot}', outputDirectory, outputName),
+        ...new Set([
+          ...targetOutputs,
+          joinPathFragments('{workspaceRoot}', outputDirectory, outputName),
+        ]),
       ];
       updateProjectConfiguration(tree, options.project, proj);
       updateGitIgnore(tree);

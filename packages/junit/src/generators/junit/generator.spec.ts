@@ -105,6 +105,7 @@ describe('junit generator', () => {
         test: {
           executor: '@nrwl/jest:jest',
           outputs: [
+            'way/more/than/normal',
             'coverage/apps/test',
             'more/files/test',
             'way/more/than/normal',
@@ -141,9 +142,9 @@ describe('junit generator', () => {
     const target: TargetConfiguration = config.targets!['test'];
     expect(target.options!.jestConfig).toEqual('apps/test/jest.config.ts');
     expect(target.outputs).toEqual([
+      'way/more/than/normal',
       'coverage/apps/test',
       'more/files/test',
-      'way/more/than/normal',
       '{workspaceRoot}/junit/apps/test.xml',
     ]);
   });
