@@ -49,13 +49,13 @@
       "description": "Component script language (ts/js).",
       "type": "string",
       "enum": ["js", "ts"],
-      "default": "ts"
+      "default": "js"
     },
     "style": {
       "description": "Component style language (css/scss).",
       "type": "string",
       "enum": ["css", "scss"],
-      "default": "scss"
+      "default": "css"
     }
   },
   "additionalProperties": false,

@@ -21,7 +21,11 @@ export interface Schema {
    */
   skipFormat?: boolean;
   /**
-   * Style language.
+   * Component script language (ts/js).
    */
-  language?: 'css' | 'scss';
+  language?: 'js' | 'ts';
+  /**
+   * Component style language (css/scss).
+   */
+  style?: 'css' | 'scss';
 }
