@@ -4,6 +4,16 @@
   "$id": "GbNxJunit",
   "title": "Add Junit reporter to your project",
   "description": "Add Junit reporter to your project",
+  "examples": [
+    {
+      "command": "nx g @gb-nx/junit:junit --project mylib",
+      "description": "Add the Junit reporter to the mylib package"
+    },
+    {
+      "command": "nx g @gb-nx/junit:junit --project mylib --reporterVersion ^13.2.0",
+      "description": "Add the Junit reporter at version ^13.2.0 to the mylib package"
+    }
+  ],
   "type": "object",
   "properties": {
     "project": {

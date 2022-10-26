@@ -1,9 +1,20 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "description": "Svelte Component Options Schema.",
   "cli": "nx",
   "$id": "GbNxSvelteComponent",
   "title": "Add a component to a Svelte Kit project",
+  "description": "Svelte Component Options Schema.",
+  "examples": [
+    {
+      "command": "nx g @gb-nx/svelte:component admin --project myapp",
+      "description": "Add a Admin component to the myapp Svelte-Kit application"
+    },
+    {
+      "command": "nx g @gb-nx/svelte:component admin --project myapp --language ts",
+      "description": "Add a Typescript language Admin component to the myapp Svelte-Kit application"
+    }
+  ],
+
   "type": "object",
   "properties": {
     "name": {

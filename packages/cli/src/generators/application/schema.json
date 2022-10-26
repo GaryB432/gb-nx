@@ -4,6 +4,13 @@
   "$id": "GbNxCliApplication",
   "title": "Create a CLI application in your Nx workspace",
   "description": "Create a CLI application in your Nx workspace",
+  "examples": [
+    {
+      "command": "nx g @gb-nx/cli:application myapp",
+      "description": "Generate a CLI application in your workspace"
+    }
+  ],
+
   "type": "object",
   "properties": {
     "name": {
@@ -26,5 +33,6 @@
       "alias": "d"
     }
   },
+  "additionalProperties": false,
   "required": ["name"]
 }

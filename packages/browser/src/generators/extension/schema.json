@@ -2,8 +2,14 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "$id": "GeneratorGbNxExtensionApplication",
-  "title": "Creates a browser extension application.",
-  "description": "Creates a browser extension application.",
+  "title": "Create a browser extension application.",
+  "description": "Create a browser extension application.",
+  "examples": [
+    {
+      "command": "nx g @gb-nx/browser:extension myapp",
+      "description": "Create a browser application in your workspace"
+    }
+  ],
   "type": "object",
   "properties": {
     "name": {

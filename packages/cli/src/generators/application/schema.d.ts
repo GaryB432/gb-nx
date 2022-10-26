@@ -13,5 +13,4 @@ export interface Schema {
    * A directory where the project is placed
    */
   directory?: string;
-  [k: string]: unknown | undefined;
 }

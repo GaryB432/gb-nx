@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 /**
- * Generates a CLI command.
+ * Generate a CLI command.
  */
 export interface Schema {
   /**

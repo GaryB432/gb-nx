@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 /**
- * Creates a browser extension application.
+ * Create a browser extension application.
  */
 export interface Schema {
   /**

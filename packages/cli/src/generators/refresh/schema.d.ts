@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 /**
- * Refreshes generated CLI application assets.
+ * Refresh generated CLI application assets.
  */
 export interface Schema {
   /**

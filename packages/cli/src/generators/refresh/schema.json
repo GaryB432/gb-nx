@@ -2,10 +2,15 @@
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
   "$id": "GbNxRefreshCli",
-  "title": "Refreshes generated CLI application assets.",
-  "description": "Refreshes generated CLI application assets.",
+  "title": "Refresh generated CLI application assets.",
+  "description": "Refresh generated CLI application assets.",
+  "examples": [
+    {
+      "command": "nx g @gb-nx/cli:refresh --project myapp --ts --main",
+      "description": "Generate the Typescript files and main.ts entrypoint for the myapp CLI application"
+    }
+  ],
   "type": "object",
-  "additionalProperties": false,
   "properties": {
     "project": {
       "type": "string",
@@ -33,5 +38,6 @@
       "description": "Specifies if commands.md should be generated"
     }
   },
+  "additionalProperties": false,
   "required": []
 }
