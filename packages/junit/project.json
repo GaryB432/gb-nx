@@ -12,7 +12,10 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/junit"],
+      "outputs": [
+        "coverage/packages/junit",
+        "junit/packages/junit.xml"
+      ],
       "options": {
         "jestConfig": "packages/junit/jest.config.ts",
         "passWithNoTests": true

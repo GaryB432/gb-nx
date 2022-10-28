@@ -13,4 +13,14 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/packages/browser',
+  reporters: [
+    'default',
+    [
+      'jest-junit',
+      {
+        outputDirectory: 'junit/packages',
+        outputName: 'browser.xml',
+      },
+    ],
+  ],
 };

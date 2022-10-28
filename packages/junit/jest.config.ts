@@ -13,4 +13,14 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/packages/junit',
+  reporters: [
+    'default',
+    [
+      'jest-junit',
+      {
+        outputDirectory: 'junit/packages',
+        outputName: 'junit.xml',
+      },
+    ],
+  ],
 };
