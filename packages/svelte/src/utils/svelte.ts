@@ -1,15 +1,15 @@
 import type { ProjectConfiguration, Tree } from '@nrwl/devkit';
 import { joinPathFragments } from '@nrwl/devkit';
 import { tsquery } from '@phenomnomnominal/tsquery';
-import {
+import type {
   Identifier,
   ObjectLiteralExpression,
   PropertyAssignment,
   SourceFile,
   StringLiteral,
-  SyntaxKind,
   SyntaxList,
 } from 'typescript';
+import { SyntaxKind } from 'typescript';
 import { type NamedPath, readModulePackageJson } from './paths';
 
 export const SVELTE_CONFIG = 'svelte.config.js';

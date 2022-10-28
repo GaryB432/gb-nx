@@ -88,10 +88,6 @@ const config: Config = {
       onError: 'fail',
       origin: 'http://sveltekit-prerender'
     },
-    serviceWorker: {
-      register: true,
-      files: (filepath) => !/\.DS_Store/.test(filepath)
-    },d
     trailingSlash: 'never',
     version: {
       name: Date.now().toString(),
