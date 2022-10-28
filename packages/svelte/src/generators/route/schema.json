@@ -27,8 +27,7 @@
       "$default": {
         "$source": "projectName"
       },
-      "alias": "p",
-      "x-prompt": "What Svelte project would you like to target?"
+      "alias": "p"
     },
     "directory": {
       "description": "Directory where the generated files are placed.",
@@ -40,19 +39,30 @@
       "type": "boolean",
       "default": false
     },
+    "skipTests": {
+      "description": "Do not create 'spec' test file for the route.",
+      "type": "boolean",
+      "default": false
+    },
     "language": {
-      "description": "Component script language (ts/js).",
+      "description": "Route script language (ts/js).",
       "type": "string",
       "enum": ["js", "ts"],
       "default": "js"
     },
     "style": {
-      "description": "Component style language (css/scss).",
+      "description": "Route style language (css/scss).",
       "type": "string",
       "enum": ["css", "scss"],
       "default": "css"
+    },
+    "load": {
+      "description": "Source of data for your load function",
+      "type": "string",
+      "enum": ["shared", "server", "none"],
+      "default": "none"
     }
   },
   "additionalProperties": false,
-  "required": ["name", "project"]
+  "required": ["name"]
 }

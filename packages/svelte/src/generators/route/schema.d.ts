@@ -11,7 +11,7 @@ export interface Schema {
   /**
    * The Svelte project to target.
    */
-  project: string;
+  project?: string;
   /**
    * Directory where the generated files are placed.
    */
@@ -21,11 +21,19 @@ export interface Schema {
    */
   skipFormat?: boolean;
   /**
-   * Component script language (ts/js).
+   * Do not create 'spec' test file for the route.
+   */
+  skipTests?: boolean;
+  /**
+   * Route script language (ts/js).
    */
   language?: 'js' | 'ts';
   /**
-   * Component style language (css/scss).
+   * Route style language (css/scss).
    */
   style?: 'css' | 'scss';
+  /**
+   * Source of data for your load function
+   */
+  load?: 'shared' | 'server' | 'none';
 }
