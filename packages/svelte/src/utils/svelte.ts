@@ -1,6 +1,16 @@
 import type { ProjectConfiguration, Tree } from '@nrwl/devkit';
 import { joinPathFragments } from '@nrwl/devkit';
-import { readModulePackageJson } from './paths';
+import { tsquery } from '@phenomnomnominal/tsquery';
+import {
+  Identifier,
+  ObjectLiteralExpression,
+  PropertyAssignment,
+  SourceFile,
+  StringLiteral,
+  SyntaxKind,
+  SyntaxList,
+} from 'typescript';
+import { type NamedPath, readModulePackageJson } from './paths';
 
 export const SVELTE_CONFIG = 'svelte.config.js';
 
@@ -9,8 +19,106 @@ export interface NodeApplicationSchema {
   directory: string;
 }
 
+interface KitFiles {
+  routes: string;
+  lib: string;
+  params: string;
+}
+
+const defaultSvelteFiles: KitFiles = {
+  lib: 'src/lib',
+  params: 'src/params',
+  routes: 'src/routes',
+};
+
+const SVELTE_CONFIG_KIT_OBJECT_LITERAL_SELECTOR =
+  'PropertyAssignment:has(Identifier[name=kit]) ObjectLiteralExpression';
+
+export function getKitLiteral(
+  configContents: string
+): ObjectLiteralExpression | undefined {
+  const ast: SourceFile = tsquery.ast(configContents);
+  const qresults = tsquery<ObjectLiteralExpression>(
+    ast,
+    SVELTE_CONFIG_KIT_OBJECT_LITERAL_SELECTOR,
+    { visitAllChildren: true }
+  );
+
+  return qresults[0];
+}
+
 export function isSvelte(tree: Tree, config: ProjectConfiguration): boolean {
   return tree.exists(joinPathFragments(config.root, SVELTE_CONFIG));
+}
+
+function namedPathFromPropertyAssignment(node: PropertyAssignment): NamedPath {
+  const identifier = node.name as Identifier;
+  const name = identifier.text;
+
+  const initializer = node.initializer as StringLiteral;
+  const path = initializer.text;
+
+  return { name, path };
+}
+
+function getSvelteFilesFromPropertyAssignment(
+  aliasAssignment: PropertyAssignment
+): Partial<KitFiles> {
+  const objectLiteral = aliasAssignment.getChildren().find((node) => {
+    return node.kind === SyntaxKind.ObjectLiteralExpression;
+  }) as ObjectLiteralExpression | undefined;
+
+  if (objectLiteral) {
+    const syntaxList = objectLiteral.getChildren().find((node) => {
+      return node.kind === SyntaxKind.SyntaxList;
+    }) as SyntaxList | undefined;
+
+    if (syntaxList) {
+      const nps = syntaxList
+        .getChildren()
+        .filter((node) => node.kind === SyntaxKind.PropertyAssignment)
+        .map<NamedPath>((n) =>
+          namedPathFromPropertyAssignment(n as PropertyAssignment)
+        );
+
+      return nps.reduce(
+        (a, np) => {
+          a[np.name] = np.path;
+          return a;
+        },
+        { ...defaultSvelteFiles } as Record<string, string>
+      );
+    }
+  }
+
+  return defaultSvelteFiles;
+}
+
+export function getSvelteFiles(configContents: string): KitFiles {
+  const kitLiteral = getKitLiteral(configContents);
+
+  if (kitLiteral) {
+    const syntaxList = kitLiteral.getChildren().find((node) => {
+      return node.kind === SyntaxKind.SyntaxList;
+    }) as SyntaxList;
+
+    const filesAssignment = syntaxList
+      .getChildren()
+      .find(
+        (node) =>
+          node.kind === SyntaxKind.PropertyAssignment &&
+          node.getChildAt(0).getText() === 'files'
+      ) as PropertyAssignment;
+
+    if (filesAssignment) {
+      return {
+        ...defaultSvelteFiles,
+        ...getSvelteFilesFromPropertyAssignment(filesAssignment),
+      };
+    }
+  }
+
+  return defaultSvelteFiles;
 }
 
 export function getSvelteConfig(

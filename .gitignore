@@ -28,6 +28,7 @@
 /.sass-cache
 /connect.lock
 /coverage
+/junit
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
@@ -38,5 +39,3 @@ testem.log
 .DS_Store
 Thumbs.db
 migrations.json
-
-/junit

@@ -8,6 +8,11 @@ interface Package {
   version: string;
 }
 
+export interface NamedPath {
+  name: string;
+  path: string;
+}
+
 export function readPackageJson(
   tree: Tree,
   config: ProjectConfiguration
