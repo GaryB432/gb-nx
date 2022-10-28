@@ -1,39 +1,18 @@
-import { tsquery } from '@phenomnomnominal/tsquery';
 import type {
   Identifier,
   ObjectLiteralExpression,
   PropertyAssignment,
-  SourceFile,
   StringLiteral,
   SyntaxList,
 } from 'typescript';
 import { SyntaxKind } from 'typescript';
+import { type NamedPath } from '../../utils/paths';
 import { stringInsert } from '../../utils/strings';
-
-export interface Alias {
-  name: string;
-  path: string;
-}
+import { getKitLiteral } from '../../utils/svelte';
 
 export interface AliasConfiguration {
-  aliases: Alias[];
+  aliases: NamedPath[];
   useComma: boolean;
-}
-
-const SVELTE_CONFIG_KIT_OBJECT_LITERAL_SELECTOR =
-  'PropertyAssignment:has(Identifier[name=kit]) ObjectLiteralExpression';
-
-function getKitLiteral(
-  configContents: string
-): ObjectLiteralExpression | undefined {
-  const ast: SourceFile = tsquery.ast(configContents);
-  const qresults = tsquery<ObjectLiteralExpression>(
-    ast,
-    SVELTE_CONFIG_KIT_OBJECT_LITERAL_SELECTOR,
-    { visitAllChildren: true }
-  );
-
-  return qresults[0];
 }
 
 function isCommaNeeded(aliasAssignment: PropertyAssignment): boolean {
@@ -50,7 +29,7 @@ function isCommaNeeded(aliasAssignment: PropertyAssignment): boolean {
 
 function getAliasesFromPropertyAssignment(
   aliasAssignment: PropertyAssignment
-): Alias[] {
+): NamedPath[] {
   const objectLiteral = aliasAssignment.getChildren().find((node) => {
     return node.kind === SyntaxKind.ObjectLiteralExpression;
   }) as ObjectLiteralExpression | undefined;
@@ -70,10 +49,12 @@ function getAliasesFromPropertyAssignment(
   return syntaxList
     .getChildren()
     .filter((node) => node.kind === SyntaxKind.PropertyAssignment)
-    .map<Alias>((n) => aliasFromPropertyAssignment(n as PropertyAssignment));
+    .map<NamedPath>((n) =>
+      aliasFromPropertyAssignment(n as PropertyAssignment)
+    );
 }
 
-export function getConfiguredAliases(configContents: string): Alias[] {
+export function getConfiguredAliases(configContents: string): NamedPath[] {
   const kitLiteral = getKitLiteral(configContents);
 
   if (kitLiteral) {
@@ -96,7 +77,9 @@ export function getConfiguredAliases(configContents: string): Alias[] {
   return [];
 }
 
-export function aliasFromPropertyAssignment(node: PropertyAssignment): Alias {
+export function aliasFromPropertyAssignment(
+  node: PropertyAssignment
+): NamedPath {
   const identifier = node.name as Identifier;
   const name = identifier.text;
 
@@ -108,7 +91,7 @@ export function aliasFromPropertyAssignment(node: PropertyAssignment): Alias {
 
 export function addToSvelteConfiguration(
   configContents: string,
-  alias: Alias
+  alias: NamedPath
 ): string {
   const kitLiteral = getKitLiteral(configContents);
 
@@ -152,6 +135,6 @@ export function addToSvelteConfiguration(
   return configContents;
 }
 
-export function initializerString(alias: Alias): string {
+export function initializerString(alias: NamedPath): string {
   return `'${alias.name}': '${alias.path}'`;
 }

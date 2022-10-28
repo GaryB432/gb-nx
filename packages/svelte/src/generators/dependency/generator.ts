@@ -8,16 +8,15 @@ import {
   readWorkspaceConfiguration,
 } from '@nrwl/devkit';
 
-import { makeAliasName } from '../../utils/paths';
+import { makeAliasName, type NamedPath } from '../../utils/paths';
 import { getSvelteConfig } from '../../utils/svelte';
-import type { Alias } from './alias';
 import { addToSvelteConfiguration, getConfiguredAliases } from './alias';
 import type { Schema as DependencyGeneratorSchema } from './schema';
 
 function updateSvelteConfig(
   tree: Tree,
   project: ProjectConfiguration,
-  alias: Alias
+  alias: NamedPath
 ): void {
   const fname = joinPathFragments(project.root, 'svelte.config.js');
   const config = tree.read(fname);

@@ -1,5 +1,5 @@
 import { factory } from 'typescript';
-import type { Alias } from './alias';
+import type { NamedPath } from '../../utils/paths';
 import {
   addToSvelteConfiguration,
   aliasFromPropertyAssignment,
@@ -8,7 +8,7 @@ import {
 } from './alias';
 
 describe('Alias', () => {
-  let alias: Alias;
+  let alias: NamedPath;
 
   beforeEach(() => {
     alias = { name: 'name', path: 'path' };
@@ -38,7 +38,7 @@ describe('Alias', () => {
 });
 
 describe('add-alias', () => {
-  let alias: Alias;
+  let alias: NamedPath;
 
   beforeEach(() => {
     alias = { name: '@name/ok', path: '../a/b/c/fun.ts' };
@@ -366,7 +366,7 @@ describe('add-alias', () => {
 });
 
 describe('comma handling', () => {
-  let alias: Alias;
+  let alias: NamedPath;
 
   beforeEach(() => {
     alias = { name: '@name/fun', path: '../a/b/c/moar.ts' };
