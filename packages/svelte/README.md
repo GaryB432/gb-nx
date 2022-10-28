@@ -45,7 +45,7 @@ yarn add @gb-nx/svelte --dev
 The plugin will create an Nx project for an existing svelte-kit application. Do so with commands similar to the following
 
 ```shell
-npx create-nx-workspace@latest sample-workspace
+npx create-nx-workspace@latest sample-workspace --preset apps
 cd sample-workspace/apps
 npm create svelte@latest web
 cd web
@@ -79,12 +79,6 @@ The generator will
 ```
 nx g @gb-nx/svelte:dependency --project web --dependency my-lib
 ```
-
-| OPTION         | DESCRIPTION                                                    |
-| -------------- | -------------------------------------------------------------- |
-| `--project`    | The name of the depending project, your SvelteKit application  |
-| `--dependency` | The name of the project to depend on                           |
-| `--scope`      | A scope to prepend to the dependency's name for the alias name |
 
 ## License
 
