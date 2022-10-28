@@ -1,0 +1,18 @@
+<% if (language === 'ts') { %>
+<script lang="ts">
+  export let subject = '<%= className %> component';
+</script>
+<% } else { %>
+<script>
+  export let subject = '<%= className %> component';
+</script>
+<% } %>
+<div class="a">
+  {subject} works
+</div>
+
+<style>
+  .a {
+    border: thin solid silver;
+  }
+</style>

@@ -1,24 +1,69 @@
 import type { Tree } from '@nrwl/devkit';
-import {
-  addProjectConfiguration,
-  readProjectConfiguration,
-} from '@nrwl/devkit';
+import { addProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import generator from './generator';
-import type { Schema as ComponentGeneratorSchema } from './schema';
+import { createSvelteKitApp } from '../../utils/svelte';
+import componentGenerator from './generator';
 
-describe('component generator', () => {
+describe('component', () => {
   let appTree: Tree;
-  const options: ComponentGeneratorSchema = { name: 'tbd', project: 'test' };
+  const projectName = 'my-app';
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
-    addProjectConfiguration(appTree, 'test', { root: 'hmmm' });
+    createSvelteKitApp(appTree, '0', { directory: 'apps', name: projectName });
+    addProjectConfiguration(appTree, projectName, { root: 'apps/my-app' });
   });
 
-  it('should run successfully', async () => {
-    await generator(appTree, options);
-    const config = readProjectConfiguration(appTree, 'test');
-    expect(config).toBeDefined();
+  it('should generate component in components directory', async () => {
+    await componentGenerator(appTree, {
+      name: 'hello',
+      project: projectName,
+      directory: 'components',
+    });
+
+    expect(appTree.read('apps/my-app/src/lib/components/Hello.svelte', 'utf-8'))
+      .toMatchInlineSnapshot(`
+      "
+      <script>
+        export let subject = 'Hello component';
+      </script>
+
+      <div class=\\"a\\">
+        {subject} works
+      </div>
+
+      <style>
+        .a {
+          border: thin solid silver;
+        }
+      </style>
+      "
+    `);
+  });
+
+  it('should generate component in lib directory', async () => {
+    await componentGenerator(appTree, {
+      name: 'hello',
+      project: projectName,
+    });
+
+    expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8'))
+      .toMatchInlineSnapshot(`
+      "
+      <script>
+        export let subject = 'Hello component';
+      </script>
+
+      <div class=\\"a\\">
+        {subject} works
+      </div>
+
+      <style>
+        .a {
+          border: thin solid silver;
+        }
+      </style>
+      "
+    `);
   });
 });
