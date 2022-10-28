@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 /**
- * Add NX configuration too your Svelte-kit package.
+ * Add NX configuration to your Svelte-kit package.
  */
 export interface Schema {
   name: string;

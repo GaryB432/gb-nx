@@ -3,7 +3,7 @@
   "cli": "nx",
   "$id": "GbNxSvelteApplication",
   "title": "Add NX configuration to your Svelte-kit package.",
-  "description": "Add NX configuration too your Svelte-kit package.",
+  "description": "Add NX configuration to your Svelte-kit package.",
   "examples": [
     {
       "command": "nx g @gb-nx/svelte:application myapp",
