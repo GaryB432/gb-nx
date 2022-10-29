@@ -122,7 +122,7 @@ export default config;`;
     expect(params).toEqual('src/my/params');
   });
 
-  it('no getSvelteFiles', async () => {
+  it('no config getSvelteFiles', async () => {
     const config = `const config = {}; export default config;`;
     const { routes, lib, params } = getSvelteFiles(config);
     expect(routes).toEqual('src/routes');

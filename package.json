@@ -9,8 +9,6 @@
   },
   "private": true,
   "devDependencies": {
-    "@angular-devkit/core": "^14.1.2",
-    "@angular-devkit/schematics": "^14.1.2",
     "@nrwl/cli": "14.7.5",
     "@nrwl/devkit": "14.7.5",
     "@nrwl/eslint-plugin-nx": "14.7.5",
