@@ -15,7 +15,7 @@
       "description": "Generate a MoveCommand in your myapp CLI application but do not export it from index.ts"
     },
     {
-      "command": "nx g @gb-nx/cli:move --project myapp --parameter one --paramter two --option three",
+      "command": "nx g @gb-nx/cli:move --project myapp --parameter one --parameter two --option three",
       "description": "Generate a MoveCommand in your myapp CLI application with the supplied parameters and option"
     }
   ],
@@ -29,11 +29,11 @@
     "project": {
       "type": "string",
       "description": "The name of the project.",
+      "alias": "p",
       "$default": {
         "$source": "projectName"
       },
-      "alias": "p",
-      "x-prompt": "What project would you like to target?"
+      "x-prompt": "What is the name of the project for this command??"
     },
     "name": {
       "type": "string",
