@@ -50,6 +50,11 @@
             "input": "./packages/cli",
             "glob": "executors.json",
             "output": "."
+          },
+          {
+            "input": "./packages/cli/schemas",
+            "glob": "*.json",
+            "output": "./schemas"
           }
         ]
       }
