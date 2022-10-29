@@ -43,7 +43,7 @@ function makeInterfaceDeclaration(
 ): ts.InterfaceDeclaration {
   const props = Object.keys(cmdOpts)
     .sort((a, b) => a.localeCompare(b))
-    .map((cmdOpt) =>
+    .map<ts.PropertySignature>((cmdOpt) =>
       ts.factory.createPropertySignature(
         undefined,
         cmdOpt,
@@ -52,7 +52,7 @@ function makeInterfaceDeclaration(
       )
     );
 
-  return ts.factory.createInterfaceDeclaration(
+  const declaration = ts.factory.createInterfaceDeclaration(
     undefined,
     undefined,
     'Options',
@@ -67,6 +67,15 @@ function makeInterfaceDeclaration(
     ],
     props
   );
+  if (props.length === 0) {
+    ts.addSyntheticLeadingComment(
+      declaration,
+      ts.SyntaxKind.MultiLineCommentTrivia,
+      ' eslint-disable @typescript-eslint/no-empty-interface ',
+      true
+    );
+  }
+  return declaration;
 }
 
 function makeImportDelcaration(): ts.ImportDeclaration {

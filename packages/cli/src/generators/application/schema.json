@@ -8,6 +8,10 @@
     {
       "command": "nx g @gb-nx/cli:application myapp",
       "description": "Generate a CLI application in your workspace"
+    },
+    {
+      "command": "nx g @gb-nx/cli:application myapp --directory mydir",
+      "description": "Generate a CLI application in your workspace in the maydir directory "
     }
   ],
 
@@ -30,7 +34,7 @@
     "directory": {
       "type": "string",
       "description": "A directory where the project is placed",
-      "alias": "d"
+      "alias": "dir"
     }
   },
   "additionalProperties": false,

@@ -41,7 +41,6 @@ export default async function refreshGenerator(
     };
 
     if (options.all || options.ts) {
-      // TODO  fix An interface declaring no members is equivalent to its supertype
       for (const [name, cmd] of Object.entries(config.commands)) {
         tree.write(
           joinPathFragments(
