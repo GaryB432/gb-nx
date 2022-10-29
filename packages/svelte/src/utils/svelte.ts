@@ -62,9 +62,9 @@ function namedPathFromPropertyAssignment(node: PropertyAssignment): NamedPath {
 }
 
 function getSvelteFilesFromPropertyAssignment(
-  aliasAssignment: PropertyAssignment
+  filesAssignment: PropertyAssignment
 ): Partial<KitFiles> {
-  const objectLiteral = aliasAssignment.getChildren().find((node) => {
+  const objectLiteral = filesAssignment.getChildren().find((node) => {
     return node.kind === SyntaxKind.ObjectLiteralExpression;
   }) as ObjectLiteralExpression | undefined;
 
