@@ -1,4 +1,4 @@
-import type { Tree, GeneratorCallback } from '@nrwl/devkit';
+import type { GeneratorCallback, Tree } from '@nrwl/devkit';
 import {
   addDependenciesToPackageJson,
   formatFiles,
@@ -6,8 +6,8 @@ import {
   installPackagesTask,
   joinPathFragments,
   names,
+  output,
 } from '@nrwl/devkit';
-import { output } from 'nx/src/utils/output'; // TODO use this from devkit
 import { join } from 'path';
 import { getSveltePackageVersions, isSvelte } from '../../utils/svelte';
 import { prettierPluginSvelteVersion } from '../../utils/versions';
@@ -32,7 +32,7 @@ const nx = {
 };
 
 interface PackageJson {
-  devDependencies: Record<string, string>; 
+  devDependencies: Record<string, string>;
   name: string;
   version: string;
 }
