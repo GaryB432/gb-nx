@@ -144,6 +144,8 @@ export default async function (
     throw new Error(noProject(options.name));
   }
 
+  // TODO formatFiles outside of return and installPackages within per others
+
   installPackagesTask(tree);
 
   return async () => {
