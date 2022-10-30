@@ -1,8 +1,7 @@
+import { output, Workspaces } from '@nrwl/devkit';
 import { existsSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import { compile, JSONSchema } from 'json-schema-to-typescript';
-import { Workspaces } from 'nx/src/config/workspaces';
-import { output } from 'nx/src/utils/output'; // TODO use this from devkit
 import { join, parse, ParsedPath } from 'path';
 
 // TODO this should be a generator (probably)

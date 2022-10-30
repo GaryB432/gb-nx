@@ -1,6 +1,7 @@
 import type { ConfigCommand, ConfigProp } from './config';
 
 function enQuote(s: string): string {
+  // TODO handle embedded single-quotes
   return `'${s}'`;
 }
 
