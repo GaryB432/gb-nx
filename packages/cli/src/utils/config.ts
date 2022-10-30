@@ -11,18 +11,18 @@ export interface ConfigProp {
 export interface ConfigCommand {
   alias?: string;
   description?: string;
-  parameters: Record<string, ConfigProp>;
   options: Record<string, ConfigProp>;
+  parameters: Record<string, ConfigProp>;
 }
 
 export interface Config {
-  version: number;
+  commands: Record<string, ConfigCommand>;
+  global?: ConfigCommand;
   program?: {
     name: string;
     version: string;
   };
-  global?: ConfigCommand;
-  commands: Record<string, ConfigCommand>;
+  version: number;
 }
 
 function configPath(projectRoot: string): string {

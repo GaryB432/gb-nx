@@ -14,8 +14,8 @@ import refreshGenerator from '../refresh/refresh';
 import type { Schema as CommandGeneratorSchema } from './schema';
 
 export interface NormalizedCommandSchema extends CommandGeneratorSchema {
-  description?: string;
   buildTargetMain?: string;
+  description?: string;
   projectName: string;
   projectRoot: string;
   projectSrcRoot: string;

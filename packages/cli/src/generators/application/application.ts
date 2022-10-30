@@ -14,10 +14,10 @@ import * as path from 'path';
 import { ansiColorsVersion, sadeVersion } from '../../utils/versions';
 
 interface NormalizedSchema extends ApplicationGeneratorSchema {
+  parsedTags: string[];
+  projectDirectory: string;
   projectName: string;
   projectRoot: string;
-  projectDirectory: string;
-  parsedTags: string[];
 }
 
 function normalizeOptions(

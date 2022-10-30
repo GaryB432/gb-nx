@@ -1,4 +1,4 @@
-import type { GeneratorCallback, Tree } from '@nrwl/devkit';
+import type { Tree } from '@nrwl/devkit';
 import {
   formatFiles,
   getProjects,
@@ -15,7 +15,8 @@ import type { Schema as RefreshGeneratorSchema } from './schema';
 export default async function refreshGenerator(
   tree: Tree,
   options: RefreshGeneratorSchema
-): Promise<GeneratorCallback> {
+): Promise<void> {
+  const fun = true;
   const ws = readWorkspaceConfiguration(tree);
   const projects = getProjects(tree);
   if (projects) {
@@ -111,7 +112,5 @@ export default async function refreshGenerator(
     }
   }
 
-  return async () => {
-    await formatFiles(tree);
-  };
+  await formatFiles(tree);
 }
