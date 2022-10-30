@@ -23,19 +23,20 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {
-        "@typescript-eslint/consistent-type-imports": "warn",
-        "@typescript-eslint/no-unused-vars": "off"
-      }
+      "extends": [
+        "plugin:@nrwl/nx/typescript",
+        "plugin:gb/recommended-with-type-checking"
+      ],
+      "rules": {}
     },
     {
       "files": ["*.spec.ts", "*.spec.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
+      "extends": [
+        "plugin:@nrwl/nx/typescript",
+        "plugin:gb/recommended-with-type-checking"
+      ],
       "rules": {
-        "@typescript-eslint/consistent-type-imports": "warn",
-        "@typescript-eslint/no-non-null-assertion": "off",
-        "@typescript-eslint/no-unused-vars": "off"
+        "@typescript-eslint/no-non-null-assertion": "off"
       }
     },
     {
