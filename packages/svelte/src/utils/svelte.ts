@@ -15,14 +15,14 @@ import { type NamedPath, readModulePackageJson } from './paths';
 export const SVELTE_CONFIG = 'svelte.config.js';
 
 export interface NodeApplicationSchema {
-  name: string;
   directory: string;
+  name: string;
 }
 
 interface KitFiles {
-  routes: string;
   lib: string;
   params: string;
+  routes: string;
 }
 
 const defaultSvelteFiles: KitFiles = {

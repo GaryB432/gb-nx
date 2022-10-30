@@ -46,8 +46,8 @@ function normalizeOptions(
 }
 
 interface Segment {
-  path: string;
   isParam: boolean;
+  path: string;
 }
 
 export function getSegments(
@@ -157,32 +157,32 @@ function addSveltePage(
 
   const scripts: Record<
     string,
-    { shared: string; server: string; none: string }
+    { none: string; server: string; shared: string }
   > = {
     js: {
-      shared: `<script>
-        /** @type {import('./$types').PageData} */
-        export let data;
+      none: `<script>
+        let data = { subject: '${options.name}' };
       </script>`,
       server: `<script>
         /** @type {import('./$types').PageData} */
         export let data;
       </script>`,
-      none: `<script>
-        let data = { subject: '${options.name}' };
+      shared: `<script>
+        /** @type {import('./$types').PageData} */
+        export let data;
       </script>`,
     },
     ts: {
-      shared: `<script lang="ts">
-        import type { PageData } from './$types';
-        export let data: PageData;
+      none: `<script lang="ts">
+        let data = { subject: '${options.name}' };
       </script>`,
       server: `<script lang="ts">
         import type { PageData } from './$types';
         export let data: PageData;
       </script>`,
-      none: `<script lang="ts">
-        let data = { subject: '${options.name}' };
+      shared: `<script lang="ts">
+        import type { PageData } from './$types';
+        export let data: PageData;
       </script>`,
     },
   };
@@ -233,7 +233,10 @@ test('has generated article', async ({ page }) => {
   tree.write(fname, content);
 }
 
-export async function routeGenerator(tree: Tree, schema: Schema) {
+export async function routeGenerator(
+  tree: Tree,
+  schema: Schema
+): Promise<void> {
   const notfound = (p: string) => `project '${p}' was not found in workspace`;
   const notSvelte = (p: string) =>
     `project '${p}' is not configured for svelte`;

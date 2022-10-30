@@ -11,8 +11,8 @@ import { getSvelteConfig, getSvelteFiles } from '../../utils/svelte';
 import type { Schema as ComponentGeneratorSchema } from './schema';
 
 export interface NormalizedComponentSchema extends ComponentGeneratorSchema {
-  projectName: string;
   projectLibRoot: string;
+  projectName: string;
 }
 
 function normalizeOptions(

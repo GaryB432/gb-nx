@@ -32,9 +32,9 @@ const nx = {
 };
 
 interface PackageJson {
+  devDependencies: Record<string, string>; 
   name: string;
   version: string;
-  devDependencies: Record<string, string>;
 }
 
 interface NormalizedSchema extends ApplicationGeneratorSchema {
@@ -144,11 +144,11 @@ export default async function (
     throw new Error(noProject(options.name));
   }
 
-  // TODO formatFiles outside of return and installPackages within per others
+  // TODO formatFiles outside of return and installPackages within per others (added await 10/30)
 
   installPackagesTask(tree);
 
   return async () => {
-    formatFiles(tree);
+    await formatFiles(tree);
   };
 }
