@@ -10,9 +10,16 @@
 <div class="a">
   {subject} works
 </div>
-
+<% if (style === 'scss') { %>
+<style lang="scss">
+  .a {
+    border: thin solid silver;
+  }
+</style>
+<% } else { %>
 <style>
   .a {
     border: thin solid silver;
   }
 </style>
+<% } %>
