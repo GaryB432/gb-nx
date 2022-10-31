@@ -11,7 +11,7 @@ import {
 import { applicationGenerator as nodeAppGenerator } from '@nrwl/node';
 import type { Schema as ApplicationGeneratorSchema } from '@nrwl/node/src/generators/application/schema';
 import * as path from 'path';
-import { ansiColorsVersion, sadeVersion } from '../../utils/versions';
+import { chalkVersion, sadeVersion } from '../../utils/versions';
 
 interface NormalizedSchema extends ApplicationGeneratorSchema {
   parsedTags: string[];
@@ -86,8 +86,7 @@ export default async function applicationGenerator(
 
   addDependenciesToPackageJson(
     tree,
-    // TODO use chalk
-    { 'ansi-colors': ansiColorsVersion, sade: sadeVersion },
+    { chalk: chalkVersion, sade: sadeVersion },
     {}
   );
   await formatFiles(tree);

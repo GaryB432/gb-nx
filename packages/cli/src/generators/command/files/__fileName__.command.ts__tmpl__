@@ -1,12 +1,13 @@
-import colors = require('ansi-colors');
+import * as chalk from 'chalk';
 import { CommandArgs } from './<%= fileName %>.types';
 
 export async function <%= propertyName %>Command(<%= commandParameters %>: CommandArgs): Promise<void> {
-  if (opts.dryRun) {
-    console.log(colors.bgYellow.black('Dry Run. Nothing written.'));
-  }
-  console.log(colors.bgGreenBright.whiteBright('<%= propertyName %>Command works'));
   if (opts.verbose) {
     console.log(<%= commandParameters %>);
+  }
+  if (opts.dryRun) {
+    console.log(chalk.yellowBright('Dry Run. Nothing written.'));
+  } else {
+    console.log(chalk.bgGreenBright.whiteBright('<%= propertyName %>Command works'));
   }
 }

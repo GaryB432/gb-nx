@@ -23,16 +23,17 @@ describe('command', () => {
 
     expect(tree.read('apps/my-app/src/app/commands/hello.command.ts', 'utf-8'))
       .toMatchInlineSnapshot(`
-      "import colors = require('ansi-colors');
+      "import * as chalk from 'chalk';
       import { CommandArgs } from './hello.types';
-
+      
       export async function helloCommand({ src, FunDest, opts }: CommandArgs): Promise<void> {
-        if (opts.dryRun) {
-          console.log(colors.bgYellow.black('Dry Run. Nothing written.'));
-        }
-        console.log(colors.bgGreenBright.whiteBright('helloCommand works'));
         if (opts.verbose) {
           console.log({ src, FunDest, opts });
+        }
+        if (opts.dryRun) {
+          console.log(chalk.yellowBright('Dry Run. Nothing written.'));
+        } else {
+          console.log(chalk.bgGreenBright.whiteBright('helloCommand works'));
         }
       }
       "
