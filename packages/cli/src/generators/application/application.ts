@@ -83,8 +83,7 @@ export default async function applicationGenerator(
     options: {
       commands: [
         {
-          command:
-            'node ./node_modules/nx/bin/nx.js g @gb-nx/cli:refresh --project funnest --all',
+          command: `node ./node_modules/nx/bin/nx.js g @gb-nx/cli:refresh --project ${normalizedOptions.projectName} --all`,
         },
       ],
     },

@@ -120,7 +120,7 @@ export default async function commandGenerator(
   }
   writeCliConfig(tree, normalizedOptions.projectRoot, config);
 
-  const refreshCmd = `nx sync funnest`;
+  const refreshCmd = `nx sync ${normalizedOptions.projectName}`;
   output.log({
     title: 'Next steps',
     bodyLines: [

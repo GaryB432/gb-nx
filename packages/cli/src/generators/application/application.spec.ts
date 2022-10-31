@@ -1,5 +1,8 @@
 import type { Tree } from '@nrwl/devkit';
-import * as devkit from '@nrwl/devkit';
+import {
+  readProjectConfiguration,
+  updateWorkspaceConfiguration,
+} from '@nrwl/devkit';
 import { parseJson, readJson, readWorkspaceConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import type { Schema } from '@nrwl/node/src/generators/application/schema';
@@ -54,12 +57,19 @@ describe('app', () => {
     it('should not overwrite default project if already set', async () => {
       const workspace = readWorkspaceConfiguration(appTree);
       workspace.defaultProject = 'some-awesome-project';
-      devkit.updateWorkspaceConfiguration(appTree, workspace);
+      updateWorkspaceConfiguration(appTree, workspace);
 
       await generateApp(appTree);
 
       const { defaultProject } = readWorkspaceConfiguration(appTree);
       expect(defaultProject).toBe('some-awesome-project');
+    });
+
+    it('should add target', async () => {
+      await generateApp(appTree);
+      const proj = readProjectConfiguration(appTree, 'my-app');
+      const targets = proj.targets ?? {};
+      expect(targets['sync'].executor).toEqual('nx:run-commands');
     });
   });
 
