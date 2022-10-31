@@ -12,7 +12,7 @@ describe('sade', () => {
         {
           description: 'this here',
           parameters: { a: { type: 'unknown' }, b: { type: 'unknown' } },
-          options: { a: { type: 'unknown' } },
+          options: { a: { type: 'unknown', alias: 'q' } },
         },
         pnames
       )
@@ -20,7 +20,7 @@ describe('sade', () => {
       "prog
       .command('TestingSubject <a> <b>')
       .describe('this here')
-      .option('--a','description of a option')
+      .option('-q, --a','description of a option')
       .action(async (a,b,opts) => { await testingSubjectCommand({ a,b,opts }); });"
     `);
   });

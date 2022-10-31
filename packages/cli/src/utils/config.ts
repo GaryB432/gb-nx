@@ -3,6 +3,7 @@ import { joinPathFragments } from '@nrwl/devkit';
 import type { Kind, KindThing } from './types';
 
 export interface ConfigProp {
+  alias?: string;
   default?: string | number | boolean;
   description?: string;
   type: Kind;

@@ -7,7 +7,7 @@ function enQuote(s: string): string {
 
 function makeCommandOption(name: string, opt: ConfigProp): string {
   const args: (string | number)[] = [
-    enQuote(`--${name}`),
+    enQuote(opt.alias ? `-${opt.alias}, --${name}` : `--${name}`),
     enQuote(opt.description ?? `description of ${name} option`),
   ];
   const def = opt.default;
