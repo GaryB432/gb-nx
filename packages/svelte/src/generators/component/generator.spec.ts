@@ -37,6 +37,7 @@ describe('component', () => {
           border: thin solid silver;
         }
       </style>
+
       "
     `);
   });
@@ -63,6 +64,36 @@ describe('component', () => {
           border: thin solid silver;
         }
       </style>
+
+      "
+    `);
+  });
+
+
+  it('should generate component with scss', async () => {
+    await componentGenerator(appTree, {
+      name: 'hello',
+      project: projectName,
+      style: 'scss',
+    });
+
+    expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8'))
+      .toMatchInlineSnapshot(`
+      "
+      <script>
+        export let subject = 'Hello component';
+      </script>
+
+      <div class=\\"a\\">
+        {subject} works
+      </div>
+
+      <style lang=\\"scss\\">
+        .a {
+          border: thin solid silver;
+        }
+      </style>
+
       "
     `);
   });
