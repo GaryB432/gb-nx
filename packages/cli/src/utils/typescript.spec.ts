@@ -27,8 +27,8 @@ describe('typescript', () => {
             n: number;
         }
         type CommandArgs = {
-            s: string;
             b: boolean;
+            s: string;
             opts: Options;
         };
         "

@@ -13,14 +13,16 @@ const typeNodes: Record<Kind, ts.TypeNode> = {
 function makeTypeAliasDeclaration(
   params: Record<string, KindThing>
 ): ts.TypeAliasDeclaration {
-  const props = Object.entries(params).map(([param, info]) =>
-    ts.factory.createPropertySignature(
-      undefined,
-      param,
-      undefined,
-      typeNodes[info.kind]
-    )
-  );
+  const props = Object.entries(params)
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([param, info]) =>
+      ts.factory.createPropertySignature(
+        undefined,
+        param,
+        undefined,
+        typeNodes[info.kind]
+      )
+    );
   props.push(
     ts.factory.createPropertySignature(
       undefined,
