@@ -5,6 +5,7 @@ import {
   getProjects,
   joinPathFragments,
   names,
+  output,
   readWorkspaceConfiguration,
 } from '@nrwl/devkit';
 import { join } from 'path';
@@ -118,6 +119,19 @@ export default async function commandGenerator(
     updateIndex(tree, normalizedOptions);
   }
   writeCliConfig(tree, normalizedOptions.projectRoot, config);
+
+  const refreshCmd = `nx g @gb-nx/cli:refresh --project ${normalizedOptions.projectName} --all`;
+  output.log({
+    title: 'Next steps',
+    bodyLines: [
+      `1. Replace boilerplate descriptions and types for the new ${output.colors.green(
+        normalizedOptions.name
+      )} command in ${output.colors.cyan('cli.config.json')} `,
+      `2. Run ${output.colors.green(refreshCmd)}`,
+    ],
+    color: 'yellow',
+  });
+
   await refreshGenerator(tree, {
     all: true,
     project: normalizedOptions.projectName,

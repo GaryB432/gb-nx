@@ -29,7 +29,7 @@ yarn create nx-workspace@latest
 
 ## Getting Started
 
-Then you need to install the plugin in order to generate extension applications later on.
+Then you need to install the plugin in order to generate cli applications later on.
 
 ### Installing Plugin
 
