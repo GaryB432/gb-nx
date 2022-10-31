@@ -5,6 +5,7 @@ describe('typescript', () => {
     test('make', () => {
       expect(makeCommandDeclarations({}, {})).toMatchInlineSnapshot(`
         "import { type SharedOptions } from '../shared';
+        /* eslint-disable @typescript-eslint/no-empty-interface */
         interface Options extends SharedOptions {
         }
         type CommandArgs = {
