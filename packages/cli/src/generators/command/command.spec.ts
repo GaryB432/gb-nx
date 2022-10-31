@@ -23,9 +23,11 @@ describe('command', () => {
 
     expect(tree.read('apps/my-app/src/app/commands/hello.command.ts', 'utf-8'))
       .toMatchInlineSnapshot(`
-      "import * as chalk from 'chalk';
+      "/* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+
+      import * as chalk from 'chalk';
       import { CommandArgs } from './hello.types';
-      
+
       export async function helloCommand({ src, FunDest, opts }: CommandArgs): Promise<void> {
         if (opts.verbose) {
           console.log({ src, FunDest, opts });
@@ -44,6 +46,7 @@ describe('command', () => {
     expect(tree.read('apps/my-app/src/main.ts', 'utf-8'))
       .toMatchInlineSnapshot(`
       "#!/usr/bin/env node
+      /* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
       import sade = require('sade');
       import { helloCommand } from './app/commands';
       const prog = sade('my-app');

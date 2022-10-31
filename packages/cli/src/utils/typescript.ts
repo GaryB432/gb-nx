@@ -100,6 +100,7 @@ function makeImportDelcaration(): ts.ImportDeclaration {
 }
 
 export function makeCommandDeclarations(
+  projectName: string,
   params: Record<string, KindThing>,
   options: Record<string, KindThing>
 ): string {
@@ -116,7 +117,12 @@ export function makeCommandDeclarations(
   sourceFile = ts.factory.updateSourceFile(
     sourceFile,
     ts.factory.createNodeArray([
-      makeImportDelcaration(),
+      ts.addSyntheticLeadingComment(
+        makeImportDelcaration(),
+        ts.SyntaxKind.MultiLineCommentTrivia,
+        ` This is a generated file. Make changes to cli.config.json and run "nx sync ${projectName}" `,
+        true
+      ),
       makeInterfaceDeclaration(options),
       makeTypeAliasDeclaration(params),
     ])

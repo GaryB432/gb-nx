@@ -3,8 +3,9 @@ import { makeCommandDeclarations } from './typescript';
 describe('typescript', () => {
   describe('makeCommandDeclarations', () => {
     test('make', () => {
-      expect(makeCommandDeclarations({}, {})).toMatchInlineSnapshot(`
-        "import { type SharedOptions } from '../shared';
+      expect(makeCommandDeclarations('my-app', {}, {})).toMatchInlineSnapshot(`
+        "/* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+        import { type SharedOptions } from '../shared';
         /* eslint-disable @typescript-eslint/no-empty-interface */
         interface Options extends SharedOptions {
         }
@@ -17,11 +18,13 @@ describe('typescript', () => {
     test('full', () => {
       expect(
         makeCommandDeclarations(
+          'my-app',
           { s: { kind: 'string' }, b: { kind: 'boolean' } },
           { n: { kind: 'number' }, a: { kind: 'unknown' } }
         )
       ).toMatchInlineSnapshot(`
-        "import { type SharedOptions } from '../shared';
+        "/* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+        import { type SharedOptions } from '../shared';
         interface Options extends SharedOptions {
             a: unknown;
             n: number;
