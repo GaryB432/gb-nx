@@ -59,7 +59,7 @@ Add a command to the project with the `command` generator
 nx g @gb-nx/cli:command <name> --project my-app
 ```
 
-**You'll want to edit the generated `cli.config.json` file to document your command. The values from the config file are used to generated the boilerplate for your project.**
+**You'll want to edit the generated `cli.config.json` file to document your command. The values from the config file are used to generate the boilerplate for your project.**
 
 The `refersh` generator can refresh your project's boilerplate. See the options below. Run this command when you change your `cli.config.json` file.
 
