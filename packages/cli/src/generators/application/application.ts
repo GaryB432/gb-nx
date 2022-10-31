@@ -1,5 +1,9 @@
 import type { GeneratorCallback, Tree } from '@nrwl/devkit';
 import {
+  readProjectConfiguration,
+  updateProjectConfiguration,
+} from '@nrwl/devkit';
+import {
   addDependenciesToPackageJson,
   formatFiles,
   generateFiles,
@@ -71,17 +75,23 @@ export default async function applicationGenerator(
     ...normalizedOptions,
   });
 
-  // updateProjectConfiguration(tree, normalizedOptions.projectName, {
-  //   root: normalizedOptions.projectRoot,
-  //   projectType: 'application',
-  //   sourceRoot: `${normalizedOptions.projectRoot}/src`,
-  //   targets: {
-  //     build: {
-  //       executor: '@gb-nx/cli:build',
-  //     },
-  //   },
-  //  type p tags: normalizedOptions.parsedTags,
-  // });
+  const nodeApp = readProjectConfiguration(tree, normalizedOptions.projectName);
+
+  nodeApp.targets = nodeApp.targets ?? {};
+  nodeApp.targets['sync'] = {
+    executor: 'nx:run-commands',
+    options: {
+      commands: [
+        {
+          command:
+            'node ./node_modules/nx/bin/nx.js g @gb-nx/cli:refresh --project funnest --all',
+        },
+      ],
+    },
+  };
+
+  updateProjectConfiguration(tree, normalizedOptions.projectName, nodeApp);
+
   addFiles(tree, normalizedOptions);
 
   addDependenciesToPackageJson(
