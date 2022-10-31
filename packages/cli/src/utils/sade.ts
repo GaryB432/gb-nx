@@ -1,8 +1,7 @@
 import type { ConfigCommand, ConfigProp } from './config';
 
 function enQuote(s: string): string {
-  // TODO handle embedded single-quotes
-  return `'${s}'`;
+  return s.match("'") ? `"${s}"` : `'${s}'`;
 }
 
 function makeCommandOption(name: string, opt: ConfigProp): string {
@@ -40,7 +39,7 @@ export function getCommandTs(
 
   const lns = [
     `command('${line}')`,
-    `describe('${command.description}')`,
+    `describe(${enQuote(command.description ?? 'tbd')})`,
     ...os.map((o) => makeCommandOption(o, command.options[o])),
 
     // `example('${command} src build --dryRun')`,

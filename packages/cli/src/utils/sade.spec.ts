@@ -25,6 +25,44 @@ describe('sade', () => {
     `);
   });
 
+  it('should get action paramters without alias', () => {
+    expect(
+      getCommandTs(
+        {
+          description: 'this here',
+          parameters: { a: { type: 'unknown' }, b: { type: 'unknown' } },
+          options: { a: { type: 'unknown' } },
+        },
+        pnames
+      )
+    ).toMatchInlineSnapshot(`
+      "prog
+      .command('TestingSubject <a> <b>')
+      .describe('this here')
+      .option('--a','description of a option')
+      .action(async (a,b,opts) => { await testingSubjectCommand({ a,b,opts }); });"
+    `);
+  });
+
+  it('should handle embedded single quote', () => {
+    expect(
+      getCommandTs(
+        {
+          description: "this 'here'",
+          parameters: { a: { type: 'unknown' }, b: { type: 'unknown' } },
+          options: { a: { type: 'unknown' } },
+        },
+        pnames
+      )
+    ).toMatchInlineSnapshot(`
+      "prog
+      .command('TestingSubject <a> <b>')
+      .describe(\\"this 'here'\\")
+      .option('--a','description of a option')
+      .action(async (a,b,opts) => { await testingSubjectCommand({ a,b,opts }); });"
+    `);
+  });
+
   it('should throw mismatch', () => {
     expect(() =>
       getCommandTs(
