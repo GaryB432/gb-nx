@@ -144,11 +144,9 @@ export default async function (
     throw new Error(noProject(options.name));
   }
 
-  // TODO formatFiles outside of return and installPackages within per others (added await 10/30)
-
-  installPackagesTask(tree);
-
+  await formatFiles(tree);
+  
   return async () => {
-    await formatFiles(tree);
+    installPackagesTask(tree);
   };
 }
