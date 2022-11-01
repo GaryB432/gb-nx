@@ -67,6 +67,11 @@ The `refersh` generator can refresh your project's boilerplate. See the options 
 nx g @gb-nx/cli:refresh --project my-app --main --ts --markdown --all
 ```
 
+or 
+```
+nx synch my-app
+```
+
 | OPTION       | DESCRIPTION                                          |
 | ------------ | ---------------------------------------------------- |
 | `--main`     | generate the build target main entry point           |
