@@ -130,7 +130,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 export default async function (
   tree: Tree,
   options: ExtensionGeneratorSchema
-): Promise<void> {
+): Promise<GeneratorCallback> {
   const normalizedOptions = normalizeOptions(tree, options);
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,
@@ -153,5 +153,7 @@ export default async function (
   await addJest(tree, normalizedOptions);
   await addLint(tree, normalizedOptions);
   await formatFiles(tree);
-  return installPackagesTask(tree);
+  return () => {
+    installPackagesTask(tree, true);
+  };
 }
