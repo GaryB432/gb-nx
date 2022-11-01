@@ -42,7 +42,8 @@
     "directory": {
       "type": "string",
       "format": "path",
-      "description": "The directory to create the module, relative to your project source."
+      "description": "The directory to create the module, relative to your project source.",
+      "aliases": ["dir", "path"]
     },
     "kind": {
       "type": "string",

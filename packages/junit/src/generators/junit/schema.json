@@ -20,7 +20,8 @@
       "description": "The project to target.",
       "type": "string",
       "$default": {
-        "$source": "projectName"
+        "$source": "argv",
+        "index": 0
       },
       "alias": "p",
       "x-prompt": "What project would you like to target?"

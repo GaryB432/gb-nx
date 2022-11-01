@@ -19,7 +19,7 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "",
+      "description": "The name of your application",
       "$default": {
         "$source": "argv",
         "index": 0
@@ -34,7 +34,7 @@
     "directory": {
       "type": "string",
       "description": "A directory where the project is placed",
-      "alias": "dir"
+      "aliases": ["dir", "path"]
     }
   },
   "additionalProperties": false,
