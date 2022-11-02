@@ -11,8 +11,8 @@
       "description": "Generate a class file in the myapp project"
     },
     {
-      "command": "nx g @gb-nx/workspace:module math --project myapp --kind values",
-      "description": "Generate a module in the myapp project for exporting values"
+      "command": "nx g @gb-nx/workspace:module subdir/math --project myapp --kind values",
+      "description": "Generate a values module in the myapp project in the subdir folder"
     }
   ],
   "properties": {
