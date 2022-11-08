@@ -1,0 +1,44 @@
+let counter = 0;
+
+void chrome.action.setBadgeText({ text: '!' });
+
+interface Message {
+  getCounters?: boolean;
+}
+
+interface TimerResponse {
+  counter: number;
+  persistentCounter: number;
+}
+
+console.log('Loaded');
+chrome.runtime.onInstalled.addListener(async () => {
+  console.log('Installed.');
+  await chrome.storage.local.set({ counter: 0 });
+  chrome.alarms.create('refresh', { periodInMinutes: 1 });
+});
+
+chrome.alarms.onAlarm.addListener(async (alarm) => {
+  switch (alarm.name) {
+    case 'refresh': {
+      console.log(alarm.scheduledTime);
+      break;
+    }
+  }
+});
+
+chrome.runtime.onMessage.addListener(
+  (msg: Message, sender, cb: (r: TimerResponse) => void) => {
+    if (msg.getCounters) {
+      counter++;
+      chrome.storage.local.get({ counter: -1 }).then((c) => {
+        console.log(c['counter']);
+        const persistentCounter = Number(c['counter']) + 1;
+        chrome.storage.local.set({ counter: persistentCounter }).then(() => {
+          cb({ persistentCounter, counter });
+        });
+      });
+      return true;
+    }
+  }
+);

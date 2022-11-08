@@ -1,12 +1,18 @@
-import { add } from './utilities.js';
-const answerEl = document.querySelector('#answer');
-const button = document.querySelector('#b1');
-if (button) {
-  button.addEventListener('click', (e) => {
-    console.log(e.target);
-  });
+import { environment } from './environments/environment';
+import './popup.scss';
+
+const el = document.querySelector('#popup-vp');
+
+async function getNotice(): Promise<string> {
+  return Promise.resolve('<%= className %> works');
 }
-if (answerEl) {
-  const result = add(40, 2);
-  answerEl.textContent = String(result);
+
+async function main() {
+  if (el) {
+    el.textContent = environment.production
+      ? 'Production Configuration'
+      : await getNotice();
+  }
 }
+
+void main();

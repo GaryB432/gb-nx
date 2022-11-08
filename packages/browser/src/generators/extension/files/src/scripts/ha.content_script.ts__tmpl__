@@ -1,0 +1,1 @@
+console.log('<%= className %> content script');

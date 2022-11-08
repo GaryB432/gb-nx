@@ -1,0 +1,31 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const { merge } = require('webpack-merge');
+
+const plugins = ['popup', 'options'].map(
+  (s) =>
+    new HtmlWebpackPlugin({
+      template: `./src/${s}.html`,
+      filename: `${s}.html`,
+      chunks: [s],
+    })
+);
+plugins.push(new MiniCssExtractPlugin());
+
+module.exports = async (config, context) => {
+  if (context.context.isVerbose) {
+    console.log(context.context.configurationName)
+  }
+  return merge(config, {
+    module: {
+      rules: [
+        {
+          test: /\.(sa|sc|c)ss$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        },
+      ],
+    },
+    plugins,
+  });
+};

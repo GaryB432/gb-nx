@@ -1,4 +1,5 @@
+import './options.scss';
 export function greet(): void {
-  console.log('<%= className %> Options');
+  console.log('Extension Options');
 }
 greet();

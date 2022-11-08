@@ -13,6 +13,10 @@ import {
 } from '@nrwl/devkit';
 import { jestProjectGenerator } from '@nrwl/jest';
 import { Linter, lintProjectGenerator } from '@nrwl/linter';
+import {
+  readProjectConfiguration,
+  updateProjectConfiguration,
+} from 'nx/src/generators/utils/project-configuration';
 import { join } from 'path';
 import type { ESLintConfiguration } from '../../utils/eslint';
 import { addCustomConfig } from '../../utils/eslint';
@@ -72,7 +76,7 @@ async function addJest(
   });
 }
 
-function addLint(
+async function addLint(
   tree: Tree,
   options: NormalizedSchema
 ): Promise<GeneratorCallback> {
@@ -80,11 +84,8 @@ function addLint(
     project: options.name,
     linter: Linter.EsLint,
     skipFormat: true,
-    tsConfigPaths: [
-      joinPathFragments(options.projectRoot, 'tsconfig.lib.json'),
-    ],
-    eslintFilePatterns: [`${options.projectRoot}/**/*.ts`],
     setParserOptionsProject: true,
+    eslintFilePatterns: [joinPathFragments(options.projectRoot, '**/*.ts')],
   });
   addCustomLint(tree, options);
   return generateLint;
@@ -134,22 +135,15 @@ export default async function (
   const normalizedOptions = normalizeOptions(tree, options);
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,
-    projectType: 'application',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: '@gb-nx/browser:build',
-        outputs: ['{options.outputPath}'],
-        options: {
-          outputPath: `dist/${normalizedOptions.projectRoot}/extension`,
-          manifest: `${normalizedOptions.projectRoot}/src/manifest`,
-        },
-      },
-    },
-    tags: normalizedOptions.parsedTags,
   });
   await initGenerator(tree, { ...normalizedOptions, skipFormat: true });
   addFiles(tree, normalizedOptions);
+
+  const proj = readProjectConfiguration(tree, normalizedOptions.projectName);
+  updateProjectConfiguration(tree, normalizedOptions.projectName, {
+    ...proj,
+    tags: normalizedOptions.parsedTags,
+  });
   await addJest(tree, normalizedOptions);
   await addLint(tree, normalizedOptions);
   await formatFiles(tree);
