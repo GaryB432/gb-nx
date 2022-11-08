@@ -4,6 +4,7 @@ import { readdir, readFile, stat } from 'fs/promises';
 // import * as fg from "fast-glob";
 
 import fg from 'fast-glob';
+import { parse, normalize } from 'path';
 
 const ns: string[] = [];
 
@@ -11,7 +12,7 @@ async function doFolder(p: string): Promise<void> {
   // const dfd = await readdir(p);
   // console.log(p);
   const f = await fg(
-    'D:/Users/bort1/Documents/GitHub/gb-grocery@6.0.0/src/**',
+    'D:/Users/bort1/Documents/GitHub/gb-nx/packages/browser/src/generators/extension/v3/**',
     {
       ignore: ['.git', 'node_modules', 'dist', '.angular/cache'].map(
         (d) => `**/${d}`
@@ -20,7 +21,12 @@ async function doFolder(p: string): Promise<void> {
     }
   );
   for (const dfd of f) {
-    console.log(dfd);
+    const ps = parse(dfd);
+    // console.log(ps);
+    const cmd = `Rename-Item -Path "${normalize(dfd)}" -NewName "${
+      ps.base
+    }__tmpl__"`;
+    console.log(cmd);
   }
 
   console.log(f.length);
