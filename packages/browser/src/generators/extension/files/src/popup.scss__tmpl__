@@ -1,3 +1,15 @@
-h1 {
-  color: green;
+body {
+  min-width: 400px;
+}
+:root {
+  --primary-color: rgb(31, 186, 186);
+  --secondary-color: hsla(11, 50%, 87%, 1);
+  --tertiary-color: #edf0f8;
+  --text-color: black;
+  --background-color: #fff;
+  --ruby-red: hsla(355, 74%, 33%, 1);
+}
+
+p {
+  border: thin solid silver;
 }

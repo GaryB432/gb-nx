@@ -1,12 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "esnext",
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "strict": true
   },
   "files": [],
   "include": [],
@@ -15,7 +10,7 @@
       "path": "./tsconfig.app.json"
     },
     {
-      "path": "./tsconfig.spec.json"
+      "path": "./tsconfig.scripts.json"
     }
   ]
 }

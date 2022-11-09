@@ -4,7 +4,12 @@ import {
   installPackagesTask,
   type Tree,
 } from '@nrwl/devkit';
-import { chromeTypingsVersion, sassVersion } from '../../utils/versions';
+import {
+  chromeTypingsVersion,
+  sassVersion,
+  nxVersion,
+  eslintVersion,
+} from '../../utils/versions';
 import type { Schema as InitGeneratorSchema } from './schema';
 
 export default async function (
@@ -15,7 +20,11 @@ export default async function (
     tree,
     {},
     {
+      '@nrwl/webpack': nxVersion,
       '@types/chrome': chromeTypingsVersion,
+      'html-webpack-plugin': '^5.5.0',
+      'mini-css-extract-plugin': '^2.6.1',
+      eslint: eslintVersion,
       sass: sassVersion,
     }
   );
@@ -26,24 +35,4 @@ export default async function (
     await installTask();
     installPackagesTask(tree);
   };
-
-  // return async () => {
-  //   await installTask();
-  // await initGenerator(tree, { ...normalizedOptions, skipFormat: true });
-  // addFiles(tree, normalizedOptions);
-  // await addJest(tree, normalizedOptions);
-  // await addLint(tree, normalizedOptions);
-  // await formatFiles(tree);
-  // return installPackagesTask(tree);
-
-  // await formatFiles(tree);
-
-  ///
-
-  // installPackagesTask(tree);
-
-  // return async () => {
-  //   formatFiles(tree);
-  // };
-  // };
 }

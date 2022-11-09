@@ -5,7 +5,7 @@ This library was generated with [Nx](https://nx.dev).
 [![CI](https://img.shields.io/github/workflow/status/GaryB432/gb-nx/CI)](https://github.com/GaryB432/gb-nx/actions)
 [![npm version](https://img.shields.io/npm/v/@gb-nx/browser?style=flat-square)](https://www.npmjs.com/package/@gb-nx/browser)
 
-> Nx Plugin adding first class support for Browser Extension applications in your Nx workspace
+> Nx Plugin adding first class support for [Manifest V3](https://developer.chrome.com/docs/extensions/mv3/intro/) Browser Extension applications in your Nx workspace
 
 ## Features
 
@@ -50,15 +50,17 @@ nx g @gb-nx/browser:extension my-extension
 
 ### Working with your Project
 
-> nx build my-extension
+> nx run my-extension:build
 
-Load (or reload) the unpacked extension from `dist/apps/my-extension/extension` with `Manage Extensions`
+> nx run my-extension:build-scripts
+
+Load (or reload) the unpacked extension from `dist/apps/my-extension` with `Manage Extensions`
 
 Refresh a browser page
 
 Observe changes
 
-Make changes to `my-application\src`
+Make changes to `my-extension\src`
 
 Repeat
 
@@ -71,4 +73,4 @@ Repeat
 
 ## License
 
-Copyright (c) 2021-2022 Gary Bortosky. Licensed under the MIT License (MIT)
+Copyright (c) 2021-2023 Gary Bortosky. Licensed under the MIT License (MIT)

@@ -1,0 +1,61 @@
+{
+  "name": "<%= name %>",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "<%= projectRoot %>/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "webpackConfig": "<%= projectRoot %>/custom-webpack.config.js",
+        "target": "web",
+        "compiler": "tsc",
+        "outputPath": "dist/<%= projectRoot %>",
+        "main": "<%= projectRoot %>/src/main.ts",
+        "outputFileName": "main.js",
+        "additionalEntryPoints": [
+          {
+            "entryName": "options",
+            "entryPath": "<%= projectRoot %>/src/options.ts"
+          },
+          {
+            "entryName": "popup",
+            "entryPath": "<%= projectRoot %>/src/popup.ts"
+          }
+        ],
+        "tsConfig": "<%= projectRoot %>/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*.*",
+            "input": "<%= projectRoot %>/src/assets",
+            "output": "assets"
+          },
+          { "glob": "**/*.json", "input": "<%= projectRoot %>/src", "output": "." }
+        ],
+        "generateIndexHtml": false
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "sourceMap": false,
+          "fileReplacements": [
+            {
+              "replace": "<%= projectRoot %>/src/environments/environment.ts",
+              "with": "<%= projectRoot %>/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "build-scripts": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsc -p <%= projectRoot %>/tsconfig.scripts.json --rootdir <%= projectRoot %>/src --outdir dist/<%= projectRoot %>"
+      }
+    }
+  },
+  "tags": []
+}
