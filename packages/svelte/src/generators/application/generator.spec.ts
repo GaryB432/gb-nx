@@ -113,4 +113,12 @@ describe('application generator', () => {
       "
     `);
   });
+
+  it('should add workspace', async () => {
+    await generator(appTree, options);
+    const p = appTree.read('package.json');
+    const s = p ? p.toString(): '';
+    const q = JSON.parse(s);
+    expect(q.workspaces).toEqual(['apps/test']);
+  });
 });

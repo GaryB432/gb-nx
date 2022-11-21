@@ -1,4 +1,4 @@
-import type { GeneratorCallback, Tree } from '@nrwl/devkit';
+import { normalizePath, type GeneratorCallback, type Tree } from '@nrwl/devkit';
 import {
   addDependenciesToPackageJson,
   formatFiles,
@@ -35,6 +35,7 @@ interface PackageJson {
   devDependencies: Record<string, string>;
   name: string;
   version: string;
+  workspaces: Array<string>;
 }
 
 interface NormalizedSchema extends ApplicationGeneratorSchema {
@@ -69,6 +70,17 @@ function normalizeOptions(
     projectDirectory,
     parsedTags,
   };
+}
+
+function addWorkspace(tree: Tree, options: NormalizedSchema): void {
+  const buf = tree.read('package.json');
+  if (!buf) {
+    throw new Error('no pacakge');
+  }
+  const pj = JSON.parse(buf.toString()) as PackageJson;
+  pj.workspaces = pj.workspaces ?? [];
+  pj.workspaces.push(normalizePath(options.projectRoot));
+  tree.write('package.json', JSON.stringify(pj));
 }
 
 function updatePrettierIgnore(tree: Tree, options: NormalizedSchema) {
@@ -140,12 +152,13 @@ export default async function (
       pname,
       JSON.stringify({ ...sveltePackage, nx }, undefined, 2) + '\n'
     );
+    addWorkspace(tree, normalizedOptions);
   } else {
     throw new Error(noProject(options.name));
   }
 
   await formatFiles(tree);
-  
+
   return async () => {
     installPackagesTask(tree);
   };
