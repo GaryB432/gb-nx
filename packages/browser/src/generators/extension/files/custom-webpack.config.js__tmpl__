@@ -14,18 +14,9 @@ const plugins = ['popup', 'options'].map(
 
 module.exports = async (config, context) => {
   if (context.context.isVerbose) {
-    console.log(context.context.configurationName)
+    console.log(context.context.configurationName);
   }
-  let hasCssPlugin = false;
-  for (const p of config.plugins) {
-    if (p.constructor.name === 'MiniCssExtractPlugin') {
-      hasCssPlugin = true;
-      break;
-    }
-  }
-  if (!hasCssPlugin) {
-    plugins.push(new MiniCssExtractPlugin())
-  }
+  plugins.push(new MiniCssExtractPlugin());
   return merge(config, {
     module: {
       rules: [
