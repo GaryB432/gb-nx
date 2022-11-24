@@ -175,7 +175,6 @@ export function createSvelteKitApp(
       name: options.name,
       version: '0.0.0',
       devDependencies: { 'prettier-plugin-svelte': '1.1.1' },
-      nx: { ignore: false },
     })
   );
 
@@ -184,7 +183,6 @@ export function createSvelteKitApp(
     JSON.stringify({
       name: '@sveltejs/kit',
       version,
-      nx: { ignore: true },
     })
   );
   appTree.write(
@@ -195,7 +193,6 @@ export function createSvelteKitApp(
     JSON.stringify({
       name: '@sveltejs/vite-plugin-svelte',
       version,
-      nx: { ignore: true },
     })
   );
 }

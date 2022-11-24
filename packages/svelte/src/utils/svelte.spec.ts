@@ -17,14 +17,6 @@ describe('Svelte', () => {
     });
   });
 
-  it('should run successfully', async () => {
-    const pkg = JSON.parse(appTree.read('apps/test/package.json')!.toString());
-    expect(pkg.name).toEqual('test');
-    expect(pkg.nx.ignore).toBeFalsy();
-    // const config = readProjectConfiguration(appTree, 'test');
-    // expect(isSvelte(appTree, config)).toBeTruthy();
-  });
-
   it('getSvelteConfig', async () => {
     expect(appTree.exists('apps/test/svelte.config.js')).toBeTruthy();
     // const config = readProjectConfiguration(appTree, 'test');

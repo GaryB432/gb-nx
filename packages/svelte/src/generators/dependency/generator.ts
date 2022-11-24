@@ -84,6 +84,7 @@ export default async function (
       name: string;
       nx: { implicitDependencies: string[] };
     };
+    pkg.nx = pkg.nx ?? {};
     const ideps = pkg.nx.implicitDependencies ?? [];
     if (!ideps.includes(schema.dependency)) {
       pkg.nx.implicitDependencies = [...ideps, schema.dependency];
