@@ -1,5 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "svelte",
   "sourceRoot": "packages/svelte/src",
   "projectType": "library",
   "targets": {
@@ -13,8 +14,8 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": [
-        "coverage/packages/svelte",
-        "junit/packages/svelte.xml"
+        "{workspaceRoot}/coverage/packages/svelte",
+        "{workspaceRoot}/junit/packages/svelte.xml"
       ],
       "options": {
         "jestConfig": "packages/svelte/jest.config.ts",

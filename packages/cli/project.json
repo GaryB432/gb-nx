@@ -1,5 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "cli",
   "sourceRoot": "packages/cli/src",
   "projectType": "library",
   "targets": {
@@ -13,8 +14,8 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": [
-        "coverage/packages/cli",
-        "junit/packages/cli.xml"
+        "{workspaceRoot}/coverage/packages/cli",
+        "{workspaceRoot}/junit/packages/cli.xml"
       ],
       "options": {
         "jestConfig": "packages/cli/jest.config.ts",

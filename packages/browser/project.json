@@ -1,5 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "browser",
   "sourceRoot": "packages/browser/src",
   "projectType": "library",
   "targets": {
@@ -13,8 +14,8 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": [
-        "coverage/packages/browser",
-        "junit/packages/browser.xml"
+        "{workspaceRoot}/coverage/packages/browser",
+        "{workspaceRoot}/junit/packages/browser.xml"
       ],
       "options": {
         "jestConfig": "packages/browser/jest.config.ts",
