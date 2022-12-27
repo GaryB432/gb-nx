@@ -69,7 +69,6 @@ describe('component', () => {
     `);
   });
 
-
   it('should generate component with scss', async () => {
     await componentGenerator(appTree, {
       name: 'hello',

@@ -38,8 +38,8 @@ function normalizeOptions(
   }
 
   const { lib } = getSvelteFiles(config);
-  options.language = options.language ?? 'js'
-  options.style = options.style ?? 'css'
+  options.language = options.language ?? 'js';
+  options.style = options.style ?? 'css';
   return {
     ...options,
     projectName,
