@@ -1,7 +1,10 @@
-/* This is a generated file. Make changes to cli.config.json and run "nx sync <%= projectName %>" */
+/* 
+  This is a generated file. Make changes to cli.config.json and run "nx sync <%= projectName %>"
+  Keep logic in another file. So this one can be regenerated with minimal disruption.
+*/
 
 import * as chalk from 'chalk';
-import { CommandArgs } from './<%= fileName %>.types';
+import { type CommandArgs } from './<%= fileName %>.types';
 
 export async function <%= propertyName %>Command(<%= commandParameters %>: CommandArgs): Promise<void> {
   if (opts.verbose) {
