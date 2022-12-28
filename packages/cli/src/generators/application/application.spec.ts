@@ -1,9 +1,5 @@
 import type { Tree } from '@nrwl/devkit';
-import {
-  readProjectConfiguration,
-  updateWorkspaceConfiguration,
-} from '@nrwl/devkit';
-import { parseJson, readJson, readWorkspaceConfiguration } from '@nrwl/devkit';
+import { parseJson, readJson, readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import type { Schema } from '@nrwl/node/src/generators/application/schema';
 import applicationGenerator from './application';
@@ -15,14 +11,6 @@ describe('app', () => {
   });
 
   describe('not nested', () => {
-    xit('should update workspace.json', async () => {
-      await generateApp(appTree);
-      const workspaceJson = readJson(appTree, '/workspace.json');
-
-      expect(workspaceJson.projects['my-app']).toMatchSnapshot();
-      expect(workspaceJson.projects['my-app-e2e']).toMatchSnapshot();
-    });
-
     it('should generate files', async () => {
       await generateApp(appTree);
 
@@ -47,24 +35,6 @@ describe('app', () => {
       expect(tsconfigApp.compilerOptions.outDir).toEqual('../../dist/out-tsc');
       expect(tsconfigApp.extends).toEqual('./tsconfig.json');
     });
-
-    it('should set default project', async () => {
-      await generateApp(appTree);
-      const { defaultProject } = readWorkspaceConfiguration(appTree);
-      expect(defaultProject).toBe('my-app');
-    });
-
-    it('should not overwrite default project if already set', async () => {
-      const workspace = readWorkspaceConfiguration(appTree);
-      workspace.defaultProject = 'some-awesome-project';
-      updateWorkspaceConfiguration(appTree, workspace);
-
-      await generateApp(appTree);
-
-      const { defaultProject } = readWorkspaceConfiguration(appTree);
-      expect(defaultProject).toBe('some-awesome-project');
-    });
-
     it('should add target', async () => {
       await generateApp(appTree);
       const proj = readProjectConfiguration(appTree, 'my-app');
@@ -74,14 +44,6 @@ describe('app', () => {
   });
 
   describe('nested', () => {
-    xit('should update workspace.json', async () => {
-      await generateApp(appTree, 'myApp', { directory: 'myDir' });
-      const workspaceJson = readJson(appTree, '/workspace.json');
-
-      expect(workspaceJson.projects['my-dir-my-app']).toMatchSnapshot();
-      expect(workspaceJson.projects['my-dir-my-app-e2e']).toMatchSnapshot();
-    });
-
     it('should generate files', async () => {
       await generateApp(appTree, 'myApp', { directory: 'myDir' });
       expect(

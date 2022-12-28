@@ -1,4 +1,8 @@
-import type { Tree } from '@nrwl/devkit';
+import {
+  readWorkspaceConfiguration,
+  updateWorkspaceConfiguration,
+  type Tree,
+} from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import applicationGenerator from '../application/application';
 import commandGenerator from '../command/command';
@@ -12,6 +16,9 @@ describe('command', () => {
     await applicationGenerator(tree, {
       name: projectName,
     });
+    const workspace = readWorkspaceConfiguration(tree);
+    workspace.defaultProject = projectName;
+    updateWorkspaceConfiguration(tree, workspace);
     await commandGenerator(tree, {
       name: 'apple',
       parameter: ['a', 'b'],

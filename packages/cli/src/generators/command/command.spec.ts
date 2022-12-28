@@ -23,10 +23,13 @@ describe('command', () => {
 
     expect(tree.read('apps/my-app/src/app/commands/hello.command.ts', 'utf-8'))
       .toMatchInlineSnapshot(`
-      "/* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+      "/* 
+        This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\"
+        Keep logic in another file. So this one can be regenerated with minimal disruption.
+      */
 
       import * as chalk from 'chalk';
-      import { CommandArgs } from './hello.types';
+      import { type CommandArgs } from './hello.types';
 
       export async function helloCommand({ src, FunDest, opts }: CommandArgs): Promise<void> {
         if (opts.verbose) {
