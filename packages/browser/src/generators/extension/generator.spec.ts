@@ -9,7 +9,7 @@ import extensionGenerator from './generator';
 describe('extension', () => {
   let tree: Tree;
   beforeEach(async () => {
-    tree = createTreeWithEmptyWorkspace();
+    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
   });
 
   it('should generate extension in directory', async () => {

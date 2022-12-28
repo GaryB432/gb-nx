@@ -80,7 +80,7 @@ describe('junit generator', () => {
   };
 
   beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     appTree.write(
       'package.json',
       JSON.stringify({

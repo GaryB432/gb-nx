@@ -8,7 +8,7 @@ describe('Svelte', () => {
   let appTree: Tree;
 
   beforeEach(async () => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     // void (await applicationGenerator(appTree, { name: 'testx' }));
     void (await libraryGenerator(appTree, { name: 'dep', compiler: 'swc' }));
     createSvelteKitApp(appTree, '0', {

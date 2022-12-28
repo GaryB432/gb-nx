@@ -9,7 +9,7 @@ describe('component', () => {
   const projectName = 'my-app';
 
   beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     createSvelteKitApp(appTree, '0', { directory: 'apps', name: projectName });
     addProjectConfiguration(appTree, projectName, { root: 'apps/my-app' });
   });

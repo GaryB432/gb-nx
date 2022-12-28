@@ -8,7 +8,7 @@ describe('command', () => {
   let tree: Tree;
   const projectName = 'my-app';
   beforeEach(async () => {
-    tree = createTreeWithEmptyWorkspace();
+    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await applicationGenerator(tree, {
       name: projectName,
     });

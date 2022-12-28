@@ -7,7 +7,7 @@ describe('route generator', () => {
   let appTree: Tree;
 
   beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     createSvelteKitApp(appTree, '0', { directory: 'apps', name: 'test' });
     addProjectConfiguration(appTree, 'test', { root: 'apps/test' });
   });

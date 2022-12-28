@@ -10,7 +10,7 @@ xdescribe('init generator', () => {
   const options: InitGeneratorSchema = {};
 
   beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
   });
 
   it('should run successfully', async () => {

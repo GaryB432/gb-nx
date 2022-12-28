@@ -23,7 +23,7 @@ describe('application generator', () => {
   const version = '0.0.0-alpha.0';
 
   beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     jest.clearAllMocks();
     createSvelteKitApp(appTree, version, {
       name: 'test',

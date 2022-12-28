@@ -11,7 +11,7 @@ import applicationGenerator from './application';
 describe('app', () => {
   let appTree: Tree;
   beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
   });
 
   describe('not nested', () => {
