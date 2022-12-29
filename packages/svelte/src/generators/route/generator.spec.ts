@@ -175,23 +175,25 @@ describe('route generator', () => {
     const loadPage = appTree
       .read('apps/test/src/routes/tbd/[a]/b/[c=ynf]/tester/+page.ts')
       ?.toString();
-    expect(loadPage).toContain('const { a, c=ynf } = params;');
-    expect(loadPage).toContain('subject: `tbd/${a}/b/${c=ynf}/tester`');
+    expect(loadPage).toContain('const { a, c } = params;');
+    expect(loadPage).toContain('subject: `tbd/${a}/b/${c}/tester`');
     expect(
-      appTree.read('apps/test/tests/tbd/[a]/b/[c=ynf]/tester.spec.ts')?.toString()
-    ).toContain("await page.goto('/tbd/_a_/b/_c=ynf_/tester');");
+      appTree
+        .read('apps/test/tests/tbd/[a]/b/[c=ynf]/tester.spec.ts')
+        ?.toString()
+    ).toContain("await page.goto('/tbd/_a_/b/_c_/tester');");
   });
 });
 
-describe('', () => {
+describe('getSegments', () => {
   expect(getSegments({ routePath: '[just]' })).toEqual([
-    { path: 'just', isParam: true },
+    { path: 'just', paramType: undefined, isParam: true },
   ]);
-  expect(getSegments({ routePath: '[ab]/cd/ef/[gh]/ij' })).toEqual([
-    { path: 'ab', isParam: true },
-    { path: 'cd', isParam: false },
-    { path: 'ef', isParam: false },
-    { path: 'gh', isParam: true },
-    { path: 'ij', isParam: false },
+  expect(getSegments({ routePath: '[ab]/cd/ef/[gh=atype]/ij' })).toEqual([
+    { path: 'ab', paramType: undefined, isParam: true },
+    { path: 'cd', paramType: undefined, isParam: false },
+    { path: 'ef', paramType: undefined, isParam: false },
+    { path: 'gh', paramType: 'atype', isParam: true },
+    { path: 'ij', paramType: undefined, isParam: false },
   ]);
 });

@@ -14,6 +14,11 @@ interface NormalizedSchema extends Schema {
   routePath: string;
 }
 
+function getRouteParam(typedParam: string): [string, string] {
+  const r = typedParam.split('=', 2);
+  return [r[0], r[1]];
+}
+
 function normalizeOptions(
   host: Tree,
   options: Schema
@@ -47,6 +52,7 @@ function normalizeOptions(
 
 interface Segment {
   isParam: boolean;
+  paramType: string | undefined;
   path: string;
 }
 
@@ -55,11 +61,13 @@ export function getSegments(
 ): Segment[] {
   return options.routePath.split('/').map<Segment>((part) => {
     const isParam = part.startsWith('[');
-    const path = isParam ? part.slice(1, part.length - 1) : part;
-    return { isParam, path };
+    const [path, paramType] = getRouteParam(
+      isParam ? part.slice(1, part.length - 1) : part
+    );
+
+    return { isParam, path, paramType };
   });
 }
-
 function addLoadPage(
   tree: Tree,
   proj: ProjectConfiguration,
