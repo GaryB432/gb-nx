@@ -13,4 +13,8 @@ export interface Schema {
    * A directory where the project is placed
    */
   directory?: string;
+  /**
+   * Update workspace eslint to accomodate Svelte linting
+   */
+  eslint?: boolean;
 }

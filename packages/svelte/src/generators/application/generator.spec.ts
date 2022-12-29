@@ -16,6 +16,29 @@ jest.mock('@nrwl/devkit', () => {
   };
 });
 
+describe('with eslint', () => {
+  let appTree: Tree;
+  const options: ApplicationGeneratorSchema = { name: 'test', eslint: true };
+
+  const version = '0.0.0-alpha.0';
+
+  beforeEach(() => {
+    appTree = createTreeWithEmptyWorkspace();
+    jest.clearAllMocks();
+    createSvelteKitApp(appTree, version, {
+      name: 'test',
+      directory: 'apps',
+    });
+    // appTree.write('.eslint.json', JSON.stringify(conf));
+  });
+
+  it('should handle eslint config', async () => {
+    await generator(appTree, options);
+
+    expect(appTree.exists('.eslintrc.json')).toBeTruthy();
+  });
+});
+
 describe('application generator', () => {
   let appTree: Tree;
   const options: ApplicationGeneratorSchema = { name: 'test' };
@@ -23,7 +46,7 @@ describe('application generator', () => {
   const version = '0.0.0-alpha.0';
 
   beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    appTree = createTreeWithEmptyWorkspace();
     jest.clearAllMocks();
     createSvelteKitApp(appTree, version, {
       name: 'test',

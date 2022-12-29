@@ -9,6 +9,7 @@ import {
   output,
 } from '@nrwl/devkit';
 import { join } from 'path';
+import { updateEslint } from '../../utils/eslint';
 import { getSveltePackageVersions, isSvelte } from '../../utils/svelte';
 import { prettierPluginSvelteVersion } from '../../utils/versions';
 import type { Schema as ApplicationGeneratorSchema } from './schema';
@@ -106,9 +107,6 @@ export default async function (
   tree: Tree,
   options: ApplicationGeneratorSchema
 ): Promise<GeneratorCallback> {
-  // logger.warn(
-  //   'The generator is deprecated and will be removed in @gb-nx/svelte@2.0.0'
-  // );
   const notSvelte = (p: string) =>
     `project '${p}' is not configured for svelte`;
   const noProject = (p: string) => `project '${p}' not found in workspace`;
@@ -152,6 +150,9 @@ export default async function (
       pname,
       JSON.stringify({ ...sveltePackage, nx }, undefined, 2) + '\n'
     );
+    if (options.eslint) {
+      void (await updateEslint(tree, config));
+    }
     addWorkspace(tree, normalizedOptions);
   } else {
     throw new Error(noProject(options.name));

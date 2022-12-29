@@ -30,6 +30,11 @@
       "type": "string",
       "description": "A directory where the project is placed",
       "aliases": ["dir", "path"]
+    },
+    "eslint": {
+      "type": "boolean",
+      "description": "Update workspace eslint to accomodate Svelte linting",
+      "default": true
     }
   },
   "additionalProperties": false,
