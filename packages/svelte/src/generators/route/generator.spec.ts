@@ -158,6 +158,29 @@ describe('route generator', () => {
       appTree.read('apps/test/tests/tbd/[a]/b/[c]/tester.spec.ts')?.toString()
     ).toContain("await page.goto('/tbd/_a_/b/_c_/tester');");
   });
+
+  it('handles route param type ynf', async () => {
+    await generator(appTree, {
+      name: '[a]/b/[c=ynf]/tester',
+      directory: 'tbd',
+      project: 'test',
+      load: 'shared',
+      language: 'ts',
+    });
+    expect(
+      appTree
+        .read('apps/test/src/routes/tbd/[a]/b/[c=ynf]/tester/+page.svelte')
+        ?.toString()
+    ).toContain('{data.subject} works');
+    const loadPage = appTree
+      .read('apps/test/src/routes/tbd/[a]/b/[c=ynf]/tester/+page.ts')
+      ?.toString();
+    expect(loadPage).toContain('const { a, c=ynf } = params;');
+    expect(loadPage).toContain('subject: `tbd/${a}/b/${c=ynf}/tester`');
+    expect(
+      appTree.read('apps/test/tests/tbd/[a]/b/[c=ynf]/tester.spec.ts')?.toString()
+    ).toContain("await page.goto('/tbd/_a_/b/_c=ynf_/tester');");
+  });
 });
 
 describe('', () => {
