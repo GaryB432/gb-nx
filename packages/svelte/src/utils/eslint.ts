@@ -1,4 +1,8 @@
-import type { ProjectConfiguration, Tree } from '@nrwl/devkit';
+import {
+  joinPathFragments,
+  type ProjectConfiguration,
+  type Tree,
+} from '@nrwl/devkit';
 
 export interface EslintConfiguration {
   env?: {
@@ -21,11 +25,8 @@ export interface EslintConfiguration {
   rules?: unknown;
 }
 
-export async function updateEslint(
-  tree: Tree,
-  project: Pick<ProjectConfiguration, 'root'>
-): Promise<void> {
-  const config: EslintConfiguration = {
+async function updateWorkspaceEslint(tree: Tree): Promise<void> {
+  const config: Partial<EslintConfiguration> = {
     root: true,
     env: {
       browser: true,
@@ -71,4 +72,26 @@ export async function updateEslint(
     rules: {},
   };
   tree.write('.eslintrc.json', JSON.stringify(config));
+}
+async function updateProjectEslint(
+  tree: Tree,
+  project: Pick<ProjectConfiguration, 'root'>
+): Promise<void> {
+  const config: Partial<EslintConfiguration> = {
+    extends: ['../../.eslintrc.json'],
+    ignorePatterns: ['.svelte-kit', 'build/*', '**/*.config.*'],
+  };
+
+  tree.write(
+    joinPathFragments(project.root, '.eslintrc.json'),
+    JSON.stringify(config)
+  );
+}
+
+export async function updateEslint(
+  tree: Tree,
+  project: Pick<ProjectConfiguration, 'root'>
+): Promise<void> {
+  updateWorkspaceEslint(tree);
+  updateProjectEslint(tree, project);
 }

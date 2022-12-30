@@ -53,12 +53,16 @@ describe('eslint util', () => {
 
   test('updateEslint', async () => {
     await updateEslint(appTree, { root: 'apps/tester' });
-    const c = JSON.parse(
+    const wsconfig = JSON.parse(
       appTree.read('.eslintrc.json', 'utf-8')!
     ) as EslintConfiguration;
-    expect(c.extends).toEqual([
+    expect(wsconfig.extends).toEqual([
       'plugin:gb/recommended',
       'plugin:svelte/recommended',
     ]);
+    const pconfig = JSON.parse(
+      appTree.read('apps/tester/.eslintrc.json', 'utf-8')!
+    ) as EslintConfiguration;
+    expect(pconfig.extends).toEqual(['../../.eslintrc.json']);
   });
 });

@@ -1,4 +1,3 @@
-import { normalizePath, type GeneratorCallback, type Tree } from '@nrwl/devkit';
 import {
   addDependenciesToPackageJson,
   formatFiles,
@@ -6,15 +5,30 @@ import {
   installPackagesTask,
   joinPathFragments,
   names,
-  output,
+  normalizePath,
+  readJson,
+  readProjectConfiguration,
+  updateJson,
+  type GeneratorCallback,
+  type Tree,
 } from '@nrwl/devkit';
-import { join } from 'path';
+import type {
+  NxProjectPackageJsonConfiguration,
+  PackageJson,
+} from 'nx/src/utils/package-json';
 import { updateEslint } from '../../utils/eslint';
-import { getSveltePackageVersions, isSvelte } from '../../utils/svelte';
-import { prettierPluginSvelteVersion } from '../../utils/versions';
+import { isSvelte } from '../../utils/svelte';
+import {
+  eslintPluginSvelte3Version,
+  eslintVersion,
+  prettierPluginSvelteVersion,
+  typescriptEslintVersion,
+} from '../../utils/versions';
 import type { Schema as ApplicationGeneratorSchema } from './schema';
 
-const nx = {
+const PRETTIER_PLUGIN_SVELTE = 'prettier-plugin-svelte';
+
+const nx: NxProjectPackageJsonConfiguration = {
   namedInputs: {
     default: ['{projectRoot}/**/*'],
     production: [
@@ -31,13 +45,6 @@ const nx = {
     },
   },
 };
-
-interface PackageJson {
-  devDependencies: Record<string, string>;
-  name: string;
-  version: string;
-  workspaces: Array<string>;
-}
 
 interface NormalizedSchema extends ApplicationGeneratorSchema {
   appsDir: string;
@@ -57,7 +64,7 @@ function normalizeOptions(
     ? `${names(options.directory).fileName}/${name}`
     : name;
   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = join(appsDir, projectDirectory);
+  const projectRoot = joinPathFragments(appsDir, projectDirectory);
 
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
@@ -73,15 +80,49 @@ function normalizeOptions(
   };
 }
 
-function addWorkspace(tree: Tree, options: NormalizedSchema): void {
-  const buf = tree.read('package.json');
-  if (!buf) {
-    throw new Error('no pacakge');
-  }
-  const pj = JSON.parse(buf.toString()) as PackageJson;
-  pj.workspaces = pj.workspaces ?? [];
-  pj.workspaces.push(normalizePath(options.projectRoot));
-  tree.write('package.json', JSON.stringify(pj));
+function getWebPackage(
+  tree: Tree,
+  packageJsonPath: string
+): Required<PackageJson> {
+  const json = readJson(tree, packageJsonPath);
+  json.devDependencies = json.devDependencies ?? {};
+  return json;
+}
+
+function addNxConfig(tree: Tree, packageJsonPath: string): void {
+  return updateJson<PackageJson>(tree, packageJsonPath, (json) => ({
+    ...json,
+    nx,
+  }));
+}
+
+function addScriptsToPackageJson(
+  tree: Tree,
+  scripts: Record<string, string>,
+  packageJsonPath: string
+): void {
+  return updateJson<PackageJson>(tree, packageJsonPath, (json) => {
+    json.scripts = json.scripts ?? {};
+    for (const script of Object.keys(scripts)) {
+      json.scripts[script] = scripts[script];
+    }
+    json.scripts = scripts;
+    return json;
+  });
+}
+
+function addWorkspaceToPackageJson(
+  tree: Tree,
+  options: NormalizedSchema,
+  packageJsonPath = 'package.json'
+): void {
+  updateJson<PackageJson>(tree, packageJsonPath, (json) => {
+    json.workspaces = json.workspaces ?? [];
+    if (Array.isArray(json.workspaces)) {
+      json.workspaces.push(normalizePath(options.projectRoot));
+    }
+    return json;
+  });
 }
 
 function updatePrettierIgnore(tree: Tree, options: NormalizedSchema) {
@@ -109,53 +150,52 @@ export default async function (
 ): Promise<GeneratorCallback> {
   const notSvelte = (p: string) =>
     `project '${p}' is not configured for svelte`;
-  const noProject = (p: string) => `project '${p}' not found in workspace`;
 
   const normalizedOptions = normalizeOptions(tree, options);
-  const config = { root: normalizedOptions.projectRoot };
+  const project = readProjectConfiguration(tree, normalizedOptions.name);
+
+  const config = { root: project.root };
 
   if (!isSvelte(tree, config)) {
     throw new Error(notSvelte(normalizedOptions.name));
   }
 
-  const pname = joinPathFragments(
+  const webPackageJsonPath = joinPathFragments(
     normalizedOptions.projectRoot,
     'package.json'
   );
-  const pbuff = tree.read(pname);
-  if (pbuff) {
-    const sveltePackage = JSON.parse(pbuff.toString()) as PackageJson;
-    const pluginVersion =
-      sveltePackage.devDependencies['prettier-plugin-svelte'] ??
-      prettierPluginSvelteVersion;
-    if (pluginVersion) {
-      addDependenciesToPackageJson(
-        tree,
-        {},
-        { 'prettier-plugin-svelte': pluginVersion }
-      );
-    }
+  const webPackage = getWebPackage(tree, webPackageJsonPath);
 
-    const packs = getSveltePackageVersions(tree, config);
-    output.log({
-      title: 'Svelte Packages',
-      bodyLines: packs.map(
-        (p) =>
-          `${output.colors.white(p.name)}: ${output.colors.green(p.version)}`
-      ),
-    });
+  addDependenciesToPackageJson(
+    tree,
+    {},
+    {
+      [PRETTIER_PLUGIN_SVELTE]:
+        webPackage.devDependencies[PRETTIER_PLUGIN_SVELTE] ??
+        prettierPluginSvelteVersion,
+    },
+    'package.json'
+  );
 
-    updatePrettierIgnore(tree, normalizedOptions);
-    tree.write(
-      pname,
-      JSON.stringify({ ...sveltePackage, nx }, undefined, 2) + '\n'
+  addNxConfig(tree, webPackageJsonPath);
+
+  updatePrettierIgnore(tree, normalizedOptions);
+  addWorkspaceToPackageJson(tree, normalizedOptions, 'package.json');
+
+  if (normalizedOptions.eslint) {
+    void (await updateEslint(tree, config));
+    addDependenciesToPackageJson(
+      tree,
+      {},
+      {
+        '@typescript-eslint/eslint-plugin': typescriptEslintVersion,
+        '@typescript-eslint/parser': typescriptEslintVersion,
+        eslint: eslintVersion,
+        'eslint-plugin-svelte3': eslintPluginSvelte3Version,
+      },
+      webPackageJsonPath
     );
-    if (options.eslint) {
-      void (await updateEslint(tree, config));
-    }
-    addWorkspace(tree, normalizedOptions);
-  } else {
-    throw new Error(noProject(options.name));
+    addScriptsToPackageJson(tree, { lint: 'eslint .' }, webPackageJsonPath);
   }
 
   await formatFiles(tree);

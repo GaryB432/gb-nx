@@ -1,5 +1,6 @@
 import type { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { type PackageJson } from 'nx/src/utils/package-json';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
 import type { Schema as ApplicationGeneratorSchema } from './schema';
@@ -29,13 +30,30 @@ describe('with eslint', () => {
       name: 'test',
       directory: 'apps',
     });
-    // appTree.write('.eslint.json', JSON.stringify(conf));
   });
 
   it('should handle eslint config', async () => {
     await generator(appTree, options);
-
     expect(appTree.exists('.eslintrc.json')).toBeTruthy();
+  });
+  it('should add script', async () => {
+    await generator(appTree, options);
+    const buff = appTree.read('apps/test/package.json', 'utf-8')!;
+    const j = JSON.parse(buff?.toString()) as unknown as PackageJson;
+    expect(j.scripts!['lint']).toEqual('eslint .');
+  });
+
+  it('should add dev dependencies', async () => {
+    await generator(appTree, options);
+    const buff = appTree.read('apps/test/package.json', 'utf-8')!;
+    const j = JSON.parse(buff?.toString()) as unknown as PackageJson;
+    expect(j.devDependencies).toEqual({
+      '@typescript-eslint/eslint-plugin': '^5.46.1',
+      '@typescript-eslint/parser': '^5.46.1',
+      eslint: '^8.28.0',
+      'eslint-plugin-svelte3': '^4.0.0',
+      'prettier-plugin-svelte': '1.1.1',
+    });
   });
 });
 
