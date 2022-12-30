@@ -37,6 +37,7 @@ function normalizeOptions(
     throw new Error(`Project "${projectName}" not configured for svelte`);
   }
 
+  // TODO choose lib or routes (new sverdle has components next to route files)
   const { lib } = getSvelteFiles(config);
   options.language = options.language ?? 'js';
   options.style = options.style ?? 'css';

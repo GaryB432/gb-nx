@@ -14,7 +14,7 @@ export interface AliasConfiguration {
   aliases: NamedPath[];
   useComma: boolean;
 }
-
+// TODO adapter: adapter(),,alias: {'@asdf/fun-lib': '../../libs/fun-lib/src'}  <-- invalid token!!
 function isCommaNeeded(aliasAssignment: PropertyAssignment): boolean {
   if (aliasAssignment.getChildCount() !== 3) {
     throw new Error('expecting 3');

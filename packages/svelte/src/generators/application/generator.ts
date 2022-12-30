@@ -7,7 +7,6 @@ import {
   names,
   normalizePath,
   readJson,
-  readProjectConfiguration,
   updateJson,
   type GeneratorCallback,
   type Tree,
@@ -19,8 +18,10 @@ import type {
 import { updateEslint } from '../../utils/eslint';
 import { isSvelte } from '../../utils/svelte';
 import {
-  eslintPluginSvelte3Version,
+  eslintPluginGbVersion,
+  eslintPluginSvelteVersion,
   eslintVersion,
+  nrwlEslintPluginNxVersion,
   prettierPluginSvelteVersion,
   typescriptEslintVersion,
 } from '../../utils/versions';
@@ -106,7 +107,6 @@ function addScriptsToPackageJson(
     for (const script of Object.keys(scripts)) {
       json.scripts[script] = scripts[script];
     }
-    json.scripts = scripts;
     return json;
   });
 }
@@ -155,9 +155,7 @@ export default async function (
     `project '${p}' is not configured for svelte`;
 
   const normalizedOptions = normalizeOptions(tree, options);
-  const project = readProjectConfiguration(tree, normalizedOptions.name);
-
-  const config = { root: project.root };
+  const config = { root: normalizedOptions.projectRoot };
 
   if (!isSvelte(tree, config)) {
     throw new Error(notSvelte(normalizedOptions.name));
@@ -192,12 +190,26 @@ export default async function (
       tree,
       {},
       {
+        '@typescript-eslint/parser': typescriptEslintVersion,
+      },
+      webPackageJsonPath
+    );
+    addDependenciesToPackageJson(
+      tree,
+      {},
+      {
+        '@nrwl/eslint-plugin-nx': nrwlEslintPluginNxVersion,
         '@typescript-eslint/eslint-plugin': typescriptEslintVersion,
         '@typescript-eslint/parser': typescriptEslintVersion,
         eslint: eslintVersion,
-        'eslint-plugin-svelte3': eslintPluginSvelte3Version,
+        'eslint-plugin-gb': eslintPluginGbVersion,
+        'eslint-plugin-svelte': eslintPluginSvelteVersion,
       },
-      webPackageJsonPath
+      'package.json'
+    );
+    tree.write(
+      joinPathFragments(normalizedOptions.projectRoot, 'tsconfig.base.json'),
+      '{ "extends": "./tsconfig.json" }'
     );
     addScriptsToPackageJson(tree, { lint: 'eslint .' }, webPackageJsonPath);
   }

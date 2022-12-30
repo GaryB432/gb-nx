@@ -39,21 +39,28 @@ describe('with eslint', () => {
   it('should add script', async () => {
     await generator(appTree, options);
     const buff = appTree.read('apps/test/package.json', 'utf-8')!;
-    const j = JSON.parse(buff?.toString()) as unknown as PackageJson;
-    expect(j.scripts!['lint']).toEqual('eslint .');
+    const pj = JSON.parse(buff?.toString()) as unknown as PackageJson;
+    expect(pj.scripts!['lint']).toEqual('eslint .');
   });
 
-  it('should add dev dependencies', async () => {
+  it('should add web dev dependencies', async () => {
     await generator(appTree, options);
     const buff = appTree.read('apps/test/package.json', 'utf-8')!;
-    const j = JSON.parse(buff?.toString()) as unknown as PackageJson;
-    expect(j.devDependencies).toEqual({
-      '@typescript-eslint/eslint-plugin': '^5.46.1',
-      '@typescript-eslint/parser': '^5.46.1',
-      eslint: '^8.28.0',
-      'eslint-plugin-svelte3': '^4.0.0',
-      'prettier-plugin-svelte': '1.1.1',
-    });
+    const pj = JSON.parse(buff?.toString()) as unknown as PackageJson;
+    expect(pj.devDependencies!['@typescript-eslint/parser']).toBeDefined();
+  });
+  it('should add root dev dependencies', async () => {
+    await generator(appTree, options);
+    const buff = appTree.read('package.json', 'utf-8')!;
+    const pj = JSON.parse(buff?.toString()) as unknown as PackageJson;
+    expect(pj.devDependencies!['@nrwl/eslint-plugin-nx']).toBeDefined();
+    expect(
+      pj.devDependencies!['@typescript-eslint/eslint-plugin']
+    ).toBeDefined();
+    expect(pj.devDependencies!['@typescript-eslint/parser']).toBeDefined();
+    expect(pj.devDependencies!['eslint']).toBeDefined();
+    expect(pj.devDependencies!['eslint-plugin-gb']).toBeDefined();
+    expect(pj.devDependencies!['eslint-plugin-svelte']).toBeDefined();
   });
 });
 
