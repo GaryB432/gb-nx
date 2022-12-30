@@ -120,6 +120,9 @@ function addWorkspaceToPackageJson(
     json.workspaces = json.workspaces ?? [];
     if (Array.isArray(json.workspaces)) {
       json.workspaces.push(normalizePath(options.projectRoot));
+      json.workspaces.sort();
+    } else {
+      throw new Error('TODO handle');
     }
     return json;
   });
@@ -183,7 +186,8 @@ export default async function (
   addWorkspaceToPackageJson(tree, normalizedOptions, 'package.json');
 
   if (normalizedOptions.eslint) {
-    void (await updateEslint(tree, config));
+    // TODO use @nrwl/linter
+    updateEslint(tree, config);
     addDependenciesToPackageJson(
       tree,
       {},

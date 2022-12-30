@@ -62,9 +62,16 @@ describe('application generator', () => {
   const options: ApplicationGeneratorSchema = { name: 'test' };
 
   const version = '0.0.0-alpha.0';
+  const pt: PackageJson = {
+    name: 'test',
+    version: '0',
+    // workspaces: { packages: [] },
+    workspaces: ['apps/z', 'apps/a'],
+  };
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
+    appTree.write('package.json', JSON.stringify(pt));
     jest.clearAllMocks();
     createSvelteKitApp(appTree, version, {
       name: 'test',
@@ -160,6 +167,6 @@ describe('application generator', () => {
     const p = appTree.read('package.json');
     const s = p ? p.toString() : '';
     const q = JSON.parse(s);
-    expect(q.workspaces).toEqual(['apps/test']);
+    expect(q.workspaces).toEqual(['apps/a', 'apps/test', 'apps/z']);
   });
 });

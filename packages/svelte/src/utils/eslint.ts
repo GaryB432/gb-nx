@@ -16,16 +16,16 @@ export interface EslintConfiguration {
   parser?: string;
   parserOptions?: {
     ecmaVersion: string;
-    sourceType: string;
-    project: string;
     extraFileExtensions: string[];
+    project: string;
+    sourceType: string;
   };
   plugins: string[];
   root: boolean;
   rules?: unknown;
 }
 
-async function updateWorkspaceEslint(tree: Tree): Promise<void> {
+function updateWorkspaceEslint(tree: Tree): void {
   const config: Partial<EslintConfiguration> = {
     root: true,
     env: {
@@ -73,10 +73,10 @@ async function updateWorkspaceEslint(tree: Tree): Promise<void> {
   };
   tree.write('.eslintrc.json', JSON.stringify(config));
 }
-async function updateProjectEslint(
+function updateProjectEslint(
   tree: Tree,
   project: Pick<ProjectConfiguration, 'root'>
-): Promise<void> {
+): void {
   const config: Partial<EslintConfiguration> = {
     extends: ['../../.eslintrc.json'],
     ignorePatterns: ['.svelte-kit', 'build/*', '**/*.config.*'],
@@ -88,10 +88,10 @@ async function updateProjectEslint(
   );
 }
 
-export async function updateEslint(
+export function updateEslint(
   tree: Tree,
   project: Pick<ProjectConfiguration, 'root'>
-): Promise<void> {
+): void {
   updateWorkspaceEslint(tree);
   updateProjectEslint(tree, project);
 }

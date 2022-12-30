@@ -52,7 +52,7 @@ describe('eslint util', () => {
   });
 
   test('updateEslint', async () => {
-    await updateEslint(appTree, { root: 'apps/tester' });
+    updateEslint(appTree, { root: 'apps/tester' });
     const wsconfig = JSON.parse(
       appTree.read('.eslintrc.json', 'utf-8')!
     ) as EslintConfiguration;
