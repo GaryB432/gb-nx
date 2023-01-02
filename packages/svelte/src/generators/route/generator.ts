@@ -202,11 +202,17 @@ function addSveltePage(
 </article>
 `;
 
+// TODO add sass devdep in project if selected
   const styles = `<style${options.style === 'scss' ? ' lang="scss"' : ''}>
   article.a {
     padding: 1em;
     border: thin solid silver;
   }
+  @media screen and (min-width: 576px) { /* landscape phones */ }
+  @media screen and (min-width: 768px) { /* tablets */ }
+  @media screen and (min-width: 992px) { /* desktops */ }
+  @media screen and (min-width: 1200px) { /* large desktops */ }
+  @media screen and (min-width: 1400px) { /* larger desktops */ }
 </style>`;
 
   tree.write(fname, [script, html, styles].join('\n\n'));
