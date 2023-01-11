@@ -14,28 +14,32 @@ export function getCommandMarkdown(
   command: ConfigCommand,
   names: { name: string; propertyName: string }
 ): string {
-  const pz = Object.keys(command.parameters);
-  const os = Object.keys(command.options);
+  const { parameters, options } = command;
 
   const lns = [`## ${names.name}\n`, `${command.description}\n`];
 
   const def = (o: string | number | boolean | undefined): string =>
     o ? o.toString() : '';
 
-  if (pz.length > 0) {
+  if (parameters) {
+    const pz = Object.keys(parameters);
     lns.push(
       '### Arguments\n',
       tableHeader('ARGUMENT', 'DESCRIPTION'),
-      ...pz.map((p) =>
-        tableRow(`\`${p}\``, command.parameters[p].description ?? '')
-      ),
+      ...pz.map((p) => {
+        if (parameters) {
+          return tableRow(`\`${p}\``, parameters[p].description ?? '');
+        }
+        return tableRow();
+      }),
       ''
       // `example('${command} src build --dryRun')`,
       // `example('${command} app public -o main.js')`,
     );
   }
 
-  if (os.length > 0) {
+  if (options) {
+    const os = Object.keys(options);
     lns.push(
       '### Options\n',
       tableHeader('OPTION', 'DESCRIPTION', 'DEFAULT'),
@@ -43,8 +47,8 @@ export function getCommandMarkdown(
       ...os.map((o) =>
         tableRow(
           `\`--${o}\``,
-          command.options[o].description ?? '',
-          def(command.options[o].default)
+          options[o].description ?? '',
+          def(options[o].default)
         )
       ),
       ''

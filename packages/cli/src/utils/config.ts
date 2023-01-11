@@ -12,8 +12,8 @@ export interface ConfigProp {
 export interface ConfigCommand {
   alias?: string;
   description?: string;
-  options: Record<string, ConfigProp>;
-  parameters: Record<string, ConfigProp>;
+  options?: Record<string, ConfigProp>;
+  parameters?: Record<string, ConfigProp>;
 }
 
 export interface Config {
@@ -34,6 +34,9 @@ export function getKindTypes(
   subject: Record<string, ConfigProp>,
   init: Record<string, KindThing> = {}
 ): Record<string, KindThing> {
+  if (!subject) {
+    return {};
+  }
   return Object.entries(subject).reduce((a, [name, c]) => {
     a[name] = { ...c, kind: c.type };
     return a;

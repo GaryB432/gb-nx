@@ -52,8 +52,8 @@ export default async function refreshGenerator(
           ),
           makeCommandDeclarations(
             projName,
-            getKindTypes(cmd.parameters),
-            getKindTypes(cmd.options)
+            getKindTypes(cmd.parameters ?? {}),
+            getKindTypes(cmd.options ?? {})
           )
         );
       }

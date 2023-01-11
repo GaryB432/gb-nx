@@ -24,14 +24,16 @@ export function getCommandTs(
   command: ConfigCommand,
   names: { name: string; propertyName: string }
 ): string {
-  const pz = Object.keys(command.parameters);
-  const os = Object.keys(command.options);
+  const parameters = command.parameters ?? {};
+  const options = command.options ?? {};
+  const pz = Object.keys(parameters);
+  const os = Object.keys(options);
 
   const argz = [...pz, 'opts'].join();
   const line = [names.name, ...pz.map((p) => `<${p}>`)].join(' ');
 
   const checks = os
-    .filter((o) => command.options[o].type === 'number')
+    .filter((o) => options[o].type === 'number')
     .map(
       (o) =>
         `if (typeof opts.${o} !== 'number') throw new Error('${o} must be a number');`
@@ -40,7 +42,7 @@ export function getCommandTs(
   const lns = [
     `command('${line}')`,
     `describe(${enQuote(command.description ?? 'tbd')})`,
-    ...os.map((o) => makeCommandOption(o, command.options[o])),
+    ...os.map((o) => makeCommandOption(o, options[o])),
 
     // `example('${command} src build --dryRun')`,
     // `example('${command} app public -o main.js')`,
