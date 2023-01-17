@@ -7,6 +7,7 @@ import {
   names,
   normalizePath,
   readJson,
+  readRootPackageJson,
   updateJson,
   type GeneratorCallback,
   type Tree,
@@ -21,7 +22,6 @@ import {
   eslintPluginGbVersion,
   eslintPluginSvelteVersion,
   eslintVersion,
-  nrwlEslintPluginNxVersion,
   prettierPluginSvelteVersion,
   typescriptEslintVersion,
 } from '../../utils/versions';
@@ -161,6 +161,10 @@ export default async function (
     throw new Error(notSvelte(normalizedOptions.name));
   }
 
+  const { devDependencies } = readRootPackageJson();
+  const deps = devDependencies ?? { nx: '15.0.0' };
+  const nxVersion = deps['nx'];
+
   const webPackageJsonPath = joinPathFragments(
     normalizedOptions.projectRoot,
     'package.json'
@@ -198,7 +202,7 @@ export default async function (
       tree,
       {},
       {
-        '@nrwl/eslint-plugin-nx': nrwlEslintPluginNxVersion,
+        '@nrwl/eslint-plugin-nx': nxVersion,
         '@typescript-eslint/eslint-plugin': typescriptEslintVersion,
         '@typescript-eslint/parser': typescriptEslintVersion,
         eslint: eslintVersion,
