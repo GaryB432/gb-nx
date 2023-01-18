@@ -7,18 +7,18 @@
   export let subject = '<%= className %> component';
 </script>
 <% } %>
-<div class="a">
+<div class="container">
   {subject} works
 </div>
 <% if (style === 'scss') { %>
 <style lang="scss">
-  .a {
+  .container {
     border: thin solid silver;
   }
 </style>
 <% } else { %>
 <style>
-  .a {
+  .container {
     border: thin solid silver;
   }
 </style>

@@ -197,14 +197,14 @@ function addSveltePage(
 
   const script = scripts[options.language][options.load];
 
-  const html = `<article class="a">
+  const html = `<article class="container">
 	{data.subject} works
 </article>
 `;
 
 // TODO add sass devdep in project if selected
   const styles = `<style${options.style === 'scss' ? ' lang="scss"' : ''}>
-  article.a {
+  .container {
     padding: 1em;
     border: thin solid silver;
   }
