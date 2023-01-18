@@ -422,6 +422,50 @@ describe('comma handling', () => {
     `);
   });
 
+  it('adapter no alias with no comma', () => {
+    // ARRANGE
+    const file = `const config = {
+      kit: {
+        adapter: adapter()
+      }
+    }`;
+
+    // ACT
+    const updatedFile = addToSvelteConfiguration(file, alias);
+
+    // ASSERT
+    expect(updatedFile).toMatchInlineSnapshot(`
+      "const config = {
+            kit: {
+              adapter: adapter(),alias: {'@name/fun': '../a/b/c/moar.ts'}
+            }
+          }"
+    `);
+  });
+
+  
+  it('adapter no alias with comma', () => {
+    // ARRANGE
+    const file = `const config = {
+      kit: {
+        adapter: adapter(),
+      }
+    }`;
+
+    // ACT
+    const updatedFile = addToSvelteConfiguration(file, alias);
+
+    // ASSERT
+    expect(updatedFile).toMatchInlineSnapshot(`
+      "const config = {
+            kit: {
+              adapter: adapter(),alias: {'@name/fun': '../a/b/c/moar.ts'}
+            }
+          }"
+    `);
+  });
+
+
   it('none without comma', () => {
     // ARRANGE
     const file = `const config = {

@@ -14,7 +14,6 @@ export interface AliasConfiguration {
   aliases: NamedPath[];
   useComma: boolean;
 }
-// TODO adapter: adapter(),,alias: {'@asdf/fun-lib': '../../libs/fun-lib/src'}  <-- invalid token!!
 function isCommaNeeded(aliasAssignment: PropertyAssignment): boolean {
   if (aliasAssignment.getChildCount() !== 3) {
     throw new Error('expecting 3');
@@ -121,11 +120,14 @@ export function addToSvelteConfiguration(
     } else {
       const brace = kitLiteral.getLastToken();
       if (brace && brace.kind === SyntaxKind.CloseBraceToken) {
-        const commaNeeded = syntaxList.getChildCount() > 0;
+        const startFresh = syntaxList.getChildCount() === 0;
+        const commaAlready =
+          syntaxList.getLastToken()?.kind === SyntaxKind.CommaToken;
+        const skipComma = commaAlready || startFresh;
         configContents = stringInsert(
           configContents,
           brace.getFullStart(),
-          commaNeeded,
+          !skipComma,
           `alias: {${initializerString(alias)}}`
         );
       }
