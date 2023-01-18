@@ -18,7 +18,7 @@ describe('route generator', () => {
     const svelte = appTree
       .read('apps/test/src/routes/tester/+page.svelte')
       ?.toString();
-    expect(svelte).toContain('article.a {');
+    expect(svelte).toContain(' .container {');
     expect(svelte).toContain('{data.subject} works');
     expect(
       appTree.read('apps/test/tests/tester.spec.ts')?.toString()
