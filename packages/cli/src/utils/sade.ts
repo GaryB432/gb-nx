@@ -36,7 +36,7 @@ export function getCommandTs(
     .filter((o) => options[o].type === 'number')
     .map(
       (o) =>
-        `if (typeof opts.${o} !== 'number') throw new Error('${o} must be a number');`
+        `if (opts.${o} && typeof opts.${o} !== 'number') throw new Error('${o} must be a number');`
     );
 
   const lns = [

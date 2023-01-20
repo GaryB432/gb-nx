@@ -149,7 +149,7 @@ describe('sade', () => {
       .option('--alfa','put some quotes on me','testingSubject')
       .option('--limit','some junkk',5)
       .option('--grocery','an important boolean argument',true)
-      .action(async (a,b,opts) => { if (typeof opts.limit !== 'number') throw new Error('limit must be a number');await testingSubjectCommand({ a,b,opts }); });"
+      .action(async (a,b,opts) => { if (opts.limit && typeof opts.limit !== 'number') throw new Error('limit must be a number');await testingSubjectCommand({ a,b,opts }); });"
     `);
   });
   it('should use proper case', () => {
@@ -187,7 +187,7 @@ describe('sade', () => {
       .option('--alfa','put some quotes on me','testingSubject')
       .option('--limit','some junkk',5)
       .option('--grocery','an important boolean argument',true)
-      .action(async (a,b,opts) => { if (typeof opts.limit !== 'number') throw new Error('limit must be a number');await doTheWeirdestStuffCommand({ a,b,opts }); });"
+      .action(async (a,b,opts) => { if (opts.limit && typeof opts.limit !== 'number') throw new Error('limit must be a number');await doTheWeirdestStuffCommand({ a,b,opts }); });"
     `);
   });
 
@@ -230,7 +230,7 @@ describe('sade', () => {
       .option('--age','description of age option')
       .option('--banana','description of banana option')
       .option('--grocery','an important boolean argument',true)
-      .action(async (a,b,opts) => { if (typeof opts.limit !== 'number') throw new Error('limit must be a number');if (typeof opts.age !== 'number') throw new Error('age must be a number');if (typeof opts.banana !== 'number') throw new Error('banana must be a number');await testCommand({ a,b,opts }); });"
+      .action(async (a,b,opts) => { if (opts.limit && typeof opts.limit !== 'number') throw new Error('limit must be a number');if (opts.age && typeof opts.age !== 'number') throw new Error('age must be a number');if (opts.banana && typeof opts.banana !== 'number') throw new Error('banana must be a number');await testCommand({ a,b,opts }); });"
     `);
   });
 });
