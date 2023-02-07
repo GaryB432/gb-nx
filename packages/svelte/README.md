@@ -82,4 +82,4 @@ nx g @gb-nx/svelte:dependency --project web --dependency my-lib
 
 ## License
 
-Copyright (c) 2021-2022 Gary Bortosky. Licensed under the MIT License (MIT)
+Copyright (c) 2021-2023 Gary Bortosky. Licensed under the MIT License (MIT)
