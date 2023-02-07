@@ -443,7 +443,6 @@ describe('comma handling', () => {
     `);
   });
 
-  
   it('adapter no alias with comma', () => {
     // ARRANGE
     const file = `const config = {
@@ -464,7 +463,6 @@ describe('comma handling', () => {
           }"
     `);
   });
-
 
   it('none without comma', () => {
     // ARRANGE

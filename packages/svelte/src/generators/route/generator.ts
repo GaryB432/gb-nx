@@ -202,7 +202,7 @@ function addSveltePage(
 </article>
 `;
 
-// TODO add sass devdep in project if selected
+  // TODO add sass devdep in project if selected
   const styles = `<style${options.style === 'scss' ? ' lang="scss"' : ''}>
   .container {
     padding: 1em;
