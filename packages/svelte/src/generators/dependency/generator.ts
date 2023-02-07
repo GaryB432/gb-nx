@@ -82,7 +82,7 @@ export default async function (
   if (pjbuff) {
     const pkg = JSON.parse(pjbuff.toString()) as {
       name: string;
-      nx: { implicitDependencies: string[] };
+      nx: { implicitDependencies?: string[] };
     };
     pkg.nx = pkg.nx ?? {};
     const ideps = pkg.nx.implicitDependencies ?? [];

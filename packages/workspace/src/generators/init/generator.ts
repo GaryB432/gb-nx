@@ -15,6 +15,8 @@ export default async function initGenerator(
   const installTask = updateDependencies(host);
   tasks.push(installTask);
 
+  // TODO nrwl workspace is needed and maybe devkit too
+
   if (!schema.skipFormat) {
     await formatFiles(host);
   }
