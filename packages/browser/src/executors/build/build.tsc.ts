@@ -8,7 +8,8 @@ export default async function build(
   options: BuildExecutorOptions,
   context: ExecutorContext
 ): Promise<{ success: boolean }> {
-  const project = context.workspace.projects[context.projectName!];
+  const project =
+    context.projectsConfigurations!.projects[context.projectName!];
   const cmds = [
     join(context.root, 'node_modules', '.bin', 'tsc'),
     `--project "${join(project.root, 'tsconfig.app.json')}"`,

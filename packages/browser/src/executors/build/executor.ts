@@ -34,7 +34,8 @@ async function getInOuts(
   schema: BuildExecutorSchema,
   context: BuildExecutorContext
 ): Promise<InOutInfo[]> {
-  const project = context.workspace.projects[context.projectName!];
+  const project =
+    context.projectsConfigurations!.projects[context.projectName!];
 
   const allSrcs = await fg(joinPathFragments(project.sourceRoot!, '**/*.*'), {
     dot: true,
