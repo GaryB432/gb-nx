@@ -30,6 +30,7 @@
         "tsConfig": "packages/workspace/tsconfig.lib.json",
         "packageJson": "packages/workspace/package.json",
         "main": "packages/workspace/src/index.ts",
+        "updateBuildableProjectDepsInPackageJson": false,
         "assets": [
           "packages/workspace/*.md",
           {
