@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/workspace",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -15,6 +15,7 @@
   "executors": "./executors.json",
   "dependencies": {
     "@nrwl/devkit": "^15.0.0",
+    "@nrwl/workspace": "^15.0.0",
     "gb-schematics": "^2.13.0"
   },
   "publishConfig": {
