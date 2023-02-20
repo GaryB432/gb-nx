@@ -18,7 +18,7 @@
   "content_scripts": [
     {
       "matches": ["https://tbd.com/*"],
-      "js": ["scripts/ha.content_script.js"]
+      "js": ["scripts/tbd.content_script.js"]
     }
   ],
   "background": {
