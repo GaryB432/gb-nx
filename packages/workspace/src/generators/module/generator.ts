@@ -8,7 +8,8 @@ interface SchematicOptions {
   directory?: string;
   kind?: 'class' | 'values';
   name: string;
-  skipTests?: boolean;
+  unitTestRunner?: 'jest' | 'vitest' | 'none';
+  inSourceTests?: boolean;
   sourceRoot?: string;
 }
 
@@ -33,7 +34,7 @@ export default async function (
   if (!project) {
     throw new Error(`Project '${options.project}' was not found`);
   }
-  const { name, kind, skipTests } = options;
+  const { name, kind, unitTestRunner } = options;
 
   const directory =
     options.directory ?? sourceSubfolder.get(project.projectType);
@@ -42,7 +43,8 @@ export default async function (
     name,
     directory,
     kind,
-    skipTests,
+    unitTestRunner,
+    inSourceTests: true,
     sourceRoot: project.sourceRoot,
   };
 

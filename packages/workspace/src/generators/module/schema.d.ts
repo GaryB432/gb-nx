@@ -25,7 +25,7 @@ export interface Schema {
    */
   kind?: 'class' | 'values';
   /**
-   * Do not create "spec.ts" test files for the new module.
+   * Test runner to use for unit tests.
    */
-  skipTests?: boolean;
+  unitTestRunner?: 'jest' | 'vitest' | 'none';
 }

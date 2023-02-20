@@ -51,11 +51,10 @@
       "default": "values",
       "enum": ["class", "values"]
     },
-    "skipTests": {
-      "type": "boolean",
-      "description": "Do not create \"spec.ts\" test files for the new module.",
-      "default": false,
-      "x-user-analytics": 12
+    "unitTestRunner": {
+      "type": "string",
+      "enum": ["jest", "vitest", "none"],
+      "description": "Test runner to use for unit tests."
     }
   },
   "additionalProperties": false,
