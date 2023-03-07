@@ -22,7 +22,7 @@ interface SchemaDefinedList {
 
 const argv = process.argv.slice(2);
 const ws = new Workspaces(process.cwd());
-const wsConfig = ws.readWorkspaceConfiguration();
+const wsConfig = ws.readProjectsConfig();
 
 const messages: string[] = [];
 

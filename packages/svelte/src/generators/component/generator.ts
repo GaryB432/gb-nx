@@ -1,10 +1,10 @@
-import type { Tree } from '@nrwl/devkit';
 import {
   formatFiles,
   generateFiles,
   getProjects,
   names,
-  readWorkspaceConfiguration,
+  readNxJson,
+  type Tree,
 } from '@nrwl/devkit';
 import { join } from 'path';
 import { getSvelteConfig, getSvelteFiles } from '../../utils/svelte';
@@ -19,8 +19,8 @@ function normalizeOptions(
   tree: Tree,
   options: ComponentGeneratorSchema
 ): NormalizedComponentSchema {
-  const ws = readWorkspaceConfiguration(tree);
-  const projectName = options.project ?? ws.defaultProject;
+  const ws = readNxJson(tree);
+  const projectName = options.project ?? ws?.defaultProject;
   const projects = getProjects(tree);
   if (!projectName) {
     throw new Error('no project');

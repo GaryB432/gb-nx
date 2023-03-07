@@ -6,7 +6,7 @@ import {
   joinPathFragments,
   names,
   output,
-  readWorkspaceConfiguration,
+  readNxJson,
 } from '@nrwl/devkit';
 import { join } from 'path';
 import type { ConfigProp } from '../../utils/config';
@@ -26,8 +26,8 @@ function normalizeOptions(
   tree: Tree,
   options: CommandGeneratorSchema
 ): NormalizedCommandSchema {
-  const ws = readWorkspaceConfiguration(tree);
-  const projectName = options.project ?? ws.defaultProject;
+  const ws = readNxJson(tree);
+  const projectName = options.project ?? ws?.defaultProject;
   const projects = getProjects(tree);
   if (!projectName) {
     throw new Error('no project');

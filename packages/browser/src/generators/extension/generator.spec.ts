@@ -1,8 +1,4 @@
-import {
-  readProjectConfiguration,
-  readWorkspaceConfiguration,
-  type Tree,
-} from '@nrwl/devkit';
+import { readProjectConfiguration, type Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import extensionGenerator from './generator';
 
@@ -19,7 +15,6 @@ describe('extension', () => {
 
     expect(tree.children('apps/my-app')).toContain('project.json');
     expect(tree.children('apps/my-app/src')).toContain('main.ts');
-    expect(readWorkspaceConfiguration(tree).version).toEqual(2);
 
     const rpconf = readProjectConfiguration(tree, 'my-app');
     expect(rpconf.targets!['build'].executor).toEqual('@nrwl/webpack:webpack');

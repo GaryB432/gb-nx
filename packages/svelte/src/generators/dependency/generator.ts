@@ -1,11 +1,10 @@
-import type { ProjectConfiguration, Tree } from '@nrwl/devkit';
+import { ProjectConfiguration, readNxJson, Tree } from '@nrwl/devkit';
 import {
   formatFiles,
   getProjects,
   joinPathFragments,
   offsetFromRoot,
   // output,
-  readWorkspaceConfiguration,
 } from '@nrwl/devkit';
 
 import { makeAliasName, type NamedPath } from '../../utils/paths';
@@ -33,9 +32,9 @@ export default async function (
   const notfound = (p: string) => `project '${p}' was not found in workspace`;
   const notSvelte = (p: string) =>
     `project '${p}' is not configured for svelte`;
-  const ws = readWorkspaceConfiguration(tree);
-  const projName = schema.project ?? ws.defaultProject;
-  const aliasScope = schema.scope ?? ws.npmScope;
+  const ws = readNxJson(tree);
+  const projName = schema.project ?? ws?.defaultProject;
+  const aliasScope = schema.scope ?? ws?.npmScope;
 
   const projects = getProjects(tree);
   const project = projects.get(projName);

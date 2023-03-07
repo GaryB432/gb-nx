@@ -1,8 +1,8 @@
 import {
   joinPathFragments,
   logger,
+  readNxJson,
   readProjectConfiguration,
-  readWorkspaceConfiguration,
   Tree,
 } from '@nrwl/devkit';
 import { SchematicOptions } from './schema';
@@ -14,8 +14,7 @@ interface PackageJson {
 }
 
 export default async function (tree: Tree, schema: SchematicOptions) {
-  const project =
-    schema.project ?? readWorkspaceConfiguration(tree).defaultProject;
+  const project = schema.project ?? readNxJson(tree)?.defaultProject;
 
   if (!project) {
     throw new Error('missing project');

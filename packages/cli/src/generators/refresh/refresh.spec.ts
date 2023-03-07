@@ -1,8 +1,4 @@
-import {
-  readWorkspaceConfiguration,
-  updateWorkspaceConfiguration,
-  type Tree,
-} from '@nrwl/devkit';
+import { readNxJson, updateNxJson, type Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import applicationGenerator from '../application/application';
 import commandGenerator from '../command/command';
@@ -16,9 +12,10 @@ describe('command', () => {
     await applicationGenerator(tree, {
       name: projectName,
     });
-    const workspace = readWorkspaceConfiguration(tree);
+    const workspace = readNxJson(tree);
+    if (!workspace) throw new Error('no nx');
     workspace.defaultProject = projectName;
-    updateWorkspaceConfiguration(tree, workspace);
+    updateNxJson(tree, workspace);
     await commandGenerator(tree, {
       name: 'apple',
       parameter: ['a', 'b'],

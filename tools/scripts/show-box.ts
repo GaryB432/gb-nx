@@ -7,15 +7,17 @@ import { Workspaces } from '@nrwl/devkit';
 
     console.log(ws.isNxGenerator('./packages/junit', 'junit'));
 
-    // console.log(ws.readGenerator('cccnnn', 'tbd'));
+    const defaultProject = ws.calculateDefaultProjectName(
+      process.cwd(),
+      ws.readProjectsConfig(),
+      ws.readNxJson()
+    );
 
-    // console.log(ws.calculateDefaultProjectName(process.cwd(), ws.))
+    const wsConfig = ws.readProjectsConfig();
 
-    const wsConfig = ws.readWorkspaceConfiguration();
-    // console.log(wsConfig);
     for (const k in wsConfig.projects) {
       console.log(
-        k === wsConfig.defaultProject ? '*' : ' ',
+        k === defaultProject ? '*' : ' ',
         k,
         wsConfig.projects[k].projectType
       );

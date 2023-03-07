@@ -1,5 +1,4 @@
-import type { Tree } from '@nrwl/devkit';
-import { readWorkspaceConfiguration } from '@nrwl/devkit';
+import { readNxJson, type Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { applicationGenerator, libraryGenerator } from '@nrwl/node';
 import { createSvelteKitApp } from '../../utils/svelte';
@@ -42,8 +41,8 @@ describe('dependency generator', () => {
 
   it('should add dep', async () => {
     await generator(appTree, options);
-    const ws = readWorkspaceConfiguration(appTree);
-    expect(ws.npmScope).toEqual('proj');
+    const ws = readNxJson(appTree);
+    expect(ws?.npmScope).toEqual('proj');
     const content = appTree.read('apps/test/svelte.config.js');
     expect(content?.toString()).toContain("'@proj/dep': '../../libs/dep/src'");
   });

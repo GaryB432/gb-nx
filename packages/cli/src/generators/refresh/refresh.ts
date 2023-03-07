@@ -1,10 +1,10 @@
-import type { Tree } from '@nrwl/devkit';
 import {
   formatFiles,
   getProjects,
   joinPathFragments,
   names,
-  readWorkspaceConfiguration,
+  readNxJson,
+  type Tree,
 } from '@nrwl/devkit';
 import { getKindTypes, readCliConfig } from '../../utils/config';
 import { getCommandMarkdown } from '../../utils/markdown';
@@ -16,11 +16,10 @@ export default async function refreshGenerator(
   tree: Tree,
   options: RefreshGeneratorSchema
 ): Promise<void> {
-  const fun = true;
-  const ws = readWorkspaceConfiguration(tree);
+  const ws = readNxJson(tree);
   const projects = getProjects(tree);
   if (projects) {
-    const projName = options.project ?? ws.defaultProject;
+    const projName = options.project ?? ws?.defaultProject;
     if (!projName) {
       throw new Error('no project');
     }

@@ -3,7 +3,7 @@ import {
   getProjects,
   joinPathFragments,
   names,
-  readWorkspaceConfiguration,
+  readNxJson,
   type ProjectConfiguration,
   type Tree,
 } from '@nrwl/devkit';
@@ -23,8 +23,8 @@ function normalizeOptions(
   host: Tree,
   options: Schema
 ): Required<NormalizedSchema> {
-  const ws = readWorkspaceConfiguration(host);
-  options.project = options.project ?? ws.defaultProject;
+  const ws = readNxJson(host);
+  options.project = options.project ?? ws?.defaultProject;
   options.directory = options.directory ?? '';
 
   if (!options.project) {
