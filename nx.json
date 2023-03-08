@@ -36,7 +36,6 @@
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    // TODO what is the purpose of sharedGlobals
     "sharedGlobals": [],
     "production": [
       "default",
