@@ -153,4 +153,15 @@ describe('junit generator', () => {
     await generator(appTree, options);
     expect(appTree.read('.gitignore')?.toString()).toContain('\n/junit\n');
   });
+
+  it('should add to gitignore only once', async () => {
+    appTree.write('.gitignore', 'asdf\r/junit\rfun\r');
+    await generator(appTree, options);
+    expect(appTree.read('.gitignore')?.toString()).toMatchInlineSnapshot(`
+      "asdf
+      /junit
+      fun
+      "
+    `);
+  });
 });

@@ -85,7 +85,7 @@ function updateGitIgnore(tree: Tree) {
   const newIgnore = '/junit';
   const buff = tree.read(fn);
   const ignoreds = buff
-    ? buff.toString().split('\n')
+    ? buff.toString().split(/[\r\n]/)
     : [
         '# See http://help.github.com/ignore-files/ for more about ignoring files.',
       ];
