@@ -33,7 +33,6 @@ function makeTypeAliasDeclaration(
   );
   return ts.factory.createTypeAliasDeclaration(
     undefined,
-    undefined,
     'CommandArgs',
     undefined,
     ts.factory.createTypeLiteralNode(props)
@@ -55,7 +54,6 @@ function makeInterfaceDeclaration(
     );
 
   const declaration = ts.factory.createInterfaceDeclaration(
-    undefined,
     undefined,
     'Options',
     undefined,
@@ -82,7 +80,6 @@ function makeInterfaceDeclaration(
 
 function makeImportDelcaration(): ts.ImportDeclaration {
   return ts.factory.createImportDeclaration(
-    undefined,
     undefined,
     ts.factory.createImportClause(
       false,
