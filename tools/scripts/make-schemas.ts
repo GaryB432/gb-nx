@@ -4,9 +4,6 @@ import { readFile, writeFile } from 'fs/promises';
 import { compile, JSONSchema } from 'json-schema-to-typescript';
 import { join, parse, ParsedPath } from 'path';
 
-// TODO this should be a generator (probably)
-// and now it is!
-
 interface SchemaDefined {
   schema: string;
 }
@@ -92,4 +89,8 @@ async function main() {
   }
 }
 
-main();
+// main();
+output.log({
+  title: `Deprecated`,
+  bodyLines: ['use nx generator make-schemas'],
+});
