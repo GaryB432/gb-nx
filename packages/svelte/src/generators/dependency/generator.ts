@@ -1,10 +1,11 @@
-import { ProjectConfiguration, readNxJson, Tree } from '@nrwl/devkit';
 import {
   formatFiles,
   getProjects,
   joinPathFragments,
   offsetFromRoot,
-  // output,
+  readNxJson,
+  type ProjectConfiguration,
+  type Tree,
 } from '@nrwl/devkit';
 
 import { makeAliasName, type NamedPath } from '../../utils/paths';
