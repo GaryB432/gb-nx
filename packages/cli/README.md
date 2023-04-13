@@ -2,7 +2,7 @@
 
 This library was generated with [Nx](https://nx.dev).
 
-[![CI](https://img.shields.io/github/workflow/status/GaryB432/gb-nx/CI)](https://github.com/GaryB432/gb-nx/actions)
+[![CI](https://img.shields.io/github/actions/workflow/status/GaryB432/gb-nx/main.yml?branch=master)](https://github.com/GaryB432/gb-nx/actions)
 [![npm version](https://img.shields.io/npm/v/@gb-nx/cli?style=flat-square)](https://www.npmjs.com/package/@gb-nx/cli)
 
 > Nx Plugin adding command line applications in your Nx workspace

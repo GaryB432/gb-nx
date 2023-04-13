@@ -2,7 +2,7 @@
 
 This library was generated with [Nx](https://nx.dev).
 
-[![CI](https://img.shields.io/github/workflow/status/GaryB432/gb-nx/CI)](https://github.com/GaryB432/gb-nx/actions)
+[![CI](https://img.shields.io/github/actions/workflow/status/GaryB432/gb-nx/main.yml?branch=master)](https://github.com/GaryB432/gb-nx/actions)
 [![npm version](https://img.shields.io/npm/v/@gb-nx/browser?style=flat-square)](https://www.npmjs.com/package/@gb-nx/browser)
 
 > Nx Plugin adding first class support for [Manifest V3](https://developer.chrome.com/docs/extensions/mv3/intro/) Browser Extension applications in your Nx workspace

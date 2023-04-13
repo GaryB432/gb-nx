@@ -1,6 +1,6 @@
 # gb-nx/junit
 
-[![CI](https://img.shields.io/github/workflow/status/GaryB432/gb-nx/CI)](https://github.com/GaryB432/gb-nx/actions)
+[![CI](https://img.shields.io/github/actions/workflow/status/GaryB432/gb-nx/main.yml?branch=master)](https://github.com/GaryB432/gb-nx/actions)
 [![latest](https://img.shields.io/npm/v/@gb-nx/junit/latest.svg)](https://www.npmjs.com/package/@gb-nx/junit)
 
 > This plugin will add [Jest Junit Reporter](https://www.npmjs.com/package/jest-junit) to your [Nx](https://nx.dev/) project.
