@@ -130,12 +130,12 @@ function addLoadPage(
       );
 
       const ts = `import type { PageLoad, RouteParams } from './$types';
-      export const load: PageLoad = async({ params }) => {
+      export const load = (async ({ params }) => {
         ${paramDeclaration}
         return {
           subject: \`${answer}\`
         };
-      }`;
+      }) satisfies PageLoad;`;
       const js = `/** @type {import('./$types').PageLoad} */
       export function load({ params }) {
         ${paramDeclaration}
