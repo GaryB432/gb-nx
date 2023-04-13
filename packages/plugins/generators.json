@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "plugins",
+  "version": "0.0.1",
+  "generators": {
+    "make-schemas": {
+      "factory": "./src/generators/make-schemas/generator",
+      "schema": "./src/generators/make-schemas/schema.json",
+      "description": "make-schemas generator"
+    }
+  }
+}

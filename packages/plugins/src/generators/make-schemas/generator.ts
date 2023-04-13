@@ -1,19 +1,14 @@
-import { output, Workspaces } from '@nrwl/devkit';
-import { existsSync } from 'fs';
-import { readFile, writeFile } from 'fs/promises';
-import { compile, JSONSchema } from 'json-schema-to-typescript';
-import { join, parse, ParsedPath } from 'path';
-
-// TODO this should be a generator (probably)
-// and now it is!
+import { formatFiles, getProjects, output, type Tree } from '@nrwl/devkit';
+import { compile, type JSONSchema } from 'json-schema-to-typescript';
+import { join, parse, type ParsedPath } from 'path';
 
 interface SchemaDefined {
   schema: string;
 }
 
 interface PackageConfig {
-  generators?: string;
   executors?: string;
+  generators?: string;
 }
 
 interface SchemaDefinedList {
@@ -21,18 +16,18 @@ interface SchemaDefinedList {
   generators: Record<string, SchemaDefined>;
 }
 
-const argv = process.argv.slice(2);
-const ws = new Workspaces(process.cwd());
-const wsConfig = ws.readWorkspaceConfiguration();
-
 const messages: string[] = [];
 
 async function writeSchemaTypeDef(
+  tree: Tree,
   root: string,
   sdef: SchemaDefined,
   path: ParsedPath
 ): Promise<void> {
-  const schemaContent = await readFile(join(root, sdef.schema));
+  const schemaContent = tree.read(join(root, sdef.schema));
+  if (!schemaContent) {
+    throw new Error('no schema content');
+  }
   try {
     const schemaObj = JSON.parse(schemaContent.toString()) as JSONSchema;
     schemaObj.title = 'Schema';
@@ -41,44 +36,46 @@ async function writeSchemaTypeDef(
       strictIndexSignatures: true,
       style: { singleQuote: true },
     });
-    if (argv.includes('-d')) {
-      const message =
-        output.colors.cyan(join(root, path.dir, 'schema.d.ts')) +
-        output.colors.gray(' DRY RUN');
-      messages.push(message);
-    } else {
-      const message = output.colors.cyan(join(root, path.dir, 'schema.d.ts'));
-      messages.push(message);
-      void writeFile(join(root, path.dir, 'schema.d.ts'), dts);
-    }
+    const message = output.colors.cyan(join(root, path.dir, 'schema.d.ts'));
+    messages.push(message);
+    tree.write(join(root, path.dir, 'schema.d.ts'), dts);
   } catch (e) {
     messages.push(output.colors.red(`Error in "${path.dir}"`));
   }
 }
 
 async function handleSchemaDefList(
+  tree: Tree,
   root: string,
   defListPath: string | undefined,
   k: keyof SchemaDefinedList
 ): Promise<void> {
   if (!defListPath) return;
-  const buf = await readFile(join(root, defListPath));
+  const buf = tree.read(join(root, defListPath));
+  if (!buf) {
+    throw new Error('no deflistpath');
+  }
   const sds = JSON.parse(buf.toString()) as SchemaDefinedList;
   for (const sdef of Object.values(sds[k])) {
-    await writeSchemaTypeDef(root, sdef, parse(sdef.schema));
+    await writeSchemaTypeDef(tree, root, sdef, parse(sdef.schema));
   }
 }
 
-async function main() {
-  for (const projName in wsConfig.projects) {
+export default async function (tree: Tree, _options: unknown): Promise<void> {
+  const projects = getProjects(tree);
+  for (const projName of projects.keys()) {
     void messages.splice(0, messages.length);
-    const proj = wsConfig.projects[projName];
+    const proj = projects.get(projName);
+    if (!proj) {
+      throw new Error('no proj hmmm');
+    }
     const pjn = join(proj.root, 'package.json');
-    if (existsSync(pjn)) {
-      const pj = JSON.parse((await readFile(pjn)).toString()) as PackageConfig;
+    const buf = tree.read(pjn);
+    if (buf) {
+      const pj = JSON.parse(buf.toString()) as PackageConfig;
       const { root } = proj;
-      await handleSchemaDefList(root, pj.executors, 'executors');
-      await handleSchemaDefList(root, pj.generators, 'generators');
+      await handleSchemaDefList(tree, root, pj.executors, 'executors');
+      await handleSchemaDefList(tree, root, pj.generators, 'generators');
       output.log({
         title: `Schema definitions generated for project '${projName}'`,
         bodyLines: messages,
@@ -90,6 +87,6 @@ async function main() {
       });
     }
   }
-}
 
-main();
+  await formatFiles(tree);
+}
