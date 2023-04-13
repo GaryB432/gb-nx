@@ -40,42 +40,23 @@ describe('extension', () => {
     expect(tree.read('apps/my-app/.eslintrc.json', 'utf-8'))
       .toMatchInlineSnapshot(`
       "{
-        \\"extends\\": [
-          \\"../../.eslintrc.json\\"
-        ],
-        \\"ignorePatterns\\": [
-          \\"!**/*\\"
-        ],
+        \\"extends\\": [\\"../../.eslintrc.json\\"],
+        \\"ignorePatterns\\": [\\"!**/*\\"],
         \\"overrides\\": [
           {
-            \\"files\\": [
-              \\"*.ts\\",
-              \\"*.tsx\\",
-              \\"*.js\\",
-              \\"*.jsx\\"
-            ],
+            \\"files\\": [\\"*.ts\\", \\"*.tsx\\", \\"*.js\\", \\"*.jsx\\"],
             \\"parserOptions\\": {
-              \\"project\\": [
-                \\"apps/my-app/tsconfig.*?.json\\"
-              ]
+              \\"project\\": [\\"apps/my-app/tsconfig.*?.json\\"]
             },
             \\"rules\\": {}
           },
           {
-            \\"files\\": [
-              \\"*.ts\\",
-              \\"*.tsx\\"
-            ],
+            \\"files\\": [\\"*.ts\\", \\"*.tsx\\"],
             \\"rules\\": {},
-            \\"extends\\": [
-              \\"../../eslint-custom.json\\"
-            ]
+            \\"extends\\": [\\"../../eslint-custom.json\\"]
           },
           {
-            \\"files\\": [
-              \\"*.js\\",
-              \\"*.jsx\\"
-            ],
+            \\"files\\": [\\"*.js\\", \\"*.jsx\\"],
             \\"rules\\": {}
           }
         ]

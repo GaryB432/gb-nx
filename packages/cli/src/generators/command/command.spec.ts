@@ -31,7 +31,11 @@ describe('command', () => {
       import * as chalk from 'chalk';
       import { type CommandArgs } from './hello.types';
 
-      export async function helloCommand({ src, FunDest, opts }: CommandArgs): Promise<void> {
+      export async function helloCommand({
+        src,
+        FunDest,
+        opts,
+      }: CommandArgs): Promise<void> {
         if (opts.verbose) {
           console.log({ src, FunDest, opts });
         }
@@ -54,16 +58,19 @@ describe('command', () => {
       import { helloCommand } from './app/commands';
       const prog = sade('my-app');
       prog
-      .version('0.0.1-0')
-      .option('--dryRun, -d', 'Do not write to disk')
-      .option('--verbose', 'Show extra information')
-      .option('-c, --config', 'Provide path to config file', 'cli.config.js');
+        .version('0.0.1-0')
+        .option('--dryRun, -d', 'Do not write to disk')
+        .option('--verbose', 'Show extra information')
+        .option('-c, --config', 'Provide path to config file', 'cli.config.js');
       prog
-      .command('Hello <src> <FunDest>')
-      .describe('Hello description')
-      .option('--flat','Description of flat')
-      .action(async (src,FunDest,opts) => { await helloCommand({ src,FunDest,opts }); });
-      prog.parse(process.argv);"
+        .command('Hello <src> <FunDest>')
+        .describe('Hello description')
+        .option('--flat', 'Description of flat')
+        .action(async (src, FunDest, opts) => {
+          await helloCommand({ src, FunDest, opts });
+        });
+      prog.parse(process.argv);
+      "
     `);
     expect(
       tree.read('apps/my-app/src/app/commands/hello.types.d.ts', 'utf-8')

@@ -41,17 +41,17 @@ describe('command', () => {
 
       ### Arguments
 
-      | ARGUMENT | DESCRIPTION | 
-      | ---- | ---- | 
-      | \`a\` | Description of a | 
-      | \`b\` | Description of b | 
+      | ARGUMENT | DESCRIPTION      |
+      | -------- | ---------------- |
+      | \`a\`      | Description of a |
+      | \`b\`      | Description of b |
 
       ### Options
 
-      | OPTION | DESCRIPTION | DEFAULT | 
-      | ---- | ---- | ---- | 
-      | \`--c\` | Description of c |  | 
-      | \`--d\` | Description of d |  | 
+      | OPTION | DESCRIPTION      | DEFAULT |
+      | ------ | ---------------- | ------- |
+      | \`--c\`  | Description of c |         |
+      | \`--d\`  | Description of d |         |
 
       ## banana
 
@@ -59,17 +59,17 @@ describe('command', () => {
 
       ### Arguments
 
-      | ARGUMENT | DESCRIPTION | 
-      | ---- | ---- | 
-      | \`e\` | Description of e | 
-      | \`f\` | Description of f | 
+      | ARGUMENT | DESCRIPTION      |
+      | -------- | ---------------- |
+      | \`e\`      | Description of e |
+      | \`f\`      | Description of f |
 
       ### Options
 
-      | OPTION | DESCRIPTION | DEFAULT | 
-      | ---- | ---- | ---- | 
-      | \`--g\` | Description of g |  | 
-      | \`--h\` | Description of h |  | 
+      | OPTION | DESCRIPTION      | DEFAULT |
+      | ------ | ---------------- | ------- |
+      | \`--g\`  | Description of g |         |
+      | \`--h\`  | Description of h |         |
       "
     `);
   });
