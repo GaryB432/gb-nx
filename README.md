@@ -1,6 +1,6 @@
 # gb-nx
 
-[![CI](https://img.shields.io/github/workflow/status/GaryB432/gb-nx/CI)](https://github.com/GaryB432/gb-nx/actions)
+[![CI](https://img.shields.io/github/actions/workflow/status/GaryB432/gb-nx/main.yml?branch=master)](https://github.com/GaryB432/gb-nx/actions)
 
 > Some miscellaneous [Nx](https://nx.dev/) plugins
 
