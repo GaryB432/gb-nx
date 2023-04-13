@@ -16,7 +16,7 @@ Here is a list of some of the coolest features of the plugin:
 
 ## Prerequisite
 
-If you have not already, [create an Nx workspace](https://github.com/nrwl/nx#creating-an-nx-workspace) with the following:
+If you have not already, [create an Nx workspace](https://nx.dev/getting-started/intro) with the following:
 
 ```
 # npm
