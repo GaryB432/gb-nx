@@ -100,12 +100,11 @@ function addLoadPage(
         return Promise.resolve(\`${answer}\`);
       }
       
-      export const load: PageServerLoad = async({ params }) => {
+      export const load = (async({ params }) => {
         return {
           subject: await demo(params)
         };
-      }
-      `;
+      }) satisfies PageServerLoad;`;
 
       const js = `async function demo(params) {
         ${paramDeclaration}
