@@ -6,11 +6,11 @@ import type { Schema as ComponentGeneratorSchema } from './schema';
 
 interface SchematicOptions {
   directory?: string;
+  inSourceTests?: boolean;
   kind?: 'class' | 'values';
   name: string;
-  unitTestRunner?: 'jest' | 'vitest' | 'none';
-  inSourceTests?: boolean;
   sourceRoot?: string;
+  unitTestRunner?: 'jest' | 'vitest' | 'none';
 }
 
 const sourceSubfolder = new Map<ProjectType | undefined, string>([
