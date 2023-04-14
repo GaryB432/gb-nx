@@ -20,7 +20,7 @@ function makeTypeAliasDeclaration(
         undefined,
         param,
         undefined,
-        typeNodes[info.kind]
+        typeNodes[info.kind ?? 'unknown']
       )
     );
   props.push(
@@ -49,7 +49,7 @@ function makeInterfaceDeclaration(
         undefined,
         cmdOpt,
         undefined,
-        typeNodes[cmdOpts[cmdOpt].kind]
+        typeNodes[cmdOpts[cmdOpt].kind ?? 'unknown']
       )
     );
 

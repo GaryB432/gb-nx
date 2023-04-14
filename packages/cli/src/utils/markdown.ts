@@ -28,7 +28,10 @@ export function getCommandMarkdown(
       tableHeader('ARGUMENT', 'DESCRIPTION'),
       ...pz.map((p) => {
         if (parameters) {
-          return tableRow(`\`${p}\``, parameters[p].description ?? '');
+          return tableRow(
+            `\`${p}\``,
+            parameters[p].description ?? `Description of ${p} parameter`
+          );
         }
         return tableRow();
       }),
@@ -47,7 +50,7 @@ export function getCommandMarkdown(
       ...os.map((o) =>
         tableRow(
           `\`--${o}\``,
-          options[o].description ?? '',
+          options[o].description ?? `Description of ${o}`,
           def(options[o].default)
         )
       ),

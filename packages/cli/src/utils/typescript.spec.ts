@@ -37,5 +37,51 @@ describe('typescript', () => {
         "
       `);
     });
+
+    test('missing things a', () => {
+      expect(
+        makeCommandDeclarations(
+          'my-app',
+          { s: { kind: 'string' }, b: {} },
+          { n: { kind: 'number' }, a: { kind: 'unknown' } }
+        )
+      ).toMatchInlineSnapshot(`
+        "/* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+        import { type SharedOptions } from '../shared';
+        interface Options extends SharedOptions {
+            a: unknown;
+            n: number;
+        }
+        type CommandArgs = {
+            b: unknown;
+            s: string;
+            opts: Options;
+        };
+        "
+      `);
+    });
+
+    test('missing things b', () => {
+      expect(
+        makeCommandDeclarations(
+          'my-app',
+          { s: { kind: 'string' }, b: {} },
+          { n: {}, a: { kind: 'boolean' } }
+        )
+      ).toMatchInlineSnapshot(`
+        "/* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+        import { type SharedOptions } from '../shared';
+        interface Options extends SharedOptions {
+            a: boolean;
+            n: unknown;
+        }
+        type CommandArgs = {
+            b: unknown;
+            s: string;
+            opts: Options;
+        };
+        "
+      `);
+    });
   });
 });

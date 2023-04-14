@@ -6,7 +6,7 @@ export interface ConfigProp {
   alias?: string;
   default?: string | number | boolean;
   description?: string;
-  type: Kind;
+  type?: Kind;
 }
 
 export interface ConfigCommand {
@@ -37,10 +37,13 @@ export function getKindTypes(
   if (!subject) {
     return {};
   }
-  return Object.entries(subject).reduce((a, [name, c]) => {
-    a[name] = { ...c, kind: c.type };
-    return a;
-  }, init);
+  return Object.entries(subject).reduce<Record<string, KindThing>>(
+    (a, [name, c]) => {
+      a[name] = { ...c, kind: c.type };
+      return a;
+    },
+    init
+  );
 }
 
 export function readCliConfig(tree: Tree, projectRoot: string): Config {

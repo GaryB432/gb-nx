@@ -3,7 +3,7 @@ export type Kind = 'string' | 'number' | 'boolean' | 'unknown';
 export interface KindThing {
   alias?: string;
   description?: string;
-  kind: Kind;
+  kind?: Kind;
 }
 
 export type Argument = KindThing;

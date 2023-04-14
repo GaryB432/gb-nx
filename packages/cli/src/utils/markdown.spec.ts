@@ -6,8 +6,9 @@ const testCommand: ConfigCommand = {
   parameters: {
     start: {
       description: 'The start date in ISO format',
-      type: 'string',
+      type: 'number', // ignored. parameters are always strings
     },
+    middle: {}, // missing type and description
     End: {
       description: 'Another upper case one for some reason',
       type: 'string',
@@ -16,8 +17,8 @@ const testCommand: ConfigCommand = {
   options: {
     opta: { type: 'boolean', description: 'Description of opta' },
     optb: { type: 'boolean', description: 'Description of optb' },
-    optc: { type: 'boolean', description: 'Description of optc' },
-    optd: { type: 'boolean', description: 'Description of optd' },
+    optc: {},
+    optd: { type: 'boolean', description: 'A Description of optd' },
     opte: {
       type: 'boolean',
       description: 'Description of opte',
@@ -53,6 +54,7 @@ describe('markdown', () => {
       | ARGUMENT | DESCRIPTION | 
       | ---- | ---- | 
       | \`start\` | The start date in ISO format | 
+      | \`middle\` | Description of middle parameter | 
       | \`End\` | Another upper case one for some reason | 
 
       ### Options
@@ -62,7 +64,7 @@ describe('markdown', () => {
       | \`--opta\` | Description of opta |  | 
       | \`--optb\` | Description of optb |  | 
       | \`--optc\` | Description of optc |  | 
-      | \`--optd\` | Description of optd |  | 
+      | \`--optd\` | A Description of optd |  | 
       | \`--opte\` | Description of opte | true | 
       | \`--optf\` | Description of optf |  | 
       | \`--opto\` | Description of opto |  | 
