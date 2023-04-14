@@ -1,8 +1,13 @@
-import { readNxJson, updateNxJson, type Tree } from '@nrwl/devkit';
+import { output, readNxJson, updateNxJson, type Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import applicationGenerator from '../application/application';
 import commandGenerator from '../command/command';
 import refreshGenerator from './refresh';
+
+let noted: unknown;
+jest.spyOn(output, 'note').mockImplementation((m) => {
+  noted = { ...m };
+});
 
 describe('command', () => {
   let tree: Tree;

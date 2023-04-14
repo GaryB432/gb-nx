@@ -121,7 +121,7 @@ export default async function commandGenerator(
   writeCliConfig(tree, normalizedOptions.projectRoot, config);
 
   const refreshCmd = `nx sync ${normalizedOptions.projectName}`;
-  output.log({
+  output.note({
     title: 'Next steps',
     bodyLines: [
       `1. Replace boilerplate descriptions and types for the new ${output.colors.green(
@@ -129,7 +129,6 @@ export default async function commandGenerator(
       )} command in ${output.colors.cyan('cli.config.json')} `,
       `2. Run ${output.colors.green(refreshCmd)}`,
     ],
-    color: 'yellow',
   });
 
   await refreshGenerator(tree, {

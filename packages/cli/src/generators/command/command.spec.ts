@@ -1,7 +1,13 @@
-import type { Tree } from '@nrwl/devkit';
+import { output, type Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import applicationGenerator from '../application/application';
 import commandGenerator from './command';
+
+let noted: { title: string };
+
+const mockOutputNote = jest
+  .spyOn(output, 'note')
+  .mockImplementation((m) => (noted = { ...m }));
 
 describe('command', () => {
   let tree: Tree;
@@ -75,5 +81,7 @@ describe('command', () => {
     expect(
       tree.read('apps/my-app/src/app/commands/hello.types.d.ts', 'utf-8')
     ).toContain('src: string;');
+    expect(mockOutputNote).toHaveBeenCalledTimes(1);
+    expect(noted.title).toEqual('Next steps');
   });
 });
