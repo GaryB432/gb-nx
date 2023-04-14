@@ -37,7 +37,7 @@ describe('command', () => {
 
       ## apple
 
-      apple description
+      Description of apple command
 
       ### Arguments
 
@@ -55,7 +55,7 @@ describe('command', () => {
 
       ## banana
 
-      banana description
+      Description of banana command
 
       ### Arguments
 

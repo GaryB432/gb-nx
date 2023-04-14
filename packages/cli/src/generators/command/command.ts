@@ -108,7 +108,7 @@ export default async function commandGenerator(
   const config = readCliConfig(tree, normalizedOptions.projectRoot);
 
   const cmd = {
-    description: `${normalizedOptions.name} description`,
+    description: `Description of ${normalizedOptions.name} command`,
     parameters: getDefaultProps(normalizedOptions.parameter ?? []),
     options: getDefaultProps(normalizedOptions.option ?? []),
   };

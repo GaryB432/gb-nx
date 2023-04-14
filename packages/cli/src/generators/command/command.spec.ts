@@ -64,7 +64,7 @@ describe('command', () => {
         .option('-c, --config', 'Provide path to config file', 'cli.config.js');
       prog
         .command('Hello <src> <FunDest>')
-        .describe('Hello description')
+        .describe('Description of Hello command')
         .option('--flat', 'Description of flat')
         .action(async (src, FunDest, opts) => {
           await helloCommand({ src, FunDest, opts });
