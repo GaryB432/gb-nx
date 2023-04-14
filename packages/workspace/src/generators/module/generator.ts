@@ -1,8 +1,13 @@
-import type { ProjectType, Tree } from '@nrwl/devkit';
-import { formatFiles, getProjects } from '@nrwl/devkit';
+import {
+  formatFiles,
+  getProjects,
+  getWorkspaceLayout,
+  type Tree,
+} from '@nrwl/devkit';
 import { wrapAngularDevkitSchematic } from '@nrwl/devkit/ngcli-adapter';
 import initGenerator from '../init/generator';
-import type { Schema as ComponentGeneratorSchema } from './schema';
+import type { Schema as ModuleGeneratorSchema } from './schema';
+import { directoryName } from './schematics';
 
 interface SchematicOptions {
   directory?: string;
@@ -13,12 +18,6 @@ interface SchematicOptions {
   unitTestRunner?: 'jest' | 'vitest' | 'none';
 }
 
-const sourceSubfolder = new Map<ProjectType | undefined, string>([
-  [undefined, ''],
-  ['application', 'app'],
-  ['library', 'lib'],
-]);
-
 export const libraryGenerator = wrapAngularDevkitSchematic(
   'gb-schematics',
   'module'
@@ -26,8 +25,9 @@ export const libraryGenerator = wrapAngularDevkitSchematic(
 
 export default async function (
   tree: Tree,
-  options: ComponentGeneratorSchema
+  options: ModuleGeneratorSchema
 ): Promise<void> {
+  const ws = getWorkspaceLayout(tree);
   const projects = getProjects(tree);
   const project = projects.get(options.project);
 
@@ -36,12 +36,9 @@ export default async function (
   }
   const { name, kind, unitTestRunner } = options;
 
-  const directory =
-    options.directory ?? sourceSubfolder.get(project.projectType);
-
   const schematicOptions: SchematicOptions = {
     name,
-    directory,
+    directory: directoryName(ws, project, options),
     kind,
     unitTestRunner,
     inSourceTests: true,
