@@ -1,10 +1,10 @@
 import type { Tree } from '@nrwl/devkit';
-import { readProjectConfiguration } from '@nrwl/devkit';
+import { readRootPackageJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import type { Schema as InitGeneratorSchema } from '@nrwl/node/src/generators/init/schema';
 import initGenerator from './init';
 
-xdescribe('init generator', () => {
+describe('init generator', () => {
   let appTree: Tree;
   const options: InitGeneratorSchema = {};
 
@@ -14,7 +14,7 @@ xdescribe('init generator', () => {
 
   it('should run successfully', async () => {
     await initGenerator(appTree, options);
-    const config = readProjectConfiguration(appTree, 'test');
-    expect(config).toBeDefined();
+    const pj = readRootPackageJson();
+    expect(pj.devDependencies!['eslint-plugin-gb']).toBeDefined();
   });
 });
