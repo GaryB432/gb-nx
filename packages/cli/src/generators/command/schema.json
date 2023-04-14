@@ -7,15 +7,15 @@
   "description": "Generate a CLI command.",
   "examples": [
     {
-      "command": "nx g @gb-nx/cli:move --project myapp",
+      "command": "nx g @gb-nx/cli:command move --project myapp",
       "description": "Generate a MoveCommand in your myapp CLI application"
     },
     {
-      "command": "nx g @gb-nx/cli:move --project myapp --export false",
+      "command": "nx g @gb-nx/cli:command move --project myapp --export false",
       "description": "Generate a MoveCommand in your myapp CLI application but do not export it from index.ts"
     },
     {
-      "command": "nx g @gb-nx/cli:move --project myapp --parameter one --parameter two --option three",
+      "command": "nx g @gb-nx/cli:command move --project myapp --parameter one --parameter two --option three",
       "description": "Generate a MoveCommand in your myapp CLI application with the supplied parameters and option"
     }
   ],
