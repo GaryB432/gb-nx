@@ -1,69 +1,60 @@
-import { directoryName } from './schematics';
+import { type ProjectConfiguration } from '@nrwl/devkit';
+import { type Schema } from './schema';
+import { optionsForSchematic } from './schematics';
 
-describe('module functions', () => {
-  test('directory name', () => {
-    expect(
-      directoryName(
-        { appsDir: 'sapps', libsDir: 'slibs' },
-        {
-          root: '',
-          projectType: undefined,
-        },
-        {
-          name: '',
-          project: 'some-value',
-          directory: 'correct',
-        }
-      )
-    ).toEqual('correct');
+const project: ProjectConfiguration = {
+  name: 'test-proj',
+  sourceRoot: 'apps/test-proj/src',
+  projectType: 'application',
+  root: '',
+};
+const parms: Schema = {
+  directory: undefined,
+  kind: 'values',
+  name: 'tbd',
+  project: 'unused',
+  unitTestRunner: 'vitest',
+};
+
+describe('simple', () => {
+  test('with directory', () => {
+    const { directory, name, sourceRoot } = optionsForSchematic(project, {
+      ...parms,
+      directory: 'asdf/deep',
+      name: 'auto/resort',
+    });
+    expect(sourceRoot).toEqual(project.sourceRoot);
+    expect(directory).toEqual('asdf/deep');
+    expect(name).toEqual('auto/resort');
   });
-
-  test('no directory name', () => {
-    expect(
-      directoryName(
-        { appsDir: 'sapps', libsDir: 'correct' },
-        {
-          root: '',
-          projectType: undefined
-        },
-        {
-          name: '',
-          project: 'some-value',
-        }
-      )
-    ).toEqual('correct');
+  test('no directory', () => {
+    const { directory, name, sourceRoot } = optionsForSchematic(project, {
+      ...parms,
+      name: 'simple',
+    });
+    expect(sourceRoot).toEqual(project.sourceRoot);
+    expect(directory).toBeUndefined();
+    expect(name).toEqual('simple');
   });
-
-  test('application', () => {
-    expect(
-      directoryName(
-        { appsDir: 'correct', libsDir: 'slibs' },
-        {
-          root: '',
-          projectType: 'application',
-        },
-        {
-          name: '',
-          project: 'some-value',
-        }
-      )
-    ).toEqual('correct');
+});
+describe('complex', () => {
+  test('with directory', () => {
+    const { directory, name, sourceRoot } = optionsForSchematic(project, {
+      ...parms,
+      directory: 'in/here',
+      name: 'anything/but/simple',
+    });
+    expect(sourceRoot).toEqual(project.sourceRoot);
+    expect(directory).toEqual('in/here');
+    expect(name).toEqual('anything/but/simple');
   });
-  test('library', () => {
-    expect(
-      directoryName(
-        { appsDir: 'sapps', libsDir: 'correct' },
-        {
-          root: '',
-          projectType: 'library',
-        },
-        {
-          name: '',
-          project: 'some-value',
-        }
-      )
-    ).toEqual('correct');
+  test('no directory', () => {
+    const { directory, name, sourceRoot } = optionsForSchematic(project, {
+      ...parms,
+      name: 'anything/but/simple',
+    });
+    expect(sourceRoot).toEqual(project.sourceRoot);
+    expect(directory).toBeUndefined();
+    expect(name).toEqual('anything/but/simple');
   });
-
-
 });
