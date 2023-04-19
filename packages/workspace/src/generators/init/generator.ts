@@ -1,6 +1,10 @@
-import type { GeneratorCallback, Tree } from '@nrwl/devkit';
-import { addDependenciesToPackageJson, formatFiles } from '@nrwl/devkit';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import {
+  addDependenciesToPackageJson,
+  formatFiles,
+  runTasksInSerial,
+  type GeneratorCallback,
+  type Tree,
+} from '@nrwl/devkit';
 import type { Schema } from './schema';
 
 function updateDependencies(tree: Tree) {
