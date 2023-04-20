@@ -31,8 +31,8 @@ describe('typescript', () => {
         }
         type CommandArgs = {
             b: boolean;
-            s: string;
             opts: Options;
+            s: string;
         };
         "
       `);
@@ -54,8 +54,8 @@ describe('typescript', () => {
         }
         type CommandArgs = {
             b: unknown;
-            s: string;
             opts: Options;
+            s: string;
         };
         "
       `);
@@ -77,11 +77,21 @@ describe('typescript', () => {
         }
         type CommandArgs = {
             b: unknown;
-            s: string;
             opts: Options;
+            s: string;
         };
         "
       `);
     });
+  });
+
+  test('disallow opts parameter', () => {
+    expect(() =>
+      makeCommandDeclarations(
+        'my-app',
+        { s: { kind: 'string' }, b: {}, opts: {} },
+        { n: {}, a: { kind: 'boolean' } }
+      )
+    ).toThrow('opts is a reserved parameter name');
   });
 });

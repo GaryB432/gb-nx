@@ -19,6 +19,17 @@ describe('command', () => {
     });
   });
 
+  it('should disallow opts parameter', async () => {
+    await expect(
+      commandGenerator(tree, {
+        name: 'Hello',
+        project: projectName,
+        parameter: ['src', 'opts', 'FunDest'],
+        option: ['flat'],
+      })
+    ).rejects.toThrow('reserved parameter name');
+  });
+
   it('should generate command in commands directory', async () => {
     await commandGenerator(tree, {
       name: 'Hello',

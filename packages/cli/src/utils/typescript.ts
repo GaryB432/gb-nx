@@ -13,24 +13,29 @@ const typeNodes: Record<Kind, ts.TypeNode> = {
 function makeTypeAliasDeclaration(
   params: Record<string, KindThing>
 ): ts.TypeAliasDeclaration {
-  const props = Object.entries(params)
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([param, info]) =>
-      ts.factory.createPropertySignature(
-        undefined,
-        param,
-        undefined,
-        typeNodes[info.kind ?? 'unknown']
-      )
-    );
-  props.push(
-    ts.factory.createPropertySignature(
-      undefined,
-      'opts',
-      undefined,
-      ts.factory.createTypeReferenceNode('Options')
-    )
-  );
+  if (params['opts']) {
+    throw new Error('opts is a reserved parameter name');
+  }
+
+  const props = [...Object.keys(params), 'opts']
+    .sort((a, b) => a.localeCompare(b))
+    .map<ts.PropertySignature>((param) => {
+      const info = params[param];
+      return param === 'opts'
+        ? ts.factory.createPropertySignature(
+            undefined,
+            'opts',
+            undefined,
+            ts.factory.createTypeReferenceNode('Options')
+          )
+        : ts.factory.createPropertySignature(
+            undefined,
+            param,
+            undefined,
+            typeNodes[info.kind ?? 'unknown']
+          );
+    });
+
   return ts.factory.createTypeAliasDeclaration(
     undefined,
     'CommandArgs',

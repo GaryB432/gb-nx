@@ -17,6 +17,8 @@ import type { Schema as CommandGeneratorSchema } from './schema';
 export interface NormalizedCommandSchema extends CommandGeneratorSchema {
   buildTargetMain?: string;
   description?: string;
+  option: string[];
+  parameter: string[];
   projectName: string;
   projectRoot: string;
   projectSrcRoot: string;
@@ -46,15 +48,20 @@ function normalizeOptions(
     buildTargetMain = (build.options && build.options.main) || 'none';
   }
 
+  const parameter = options.parameter ?? [];
+  const option = options.option ?? [];
+
   const projectSrcRoot = sourceRoot ?? 'src';
   const projectRoot = project.root;
 
   return {
     ...options,
     buildTargetMain,
+    option,
     projectName,
     projectRoot,
     projectSrcRoot,
+    parameter,
   };
 }
 
@@ -105,12 +112,16 @@ export default async function commandGenerator(
   options: CommandGeneratorSchema
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
-  const config = readCliConfig(tree, normalizedOptions.projectRoot);
 
+  if (normalizedOptions.parameter.some((param) => param === 'opts')) {
+    throw new Error('"opts" is a reserved parameter name');
+  }
+
+  const config = readCliConfig(tree, normalizedOptions.projectRoot);
   const cmd = {
     description: `Description of ${normalizedOptions.name} command`,
-    parameters: getDefaultProps(normalizedOptions.parameter ?? []),
-    options: getDefaultProps(normalizedOptions.option ?? []),
+    parameters: getDefaultProps(normalizedOptions.parameter),
+    options: getDefaultProps(normalizedOptions.option),
   };
   config.commands[normalizedOptions.name] = cmd;
 
