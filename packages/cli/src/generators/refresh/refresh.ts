@@ -71,26 +71,20 @@ export default async function refreshGenerator(
             ".option('--verbose', 'Show extra information')",
             ".option('-c, --config', 'Provide path to config file', 'cli.config.js');",
           ];
-          const imports =
-            Object.keys(config.commands).length > 0
-              ? [
-                  `import { ${Object.keys(config.commands)
-                    .map((f) => names(f).propertyName)
-                    .sort((a, b) => a.localeCompare(b))
-                    .map((f) => `${f}Command`)
-                    .join()} } from './app/commands';`,
-                ]
-              : [];
-
-          const cmds = Object.keys(config.commands).map((name) => {
-            return getCommandTs(config.commands[name], names(name));
-          });
+          const imports = `import { ${Object.keys(config.commands)
+            .map((f) => names(f).propertyName)
+            .sort((a, b) => a.localeCompare(b))
+            .map((f) => `${f}Command`)
+            .join(',')} } from './app/commands';`;
+          const cmds = Object.keys(config.commands).map((name) =>
+            getCommandTs(config.commands[name], names(name))
+          );
 
           const prog = [
             '#!/usr/bin/env node',
             `/* This is a generated file. Make changes to cli.config.json and run "nx sync ${program.name}" */`,
             "import sade = require('sade');",
-            ...imports,
+            imports,
             `const prog = sade('${program.name}');`,
             ...gls,
             ...cmds,

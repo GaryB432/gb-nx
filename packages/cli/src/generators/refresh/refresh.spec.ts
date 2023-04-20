@@ -33,7 +33,7 @@ describe('command', () => {
     });
   });
 
-  it('should generate command in commands directory', async () => {
+  it('should generate markdown', async () => {
     await refreshGenerator(tree, { markdown: true });
 
     expect(tree.read('apps/my-app/commands.md', 'utf-8'))
@@ -75,6 +75,42 @@ describe('command', () => {
       | ------ | ---------------- | ------- |
       | \`--g\`  | Description of g |         |
       | \`--h\`  | Description of h |         |
+      "
+    `);
+  });
+
+  it('should generate stuff', async () => {
+    await refreshGenerator(tree, { main: true });
+
+    expect(tree.read('apps/my-app/src/main.ts', 'utf-8'))
+      .toMatchInlineSnapshot(`
+      "#!/usr/bin/env node
+      /* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+      import sade = require('sade');
+      import { appleCommand, bananaCommand } from './app/commands';
+      const prog = sade('my-app');
+      prog
+        .version('0.0.1-0')
+        .option('--dryRun, -d', 'Do not write to disk')
+        .option('--verbose', 'Show extra information')
+        .option('-c, --config', 'Provide path to config file', 'cli.config.js');
+      prog
+        .command('apple <a> <b>')
+        .describe('Description of apple command')
+        .option('--c', 'Description of c')
+        .option('--d', 'Description of d')
+        .action(async (a, b, opts) => {
+          await appleCommand({ a, b, opts });
+        });
+      prog
+        .command('banana <e> <f>')
+        .describe('Description of banana command')
+        .option('--g', 'Description of g')
+        .option('--h', 'Description of h')
+        .action(async (e, f, opts) => {
+          await bananaCommand({ e, f, opts });
+        });
+      prog.parse(process.argv);
       "
     `);
   });
