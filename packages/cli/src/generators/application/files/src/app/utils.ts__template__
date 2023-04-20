@@ -1,3 +1,3 @@
-export function add(...addends: number[]) {
-  return addends.reduce((a, b) => a + b);
+export function add(...addends: number[]): number {
+  return addends.reduce<number>((a, b) => a + b, 0);
 }
