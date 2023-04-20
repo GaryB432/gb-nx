@@ -59,9 +59,11 @@ Add a command to the project with the `command` generator
 nx g @gb-nx/cli:command <name> --project my-app
 ```
 
+See `nx g @gb-nx/cli:command --help` for examples with command parameters and options.
+
 **You'll want to edit the generated `cli.config.json` file to document your command. The values from the config file are used to generate the boilerplate for your project.**
 
-The `refresh` generator can refresh your project's boilerplate. See the options below. Run this command when you change your `cli.config.json` file.
+The `refresh` generator refreshes your project's boilerplate. See the options below. Run this command when you change your `cli.config.json` file.
 
 ```
 nx g @gb-nx/cli:refresh --project my-app --main --ts --markdown --all
