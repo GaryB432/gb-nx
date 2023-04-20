@@ -15,6 +15,7 @@ describe('app', () => {
       await generateApp(appTree);
 
       // expect(appTree.exists(`apps/my-app/jest.config.ts`)).toBeTruthy();
+      expect(appTree.exists('apps/my-app-e2e')).toBeFalsy();
       expect(appTree.exists('apps/my-app/src/main.ts')).toBeTruthy();
       expect(appTree.exists('apps/my-app/src/app/shared.ts')).toBeTruthy();
       expect(appTree.read('apps/my-app/src/main.ts', 'utf-8')).toContain(
