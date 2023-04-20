@@ -48,12 +48,10 @@ export function getKindTypes(
 
 export function readCliConfig(tree: Tree, projectRoot: string): Config {
   const buff = tree.read(configPath(projectRoot));
-  return buff
-    ? (JSON.parse(buff.toString()) as Config)
-    : {
-        version: 2,
-        commands: {},
-      };
+  if (!buff) {
+    throw new Error('not a cli project');
+  }
+  return JSON.parse(buff.toString()) as Config;
 }
 
 export function writeCliConfig(
