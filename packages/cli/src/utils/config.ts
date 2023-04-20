@@ -46,14 +46,9 @@ export function getKindTypes(
   );
 }
 
-export function readCliConfig(tree: Tree, projectRoot: string): Config {
+export function readCliConfig(tree: Tree, projectRoot: string): Config | null {
   const buff = tree.read(configPath(projectRoot));
-  return buff
-    ? (JSON.parse(buff.toString()) as Config)
-    : {
-        version: 2,
-        commands: {},
-      };
+  return buff ? (JSON.parse(buff.toString()) as Config) : null;
 }
 
 export function writeCliConfig(

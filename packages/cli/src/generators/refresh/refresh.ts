@@ -35,6 +35,10 @@ export default async function refreshGenerator(
 
     const config = readCliConfig(tree, project.root);
 
+    if (!config) {
+      throw new Error(`${projName} is not a cli project`);
+    }
+
     const program = config.program ?? {
       name: projName,
       version: '0.0.0',
