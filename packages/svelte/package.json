@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/svelte",
-  "version": "4.0.2",
+  "version": "4.0.3-0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -13,6 +13,9 @@
   "homepage": "https://github.com/GaryB432/gb-nx/tree/master/packages/svelte",
   "generators": "./generators.json",
   "executors": "./executors.json",
+  "dependencies": {
+    "@nrwl/devkit": "^15.0.0"
+  },
   "publishConfig": {
     "access": "public"
   }
