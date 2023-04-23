@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/svelte",
-  "version": "4.0.3-0",
+  "version": "4.1.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -14,7 +14,8 @@
   "generators": "./generators.json",
   "executors": "./executors.json",
   "dependencies": {
-    "@nrwl/devkit": "^15.0.0"
+    "@nrwl/devkit": "^15.0.0",
+    "@phenomnomnominal/tsquery": "~5.0.1"
   },
   "publishConfig": {
     "access": "public"
