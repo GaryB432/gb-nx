@@ -216,7 +216,7 @@ function addSveltePage(
 
   tree.write(fname, [script, html, styles].join('\n\n'));
 }
-function addTestPage(
+function addPlaywrightPage(
   tree: Tree,
   proj: ProjectConfiguration,
   locations: { tests: string },
@@ -239,7 +239,7 @@ function addTestPage(
 test('has generated article', async ({ page }) => {
   await page.goto('/${routePath}');
   expect(
-    await page.textContent('article.a')
+    await page.textContent('article.container')
   ).toContain('works');
 });
 `;
@@ -275,7 +275,7 @@ export async function routeGenerator(
   addSveltePage(tree, proj, locations, options);
 
   if (!options.skipTests) {
-    addTestPage(tree, proj, { tests: 'tests' }, options);
+    addPlaywrightPage(tree, proj, { tests: 'tests' }, options);
   }
   if (!options.skipFormat) {
     await formatFiles(tree);
