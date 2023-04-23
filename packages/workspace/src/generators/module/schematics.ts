@@ -23,7 +23,7 @@ export function optionsForSchematic(
     kind,
     unitTestRunner,
     inSourceTests: true,
-    sourceRoot,
+    sourceRoot: sourceRoot === '.' ? '' : sourceRoot,
   };
 
   return schematicOptions;

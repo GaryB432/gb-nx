@@ -16,6 +16,27 @@ const parms: Schema = {
   unitTestRunner: 'vitest',
 };
 
+describe('flat project sourceRoot', () => {
+  test('sourceRoot dot', () => {
+    const { directory, name, sourceRoot } = optionsForSchematic(
+      {
+        name: 'dot-sourceroot',
+        sourceRoot: '.',
+        projectType: 'application',
+        root: '',
+      },
+      {
+        ...parms,
+        directory: 'asdf/deep',
+        name: 'auto/resort',
+      }
+    );
+    expect(sourceRoot).toEqual('');
+    expect(directory).toEqual('asdf/deep');
+    expect(name).toEqual('auto/resort');
+  });
+});
+
 describe('simple', () => {
   test('with directory', () => {
     const { directory, name, sourceRoot } = optionsForSchematic(project, {
