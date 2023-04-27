@@ -9,7 +9,7 @@ jest.spyOn(output, 'note').mockImplementation((m) => {
   noted = { ...m };
 });
 
-describe('command', () => {
+describe('refresh', () => {
   let tree: Tree;
   const projectName = 'my-app';
   beforeEach(async () => {
@@ -115,6 +115,44 @@ describe('command', () => {
         argv.push('--help');
       }
       prog.parse(argv);
+      "
+    `);
+  });
+});
+
+describe('refresh no commands', () => {
+  let tree: Tree;
+  const projectName = 'my-app';
+  beforeEach(async () => {
+    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    await applicationGenerator(tree, {
+      name: projectName,
+    });
+    const workspace = readNxJson(tree);
+    if (!workspace) throw new Error('no nx');
+    workspace.defaultProject = projectName;
+    updateNxJson(tree, workspace);
+  });
+
+  it('should generate markdown', async () => {
+    await refreshGenerator(tree, { markdown: true });
+
+    expect(tree.read('apps/my-app/commands.md', 'utf-8'))
+      .toMatchInlineSnapshot(`
+      "# Command Reference
+      "
+    `);
+  });
+
+  it('should generate stuff', async () => {
+    await refreshGenerator(tree, { main: true });
+
+    expect(tree.read('apps/my-app/src/main.ts', 'utf-8'))
+      .toMatchInlineSnapshot(`
+      "#!/usr/bin/env node
+      /* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+      import { noCommands } from '@gb-nx/cli';
+      noCommands();
       "
     `);
   });

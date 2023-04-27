@@ -1,13 +1,19 @@
 import type { Tree } from '@nrwl/devkit';
+import * as refresher from '../refresh/refresh';
 import { parseJson, readJson, readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import type { Schema } from '@nrwl/node/src/generators/application/schema';
 import applicationGenerator from './application';
 
+const mockRefresher = jest
+  .spyOn(refresher, 'default')
+  .mockImplementation(() => Promise.resolve());
+
 describe('app', () => {
   let appTree: Tree;
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    jest.clearAllMocks();
   });
 
   describe('not nested', () => {
@@ -18,10 +24,7 @@ describe('app', () => {
       expect(appTree.exists('apps/my-app-e2e')).toBeFalsy();
       expect(appTree.exists('apps/my-app/src/main.ts')).toBeTruthy();
       expect(appTree.exists('apps/my-app/src/app/shared.ts')).toBeTruthy();
-      expect(appTree.read('apps/my-app/src/main.ts', 'utf-8')).toContain(
-        "import sade = require('sade')"
-      );
-
+      expect(mockRefresher).toHaveBeenCalledTimes(1);
       const tsconfig = readJson(appTree, 'apps/my-app/tsconfig.json');
       expect(tsconfig.references).toContainEqual({
         path: './tsconfig.app.json',
@@ -47,9 +50,11 @@ describe('app', () => {
   describe('nested', () => {
     it('should generate files', async () => {
       await generateApp(appTree, 'myApp', { directory: 'myDir' });
+      expect(appTree.exists('apps/my-dir/my-app/src/main.ts')).toBeTruthy();
       expect(
-        appTree.read('apps/my-dir/my-app/src/main.ts')!.toString()
-      ).toContain("const prog = sade('my-dir-my-app');");
+        appTree.exists('apps/my-dir/my-app/src/app/shared.ts')
+      ).toBeTruthy();
+      expect(mockRefresher).toHaveBeenCalledTimes(1);
     });
   });
 });

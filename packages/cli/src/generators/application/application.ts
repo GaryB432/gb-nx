@@ -1,9 +1,5 @@
 import type { GeneratorCallback, Tree } from '@nrwl/devkit';
 import {
-  readProjectConfiguration,
-  updateProjectConfiguration,
-} from '@nrwl/devkit';
-import {
   addDependenciesToPackageJson,
   formatFiles,
   generateFiles,
@@ -11,11 +7,14 @@ import {
   installPackagesTask,
   names,
   offsetFromRoot,
+  readProjectConfiguration,
+  updateProjectConfiguration,
 } from '@nrwl/devkit';
 import { applicationGenerator as nodeAppGenerator } from '@nrwl/node';
 import type { Schema as ApplicationGeneratorSchema } from '@nrwl/node/src/generators/application/schema';
 import * as path from 'path';
 import { chalkVersion, sadeVersion } from '../../utils/versions';
+import refreshGenerator from '../refresh/refresh';
 
 interface NormalizedSchema extends ApplicationGeneratorSchema {
   parsedTags: string[];
@@ -99,6 +98,10 @@ export default async function applicationGenerator(
     { chalk: chalkVersion, sade: sadeVersion },
     {}
   );
+  await refreshGenerator(tree, {
+    all: true,
+    project: normalizedOptions.projectName,
+  });
   await formatFiles(tree);
   return () => {
     installPackagesTask(tree, true);

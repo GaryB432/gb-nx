@@ -82,7 +82,6 @@ nx sync my-app
 | `--ts`       | generate the typing files for your commands          |
 | `--all`      | generate all the things                              |
 
-
 ### About `nx serve`
 
 The `nx serve` command will run the application with no options or parameters resulting in the message `ERROR No command specified`. To use `nx serve`, temporarily edit your `main.ts` to bypass the argv parsing and run the command you want.

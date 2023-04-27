@@ -60,6 +60,7 @@ export default async function refreshGenerator(
 
     if (options.all || options.main) {
       const targets = project.targets;
+      const cmdNames = Object.keys(config.commands);
 
       if (targets) {
         const buildTarget = targets['build'];
@@ -71,31 +72,44 @@ export default async function refreshGenerator(
             ".option('--verbose', 'Show extra information')",
             ".option('-c, --config', 'Provide path to config file', 'cli.config.js');",
           ];
-          const imports = `import { ${Object.keys(config.commands)
+          const cmdimports = `import { ${cmdNames
             .map((f) => names(f).propertyName)
             .sort((a, b) => a.localeCompare(b))
             .map((f) => `${f}Command`)
             .join(',')} } from './app/commands';`;
-          const cmds = Object.keys(config.commands).map((name) =>
+          const cmds = cmdNames.map((name) =>
             getCommandTs(config.commands[name], names(name))
           );
 
-          const prog = [
+          const sheBanger = [
             '#!/usr/bin/env node',
-            `/* This is a generated file. Make changes to cli.config.json and run "nx sync ${program.name}" */`,
+            `/* This is a generated file. Make changes to cli.config.json and run "nx sync ${project.name}" */`,
+          ];
+
+          const sadeProg = [
             "import sade = require('sade');",
-            imports,
+            cmdimports,
             `const prog = sade('${program.name}');`,
             ...gls,
             ...cmds,
+          ];
+
+          const prog = [
+            ...sheBanger,
+            ...sadeProg,
             'const argv = [...process.argv];',
             'if (argv.length < 3) {',
             "  argv.push('--help');",
             '}',
             'prog.parse(argv);',
           ];
-          const content = prog.join('\n');
-          tree.write(buildTarget.options.main, content);
+          const noCommands = [
+            ...sheBanger,
+            'import {noCommands} from "@gb-nx/cli"',
+            'noCommands()',
+          ];
+          const content = cmdNames.length === 0 ? noCommands : prog;
+          tree.write(buildTarget.options.main, content.join('\n'));
         } else {
           throw new Error('no build options main');
         }
