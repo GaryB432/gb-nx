@@ -88,7 +88,11 @@ export default async function refreshGenerator(
             `const prog = sade('${program.name}');`,
             ...gls,
             ...cmds,
-            'prog.parse(process.argv);',
+            'const argv = [...process.argv];',
+            'if (argv.length < 3) {',
+            "  argv.push('--help');",
+            '}',
+            'prog.parse(argv);',
           ];
           const content = prog.join('\n');
           tree.write(buildTarget.options.main, content);

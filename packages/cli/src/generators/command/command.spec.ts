@@ -86,7 +86,11 @@ describe('command', () => {
         .action(async (src, FunDest, opts) => {
           await helloCommand({ src, FunDest, opts });
         });
-      prog.parse(process.argv);
+      const argv = [...process.argv];
+      if (argv.length < 3) {
+        argv.push('--help');
+      }
+      prog.parse(argv);
       "
     `);
     expect(

@@ -110,7 +110,11 @@ describe('command', () => {
         .action(async (e, f, opts) => {
           await bananaCommand({ e, f, opts });
         });
-      prog.parse(process.argv);
+      const argv = [...process.argv];
+      if (argv.length < 3) {
+        argv.push('--help');
+      }
+      prog.parse(argv);
       "
     `);
   });

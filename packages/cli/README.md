@@ -82,6 +82,21 @@ nx sync my-app
 | `--ts`       | generate the typing files for your commands          |
 | `--all`      | generate all the things                              |
 
+
+### About `nx serve`
+
+The `nx serve` command will run the application with no options or parameters resulting in the message `ERROR No command specified`. To use `nx serve`, temporarily edit your `main.ts` to bypass the argv parsing and run the command you want.
+
+Of course, you want to revert such changes before building and distributing your multi-command CLI.
+
+Alternatively, use a command like the following
+
+```
+nx build your-app;node dist/apps/your-app/main.js your-command your-parameter
+```
+
+If your CLI has only one command, consider using the plain [@nrwl/node:application generator](https://nx.dev/packages/node/generators/application)
+
 ## License
 
 Copyright (c) 2021-2023 Gary Bortosky. Licensed under the MIT License (MIT)

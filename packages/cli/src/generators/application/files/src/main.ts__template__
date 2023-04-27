@@ -6,4 +6,8 @@ prog
   .option('--dryRun, -d', 'Do not write to disk', false)
   .option('--verbose', 'Show extra information', false)
   .option('-c, --config', 'Provide path to config file', 'cli.config.js');
-prog.parse(process.argv);
+const argv = [...process.argv];
+if (argv.length < 3) {
+  argv.push('--help');
+}
+prog.parse(argv);
