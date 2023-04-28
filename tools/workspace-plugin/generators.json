@@ -4,6 +4,11 @@
       "implementation": "./src/generators/bump-version",
       "schema": "./src/generators/bump-version/schema.json",
       "description": "Generator bump-version"
+    },
+    "make-schemas": {
+      "factory": "./src/generators/make-schemas/generator",
+      "schema": "./src/generators/make-schemas/schema.json",
+      "description": "make-schemas generator"
     }
   }
 }
