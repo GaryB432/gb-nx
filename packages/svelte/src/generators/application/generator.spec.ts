@@ -53,7 +53,7 @@ describe('with eslint', () => {
     await generator(appTree, options);
     const buff = appTree.read('package.json', 'utf-8')!;
     const pj = JSON.parse(buff?.toString()) as unknown as PackageJson;
-    expect(pj.devDependencies!['@nx/eslint-plugin']).toBeDefined();
+    expect(pj.devDependencies!['@nx/eslint-plugin']).not.toBeDefined();
     expect(
       pj.devDependencies!['@typescript-eslint/eslint-plugin']
     ).toBeDefined();

@@ -160,10 +160,6 @@ export default async function (
     throw new Error(notSvelte(normalizedOptions.name));
   }
 
-  const { devDependencies } = readJson(tree, 'package.json');
-  const deps = devDependencies ?? { nx: '^16.0.0' };
-  const nxVersion = deps['nx'];
-
   const webPackageJsonPath = joinPathFragments(
     normalizedOptions.projectRoot,
     'package.json'
@@ -201,7 +197,6 @@ export default async function (
       tree,
       {},
       {
-        '@nx/eslint-plugin': nxVersion,
         '@typescript-eslint/eslint-plugin': typescriptEslintVersion,
         '@typescript-eslint/parser': typescriptEslintVersion,
         eslint: eslintVersion,
