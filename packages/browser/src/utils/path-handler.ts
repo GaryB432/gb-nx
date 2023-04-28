@@ -1,4 +1,4 @@
-import { joinPathFragments } from '@nrwl/devkit';
+import { joinPathFragments } from '@nx/devkit';
 import type { ParsedPath } from 'path';
 import { parse } from 'path';
 

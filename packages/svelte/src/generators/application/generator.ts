@@ -11,7 +11,7 @@ import {
   updateJson,
   type GeneratorCallback,
   type Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import type {
   NxProjectPackageJsonConfiguration,
   PackageJson,
@@ -188,7 +188,7 @@ export default async function (
   addWorkspaceToPackageJson(tree, normalizedOptions, 'package.json');
 
   if (normalizedOptions.eslint) {
-    // TODO use @nrwl/linter
+    // TODO use @nx/linter
     updateEslint(tree, config);
     addDependenciesToPackageJson(
       tree,
@@ -202,7 +202,7 @@ export default async function (
       tree,
       {},
       {
-        '@nrwl/eslint-plugin-nx': nxVersion,
+        '@nx/eslint-plugin': nxVersion,
         '@typescript-eslint/eslint-plugin': typescriptEslintVersion,
         '@typescript-eslint/parser': typescriptEslintVersion,
         eslint: eslintVersion,

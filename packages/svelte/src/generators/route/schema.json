@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "GbNxSvelteRoute",
   "title": "Create a route in a Svelte Kit project.",
   "description": "Create a route in a Svelte Kit project.",
@@ -32,7 +31,10 @@
     "directory": {
       "description": "Directory where the generated files are placed.",
       "type": "string",
-      "aliases": ["dir", "path"]
+      "aliases": [
+        "dir",
+        "path"
+      ]
     },
     "skipFormat": {
       "description": "Skip formatting files.",
@@ -47,22 +49,34 @@
     "language": {
       "description": "Route script language (ts/js).",
       "type": "string",
-      "enum": ["js", "ts"],
+      "enum": [
+        "js",
+        "ts"
+      ],
       "default": "js"
     },
     "style": {
       "description": "Route style language (css/scss).",
       "type": "string",
-      "enum": ["css", "scss"],
+      "enum": [
+        "css",
+        "scss"
+      ],
       "default": "css"
     },
     "load": {
       "description": "Source of data for your load function",
       "type": "string",
-      "enum": ["shared", "server", "none"],
+      "enum": [
+        "shared",
+        "server",
+        "none"
+      ],
       "default": "none"
     }
   },
   "additionalProperties": false,
-  "required": ["name"]
+  "required": [
+    "name"
+  ]
 }

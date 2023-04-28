@@ -14,8 +14,8 @@
   "generators": "./generators.json",
   "executors": "./executors.json",
   "dependencies": {
-    "@nrwl/devkit": "^15.0.0",
-    "@phenomnomnominal/tsquery": "~5.0.1"
+    "@phenomnomnominal/tsquery": "~5.0.1",
+    "@nx/devkit": "16.0.0"
   },
   "publishConfig": {
     "access": "public"

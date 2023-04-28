@@ -43,7 +43,7 @@ yarn add @gb-nx/workspace --dev
 ### Add a module
 
 ```
-nx g @nrwl/node:application payroll
+nx g @nx/node:application payroll
 
 nx g @gb-nx/workspace:module employee --kind class --project payroll
 ```

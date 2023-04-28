@@ -1,5 +1,5 @@
-import { type Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { type Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { updateEslint, type EslintConfiguration } from './eslint';
 
 const existingEslintConfiguration: EslintConfiguration = {

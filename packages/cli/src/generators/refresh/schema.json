@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "GbNxRefreshCli",
   "title": "Refresh generated CLI application assets.",
   "description": "Refresh generated CLI application assets.",

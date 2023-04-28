@@ -21,6 +21,7 @@
       "@gb-nx/plugins": ["packages/plugins/src/index.ts"],
       "@gb-nx/svelte": ["packages/svelte/src/index.ts"],
       "@gb-nx/workspace": ["packages/workspace/src/index.ts"],
+      "@gb-nx/workspace-plugin": ["tools/workspace-plugin/src/index.ts"],
       "gb-nx/junit": ["packages/junit/src/index.ts"]
     }
   },

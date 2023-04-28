@@ -5,7 +5,7 @@ import {
   names,
   readNxJson,
   type Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { join } from 'path';
 import { getSvelteConfig, getSvelteFiles } from '../../utils/svelte';
 import type { Schema as ComponentGeneratorSchema } from './schema';

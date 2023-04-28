@@ -1,4 +1,4 @@
-import { joinPathFragments } from '@nrwl/devkit';
+import { joinPathFragments } from '@nx/devkit';
 import { exec } from 'child_process';
 import { join } from 'path';
 import { promisify } from 'util';

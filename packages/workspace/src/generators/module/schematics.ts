@@ -1,4 +1,4 @@
-import { type ProjectConfiguration } from '@nrwl/devkit';
+import { type ProjectConfiguration } from '@nx/devkit';
 import { type Schema } from './schema';
 
 export interface SchematicOptions {

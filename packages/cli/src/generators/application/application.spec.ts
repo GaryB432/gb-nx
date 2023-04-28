@@ -1,8 +1,8 @@
-import type { Tree } from '@nrwl/devkit';
+import type { Tree } from '@nx/devkit';
 import * as refresher from '../refresh/refresh';
-import { parseJson, readJson, readProjectConfiguration } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import type { Schema } from '@nrwl/node/src/generators/application/schema';
+import { parseJson, readJson, readProjectConfiguration } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import type { Schema } from '@nx/node/src/generators/application/schema';
 import applicationGenerator from './application';
 
 const mockRefresher = jest

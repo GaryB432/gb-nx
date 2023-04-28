@@ -1,5 +1,5 @@
-import type { Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import type { Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { type PackageJson } from 'nx/src/utils/package-json';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
@@ -9,8 +9,8 @@ const PRETTIERIGNORE = '.prettierignore';
 
 const installPackagesTask = jest.fn();
 
-jest.mock('@nrwl/devkit', () => {
-  const devkit = { ...jest.requireActual('@nrwl/devkit') };
+jest.mock('@nx/devkit', () => {
+  const devkit = { ...jest.requireActual('@nx/devkit') };
   return {
     ...devkit,
     installPackagesTask: jest.fn(),
@@ -53,7 +53,7 @@ describe('with eslint', () => {
     await generator(appTree, options);
     const buff = appTree.read('package.json', 'utf-8')!;
     const pj = JSON.parse(buff?.toString()) as unknown as PackageJson;
-    expect(pj.devDependencies!['@nrwl/eslint-plugin-nx']).toBeDefined();
+    expect(pj.devDependencies!['@nx/eslint-plugin']).toBeDefined();
     expect(
       pj.devDependencies!['@typescript-eslint/eslint-plugin']
     ).toBeDefined();

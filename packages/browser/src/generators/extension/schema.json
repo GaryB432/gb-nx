@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "GeneratorGbNxExtensionApplication",
   "title": "Create a browser extension application.",
   "description": "Create a browser extension application.",

@@ -1,4 +1,4 @@
-import { joinPathFragments } from '@nrwl/devkit';
+import { joinPathFragments } from '@nx/devkit';
 import { copy } from 'fs-extra';
 import { changeExtension } from '../../utils/path-handler';
 import type { BuildExecutorContext, InOutInfo } from './executor';

@@ -27,7 +27,7 @@ yarn add @gb-nx/junit --dev
 
 ### Add Junit reporter to your app
 
-You will need to have an app in your workspace. You can create one with `nx g @nrwl/node:app my-app`.
+You will need to have an app in your workspace. You can create one with `nx g @nx/node:app my-app`.
 
 ```
 nx g @gb-nx/junit:app my-app

@@ -30,7 +30,7 @@
   },
   "defaultProject": "browser",
   "generators": {
-    "@nrwl/js:library": {
+    "@nx/js:library": {
       "setParserOptionsProject": true
     }
   },

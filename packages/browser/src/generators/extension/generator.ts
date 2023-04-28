@@ -1,4 +1,4 @@
-import type { GeneratorCallback, Tree } from '@nrwl/devkit';
+import type { GeneratorCallback, Tree } from '@nx/devkit';
 import {
   addProjectConfiguration,
   formatFiles,
@@ -10,9 +10,9 @@ import {
   offsetFromRoot,
   readJson,
   writeJson,
-} from '@nrwl/devkit';
-import { jestProjectGenerator } from '@nrwl/jest';
-import { Linter, lintProjectGenerator } from '@nrwl/linter';
+} from '@nx/devkit';
+import { jestProjectGenerator } from '@nx/jest';
+import { Linter, lintProjectGenerator } from '@nx/linter';
 import {
   readProjectConfiguration,
   updateProjectConfiguration,

@@ -1,4 +1,4 @@
-import { output, Workspaces } from '@nrwl/devkit';
+import { output, Workspaces } from '@nx/devkit';
 import { existsSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import { compile, JSONSchema } from 'json-schema-to-typescript';

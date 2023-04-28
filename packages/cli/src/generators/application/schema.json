@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "GbNxCliApplication",
   "title": "Create a CLI application in your Nx workspace",
   "description": "Create a CLI application in your Nx workspace",
@@ -14,7 +13,6 @@
       "description": "Generate a CLI application in your workspace in the maydir directory "
     }
   ],
-
   "type": "object",
   "properties": {
     "name": {

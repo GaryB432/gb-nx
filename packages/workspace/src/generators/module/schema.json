@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "GbNxWorkspaceModule",
   "title": "Create a value or class module for a project.",
   "description": "Create a value or class module for a project.",
@@ -43,21 +42,34 @@
       "type": "string",
       "format": "path",
       "description": "The directory to create the module, relative to your project source.",
-      "aliases": ["dir", "path"]
+      "aliases": [
+        "dir",
+        "path"
+      ]
     },
     "kind": {
       "type": "string",
       "description": "The kind of module.",
       "default": "values",
-      "enum": ["class", "values"]
+      "enum": [
+        "class",
+        "values"
+      ]
     },
     "unitTestRunner": {
       "type": "string",
-      "enum": ["jest", "vitest", "none"],
+      "enum": [
+        "jest",
+        "vitest",
+        "none"
+      ],
       "default": "jest",
       "description": "Test runner to use for unit tests."
     }
   },
   "additionalProperties": false,
-  "required": ["name", "project"]
+  "required": [
+    "name",
+    "project"
+  ]
 }

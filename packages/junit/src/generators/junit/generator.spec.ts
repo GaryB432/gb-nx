@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { TargetConfiguration, Tree } from '@nrwl/devkit';
-import {
-  addProjectConfiguration,
-  readProjectConfiguration,
-} from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import type { TargetConfiguration, Tree } from '@nx/devkit';
+import { addProjectConfiguration, readProjectConfiguration } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 // import { projectGraphAdapter } from 'nx/src/project-graph/project-graph';
 import generator from './generator';
 import type { Schema as JunitGeneratorSchema } from './schema';
@@ -103,7 +100,7 @@ describe('junit generator', () => {
           },
         },
         test: {
-          executor: '@nrwl/jest:jest',
+          executor: '@nx/jest:jest',
           outputs: [
             'way/more/than/normal',
             'coverage/apps/test',

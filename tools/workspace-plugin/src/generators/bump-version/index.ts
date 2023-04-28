@@ -4,7 +4,7 @@ import {
   readNxJson,
   readProjectConfiguration,
   Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { SchematicOptions } from './schema';
 const semverInc = require('semver/functions/inc');
 

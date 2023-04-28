@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "bump-version": {
+      "implementation": "./src/generators/bump-version",
+      "schema": "./src/generators/bump-version/schema.json",
+      "description": "Generator bump-version"
+    }
+  }
+}

@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "GbNxSvelteComponent",
   "title": "Add a component to a Svelte Kit project",
   "description": "Svelte Component Options Schema.",
@@ -14,7 +13,6 @@
       "description": "Add a Typescript language Admin component to the myapp Svelte-Kit application"
     }
   ],
-
   "type": "object",
   "properties": {
     "name": {
@@ -38,7 +36,10 @@
     "directory": {
       "description": "Directory where the generated files are placed.",
       "type": "string",
-      "aliases": ["dir", "path"]
+      "aliases": [
+        "dir",
+        "path"
+      ]
     },
     "skipFormat": {
       "description": "Skip formatting files.",
@@ -48,16 +49,25 @@
     "language": {
       "description": "Component script language (ts/js).",
       "type": "string",
-      "enum": ["js", "ts"],
+      "enum": [
+        "js",
+        "ts"
+      ],
       "default": "js"
     },
     "style": {
       "description": "Component style language (css/scss).",
       "type": "string",
-      "enum": ["css", "scss"],
+      "enum": [
+        "css",
+        "scss"
+      ],
       "default": "css"
     }
   },
   "additionalProperties": false,
-  "required": ["name", "project"]
+  "required": [
+    "name",
+    "project"
+  ]
 }

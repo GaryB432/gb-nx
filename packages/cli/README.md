@@ -94,7 +94,7 @@ Alternatively, use a command like the following
 nx build your-app;node dist/apps/your-app/main.js your-command your-parameter
 ```
 
-If your CLI has only one command, consider using the plain [@nrwl/node:application generator](https://nx.dev/packages/node/generators/application)
+If your CLI has only one command, consider using the plain [@nx/node:application generator](https://nx.dev/packages/node/generators/application)
 
 ## License
 

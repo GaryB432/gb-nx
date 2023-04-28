@@ -1,5 +1,5 @@
-import type { ProjectConfiguration, Tree } from '@nrwl/devkit';
-import { joinPathFragments } from '@nrwl/devkit';
+import type { ProjectConfiguration, Tree } from '@nx/devkit';
+import { joinPathFragments } from '@nx/devkit';
 
 interface Package {
   dependencies?: Record<string, string>;

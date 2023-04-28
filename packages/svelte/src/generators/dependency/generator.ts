@@ -6,7 +6,7 @@ import {
   readNxJson,
   type ProjectConfiguration,
   type Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 
 import { makeAliasName, type NamedPath } from '../../utils/paths';
 import { getSvelteConfig } from '../../utils/svelte';
