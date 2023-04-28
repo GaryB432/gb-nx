@@ -28,7 +28,7 @@
     "reporterVersion": {
       "type": "string",
       "description": "Version of jest-junit to use",
-      "default": "^15.0.0"
+      "default": "^16.0.0"
     }
   },
   "additionalProperties": false,
