@@ -45,9 +45,6 @@ describe('extension', () => {
         \\"overrides\\": [
           {
             \\"files\\": [\\"*.ts\\", \\"*.tsx\\", \\"*.js\\", \\"*.jsx\\"],
-            \\"parserOptions\\": {
-              \\"project\\": [\\"apps/my-app/tsconfig.*?.json\\"]
-            },
             \\"rules\\": {}
           },
           {
