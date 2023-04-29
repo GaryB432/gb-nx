@@ -84,7 +84,6 @@ async function addLint(
     project: options.name,
     linter: Linter.EsLint,
     skipFormat: true,
-    setParserOptionsProject: true,
     eslintFilePatterns: [joinPathFragments(options.projectRoot, '**/*.ts')],
   });
   addCustomLint(tree, options);

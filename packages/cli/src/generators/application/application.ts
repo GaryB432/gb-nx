@@ -70,7 +70,6 @@ export default async function applicationGenerator(
   // await initGenerator(tree, {});
   await nodeAppGenerator(tree, {
     unitTestRunner: 'jest',
-    setParserOptionsProject: true,
     e2eTestRunner: 'none',
     ...normalizedOptions,
   });

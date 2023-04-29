@@ -23,18 +23,12 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": [
-        "plugin:@nx/typescript",
-        "plugin:gb/recommended-with-type-checking"
-      ],
+      "extends": ["plugin:@nx/typescript", "plugin:gb/recommended"],
       "rules": {}
     },
     {
       "files": ["*.spec.ts", "*.spec.tsx"],
-      "extends": [
-        "plugin:@nx/typescript",
-        "plugin:gb/recommended-with-type-checking"
-      ],
+      "extends": ["plugin:@nx/typescript", "plugin:gb/recommended"],
       "rules": {
         "@typescript-eslint/no-non-null-assertion": "off"
       }

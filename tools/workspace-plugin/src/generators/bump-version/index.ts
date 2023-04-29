@@ -3,17 +3,20 @@ import {
   logger,
   readNxJson,
   readProjectConfiguration,
-  Tree,
+  type Tree,
 } from '@nx/devkit';
-import { SchematicOptions } from './schema';
-const semverInc = require('semver/functions/inc');
+import { type SchematicOptions } from './schema';
+import semverInc = require('semver/functions/inc');
 
 interface PackageJson {
-  version: string;
   name: string;
+  version: string;
 }
 
-export default async function (tree: Tree, schema: SchematicOptions) {
+export default async function (
+  tree: Tree,
+  schema: SchematicOptions
+): Promise<void> {
   const project = schema.project ?? readNxJson(tree)?.defaultProject;
 
   if (!project) {
@@ -25,10 +28,9 @@ export default async function (tree: Tree, schema: SchematicOptions) {
   const pjBuf = tree.read(pjName);
   if (pjBuf) {
     const pkg = JSON.parse(pjBuf.toString()) as PackageJson;
-    const bumped = semverInc(pkg.version, schema.part);
+    const bumped = semverInc(pkg.version, schema.part) ?? '0.0.0';
     logger.info(`${pkg.name} ${pkg.version}->${bumped}`);
     pkg.version = bumped;
     tree.write(pjName, JSON.stringify(pkg, undefined, 2) + '\n');
   }
-  return () => {};
 }
