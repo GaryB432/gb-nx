@@ -57,6 +57,17 @@ nx g @gb-nx/workspace:module employee --kind class --project payroll
 | --kind       | The kind of module. `class` for a class or `values` for a general module to export expressions or functions etc |
 | --skipTests  | Do not create "spec.ts" test files for the new module.                                                          |
 
+## Migrations
+
+This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/workspace` command, that includes bumping the version of the @gb-nx/cli plugin, related dependencies and running code migrations.
+
+## @gb-nx/workspace & Nx Compatibility Chart
+
+| @gb-nx/workspace version | Nx version |
+| ------------------------ | ---------- |
+| ^3.0.0                   | ^16.0.0    |
+| <3.0.0                   | ^15.0.0    |
+
 ## License
 
-Copyright (c) 2021-2023 Gary Bortosky. Licensed under the MIT License (MIT)
+MIT

@@ -80,6 +80,17 @@ The generator will
 nx g @gb-nx/svelte:dependency --project web --dependency my-lib
 ```
 
+## Migrations
+
+This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/svelte` command, that includes bumping the version of the @gb-nx/cli plugin, related dependencies and running code migrations.
+
+## @gb-nx/svelte & Nx Compatibility Chart
+
+| @gb-nx/svelte version | Nx version |
+| --------------------- | ---------- |
+| ^5.0.0                | ^16.0.0    |
+| <5.0.0                | ^15.0.0    |
+
 ## License
 
-Copyright (c) 2021-2023 Gary Bortosky. Licensed under the MIT License (MIT)
+MIT
