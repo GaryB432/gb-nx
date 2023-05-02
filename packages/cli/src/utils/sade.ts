@@ -20,6 +20,17 @@ function makeCommandOption(name: string, opt: ConfigProp): string {
   return ['option(', args.join(), ')'].join('');
 }
 
+export function getCommandExamples(
+  command: ConfigCommand,
+  names: { name: string; propertyName: string }
+): string[] {
+  const parameters = command.parameters ?? {};
+  const options = command.options ?? {};
+  const pz = Object.keys(parameters);
+  const os = Object.keys(options);
+  return [['echo', names.name, 'TODO', 'soon'].join(' ')];
+}
+
 export function getCommandTs(
   command: ConfigCommand,
   names: { name: string; propertyName: string }

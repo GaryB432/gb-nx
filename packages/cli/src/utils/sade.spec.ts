@@ -1,4 +1,4 @@
-import { getCommandTs } from './sade';
+import { getCommandExamples, getCommandTs } from './sade';
 
 const pnames = {
   name: 'TestingSubject',
@@ -233,4 +233,37 @@ describe('sade', () => {
       .action(async (a,b,opts) => { if (opts.limit && typeof opts.limit !== 'number') throw new Error('limit must be a number');if (opts.age && typeof opts.age !== 'number') throw new Error('age must be a number');if (opts.banana && typeof opts.banana !== 'number') throw new Error('banana must be a number');await testCommand({ a,b,opts }); });"
     `);
   });
+
+  it('should get command examples', () => {
+    expect(
+      getCommandExamples(
+        {
+          description: 'this here',
+          parameters: {
+            a: { type: 'unknown', description: 'fun stuff' },
+            b: { type: 'unknown' },
+          },
+
+          options: {
+            alfa: {
+              type: 'string',
+              description: 'put some quotes on me',
+              default: 'testingSubject',
+            },
+
+            limit: { type: 'number', description: 'some junkk', default: 5 },
+            age: { type: 'number' },
+            banana: { type: 'number' },
+            grocery: {
+              type: 'boolean',
+              description: 'an important boolean argument',
+              default: true,
+            },
+          },
+        },
+        { name: 'Test', propertyName: 'test' }
+      )
+    ).toEqual(['echo Test TODO soon']);
+  });
 });
+1;
