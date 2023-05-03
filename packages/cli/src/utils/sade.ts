@@ -28,7 +28,24 @@ export function getCommandExamples(
   const options = command.options ?? {};
   const pz = Object.keys(parameters);
   const os = Object.keys(options);
-  return [['echo', names.name, 'TODO', 'soon'].join(' ')];
+  const ppz = pz.map((p) => `${p}1`);
+  const osz = os
+    .map((o) => {
+      const oo = options[o];
+      switch (oo.type) {
+        case 'boolean': {
+          return oo.default ? undefined : `--${o}=false`;
+        }
+        case 'number': {
+          return `--${o}=1`;
+        }
+        default: {
+          return `--${o}=${o}1`;
+        }
+      }
+    })
+    .filter((o) => !!o);
+  return [[names.name, ...ppz, ...osz].join(' ')];
 }
 
 export function getCommandTs(
@@ -54,11 +71,7 @@ export function getCommandTs(
     `command('${line}')`,
     `describe(${enQuote(command.description ?? 'tbd')})`,
     ...os.map((o) => makeCommandOption(o, options[o])),
-
-    // `example('${command} src build --dryRun')`,
-    // `example('${command} app public -o main.js')`,
-    //
-
+    ...getCommandExamples(command, names).map((e) => `example('${e}')`),
     `action(async (${argz}) => { ${checks.join('')}await ${
       names.propertyName
     }Command({ ${argz} }); })`,
