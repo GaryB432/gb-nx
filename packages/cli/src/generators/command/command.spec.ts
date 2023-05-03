@@ -1,9 +1,23 @@
-import { output, type Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { output, type Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import applicationGenerator from '../application/application';
+import refreshGenerator from '../refresh/refresh';
+import { type Schema as RefreshSchema } from '../refresh/schema';
 import commandGenerator from './command';
 
 let noted: { title: string };
+
+const projectName = 'my-app';
+
+jest.mock('../refresh/refresh', () => {
+  return {
+    default: jest.fn((_tree: unknown, options: RefreshSchema) => {
+      if (!options.all || options.project !== projectName) {
+        throw new Error('incorrect refresh options');
+      }
+    }),
+  };
+});
 
 const mockOutputNote = jest
   .spyOn(output, 'note')
@@ -11,12 +25,12 @@ const mockOutputNote = jest
 
 describe('command', () => {
   let tree: Tree;
-  const projectName = 'my-app';
   beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await applicationGenerator(tree, {
       name: projectName,
     });
+    jest.clearAllMocks();
   });
 
   it('should disallow opts parameter', async () => {
@@ -67,35 +81,8 @@ describe('command', () => {
     expect(
       tree.exists('apps/my-app/src/app/commands/hello.command.spec.ts')
     ).toBeTruthy();
-    expect(tree.read('apps/my-app/src/main.ts', 'utf-8'))
-      .toMatchInlineSnapshot(`
-      "#!/usr/bin/env node
-      /* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
-      import sade = require('sade');
-      import { helloCommand } from './app/commands';
-      const prog = sade('my-app');
-      prog
-        .version('0.0.1-0')
-        .option('--dryRun, -d', 'Do not write to disk')
-        .option('--verbose', 'Show extra information')
-        .option('-c, --config', 'Provide path to config file', 'cli.config.js');
-      prog
-        .command('Hello <src> <FunDest>')
-        .describe('Description of Hello command')
-        .option('--flat', 'Description of flat')
-        .action(async (src, FunDest, opts) => {
-          await helloCommand({ src, FunDest, opts });
-        });
-      const argv = [...process.argv];
-      if (argv.length < 3) {
-        argv.push('--help');
-      }
-      prog.parse(argv);
-      "
-    `);
-    expect(
-      tree.read('apps/my-app/src/app/commands/hello.types.d.ts', 'utf-8')
-    ).toContain('src: string;');
+
+    expect(refreshGenerator).toHaveBeenCalledTimes(1);
     expect(mockOutputNote).toHaveBeenCalledTimes(1);
     expect(noted.title).toEqual('Next steps');
   });

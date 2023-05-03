@@ -94,8 +94,19 @@ Alternatively, use a command like the following
 nx build your-app;node dist/apps/your-app/main.js your-command your-parameter
 ```
 
-If your CLI has only one command, consider using the plain [@nrwl/node:application generator](https://nx.dev/packages/node/generators/application)
+If your CLI has only one command, consider using the plain [@nx/node:application generator](https://nx.dev/packages/node/generators/application)
+
+## Migrations
+
+This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/cli` command, that includes bumping the version of the @gb-nx/cli plugin, related dependencies and running code migrations.
+
+## @gb-nx/cli & Nx Compatibility Chart
+
+| @gb-nx/cli version | Nx version |
+| ------------------ | ---------- |
+| ^3.0.0             | ^16.0.0    |
+| <3.0.0             | ^15.0.0    |
 
 ## License
 
-Copyright (c) 2021-2023 Gary Bortosky. Licensed under the MIT License (MIT)
+MIT

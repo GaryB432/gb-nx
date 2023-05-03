@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type {
-  GeneratorCallback,
-  TargetConfiguration,
-  Tree,
-} from '@nrwl/devkit';
+import type { GeneratorCallback, TargetConfiguration, Tree } from '@nx/devkit';
 import {
   addDependenciesToPackageJson,
   formatFiles,
@@ -14,7 +10,7 @@ import {
   logger,
   names,
   updateProjectConfiguration,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import * as ts from 'typescript';
 import type { Schema as NxJunitGeneratorSchema } from './schema';
 

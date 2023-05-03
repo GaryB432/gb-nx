@@ -4,9 +4,6 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "parserOptions": {
-        "project": ["packages/plugins/tsconfig.*?.json"]
-      },
       "rules": {}
     },
     {
@@ -18,10 +15,10 @@
       "rules": {}
     },
     {
-      "files": ["./package.json", "./generators.json", "./executors.json"],
+      "files": ["./package.json", "./generators.json"],
       "parser": "jsonc-eslint-parser",
       "rules": {
-        "@nrwl/nx/nx-plugin-checks": "error"
+        "@nx/nx-plugin-checks": "error"
       }
     }
   ]

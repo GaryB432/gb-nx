@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { ExecutorContext } from '@nrwl/devkit';
-import { joinPathFragments } from '@nrwl/devkit';
+import type { ExecutorContext } from '@nx/devkit';
+import { joinPathFragments } from '@nx/devkit';
 import * as fg from 'fast-glob';
 import type { ParsedPath } from 'path';
 import { parse } from 'path';

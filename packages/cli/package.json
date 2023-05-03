@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/cli",
-  "version": "2.18.0",
+  "version": "3.0.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -14,9 +14,9 @@
   "generators": "./generators.json",
   "executors": "./executors.json",
   "dependencies": {
-    "@nrwl/devkit": "^15.0.0",
-    "@nrwl/node": "^15.0.0",
-    "@nrwl/workspace": "^15.0.0"
+    "@nx/devkit": "16.0.0",
+    "@nx/workspace": "16.0.0",
+    "@nx/node": "16.0.0"
   },
   "publishConfig": {
     "access": "public"

@@ -5,7 +5,7 @@
   "sourceRoot": "<%= projectRoot %>/src",
   "targets": {
     "build": {
-      "executor": "@nrwl/webpack:webpack",
+      "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "webpackConfig": "<%= projectRoot %>/custom-webpack.config.js",

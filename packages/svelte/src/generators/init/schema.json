@@ -4,7 +4,6 @@
   "title": "Initializes the @gb-nx/svelte plugin.",
   "description": "Initializes the @gb-nx/svelte plugin.",
   "type": "object",
-  "cli": "nx",
   "properties": {
     "skipFormat": {
       "description": "Skip formatting files.",

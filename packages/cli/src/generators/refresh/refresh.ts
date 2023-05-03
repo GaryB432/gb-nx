@@ -5,7 +5,7 @@ import {
   names,
   readNxJson,
   type Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { getKindTypes, readCliConfig } from '../../utils/config';
 import { getCommandMarkdown } from '../../utils/markdown';
 import { getCommandTs } from '../../utils/sade';

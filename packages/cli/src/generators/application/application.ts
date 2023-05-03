@@ -1,4 +1,4 @@
-import type { GeneratorCallback, Tree } from '@nrwl/devkit';
+import type { GeneratorCallback, Tree } from '@nx/devkit';
 import {
   addDependenciesToPackageJson,
   formatFiles,
@@ -9,9 +9,9 @@ import {
   offsetFromRoot,
   readProjectConfiguration,
   updateProjectConfiguration,
-} from '@nrwl/devkit';
-import { applicationGenerator as nodeAppGenerator } from '@nrwl/node';
-import type { Schema as ApplicationGeneratorSchema } from '@nrwl/node/src/generators/application/schema';
+} from '@nx/devkit';
+import { applicationGenerator as nodeAppGenerator } from '@nx/node';
+import type { Schema as ApplicationGeneratorSchema } from '@nx/node/src/generators/application/schema';
 import * as path from 'path';
 import { chalkVersion, sadeVersion } from '../../utils/versions';
 import refreshGenerator from '../refresh/refresh';
@@ -70,7 +70,6 @@ export default async function applicationGenerator(
   // await initGenerator(tree, {});
   await nodeAppGenerator(tree, {
     unitTestRunner: 'jest',
-    setParserOptionsProject: true,
     e2eTestRunner: 'none',
     ...normalizedOptions,
   });

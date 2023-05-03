@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "GbNxSvelteDependency",
   "title": "Add an implicit dependency to a Svelte Kit package.",
   "description": "Add an implicit dependency to a Svelte Kit package.",

@@ -2,7 +2,7 @@ import {
   joinPathFragments,
   type ProjectConfiguration,
   type Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 
 export interface EslintConfiguration {
   env?: {

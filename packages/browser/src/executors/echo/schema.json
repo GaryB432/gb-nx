@@ -3,7 +3,6 @@
   "version": 2,
   "outputCapture": "direct-nodejs",
   "type": "object",
-  "cli": "nx",
   "properties": {
     "textToEcho": {
       "type": "string",

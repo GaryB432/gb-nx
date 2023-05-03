@@ -16,4 +16,4 @@
 
 ## License
 
-Copyright (c) 2021-2023 Gary Bortosky. Licensed under the MIT License (MIT)
+MIT

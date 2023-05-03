@@ -1,4 +1,4 @@
-import { formatFiles, getProjects, output, type Tree } from '@nrwl/devkit';
+import { formatFiles, getProjects, output, type Tree } from '@nx/devkit';
 import { compile, type JSONSchema } from 'json-schema-to-typescript';
 import { join, parse, type ParsedPath } from 'path';
 

@@ -1,4 +1,4 @@
-import type { ExecutorContext } from '@nrwl/devkit';
+import type { ExecutorContext } from '@nx/devkit';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import type { Schema as EchoExecutorSchema } from './schema';

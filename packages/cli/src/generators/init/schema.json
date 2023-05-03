@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "Init",
   "title": "Initializes the @gb-nx/cli plugin.",
   "description": "Initializes the @gb-nx/cli plugin.",

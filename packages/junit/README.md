@@ -27,7 +27,7 @@ yarn add @gb-nx/junit --dev
 
 ### Add Junit reporter to your app
 
-You will need to have an app in your workspace. You can create one with `nx g @nrwl/node:app my-app`.
+You will need to have an app in your workspace. You can create one with `nx g @nx/node:app my-app`.
 
 ```
 nx g @gb-nx/junit:app my-app
@@ -46,5 +46,20 @@ nx g @gb-nx/junit:app my-app
 | Options             | Default   | Description                                |
 | ------------------- | --------- | ------------------------------------------ |
 | `--tags`            | -         | Tags to use for linting (comma-delimited). |
-| `--reporterVersion` | `^13.0.0` | The version of `junit-reporter` to use.    |
+| `--reporterVersion` | `^16.0.0` | The version of `junit-reporter` to use.    |
 | `--skipFormat`      | `false`   | Skip formatting files.                     |
+
+## Migrations
+
+This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/junit` command, that includes bumping the version of the @gb-nx/cli plugin, related dependencies and running code migrations.
+
+## @gb-nx/junit & Nx Compatibility Chart
+
+| @gb-nx/junit version | Nx version |
+| -------------------- | ---------- |
+| ^3.0.0               | ^16.0.0    |
+| <3.0.0               | ^15.0.0    |
+
+## License
+
+MIT

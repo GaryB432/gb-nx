@@ -1,6 +1,6 @@
-import { readNxJson, type Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { applicationGenerator, libraryGenerator } from '@nrwl/node';
+import { readNxJson, type Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import { applicationGenerator, libraryGenerator } from '@nx/node';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
 import type { Schema as DependencyGeneratorSchema } from './schema';

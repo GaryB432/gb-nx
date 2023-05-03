@@ -6,7 +6,7 @@ import {
   readNxJson,
   type ProjectConfiguration,
   type Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { getSvelteConfig, getSvelteFiles } from '../../utils/svelte';
 import type { Schema } from './schema';
 

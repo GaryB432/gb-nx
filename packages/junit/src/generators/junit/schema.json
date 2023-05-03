@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "GbNxJunit",
   "title": "Add Junit reporter to your project",
   "description": "Add Junit reporter to your project",
@@ -29,7 +28,7 @@
     "reporterVersion": {
       "type": "string",
       "description": "Version of jest-junit to use",
-      "default": "^15.0.0"
+      "default": "^16.0.0"
     }
   },
   "additionalProperties": false,

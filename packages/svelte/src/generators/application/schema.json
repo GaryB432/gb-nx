@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "GbNxSvelteApplication",
   "title": "Add NX configuration to your Svelte-kit package.",
   "description": "Add NX configuration to your Svelte-kit package.",

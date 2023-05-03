@@ -4,7 +4,7 @@ import {
   runTasksInSerial,
   type GeneratorCallback,
   type Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import type { Schema } from './schema';
 
 function updateDependencies(tree: Tree) {

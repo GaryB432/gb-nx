@@ -1,4 +1,4 @@
-import type { TargetConfiguration, Tree } from '@nrwl/devkit';
+import type { TargetConfiguration, Tree } from '@nx/devkit';
 import {
   formatFiles,
   generateFiles,
@@ -7,7 +7,7 @@ import {
   names,
   output,
   readNxJson,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { join } from 'path';
 import type { ConfigProp } from '../../utils/config';
 import { readCliConfig, writeCliConfig } from '../../utils/config';

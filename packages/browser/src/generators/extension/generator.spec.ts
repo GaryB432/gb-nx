@@ -1,5 +1,5 @@
-import { readProjectConfiguration, type Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { readProjectConfiguration, type Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import extensionGenerator from './generator';
 
 describe('extension', () => {
@@ -17,11 +17,11 @@ describe('extension', () => {
     expect(tree.children('apps/my-app/src')).toContain('main.ts');
 
     const rpconf = readProjectConfiguration(tree, 'my-app');
-    expect(rpconf.targets!['build'].executor).toEqual('@nrwl/webpack:webpack');
+    expect(rpconf.targets!['build'].executor).toEqual('@nx/webpack:webpack');
 
     expect(rpconf.targets!['lint']).toMatchInlineSnapshot(`
       Object {
-        "executor": "@nrwl/linter:eslint",
+        "executor": "@nx/linter:eslint",
         "options": Object {
           "lintFilePatterns": Array [
             "apps/my-app/**/*.ts",
@@ -45,9 +45,6 @@ describe('extension', () => {
         \\"overrides\\": [
           {
             \\"files\\": [\\"*.ts\\", \\"*.tsx\\", \\"*.js\\", \\"*.jsx\\"],
-            \\"parserOptions\\": {
-              \\"project\\": [\\"apps/my-app/tsconfig.*?.json\\"]
-            },
             \\"rules\\": {}
           },
           {

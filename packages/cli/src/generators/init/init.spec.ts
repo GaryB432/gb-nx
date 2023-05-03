@@ -1,7 +1,7 @@
-import type { Tree } from '@nrwl/devkit';
-import { readRootPackageJson } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import type { Schema as InitGeneratorSchema } from '@nrwl/node/src/generators/init/schema';
+import type { Tree } from '@nx/devkit';
+import { readRootPackageJson } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import type { Schema as InitGeneratorSchema } from '@nx/node/src/generators/init/schema';
 import initGenerator from './init';
 
 describe('init generator', () => {

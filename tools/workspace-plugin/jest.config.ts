@@ -1,10 +1,10 @@
 /* eslint-disable */
 export default {
-  displayName: 'plugins',
+  displayName: 'workspace-plugin',
   preset: '../../jest.preset.js',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/packages/plugins',
+  coverageDirectory: '../../coverage/tools/workspace-plugin',
 };

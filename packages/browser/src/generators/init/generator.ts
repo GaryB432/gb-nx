@@ -3,7 +3,7 @@ import {
   formatFiles,
   installPackagesTask,
   type Tree,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import {
   chromeTypingsVersion,
   sassVersion,
@@ -20,7 +20,7 @@ export default async function (
     tree,
     {},
     {
-      '@nrwl/webpack': nxVersion,
+      '@nx/webpack': nxVersion,
       '@types/chrome': chromeTypingsVersion,
       'html-webpack-plugin': '^5.5.0',
       'mini-css-extract-plugin': '^2.6.1',

@@ -1,7 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "GbNxCliCommandGenerator",
-  "cli": "nx",
   "type": "object",
   "title": "Generate a CLI command.",
   "description": "Generate a CLI command.",

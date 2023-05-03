@@ -1,5 +1,5 @@
-import { addProjectConfiguration, type Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { addProjectConfiguration, type Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator, { getSegments } from './generator';
 

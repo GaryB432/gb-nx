@@ -28,12 +28,6 @@
     "appsDir": "e2e",
     "libsDir": "packages"
   },
-  "defaultProject": "browser",
-  "generators": {
-    "@nrwl/js:library": {
-      "setParserOptionsProject": true
-    }
-  },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [],

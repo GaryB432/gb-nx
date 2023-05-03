@@ -4,7 +4,6 @@
   "title": "Initialize the @gb-nx/workspace plugin.",
   "description": "Initialize the @gb-nx/workspace plugin.",
   "type": "object",
-  "cli": "nx",
   "properties": {
     "skipFormat": {
       "description": "Skip formatting files.",

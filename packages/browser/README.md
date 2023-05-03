@@ -64,6 +64,17 @@ Make changes to `my-extension\src`
 
 Repeat
 
+## Migrations
+
+This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/browser` command, that includes bumping the version of the @gb-nx/cli plugin, related dependencies and running code migrations.
+
+## @gb-nx/browser & Nx Compatibility Chart
+
+| @gb-nx/browser version | Nx version |
+| ---------------------- | ---------- |
+| ^5.0.0                 | ^16.0.0    |
+| <5.0.0                 | ^15.0.0    |
+
 ### Useful resources
 
 - [Developer Dashboard](https://chrome.google.com/webstore/developer/dashboard)
@@ -73,4 +84,4 @@ Repeat
 
 ## License
 
-Copyright (c) 2021-2023 Gary Bortosky. Licensed under the MIT License (MIT)
+MIT

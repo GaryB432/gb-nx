@@ -1,5 +1,5 @@
-import { formatFiles, getProjects, type Tree } from '@nrwl/devkit';
-import { wrapAngularDevkitSchematic } from '@nrwl/devkit/ngcli-adapter';
+import { formatFiles, getProjects, type Tree } from '@nx/devkit';
+import { wrapAngularDevkitSchematic } from '@nx/devkit/ngcli-adapter';
 import initGenerator from '../init/generator';
 import type { Schema as ModuleGeneratorSchema } from './schema';
 import { optionsForSchematic } from './schematics';

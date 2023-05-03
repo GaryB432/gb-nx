@@ -1,5 +1,5 @@
-import { output, readNxJson, updateNxJson, type Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { output, readNxJson, updateNxJson, type Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import applicationGenerator from '../application/application';
 import commandGenerator from '../command/command';
 import refreshGenerator from './refresh';
@@ -99,6 +99,7 @@ describe('refresh', () => {
         .describe('Description of apple command')
         .option('--c', 'Description of c')
         .option('--d', 'Description of d')
+        .example('apple a1 b1 --c=c1 --d=d1')
         .action(async (a, b, opts) => {
           await appleCommand({ a, b, opts });
         });
@@ -107,6 +108,7 @@ describe('refresh', () => {
         .describe('Description of banana command')
         .option('--g', 'Description of g')
         .option('--h', 'Description of h')
+        .example('banana e1 f1 --g=g1 --h=h1')
         .action(async (e, f, opts) => {
           await bananaCommand({ e, f, opts });
         });

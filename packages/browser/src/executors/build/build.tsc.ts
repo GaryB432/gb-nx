@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { ExecutorContext } from '@nrwl/devkit';
+import type { ExecutorContext } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { join } from 'path';
 import type { Schema as BuildExecutorOptions } from './schema';
