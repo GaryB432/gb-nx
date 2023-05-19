@@ -196,7 +196,11 @@ function addSveltePage(
 
   const script = scripts[options.language][options.load];
 
-  const html = `<article class="container">
+  const html = `<svelte:head>
+  <title>${options.project} - ${options.name}</title>
+</svelte:head>
+
+<article class="container">
 	{data.subject} works
 </article>
 `;
