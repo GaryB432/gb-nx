@@ -4,7 +4,7 @@ describe('typescript', () => {
   describe('makeCommandDeclarations', () => {
     test('make', () => {
       expect(makeCommandDeclarations('my-app', {}, {})).toMatchInlineSnapshot(`
-        "/* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+        "/* This is a generated file. Make changes to cli.config.json and run "nx sync my-app" */
         import { type SharedOptions } from '../shared';
         /* eslint-disable @typescript-eslint/no-empty-interface */
         interface Options extends SharedOptions {
@@ -23,7 +23,7 @@ describe('typescript', () => {
           { n: { kind: 'number' }, a: { kind: 'unknown' } }
         )
       ).toMatchInlineSnapshot(`
-        "/* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+        "/* This is a generated file. Make changes to cli.config.json and run "nx sync my-app" */
         import { type SharedOptions } from '../shared';
         interface Options extends SharedOptions {
             a: unknown;
@@ -46,7 +46,7 @@ describe('typescript', () => {
           { n: { kind: 'number' }, a: { kind: 'unknown' } }
         )
       ).toMatchInlineSnapshot(`
-        "/* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+        "/* This is a generated file. Make changes to cli.config.json and run "nx sync my-app" */
         import { type SharedOptions } from '../shared';
         interface Options extends SharedOptions {
             a: unknown;
@@ -69,7 +69,7 @@ describe('typescript', () => {
           { n: {}, a: { kind: 'boolean' } }
         )
       ).toMatchInlineSnapshot(`
-        "/* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+        "/* This is a generated file. Make changes to cli.config.json and run "nx sync my-app" */
         import { type SharedOptions } from '../shared';
         interface Options extends SharedOptions {
             a: boolean;

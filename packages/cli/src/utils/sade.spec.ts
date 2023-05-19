@@ -59,7 +59,7 @@ describe('sade', () => {
     ).toMatchInlineSnapshot(`
       "prog
       .command('TestingSubject <a> <b>')
-      .describe(\\"this 'here'\\")
+      .describe("this 'here'")
       .option('--a','description of a option')
       .example('TestingSubject a1 b1 --a=a1')
       .action(async (a,b,opts) => { await testingSubjectCommand({ a,b,opts }); });"

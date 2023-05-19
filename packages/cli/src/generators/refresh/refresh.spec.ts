@@ -85,7 +85,7 @@ describe('refresh', () => {
     expect(tree.read('apps/my-app/src/main.ts', 'utf-8'))
       .toMatchInlineSnapshot(`
       "#!/usr/bin/env node
-      /* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+      /* This is a generated file. Make changes to cli.config.json and run "nx sync my-app" */
       import sade = require('sade');
       import { appleCommand, bananaCommand } from './app/commands';
       const prog = sade('my-app');
@@ -152,7 +152,7 @@ describe('refresh no commands', () => {
     expect(tree.read('apps/my-app/src/main.ts', 'utf-8'))
       .toMatchInlineSnapshot(`
       "#!/usr/bin/env node
-      /* This is a generated file. Make changes to cli.config.json and run \\"nx sync my-app\\" */
+      /* This is a generated file. Make changes to cli.config.json and run "nx sync my-app" */
       import { noCommands } from '@gb-nx/cli';
       noCommands();
       "

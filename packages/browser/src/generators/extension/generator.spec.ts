@@ -20,14 +20,14 @@ describe('extension', () => {
     expect(rpconf.targets!['build'].executor).toEqual('@nx/webpack:webpack');
 
     expect(rpconf.targets!['lint']).toMatchInlineSnapshot(`
-      Object {
+      {
         "executor": "@nx/linter:eslint",
-        "options": Object {
-          "lintFilePatterns": Array [
+        "options": {
+          "lintFilePatterns": [
             "apps/my-app/**/*.ts",
           ],
         },
-        "outputs": Array [
+        "outputs": [
           "{options.outputFile}",
         ],
       }
@@ -40,21 +40,21 @@ describe('extension', () => {
     expect(tree.read('apps/my-app/.eslintrc.json', 'utf-8'))
       .toMatchInlineSnapshot(`
       "{
-        \\"extends\\": [\\"../../.eslintrc.json\\"],
-        \\"ignorePatterns\\": [\\"!**/*\\"],
-        \\"overrides\\": [
+        "extends": ["../../.eslintrc.json"],
+        "ignorePatterns": ["!**/*"],
+        "overrides": [
           {
-            \\"files\\": [\\"*.ts\\", \\"*.tsx\\", \\"*.js\\", \\"*.jsx\\"],
-            \\"rules\\": {}
+            "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+            "rules": {}
           },
           {
-            \\"files\\": [\\"*.ts\\", \\"*.tsx\\"],
-            \\"rules\\": {},
-            \\"extends\\": [\\"../../eslint-custom.json\\"]
+            "files": ["*.ts", "*.tsx"],
+            "rules": {},
+            "extends": ["../../eslint-custom.json"]
           },
           {
-            \\"files\\": [\\"*.js\\", \\"*.jsx\\"],
-            \\"rules\\": {}
+            "files": ["*.js", "*.jsx"],
+            "rules": {}
           }
         ]
       }

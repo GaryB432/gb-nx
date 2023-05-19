@@ -28,7 +28,7 @@ describe('component', () => {
         export let subject = 'Hello component';
       </script>
 
-      <div class=\\"container\\">
+      <div class="container">
         {subject} works
       </div>
 
@@ -55,7 +55,7 @@ describe('component', () => {
         export let subject = 'Hello component';
       </script>
 
-      <div class=\\"container\\">
+      <div class="container">
         {subject} works
       </div>
 
@@ -83,11 +83,11 @@ describe('component', () => {
         export let subject = 'Hello component';
       </script>
 
-      <div class=\\"container\\">
+      <div class="container">
         {subject} works
       </div>
 
-      <style lang=\\"scss\\">
+      <style lang="scss">
         .container {
           border: thin solid silver;
         }
