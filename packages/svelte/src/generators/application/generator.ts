@@ -16,6 +16,7 @@ import type {
   PackageJson,
 } from 'nx/src/utils/package-json';
 import { updateEslint } from '../../utils/eslint';
+import { includes } from '../../utils/globber';
 import { isSvelte } from '../../utils/svelte';
 import {
   eslintPluginGbVersion,
@@ -101,7 +102,7 @@ function addScriptsToPackageJson(
   scripts: Record<string, string>,
   packageJsonPath: string
 ): void {
-  return updateJson<PackageJson>(tree, packageJsonPath, (json) => {
+  updateJson<PackageJson>(tree, packageJsonPath, (json) => {
     json.scripts = json.scripts ?? {};
     for (const script of Object.keys(scripts)) {
       json.scripts[script] = scripts[script];
@@ -118,8 +119,10 @@ function addWorkspaceToPackageJson(
   updateJson<PackageJson>(tree, packageJsonPath, (json) => {
     json.workspaces = json.workspaces ?? [];
     if (Array.isArray(json.workspaces)) {
-      json.workspaces.push(normalizePath(options.projectRoot));
-      json.workspaces.sort();
+      if (!includes(options.projectRoot, json.workspaces)) {
+        json.workspaces.push(normalizePath(options.projectRoot));
+        json.workspaces.sort();
+      }
     } else {
       throw new Error('TODO handle');
     }
