@@ -26,5 +26,6 @@
       "alias": "p"
     }
   },
+  "additionalProperties": false,
   "required": ["part"]
 }

@@ -5,7 +5,7 @@ import {
   readProjectConfiguration,
   type Tree,
 } from '@nx/devkit';
-import { type SchematicOptions } from './schema';
+import { type Schema as BumpVersionSchema } from './schema';
 import semverInc = require('semver/functions/inc');
 
 interface PackageJson {
@@ -15,7 +15,7 @@ interface PackageJson {
 
 export default async function (
   tree: Tree,
-  schema: SchematicOptions
+  schema: BumpVersionSchema
 ): Promise<void> {
   const project = schema.project ?? readNxJson(tree)?.defaultProject;
 
