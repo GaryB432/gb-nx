@@ -72,4 +72,44 @@ describe('markdown', () => {
       "
     `);
   });
+
+  it('should get empty md', () => {
+    expect(
+      getCommandMarkdown(
+        {
+          description: 'TEST description',
+          parameters: {},
+          options: {},
+        },
+        {
+          name: 'Dunno',
+          propertyName: 'dunno',
+        }
+      )
+    ).toMatchInlineSnapshot(`
+      "## Dunno
+
+      TEST description
+      "
+    `);
+  });
+
+  it('should get empty md', () => {
+    expect(
+      getCommandMarkdown(
+        {
+          description: 'Test with no parameters or options',
+        },
+        {
+          name: 'Move',
+          propertyName: 'move',
+        }
+      )
+    ).toMatchInlineSnapshot(`
+      "## Move
+
+      Test with no parameters or options
+      "
+    `);
+  });
 });

@@ -23,41 +23,37 @@ export function getCommandMarkdown(
 
   if (parameters) {
     const pz = Object.keys(parameters);
-    lns.push(
-      '### Arguments\n',
-      tableHeader('ARGUMENT', 'DESCRIPTION'),
-      ...pz.map((p) => {
-        if (parameters) {
-          return tableRow(
+    if (pz.length > 0) {
+      lns.push(
+        '### Arguments\n',
+        tableHeader('ARGUMENT', 'DESCRIPTION'),
+        ...pz.map((p) =>
+          tableRow(
             `\`${p}\``,
             parameters[p].description ?? `Description of ${p} parameter`
-          );
-        }
-        return tableRow();
-      }),
-      ''
-      // `example('${command} src build --dryRun')`,
-      // `example('${command} app public -o main.js')`,
-    );
+          )
+        ),
+        ''
+      );
+    }
   }
 
   if (options) {
     const os = Object.keys(options);
-    lns.push(
-      '### Options\n',
-      tableHeader('OPTION', 'DESCRIPTION', 'DEFAULT'),
-      // ...os.map((o) => getPropRow(o, command.options[o])),
-      ...os.map((o) =>
-        tableRow(
-          `\`--${o}\``,
-          options[o].description ?? `Description of ${o}`,
-          def(options[o].default)
-        )
-      ),
-      ''
-      // `example('${command} src build --dryRun')`,
-      // `example('${command} app public -o main.js')`,
-    );
+    if (os.length > 0) {
+      lns.push(
+        '### Options\n',
+        tableHeader('OPTION', 'DESCRIPTION', 'DEFAULT'),
+        ...os.map((o) =>
+          tableRow(
+            `\`--${o}\``,
+            options[o].description ?? `Description of ${o}`,
+            def(options[o].default)
+          )
+        ),
+        ''
+      );
+    }
   }
   const code = [...lns].join('\n');
   return code;
