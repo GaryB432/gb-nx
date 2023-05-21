@@ -7,19 +7,24 @@ import { Workspaces } from '@nx/devkit';
 
     console.log(ws.isNxGenerator('./packages/junit', 'junit'));
 
-    const defaultProject = ws.calculateDefaultProjectName(
-      process.cwd(),
-      ws.readProjectsConfig(),
-      ws.readNxJson()
-    );
+    // const defaultProject = ws.calculateDefaultProjectName(
+    //   process.cwd(),
+    //   ws.readProjectsConfig(),
+    //   ws.readNxJson()
+    // );
 
-    const wsConfig = ws.readProjectsConfig();
+    const { projects } = ws.readWorkspaceConfiguration();
+    //  const dp = ws.calculateDefaultProjectName(process.cwd(), {projects}, ws.readNxJson())
 
-    for (const k in wsConfig.projects) {
+    // console.log(projects);
+
+    // const wsConfig = ws.readProjectsConfig();
+
+    for (const k in projects) {
       console.log(
-        k === defaultProject ? '*' : ' ',
+        // k === defaultProject ? '*' : ' ',
         k,
-        wsConfig.projects[k].projectType
+        projects[k].projectType
       );
     }
   } catch (e) {
