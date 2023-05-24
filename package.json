@@ -9,15 +9,15 @@
   },
   "private": true,
   "devDependencies": {
-    "@nx/devkit": "16.0.0",
-    "@nx/eslint-plugin": "16.0.0",
-    "@nx/jest": "16.0.0",
-    "@nx/js": "16.0.0",
-    "@nx/linter": "16.0.0",
-    "@nx/node": "16.0.0",
-    "@nx/plugin": "16.0.0",
-    "@nx/web": "16.0.0",
-    "@nx/workspace": "16.0.0",
+    "@nx/devkit": "16.2.2",
+    "@nx/eslint-plugin": "16.2.2",
+    "@nx/jest": "16.2.2",
+    "@nx/js": "16.2.2",
+    "@nx/linter": "16.2.2",
+    "@nx/node": "16.2.2",
+    "@nx/plugin": "16.2.2",
+    "@nx/web": "16.2.2",
+    "@nx/workspace": "16.2.2",
     "@phenomnomnominal/tsquery": "^5.0.0",
     "@swc-node/register": "^1.4.2",
     "@swc/cli": "0.1.62",
@@ -36,13 +36,13 @@
     "json-schema-to-typescript": "^10.1.5",
     "json2ts": "^0.0.7",
     "jsonc-eslint-parser": "^2.1.0",
-    "nx": "16.0.0",
+    "nx": "16.2.2",
     "prettier": "2.8.4",
     "semver": "^7.3.5",
     "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
     "tslib": "^2.3.0",
-    "typescript": "4.9.5"
+    "typescript": "5.0.4"
   },
   "dependencies": {
     "@swc/helpers": "0.5.1",
@@ -56,3 +56,4 @@
   },
   "license": "MIT"
 }
+
