@@ -50,8 +50,7 @@
   "peerDependencies": {
     "chalk": "4.1.0",
     "fast-glob": "^3.2.12",
-    "fs-extra": "^10.0.0",
-    "glob": "7.1.4"
+    "fs-extra": "^10.0.0"
   },
   "license": "MIT"
 }
