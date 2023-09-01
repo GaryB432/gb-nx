@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/cli",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -13,10 +13,10 @@
   "homepage": "https://github.com/GaryB432/gb-nx/tree/master/packages/cli",
   "generators": "./generators.json",
   "executors": "./executors.json",
-  "dependencies": {
-    "@nx/devkit": "16.0.0",
-    "@nx/workspace": "16.0.0",
-    "@nx/node": "16.0.0"
+  "peerDependencies": {
+    "@nx/devkit": "^16.0.0",
+    "@nx/workspace": "^16.0.0",
+    "@nx/node": "^16.0.0"
   },
   "publishConfig": {
     "access": "public"
