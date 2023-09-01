@@ -57,7 +57,8 @@
             "glob": "*.json",
             "output": "./schemas"
           }
-        ]
+        ],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     }
   },
