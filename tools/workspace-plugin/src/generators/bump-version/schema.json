@@ -20,6 +20,10 @@
         "index": 0
       }
     },
+    "preid": {
+      "type": "string",
+      "description": "Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments."
+    },
     "project": {
       "type": "string",
       "description": "Project where the package configuration is updated",

@@ -13,6 +13,10 @@ export interface Schema {
     | 'prepatch'
     | 'prerelease';
   /**
+   * Which part to increment
+   */
+  preid?: string;
+  /**
    * Project where the package configuration is updated
    */
   project?: string;

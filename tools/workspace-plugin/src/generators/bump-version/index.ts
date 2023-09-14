@@ -28,7 +28,7 @@ export default async function (
   const pjBuf = tree.read(pjName);
   if (pjBuf) {
     const pkg = JSON.parse(pjBuf.toString()) as PackageJson;
-    const bumped = semverInc(pkg.version, schema.part) ?? '0.0.0';
+    const bumped = semverInc(pkg.version, schema.part, false, schema.preid) ?? '0.0.0';
     logger.info(`${pkg.name} ${pkg.version}->${bumped}`);
     pkg.version = bumped;
     tree.write(pjName, JSON.stringify(pkg, undefined, 2) + '\n');
