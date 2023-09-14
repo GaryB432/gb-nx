@@ -18,10 +18,10 @@
     "paths": {
       "@gb-nx/browser": ["packages/browser/src/index.ts"],
       "@gb-nx/cli": ["packages/cli/src/index.ts"],
+      "@gb-nx/junit": ["packages/junit/src/index.ts"],
       "@gb-nx/svelte": ["packages/svelte/src/index.ts"],
       "@gb-nx/workspace": ["packages/workspace/src/index.ts"],
-      "@gb-nx/workspace-plugin": ["tools/workspace-plugin/src/index.ts"],
-      "gb-nx/junit": ["packages/junit/src/index.ts"]
+      "@gb-nx/workspace-plugin": ["tools/workspace-plugin/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
