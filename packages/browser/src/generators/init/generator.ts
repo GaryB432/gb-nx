@@ -26,6 +26,7 @@ export default async function (
       'mini-css-extract-plugin': '^2.6.1',
       eslint: eslintVersion,
       sass: sassVersion,
+      'webpack-merge': '^5.9.0',
     }
   );
   if (!options.skipFormat) {
@@ -36,3 +37,4 @@ export default async function (
     installPackagesTask(tree);
   };
 }
+
