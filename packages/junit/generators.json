@@ -5,8 +5,8 @@
   "generators": {
     "junit": {
       "aliases": ["app"],
-      "factory": "./src/generators/junit/generator",
-      "schema": "./src/generators/junit/schema.json",
+      "factory": "./src/generators/add-junit/generator",
+      "schema": "./src/generators/add-junit/schema.json",
       "description": "junit generator"
     }
   }

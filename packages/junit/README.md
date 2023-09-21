@@ -51,7 +51,7 @@ nx g @gb-nx/junit:app my-app
 
 ## Migrations
 
-This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/junit` command, that includes bumping the version of the @gb-nx/cli plugin, related dependencies and running code migrations.
+This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/junit` command, that includes bumping the version of the @gb-nx/junit plugin, related dependencies and running code migrations.
 
 ## @gb-nx/junit & Nx Compatibility Chart
 

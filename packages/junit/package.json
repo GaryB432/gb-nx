@@ -13,6 +13,11 @@
   "homepage": "https://github.com/GaryB432/gb-nx/tree/master/packages/junit",
   "generators": "./generators.json",
   "executors": "./executors.json",
+  "peerDependencies": {
+    "@nx/devkit": "^16.0.0",
+    "tslib": "^2.3.0",
+    "typescript": "~5.1.3"
+  },
   "publishConfig": {
     "access": "public"
   }

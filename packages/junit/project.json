@@ -4,32 +4,14 @@
   "sourceRoot": "packages/junit/src",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/junit/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/packages/junit",
-        "{workspaceRoot}/junit/packages/junit.xml"
-      ],
-      "options": {
-        "jestConfig": "packages/junit/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/junit",
+        "main": "packages/junit/src/index.ts",
         "tsConfig": "packages/junit/tsconfig.lib.json",
         "packageJson": "packages/junit/package.json",
-        "main": "packages/junit/src/index.ts",
         "assets": [
           "packages/junit/*.md",
           {
@@ -52,8 +34,39 @@
             "glob": "executors.json",
             "output": "."
           }
-        ],
-        "updateBuildableProjectDepsInPackageJson": true
+        ]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs junit {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/junit/**/*.ts",
+          "packages/junit/package.json",
+          "packages/junit/generators.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/junit",
+        "{workspaceRoot}/junit/packages/junit.xml"
+      ],
+      "options": {
+        "jestConfig": "packages/junit/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
       }
     }
   },
