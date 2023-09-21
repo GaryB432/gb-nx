@@ -59,7 +59,7 @@ nx g @gb-nx/workspace:module employee --kind class --project payroll
 
 ## Migrations
 
-This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/workspace` command, that includes bumping the version of the @gb-nx/cli plugin, related dependencies and running code migrations.
+This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/workspace` command, that includes bumping the version of the @gb-nx/workspace plugin, related dependencies and running code migrations.
 
 ## @gb-nx/workspace & Nx Compatibility Chart
 

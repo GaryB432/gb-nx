@@ -4,24 +4,6 @@
   "sourceRoot": "packages/workspace/src",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/workspace/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/packages/workspace",
-        "{workspaceRoot}/junit/packages/workspace.xml"
-      ],
-      "options": {
-        "jestConfig": "packages/workspace/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
@@ -30,7 +12,6 @@
         "tsConfig": "packages/workspace/tsconfig.lib.json",
         "packageJson": "packages/workspace/package.json",
         "main": "packages/workspace/src/index.ts",
-        "updateBuildableProjectDepsInPackageJson": false,
         "assets": [
           "packages/workspace/*.md",
           {
@@ -54,6 +35,34 @@
             "output": "."
           }
         ]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs workspace {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/workspace/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/workspace",
+        "{workspaceRoot}/junit/packages/workspace.xml"
+      ],
+      "options": {
+        "jestConfig": "packages/workspace/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
       }
     }
   },
