@@ -4,32 +4,14 @@
   "sourceRoot": "packages/browser/src",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/browser/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/packages/browser",
-        "{workspaceRoot}/junit/packages/browser.xml"
-      ],
-      "options": {
-        "jestConfig": "packages/browser/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/browser",
+        "main": "packages/browser/src/index.ts",
         "tsConfig": "packages/browser/tsconfig.lib.json",
         "packageJson": "packages/browser/package.json",
-        "main": "packages/browser/src/index.ts",
         "assets": [
           "packages/browser/*.md",
           {
@@ -52,8 +34,40 @@
             "glob": "executors.json",
             "output": "."
           }
-        ],
-        "updateBuildableProjectDepsInPackageJson": true
+        ]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs browser {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/browser/**/*.ts",
+          "packages/browser/package.json",
+          "packages/browser/generators.json",
+          "packages/browser/executors.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/browser",
+        "{workspaceRoot}/junit/packages/browser.xml"
+      ],
+      "options": {
+        "jestConfig": "packages/browser/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
       }
     }
   },

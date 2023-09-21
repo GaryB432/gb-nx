@@ -1,35 +1,20 @@
-/* eslint-disable */
+import type { ProjectNameAndRootFormat } from '@nx/devkit/src/generators/project-name-and-root-utils';
+import type { Linter } from '@nx/linter';
 
-/**
- * Create a browser extension application.
- */
-export interface Schema {
-  /**
-   * The name of the extension.
-   */
-  name: string;
-  /**
-   * The directory of the new application.
-   */
+export interface ExtensionGeneratorOptions {
   directory?: string;
-  /**
-   * Skip formatting files
-   */
-  skipFormat?: boolean;
-  /**
-   * Skip spec files
-   */
-  skipTests?: boolean;
-  /**
-   * Test runner to use for unit tests
-   */
-  unitTestRunner?: 'jest' | 'none';
-  /**
-   * Add tags to the application (used for linting)
-   */
-  tags?: string;
-  /**
-   * Whether or not to configure the ESLint "parserOptions.project" option. We do not do this by default for lint performance reasons.
-   */
+  linter?: Linter;
+  name: string;
+  projectNameAndRootFormat?: ProjectNameAndRootFormat;
+  rootProject?: boolean;
   setParserOptionsProject?: boolean;
+  skipFormat?: boolean;
+  strict?: boolean;
+  tags?: string;
+  unitTestRunner?: 'jest' | 'none';
+}
+
+interface NormalizedOptions extends ExtensionGeneratorOptions {
+  appProjectName: string;
+  appProjectRoot: Path;
 }

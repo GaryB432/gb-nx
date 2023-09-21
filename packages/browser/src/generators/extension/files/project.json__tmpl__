@@ -1,37 +1,37 @@
 {
-  "name": "<%= name %>",
+  "name": "<%= appProjectName %>",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "<%= projectRoot %>/src",
+  "sourceRoot": "<%= appProjectRoot %>/src",
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "webpackConfig": "<%= projectRoot %>/custom-webpack.config.js",
+        "webpackConfig": "<%= appProjectRoot %>/custom-webpack.config.js",
         "target": "web",
         "compiler": "tsc",
-        "outputPath": "dist/<%= projectRoot %>",
-        "main": "<%= projectRoot %>/src/main.ts",
+        "outputPath": "dist/<%= appProjectRoot %>",
+        "main": "<%= appProjectRoot %>/src/main.ts",
         "outputFileName": "main.js",
         "additionalEntryPoints": [
           {
             "entryName": "options",
-            "entryPath": "<%= projectRoot %>/src/options.ts"
+            "entryPath": "<%= appProjectRoot %>/src/options.ts"
           },
           {
             "entryName": "popup",
-            "entryPath": "<%= projectRoot %>/src/popup.ts"
+            "entryPath": "<%= appProjectRoot %>/src/popup.ts"
           }
         ],
-        "tsConfig": "<%= projectRoot %>/tsconfig.app.json",
+        "tsConfig": "<%= appProjectRoot %>/tsconfig.app.json",
         "assets": [
           {
             "glob": "**/*.*",
-            "input": "<%= projectRoot %>/src/assets",
+            "input": "<%= appProjectRoot %>/src/assets",
             "output": "assets"
           },
-          { "glob": "**/*.json", "input": "<%= projectRoot %>/src", "output": "." }
+          { "glob": "**/*.json", "input": "<%= appProjectRoot %>/src", "output": "." }
         ],
         "generateIndexHtml": false
       },
@@ -43,8 +43,8 @@
           "sourceMap": false,
           "fileReplacements": [
             {
-              "replace": "<%= projectRoot %>/src/environments/environment.ts",
-              "with": "<%= projectRoot %>/src/environments/environment.prod.ts"
+              "replace": "<%= appProjectRoot %>/src/environments/environment.ts",
+              "with": "<%= appProjectRoot %>/src/environments/environment.prod.ts"
             }
           ]
         }
@@ -53,7 +53,7 @@
     "build-scripts": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx tsc -p <%= projectRoot %>/tsconfig.scripts.json --rootdir <%= projectRoot %>/src --outdir dist/<%= projectRoot %>"
+        "command": "npx tsc -p <%= appProjectRoot %>/tsconfig.scripts.json --rootdir <%= appProjectRoot %>/src --outdir dist/<%= appProjectRoot %>"
       }
     }
   },

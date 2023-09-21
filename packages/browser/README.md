@@ -66,7 +66,7 @@ Repeat
 
 ## Migrations
 
-This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/browser` command, that includes bumping the version of the @gb-nx/cli plugin, related dependencies and running code migrations.
+This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/browser` command, that includes bumping the version of the @gb-nx/browser plugin, related dependencies and running code migrations.
 
 ## @gb-nx/browser & Nx Compatibility Chart
 

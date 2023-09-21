@@ -2,7 +2,6 @@
   "$schema": "http://json-schema.org/schema",
   "name": "browser",
   "version": "0.0.1",
-  "extends": ["@nx/workspace"],
   "generators": {
     "extension": {
       "factory": "./src/generators/extension/generator",

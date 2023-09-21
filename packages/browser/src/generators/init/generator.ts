@@ -2,12 +2,12 @@ import {
   addDependenciesToPackageJson,
   formatFiles,
   installPackagesTask,
+  readJson,
   type Tree,
 } from '@nx/devkit';
 import {
   chromeTypingsVersion,
   sassVersion,
-  nxVersion,
   eslintVersion,
 } from '../../utils/versions';
 import type { Schema as InitGeneratorSchema } from './schema';
@@ -16,6 +16,11 @@ export default async function (
   tree: Tree,
   options: InitGeneratorSchema
 ): Promise<() => void> {
+  const { devDependencies } = readJson<{
+    devDependencies: Record<string, string>;
+  }>(tree, 'package.json');
+  const nxVersion = devDependencies['nx'];
+
   const installTask = addDependenciesToPackageJson(
     tree,
     {},

@@ -11,6 +11,8 @@ describe('extension', () => {
   it('should generate extension in directory', async () => {
     await extensionGenerator(tree, {
       name: 'my-app',
+      directory: 'apps/my-app',
+      projectNameAndRootFormat: 'as-provided',
     });
 
     expect(tree.children('apps/my-app')).toContain('project.json');
