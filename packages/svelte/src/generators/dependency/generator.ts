@@ -35,7 +35,7 @@ export default async function (
     `project '${p}' is not configured for svelte`;
   const ws = readNxJson(tree);
   const projName = schema.project ?? ws?.defaultProject;
-  const aliasScope = schema.scope ?? ws?.npmScope;
+  const aliasScope = schema.scope;
 
   const projects = getProjects(tree);
   const project = projects.get(projName);
@@ -49,7 +49,6 @@ export default async function (
     throw new Error(notfound(schema.dependency));
   }
 
-  const psrc = project.sourceRoot;
   const dsrc = dep.sourceRoot;
 
   const config = getSvelteConfig(tree, project);
@@ -61,7 +60,7 @@ export default async function (
   const aliases = getConfiguredAliases(config).slice(0);
   const depName = makeAliasName(schema.dependency, aliasScope);
 
-  if (dsrc && psrc) {
+  if (dsrc) {
     const path = joinPathFragments(offsetFromRoot(dep.root), dsrc);
 
     const aliasToAdd = { name: depName, path };

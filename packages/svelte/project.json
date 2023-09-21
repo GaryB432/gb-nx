@@ -4,32 +4,14 @@
   "sourceRoot": "packages/svelte/src",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/svelte/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/packages/svelte",
-        "{workspaceRoot}/junit/packages/svelte.xml"
-      ],
-      "options": {
-        "jestConfig": "packages/svelte/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/svelte",
+        "main": "packages/svelte/src/index.ts",
         "tsConfig": "packages/svelte/tsconfig.lib.json",
         "packageJson": "packages/svelte/package.json",
-        "main": "packages/svelte/src/index.ts",
         "assets": [
           "packages/svelte/*.md",
           {
@@ -52,8 +34,31 @@
             "glob": "executors.json",
             "output": "."
           }
-        ],
-        "updateBuildableProjectDepsInPackageJson": true
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/svelte/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/svelte",
+        "{workspaceRoot}/junit/packages/svelte.xml"
+      ],
+      "options": {
+        "jestConfig": "packages/svelte/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
       }
     }
   },
