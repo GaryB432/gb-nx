@@ -4,32 +4,14 @@
   "sourceRoot": "packages/cli/src",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/cli/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/packages/cli",
-        "{workspaceRoot}/junit/packages/cli.xml"
-      ],
-      "options": {
-        "jestConfig": "packages/cli/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/cli",
+        "main": "packages/cli/src/index.ts",
         "tsConfig": "packages/cli/tsconfig.lib.json",
         "packageJson": "packages/cli/package.json",
-        "main": "packages/cli/src/index.ts",
         "assets": [
           "packages/cli/*.md",
           {
@@ -57,8 +39,36 @@
             "glob": "*.json",
             "output": "./schemas"
           }
-        ],
-        "updateBuildableProjectDepsInPackageJson": true
+        ]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs cli {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/cli/**/*.ts",
+          "packages/cli/package.json",
+          "packages/cli/generators.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/cli/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
       }
     }
   },

@@ -3,7 +3,6 @@ import {
   addDependenciesToPackageJson,
   formatFiles,
   generateFiles,
-  getWorkspaceLayout,
   installPackagesTask,
   names,
   offsetFromRoot,
@@ -11,70 +10,46 @@ import {
   updateProjectConfiguration,
 } from '@nx/devkit';
 import { applicationGenerator as nodeAppGenerator } from '@nx/node';
-import type { Schema as ApplicationGeneratorSchema } from '@nx/node/src/generators/application/schema';
 import * as path from 'path';
 import { chalkVersion, sadeVersion } from '../../utils/versions';
 import refreshGenerator from '../refresh/refresh';
+import {
+  normalizeOptions,
+  toNodeApplicationGeneratorOptions,
+} from './lib/normalize-options';
+import type { CliGeneratorOptions, NormalizedOptions } from './schema';
 
-interface NormalizedSchema extends ApplicationGeneratorSchema {
-  parsedTags: string[];
-  projectDirectory: string;
-  projectName: string;
-  projectRoot: string;
-}
-
-function normalizeOptions(
-  tree: Tree,
-  options: ApplicationGeneratorSchema
-): NormalizedSchema {
-  const name = names(options.name).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
-
-  return {
-    ...options,
-    projectName,
-    projectRoot,
-    projectDirectory,
-    parsedTags,
-  };
-}
-
-function addFiles(tree: Tree, options: NormalizedSchema) {
+function addFiles(tree: Tree, options: NormalizedOptions) {
   const templateOptions = {
     ...options,
     ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    offsetFromRoot: offsetFromRoot(options.appProjectRoot),
     template: '',
   };
   generateFiles(
     tree,
     path.join(__dirname, 'files'),
-    options.projectRoot,
+    options.appProjectRoot,
     templateOptions
   );
 }
 
 export default async function applicationGenerator(
   tree: Tree,
-  options: ApplicationGeneratorSchema
+  options: CliGeneratorOptions
 ): Promise<GeneratorCallback> {
-  const normalizedOptions = normalizeOptions(tree, options);
+  const normalizedOptions = await normalizeOptions(tree, options);
 
   // await initGenerator(tree, {});
-  await nodeAppGenerator(tree, {
-    unitTestRunner: 'jest',
-    e2eTestRunner: 'none',
-    ...normalizedOptions,
-  });
+  await nodeAppGenerator(
+    tree,
+    toNodeApplicationGeneratorOptions(normalizedOptions)
+  );
 
-  const nodeApp = readProjectConfiguration(tree, normalizedOptions.projectName);
+  const nodeApp = readProjectConfiguration(
+    tree,
+    normalizedOptions.appProjectName
+  );
 
   nodeApp.targets = nodeApp.targets ?? {};
   nodeApp.targets['sync'] = {
@@ -82,13 +57,13 @@ export default async function applicationGenerator(
     options: {
       commands: [
         {
-          command: `node ./node_modules/nx/bin/nx.js g @gb-nx/cli:refresh --project ${normalizedOptions.projectName} --all`,
+          command: `node ./node_modules/nx/bin/nx.js g @gb-nx/cli:refresh --project ${normalizedOptions.appProjectName} --all`,
         },
       ],
     },
   };
 
-  updateProjectConfiguration(tree, normalizedOptions.projectName, nodeApp);
+  updateProjectConfiguration(tree, normalizedOptions.appProjectName, nodeApp);
 
   addFiles(tree, normalizedOptions);
 
@@ -99,7 +74,7 @@ export default async function applicationGenerator(
   );
   await refreshGenerator(tree, {
     all: true,
-    project: normalizedOptions.projectName,
+    project: normalizedOptions.appProjectName,
   });
   await formatFiles(tree);
   return () => {

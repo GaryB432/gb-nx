@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/cli",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -15,8 +15,10 @@
   "executors": "./executors.json",
   "peerDependencies": {
     "@nx/devkit": "^16.0.0",
-    "@nx/workspace": "^16.0.0",
-    "@nx/node": "^16.0.0"
+    "@nx/linter": "^16.0.0",
+    "@nx/node": "^16.0.0",
+    "tslib": "^2.3.0",
+    "typescript": "~5.1.3"
   },
   "publishConfig": {
     "access": "public"

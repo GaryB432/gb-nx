@@ -59,7 +59,7 @@ describe('command', () => {
         Keep logic in another file. So this one can be regenerated with minimal disruption.
       */
 
-      import * as chalk from 'chalk';
+      import chalk from 'chalk';
       import { type CommandArgs } from './hello.types';
 
       export async function helloCommand({

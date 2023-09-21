@@ -3,7 +3,7 @@
   Keep logic in another file. So this one can be regenerated with minimal disruption.
 */
 
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import { type CommandArgs } from './<%= fileName %>.types';
 
 export async function <%= propertyName %>Command(<%= commandParameters %>: CommandArgs): Promise<void> {
