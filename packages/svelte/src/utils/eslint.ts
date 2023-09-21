@@ -38,7 +38,7 @@ function updateWorkspaceEslint(tree: Tree): void {
       {
         files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
         rules: {
-          '@nrwl/nx/enforce-module-boundaries': [
+          '@nx/enforce-module-boundaries': [
             'error',
             {
               enforceBuildableLibDependency: true,
@@ -68,7 +68,7 @@ function updateWorkspaceEslint(tree: Tree): void {
       project: 'tsconfig.base.json',
       extraFileExtensions: ['.svelte'],
     },
-    plugins: ['@nrwl/nx', 'gb'],
+    plugins: ['@nx', 'gb'],
     rules: {},
   };
   tree.write('.eslintrc.json', JSON.stringify(config));
