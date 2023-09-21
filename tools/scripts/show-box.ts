@@ -3,9 +3,10 @@ import { Workspaces } from '@nx/devkit';
 (async () => {
   const opts = { path: '.' };
   try {
+    // TODO deprecations throughout
     const ws = new Workspaces(process.cwd());
 
-    console.log(ws.isNxGenerator('./packages/junit', 'junit'));
+    // console.log(ws.isNxGenerator('./packages/junit', 'junit'));
 
     // const defaultProject = ws.calculateDefaultProjectName(
     //   process.cwd(),
