@@ -10,8 +10,7 @@ import {
   readJson,
   writeJson,
 } from '@nx/devkit';
-// TODO update from jestProjectGenerator deprecation
-import { jestProjectGenerator } from '@nx/jest';
+import { configurationGenerator } from '@nx/jest';
 import { Linter, lintProjectGenerator } from '@nx/linter';
 import {
   readProjectConfiguration,
@@ -59,8 +58,7 @@ async function addJest(
   tree: Tree,
   options: NormalizedOptions
 ): Promise<GeneratorCallback> {
-  // TODO update from deprecated
-  return await jestProjectGenerator(tree, {
+  return configurationGenerator(tree, {
     project: options.name,
     setupFile: 'none',
     supportTsx: false,

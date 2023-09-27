@@ -17,6 +17,7 @@ describe('extension', () => {
 
     expect(tree.children('apps/my-app')).toContain('project.json');
     expect(tree.children('apps/my-app/src')).toContain('main.ts');
+    expect(tree.children('apps/my-app')).toContain('jest.config.ts');
 
     const rpconf = readProjectConfiguration(tree, 'my-app');
     expect(rpconf.targets!['build'].executor).toEqual('@nx/webpack:webpack');
