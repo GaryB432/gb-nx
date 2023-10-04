@@ -12,6 +12,11 @@
       "factory": "./src/generators/init/generator",
       "schema": "./src/generators/init/schema.json",
       "description": "init generator"
+    },
+    "junit": {
+      "factory": "./src/generators/junit/generator",
+      "schema": "./src/generators/junit/schema.json",
+      "description": "junit generator"
     }
   }
 }
