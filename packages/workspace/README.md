@@ -57,6 +57,20 @@ nx g @gb-nx/workspace:module employee --kind class --project payroll
 | --kind       | The kind of module. `class` for a class or `values` for a general module to export expressions or functions etc |
 | --skipTests  | Do not create "spec.ts" test files for the new module.                                                          |
 
+### Add [junit reporter](https://www.npmjs.com/package/jest-junit) to a [@nx/jest](https://nx.dev/nx-api/jest) project
+
+`nx g @gb-nx/workspace:junit <project> [options]`
+
+| Arguments   | Description                  |
+| ----------- | ---------------------------- |
+| `<project>` | The project to add junit to. |
+
+| Options             | Default   | Description                                |
+| ------------------- | --------- | ------------------------------------------ |
+| `--tags`            | -         | Tags to use for linting (comma-delimited). |
+| `--reporterVersion` | `^16.0.0` | The version of `junit-reporter` to use.    |
+| `--skipFormat`      | `false`   | Skip formatting files.                     |
+
 ## Migrations
 
 This plugin supports Nx migrations and provides necessary version and code updates. So instead of bumping plugin version manually in package.json it's recommended to run `nx migrate @gb-nx/workspace` command, that includes bumping the version of the @gb-nx/workspace plugin, related dependencies and running code migrations.

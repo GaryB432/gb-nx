@@ -110,6 +110,9 @@ export default async function (
       proj.targets['test'];
 
     if (testtarget && testtarget.options) {
+      if (testtarget.executor !== '@nx/jest:jest') {
+        throw new Error('only @nx/jest supported');
+      }
       const targetOutputs = testtarget.outputs ?? [];
       const outputName = names(options.project).fileName + '.xml';
       const outputDirectory = joinPathFragments(
