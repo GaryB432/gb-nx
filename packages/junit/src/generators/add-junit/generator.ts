@@ -9,6 +9,7 @@ import {
   joinPathFragments,
   logger,
   names,
+  output,
   updateProjectConfiguration,
 } from '@nx/devkit';
 import * as ts from 'typescript';
@@ -94,6 +95,11 @@ export default async function (
   tree: Tree,
   options: NxJunitGeneratorSchema
 ): Promise<GeneratorCallback> {
+  output.warn({
+    title:
+      'This generator is deprecated. Use `@gb-nx/workspace:junit` instead.',
+    bodyLines: ['It will be removed in an upcoming release.'],
+  });
   const ws = getWorkspaceLayout(tree);
   const ps = getProjects(tree);
 

@@ -2,8 +2,13 @@
 
 [![CI](https://img.shields.io/github/actions/workflow/status/GaryB432/gb-nx/main.yml?branch=master)](https://github.com/GaryB432/gb-nx/actions)
 [![latest](https://img.shields.io/npm/v/@gb-nx/junit/latest.svg)](https://www.npmjs.com/package/@gb-nx/junit)
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 > This plugin will add [Jest Junit Reporter](https://www.npmjs.com/package/jest-junit) to your [Nx](https://nx.dev/) project.
+
+## ⚠️This plugin is deprecated
+
+Please use [@gb-nx/workspace:junit](https://github.com/GaryB432/gb-nx/tree/master/packages/workspace#add-junit-reporter-to-a-nxjest-project) to add junit to your project.
 
 ## Prerequisite
 
