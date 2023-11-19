@@ -5,10 +5,10 @@
   "scripts": {},
   "private": true,
   "devDependencies": {
+    "@nx/eslint": "17.1.2",
     "@nx/eslint-plugin": "17.1.2",
     "@nx/jest": "17.1.2",
     "@nx/js": "17.1.2",
-    "@nx/linter": "17.1.2",
     "@nx/node": "17.1.2",
     "@nx/plugin": "17.1.2",
     "@nx/workspace": "17.1.2",

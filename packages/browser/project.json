@@ -42,7 +42,7 @@
       "dependsOn": ["build"]
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
@@ -60,14 +60,7 @@
         "{workspaceRoot}/junit/packages/browser.xml"
       ],
       "options": {
-        "jestConfig": "packages/browser/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "packages/browser/jest.config.ts"
       }
     }
   },

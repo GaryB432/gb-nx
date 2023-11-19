@@ -24,7 +24,7 @@ describe('extension', () => {
 
     expect(rpconf.targets!['lint']).toMatchInlineSnapshot(`
       {
-        "executor": "@nx/linter:eslint",
+        "executor": "@nx/eslint:eslint",
         "options": {
           "lintFilePatterns": [
             "apps/my-app/**/*.ts",

@@ -1,6 +1,6 @@
 import type { Tree } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 import type { ExtensionGeneratorOptions, NormalizedOptions } from '../schema';
 
 export async function normalizeOptions(

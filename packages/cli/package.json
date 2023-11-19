@@ -15,7 +15,7 @@
   "executors": "./executors.json",
   "peerDependencies": {
     "@nx/devkit": "^16.0.0",
-    "@nx/linter": "^16.0.0",
+    "@nx/eslint": "^16.0.0",
     "@nx/node": "^16.0.0",
     "tslib": "^2.3.0",
     "typescript": "~5.1.3"
