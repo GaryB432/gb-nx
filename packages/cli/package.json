@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/cli",
-  "version": "4.0.0-alpha.9",
+  "version": "4.0.0-alpha.10",
   "main": "src/index.js",
   "repository": {
     "type": "git",
