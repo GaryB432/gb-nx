@@ -9,8 +9,11 @@
 //   readNxJson,
 // } from '@nx/devkit';
 // import { join } from 'path';
-// import type { ConfigProp } from '../../utils/config';
-// import { readCliConfig, writeCliConfig } from '../../utils/config';
+import {
+  readCliConfig,
+  writeCliConfig,
+  type ConfigProp,
+} from '../../utils/config';
 // import refreshGenerator from '../refresh/refresh';
 // import type { Schema as CommandGeneratorSchema } from './schema';
 
@@ -82,50 +85,39 @@
 //   );
 // }
 
-// function updateIndex(tree: Tree, options: NormalizedCommandSchema) {
-//   const ndxPath = joinPathFragments(
-//     options.projectSrcRoot,
-//     'app',
-//     'commands',
-//     'index.ts'
-//   );
-//   const buf = tree.read(ndxPath);
-//   const lines = buf
-//     ? buf
-//         .toString()
-//         .split('\n')
-//         .map((line) => line.trim())
-//     : [];
-//   lines.push(`export * from './${names(options.name).fileName}.command';`);
-//   tree.write(ndxPath, lines.sort().join('\n'));
-// }
+function updateIndex(tree: Tree, options: NormalizedSchema) {
+  console.log(options, tree.children('apps/my-app'));
+  const ndxPath = joinPathFragments(
+    options.projectSourceRoot,
+    'app',
+    'commands',
+    'index.ts'
+  );
+  const buf = tree.read(ndxPath);
+  const lines = buf
+    ? buf
+        .toString()
+        .split('\n')
+        .map((line) => line.trim())
+    : [];
+  lines.push(`export * from './${options.fileName}.command';`);
+  tree.write(ndxPath, lines.sort().join('\n'));
+}
 
-// function getDefaultProps(names: string[]): Record<string, ConfigProp> {
-//   return names.reduce((a, b) => {
-//     a[b] = { type: 'string', description: `Description of ${b}` };
-//     return a;
-//   }, {} as Record<string, ConfigProp>);
-// }
+function getDefaultProps(
+  names: string[] | undefined
+): Record<string, ConfigProp> {
+  return (names ?? []).reduce((a, b) => {
+    a[b] = { type: 'string', description: `Description of ${b}` };
+    return a;
+  }, {} as Record<string, ConfigProp>);
+}
 
 // export default async function commandGenerator(
 //   tree: Tree,
 //   options: CommandGeneratorSchema
 // ): Promise<void> {
 //   const normalizedOptions = normalizeOptions(tree, options);
-
-//   const config = readCliConfig(tree, normalizedOptions.projectRoot);
-//   const cmd = {
-//     description: `Description of ${normalizedOptions.name} command`,
-//     parameters: getDefaultProps(normalizedOptions.parameter),
-//     options: getDefaultProps(normalizedOptions.option),
-//   };
-//   config.commands[normalizedOptions.name] = cmd;
-
-//   addFiles(tree, normalizedOptions);
-//   if (options.export) {
-//     updateIndex(tree, normalizedOptions);
-//   }
-//   writeCliConfig(tree, normalizedOptions.projectRoot, config);
 
 // }
 
@@ -144,8 +136,9 @@ import {
   // findModuleFromOptions,
   normalizeOptions,
 } from './lib';
-import type { Schema } from './schema';
+import type { NormalizedSchema, Schema } from './schema';
 import refreshGenerator from '../refresh/refresh';
+// import { NormalizedOptions } from '../application/schema';
 
 // function addFiles(tree: Tree, options: NormalizedCommandSchema) {
 //   generateFiles(
@@ -162,6 +155,18 @@ import refreshGenerator from '../refresh/refresh';
 //     ...rawOptions,
 //   });
 // }
+
+function updateConfiguration(tree: Tree, options: NormalizedSchema) {
+  const config = readCliConfig(tree, options.projectRoot);
+  const cmd = {
+    description: `Description of ${options.name} command`,
+    parameters: getDefaultProps(options.parameter),
+    options: getDefaultProps(options.option),
+  };
+  config.commands[options.name] = cmd;
+
+  writeCliConfig(tree, options.projectRoot, config);
+}
 
 export async function commandGenerator(tree: Tree, rawOptions: Schema) {
   const options = await normalizeOptions(tree, rawOptions);
@@ -252,6 +257,11 @@ export async function commandGenerator(tree: Tree, rawOptions: Schema) {
   // }
 
   // exportComponentInEntryPoint(tree, options);
+
+  if (options.export) {
+    updateIndex(tree, options);
+  }
+  updateConfiguration(tree, options);
 
   const refreshCmd = `nx sync ${options.projectName}`;
   output.note({

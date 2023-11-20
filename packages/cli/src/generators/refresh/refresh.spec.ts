@@ -15,7 +15,7 @@ jest.spyOn(output, 'note').mockImplementation((m) => {
   noted = { ...m };
 });
 
-describe.skip('refresh', () => {
+describe('refresh', () => {
   let tree: Tree;
   const projectName = 'my-app';
   beforeEach(async () => {
@@ -28,7 +28,6 @@ describe.skip('refresh', () => {
     workspace.defaultProject = projectName;
     updateNxJson(tree, workspace);
     const { sourceRoot } = readProjectConfiguration(tree, projectName);
-    console.log({ workspace, sourceRoot });
     await commandGenerator(tree, {
       name: 'apple',
       directory: sourceRoot,
@@ -132,7 +131,7 @@ describe.skip('refresh', () => {
   });
 });
 
-describe.skip('refresh no commands', () => {
+describe('refresh no commands', () => {
   let tree: Tree;
   const projectName = 'my-app';
   beforeEach(async () => {
