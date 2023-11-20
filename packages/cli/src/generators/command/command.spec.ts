@@ -8,12 +8,13 @@ import commandGenerator from './command';
 let noted: { title: string };
 
 const projectName = 'my-app';
+const projectDir = 'apps/my-app/src/app/commands';
 
 jest.mock('../refresh/refresh', () => {
   return {
     default: jest.fn((_tree: unknown, options: RefreshSchema) => {
-      if (!options.all || options.project !== projectName) {
-        throw new Error('incorrect refresh options');
+      if (!options.all || options.project  !== projectName) {
+        throw new Error(`incorrect refresh options "${options.project}"`);
       }
     }),
   };
@@ -37,7 +38,7 @@ describe('command', () => {
     await expect(
       commandGenerator(tree, {
         name: 'Hello',
-        project: projectName,
+        directory: projectDir,
         parameter: ['src', 'opts', 'FunDest'],
         option: ['flat'],
       })
@@ -47,7 +48,7 @@ describe('command', () => {
   it('should generate command in commands directory', async () => {
     await commandGenerator(tree, {
       name: 'Hello',
-      project: projectName,
+      directory: projectDir,
       parameter: ['src', 'FunDest'],
       option: ['flat'],
     });
