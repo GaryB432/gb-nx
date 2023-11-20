@@ -6,34 +6,19 @@
   "description": "Generate a CLI command.",
   "examples": [
     {
-      "command": "nx g @gb-nx/cli:command move --project myapp",
+      "command": "nx g @gb-nx/cli:command move --directory apps/myapp/src",
       "description": "Generate a MoveCommand in your myapp CLI application"
     },
     {
-      "command": "nx g @gb-nx/cli:command move --project myapp --export false",
+      "command": "nx g @gb-nx/cli:command move --directory=apps/myapp/src/move --export false",
       "description": "Generate a MoveCommand in your myapp CLI application but do not export it from index.ts"
     },
     {
-      "command": "nx g @gb-nx/cli:command move --project myapp --parameter one --parameter two --option three",
+      "command": "nx g @gb-nx/cli:command move --directory apps/myapp/src --parameter one --parameter two --option three",
       "description": "Generate a MoveCommand in your myapp CLI application with the supplied parameters and option"
     }
   ],
   "properties": {
-    "path": {
-      "type": "string",
-      "format": "path",
-      "description": "The path at which to create the command file, relative to the current workspace. Default is a folder with the same name as the pipe in the project root.",
-      "visible": false
-    },
-    "project": {
-      "type": "string",
-      "description": "The name of the project.",
-      "alias": "p",
-      "$default": {
-        "$source": "projectName"
-      },
-      "x-prompt": "What is the name of the project for this command??"
-    },
     "name": {
       "type": "string",
       "description": "The name of the command.",
@@ -43,15 +28,21 @@
       },
       "x-prompt": "What name would you like to use for the command?"
     },
+    "directory": {
+      "type": "string",
+      "description": "The directory at which to create the command file. When `--nameAndDirectoryFormat=as-provided`, it will be relative to the current working directory. Otherwise, it will be relative to the workspace root.",
+      "aliases": ["dir", "path"],
+      "x-priority": "important"
+    },
+    "skipFormat": {
+      "type": "boolean",
+      "default": false,
+      "description": "Skip formatting of files."
+    },
     "skipTests": {
       "type": "boolean",
       "description": "Do not create \"spec.ts\" test files.",
       "default": false
-    },
-    "flat": {
-      "type": "boolean",
-      "description": "Create the new files at the top level of the current project.",
-      "default": true
     },
     "export": {
       "type": "boolean",
