@@ -14,9 +14,11 @@
   "generators": "./generators.json",
   "executors": "./executors.json",
   "dependencies": {
-    "@nx/devkit": "^16.0.0",
-    "@nx/workspace": "^16.0.0",
     "gb-schematics": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@nx/devkit": "^17.0.0",
+    "@nx/workspace": "^17.0.0"
   },
   "publishConfig": {
     "access": "public"
