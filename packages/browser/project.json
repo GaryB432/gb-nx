@@ -42,16 +42,8 @@
       "dependsOn": ["build"]
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "packages/browser/**/*.ts",
-          "packages/browser/package.json",
-          "packages/browser/generators.json",
-          "packages/browser/executors.json"
-        ]
-      }
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -60,14 +52,7 @@
         "{workspaceRoot}/junit/packages/browser.xml"
       ],
       "options": {
-        "jestConfig": "packages/browser/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "packages/browser/jest.config.ts"
       }
     }
   },

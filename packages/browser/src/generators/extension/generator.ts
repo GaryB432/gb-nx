@@ -11,7 +11,7 @@ import {
   writeJson,
 } from '@nx/devkit';
 import { configurationGenerator } from '@nx/jest';
-import { Linter, lintProjectGenerator } from '@nx/linter';
+import { Linter, lintProjectGenerator } from '@nx/eslint';
 import {
   readProjectConfiguration,
   updateProjectConfiguration,
