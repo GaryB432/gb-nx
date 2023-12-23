@@ -42,15 +42,8 @@
       "dependsOn": ["build"]
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "packages/junit/**/*.ts",
-          "packages/junit/package.json",
-          "packages/junit/generators.json"
-        ]
-      }
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -59,14 +52,7 @@
         "{workspaceRoot}/junit/packages/junit.xml"
       ],
       "options": {
-        "jestConfig": "packages/junit/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "packages/junit/jest.config.ts"
       }
     }
   },
