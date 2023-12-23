@@ -11,31 +11,29 @@
   ],
   "type": "object",
   "properties": {
-    "name": {
+    "projectPath": {
       "type": "string",
-      "description": "",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "What name would you like to use?"
+      "description": "Path to the Sveltekit project.",
+      "examples": ["apps/my-web"],
+      "x-priority": "important"
     },
     "tags": {
       "type": "string",
       "description": "Add tags to the project (used for linting)",
       "alias": "t"
     },
-    "directory": {
-      "type": "string",
-      "description": "A directory where the project is placed",
-      "aliases": ["dir", "path"]
-    },
     "eslint": {
       "type": "boolean",
       "description": "Update workspace eslint to accomodate Svelte linting",
       "default": true
+    },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false,
+      "x-priority": "internal"
     }
   },
   "additionalProperties": false,
-  "required": ["name"]
+  "required": ["projectPath"]
 }

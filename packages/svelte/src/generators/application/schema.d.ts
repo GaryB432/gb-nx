@@ -1,20 +1,11 @@
-/* eslint-disable */
-
-/**
- * Add NX configuration to your Svelte-kit package.
- */
-export interface Schema {
-  name: string;
-  /**
-   * Add tags to the project (used for linting)
-   */
+export interface ApplicationGeneratorOptions {
+  projectPath: string;
   tags?: string;
-  /**
-   * A directory where the project is placed
-   */
-  directory?: string;
-  /**
-   * Update workspace eslint to accomodate Svelte linting
-   */
   eslint?: boolean;
+  skipFormat?: boolean;
+}
+
+export interface NormalizedOptions extends ApplicationGeneratorOptions {
+  appProjectName: string;
+  appProjectRoot: Path;
 }

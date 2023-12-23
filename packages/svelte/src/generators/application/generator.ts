@@ -25,7 +25,11 @@ import {
   prettierPluginSvelteVersion,
   typescriptEslintVersion,
 } from '../../utils/versions';
-import type { Schema as ApplicationGeneratorSchema } from './schema';
+import {
+  type ApplicationGeneratorOptions,
+  type NormalizedOptions,
+} from './schema';
+import { normalizeOptions } from './lib/normalize-options';
 
 const PRETTIER_PLUGIN_SVELTE = 'prettier-plugin-svelte';
 
@@ -47,39 +51,39 @@ const nx: NxProjectPackageJsonConfiguration = {
   },
 };
 
-interface NormalizedSchema extends ApplicationGeneratorSchema {
-  appsDir: string;
-  parsedTags: string[];
-  projectDirectory: string;
-  projectName: string;
-  projectRoot: string;
-}
+// interface NormalizedSchema extends ApplicationGeneratorOptions {
+//   appsDir: string;
+//   parsedTags: string[];
+//   projectDirectory: string;
+//   projectName: string;
+//   projectRoot: string;
+// }
 
-function normalizeOptions(
-  tree: Tree,
-  options: ApplicationGeneratorSchema
-): NormalizedSchema {
-  const { appsDir } = getWorkspaceLayout(tree);
-  const name = names(options.name).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = joinPathFragments(appsDir, projectDirectory);
+// function normalizeOptions(
+//   tree: Tree,
+//   options: ApplicationGeneratorOptions
+// ): NormalizedSchema {
+//   const { appsDir } = getWorkspaceLayout(tree);
+//   const name = names(options.name).fileName;
+//   const projectDirectory = options.directory
+//     ? `${names(options.directory).fileName}/${name}`
+//     : name;
+//   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
+//   const projectRoot = joinPathFragments(appsDir, projectDirectory);
 
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
+//   const parsedTags = options.tags
+//     ? options.tags.split(',').map((s) => s.trim())
+//     : [];
 
-  return {
-    ...options,
-    appsDir,
-    projectName,
-    projectRoot,
-    projectDirectory,
-    parsedTags,
-  };
-}
+//   return {
+//     ...options,
+//     appsDir,
+//     projectName,
+//     projectRoot,
+//     projectDirectory,
+//     parsedTags,
+//   };
+// }
 
 function getWebPackage(
   tree: Tree,
@@ -113,14 +117,14 @@ function addScriptsToPackageJson(
 
 function addWorkspaceToPackageJson(
   tree: Tree,
-  options: NormalizedSchema,
+  options: NormalizedOptions,
   packageJsonPath = 'package.json'
 ): void {
   updateJson<PackageJson>(tree, packageJsonPath, (json) => {
     json.workspaces = json.workspaces ?? [];
     if (Array.isArray(json.workspaces)) {
-      if (!includes(options.projectRoot, json.workspaces)) {
-        json.workspaces.push(normalizePath(options.projectRoot));
+      if (!includes(options.appProjectRoot, json.workspaces)) {
+        json.workspaces.push(normalizePath(options.appProjectRoot));
         json.workspaces.sort();
       }
     } else {
@@ -130,10 +134,12 @@ function addWorkspaceToPackageJson(
   });
 }
 
-function updatePrettierIgnore(tree: Tree, options: NormalizedSchema) {
+function updatePrettierIgnore(tree: Tree, options: NormalizedOptions) {
   const fname = '.prettierignore';
   const tbs = ['.svelte-kit', 'build'];
-  const newPatterns = tbs.map((p) => joinPathFragments(options.projectRoot, p));
+  const newPatterns = tbs.map((p) =>
+    joinPathFragments(options.appProjectRoot, p)
+  );
 
   const buf = tree.read(fname);
   const content = buf
@@ -151,20 +157,20 @@ function updatePrettierIgnore(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: ApplicationGeneratorSchema
+  options: ApplicationGeneratorOptions
 ): Promise<GeneratorCallback> {
   const notSvelte = (p: string) =>
     `project '${p}' is not configured for svelte`;
 
-  const normalizedOptions = normalizeOptions(tree, options);
-  const config = { root: normalizedOptions.projectRoot };
+  const normalizedOptions = await normalizeOptions(tree, options);
+  const config = { root: normalizedOptions.appProjectRoot };
 
   if (!isSvelte(tree, config)) {
-    throw new Error(notSvelte(normalizedOptions.name));
+    throw new Error(notSvelte(normalizedOptions.appProjectName));
   }
 
   const webPackageJsonPath = joinPathFragments(
-    normalizedOptions.projectRoot,
+    normalizedOptions.appProjectRoot,
     'package.json'
   );
   const webPackage = getWebPackage(tree, webPackageJsonPath);
@@ -209,13 +215,15 @@ export default async function (
       'package.json'
     );
     tree.write(
-      joinPathFragments(normalizedOptions.projectRoot, 'tsconfig.base.json'),
+      joinPathFragments(normalizedOptions.appProjectRoot, 'tsconfig.base.json'),
       '{ "extends": "./tsconfig.json" }'
     );
     addScriptsToPackageJson(tree, { lint: 'eslint .' }, webPackageJsonPath);
   }
 
-  await formatFiles(tree);
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 
   return async () => {
     installPackagesTask(tree);

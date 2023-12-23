@@ -3,7 +3,7 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { type PackageJson } from 'nx/src/utils/package-json';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
-import type { Schema as ApplicationGeneratorSchema } from './schema';
+import type { ApplicationGeneratorOptions } from './schema';
 
 const PRETTIERIGNORE = '.prettierignore';
 
@@ -19,7 +19,7 @@ jest.mock('@nx/devkit', () => {
 
 describe('with eslint', () => {
   let appTree: Tree;
-  const options: ApplicationGeneratorSchema = { name: 'test', eslint: true };
+  const options: ApplicationGeneratorOptions = { projectPath: 'apps/test', eslint: true };
 
   const version = '0.0.0-alpha.0';
 
@@ -66,7 +66,10 @@ describe('with eslint', () => {
 
 describe('application generator', () => {
   let appTree: Tree;
-  const options: ApplicationGeneratorSchema = { name: 'test' };
+  const options: ApplicationGeneratorOptions = {
+    projectPath: 'apps/test',
+    skipFormat: false,
+  };
 
   const version = '0.0.0-alpha.0';
   const pt: PackageJson = {
