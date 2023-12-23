@@ -1,7 +1,3 @@
-/**
- * @deprecated will be removed in @gb-nx/browser@6
- */
-export const nxVersion = '^16.0.0';
 export const chromeTypingsVersion = '^0.0.164';
 
 /**
