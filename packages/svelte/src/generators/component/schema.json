@@ -34,7 +34,7 @@
       "x-prompt": "What Svelte project would you like to target?"
     },
     "directory": {
-      "description": "Directory where the generated files are placed.",
+      "description": "Directory where the component is placed, relative to your Svelte project lib folder.",
       "type": "string",
       "aliases": ["dir", "path"]
     },
