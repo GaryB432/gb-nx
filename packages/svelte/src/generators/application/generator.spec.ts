@@ -19,7 +19,10 @@ jest.mock('@nx/devkit', () => {
 
 describe('with eslint', () => {
   let appTree: Tree;
-  const options: ApplicationGeneratorOptions = { projectPath: 'apps/test', eslint: true };
+  const options: ApplicationGeneratorOptions = {
+    projectPath: 'apps/test',
+    eslint: true,
+  };
 
   const version = '0.0.0-alpha.0';
 

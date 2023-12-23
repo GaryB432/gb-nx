@@ -89,9 +89,9 @@ function getWebPackage(
   tree: Tree,
   packageJsonPath: string
 ): Required<PackageJson> {
-  const json = readJson(tree, packageJsonPath);
+  const json = readJson<PackageJson>(tree, packageJsonPath);
   json.devDependencies = json.devDependencies ?? {};
-  return json;
+  return json as Required<PackageJson>;
 }
 
 function addNxConfig(tree: Tree, packageJsonPath: string): void {
@@ -123,8 +123,8 @@ function addWorkspaceToPackageJson(
   updateJson<PackageJson>(tree, packageJsonPath, (json) => {
     json.workspaces = json.workspaces ?? [];
     if (Array.isArray(json.workspaces)) {
-      if (!includes(options.appProjectRoot, json.workspaces)) {
-        json.workspaces.push(normalizePath(options.appProjectRoot));
+      if (!includes(options.projectRoot, json.workspaces)) {
+        json.workspaces.push(normalizePath(options.projectRoot));
         json.workspaces.sort();
       }
     } else {
@@ -137,9 +137,7 @@ function addWorkspaceToPackageJson(
 function updatePrettierIgnore(tree: Tree, options: NormalizedOptions) {
   const fname = '.prettierignore';
   const tbs = ['.svelte-kit', 'build'];
-  const newPatterns = tbs.map((p) =>
-    joinPathFragments(options.appProjectRoot, p)
-  );
+  const newPatterns = tbs.map((p) => joinPathFragments(options.projectRoot, p));
 
   const buf = tree.read(fname);
   const content = buf
@@ -163,14 +161,16 @@ export default async function (
     `project '${p}' is not configured for svelte`;
 
   const normalizedOptions = await normalizeOptions(tree, options);
-  const config = { root: normalizedOptions.appProjectRoot };
+  const config = { root: normalizedOptions.projectRoot };
+
+  console.log(JSON.stringify({ normalizedOptions, options, config }, null, 2));
 
   if (!isSvelte(tree, config)) {
-    throw new Error(notSvelte(normalizedOptions.appProjectName));
+    throw new Error(notSvelte(normalizedOptions.projectRoot));
   }
 
   const webPackageJsonPath = joinPathFragments(
-    normalizedOptions.appProjectRoot,
+    normalizedOptions.projectRoot,
     'package.json'
   );
   const webPackage = getWebPackage(tree, webPackageJsonPath);
@@ -215,7 +215,7 @@ export default async function (
       'package.json'
     );
     tree.write(
-      joinPathFragments(normalizedOptions.appProjectRoot, 'tsconfig.base.json'),
+      joinPathFragments(normalizedOptions.projectRoot, 'tsconfig.base.json'),
       '{ "extends": "./tsconfig.json" }'
     );
     addScriptsToPackageJson(tree, { lint: 'eslint .' }, webPackageJsonPath);
