@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "GbNxSvelteRoute",
   "title": "Create a route in a Svelte Kit project.",
   "description": "Create a route in a Svelte Kit project.",

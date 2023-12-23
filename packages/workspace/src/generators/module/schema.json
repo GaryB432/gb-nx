@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/schema",
+  "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "GbNxWorkspaceModule",
   "title": "Create a value or class module for a project.",
   "description": "Create a value or class module for a project.",
