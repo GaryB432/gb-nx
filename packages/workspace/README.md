@@ -79,6 +79,7 @@ This plugin supports Nx migrations and provides necessary version and code updat
 
 | @gb-nx/workspace version | Nx version |
 | ------------------------ | ---------- |
+| ^4.0.0                   | ^17.0.0    |
 | ^3.0.0                   | ^16.0.0    |
 | <3.0.0                   | ^15.0.0    |
 
