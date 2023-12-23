@@ -25,10 +25,12 @@ node_modules
 !.vscode/extensions.json
 
 # misc
+.nx/cache
 /.sass-cache
 /connect.lock
 /coverage
 /libpeerconnection.log
+migrations.json
 npm-debug.log
 yarn-error.log
 testem.log
