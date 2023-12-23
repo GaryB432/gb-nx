@@ -13,6 +13,7 @@ describe('extension', () => {
       name: 'my-app',
       directory: 'apps/my-app',
       projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
     });
 
     expect(tree.children('apps/my-app')).toContain('project.json');

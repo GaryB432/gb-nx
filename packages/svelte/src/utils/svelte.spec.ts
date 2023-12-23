@@ -14,6 +14,7 @@ describe('Svelte', () => {
       compiler: 'swc',
       directory: 'apps/dep',
       projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
     }));
     createSvelteKitApp(appTree, '0', {
       name: 'test',

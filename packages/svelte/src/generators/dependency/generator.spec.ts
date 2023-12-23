@@ -19,12 +19,14 @@ describe('dependency generator', () => {
       name: 'test',
       directory: 'apps/test',
       projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
     }));
     void (await libraryGenerator(appTree, {
       name: 'dep',
       compiler: 'swc',
       directory: 'libs/dep',
       projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
     }));
     createSvelteKitApp(appTree, '0', {
       name: 'test',
@@ -70,12 +72,14 @@ describe('dependency generator with scope', () => {
       name: 'test',
       directory: 'apps/test',
       projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
     }));
     void (await libraryGenerator(appTree, {
       name: 'dep',
       compiler: 'swc',
       directory: 'libs/dep',
       projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
     }));
     createSvelteKitApp(appTree, '0', { name: 'test', directory: 'apps' });
   });
