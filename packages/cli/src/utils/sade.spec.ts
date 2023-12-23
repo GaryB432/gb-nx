@@ -6,7 +6,7 @@ const pnames = {
 };
 
 describe('sade', () => {
-  it('should get action paramters', () => {
+  it('should get action parameters', () => {
     expect(
       getCommandTs(
         {
@@ -26,7 +26,7 @@ describe('sade', () => {
     `);
   });
 
-  it('should get action paramters without alias', () => {
+  it('should get action parameters without alias', () => {
     expect(
       getCommandTs(
         {

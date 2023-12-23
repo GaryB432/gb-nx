@@ -20,6 +20,12 @@
       "alias": "p",
       "x-prompt": "What project would you like to target?"
     },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false,
+      "x-priority": "internal"
+    },
     "all": {
       "type": "boolean",
       "description": "Specifies if all files should be generated"

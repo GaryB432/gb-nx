@@ -29,6 +29,8 @@ describe('command', () => {
     tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     await applicationGenerator(tree, {
       name: projectName,
+      directory: 'apps/my-app',
+      skipFormat: true,
     });
     jest.clearAllMocks();
   });
