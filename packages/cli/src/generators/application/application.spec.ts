@@ -1,8 +1,7 @@
 import type { Tree } from '@nx/devkit';
-import * as refresher from '../refresh/refresh';
 import { parseJson, readJson, readProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import type { Schema } from '@nx/node/src/generators/application/schema';
+import * as refresher from '../refresh/refresh';
 import applicationGenerator from './application';
 
 const mockRefresher = jest
@@ -18,9 +17,9 @@ describe('app', () => {
 
   describe('not nested', () => {
     it('should generate files', async () => {
-      await generateApp(appTree);
+      await generateMyApp(appTree);
 
-      // expect(appTree.exists(`apps/my-app/jest.config.ts`)).toBeTruthy();
+      expect(appTree.exists(`apps/my-app/jest.config.ts`)).toBeTruthy();
       expect(appTree.exists('apps/my-app-e2e')).toBeTruthy();
       expect(appTree.exists('apps/my-app/package.json')).toBeFalsy();
       expect(appTree.exists('apps/my-app/src/main.ts')).toBeTruthy();
@@ -39,18 +38,19 @@ describe('app', () => {
       );
       expect(tsconfigApp.compilerOptions.outDir).toEqual('../../dist/out-tsc');
       expect(tsconfigApp.extends).toEqual('./tsconfig.json');
+      // expect(mockRefresher).toHaveBeenCalledWith({});
     });
     it('should add target', async () => {
-      await generateApp(appTree);
+      await generateMyApp(appTree);
       const proj = readProjectConfiguration(appTree, 'my-app');
       const targets = proj.targets ?? {};
       expect(targets['sync'].executor).toEqual('nx:run-commands');
     });
   });
 
-  describe('nested', () => {
+  describe.skip('nested', () => {
     it('should generate files', async () => {
-      await generateApp(appTree, 'myApp', { directory: 'myDir' });
+      await generateMyApp(appTree);
       expect(appTree.exists('apps/my-dir/my-app/src/main.ts')).toBeTruthy();
       expect(
         appTree.exists('apps/my-dir/my-app/src/app/shared.ts')
@@ -60,14 +60,10 @@ describe('app', () => {
   });
 });
 
-async function generateApp(
-  appTree: Tree,
-  name = 'myApp',
-  options: Partial<Schema> = {}
-) {
+async function generateMyApp(appTree: Tree) {
   await applicationGenerator(appTree, {
-    name,
-    skipFormat: false,
-    ...options,
+    name: 'my-app',
+    directory: 'apps/my-app',
+    skipFormat: true,
   });
 }

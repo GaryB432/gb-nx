@@ -126,9 +126,7 @@ export default async function commandGenerator(
   config.commands[normalizedOptions.name] = cmd;
 
   addFiles(tree, normalizedOptions);
-  if (options.export) {
-    updateIndex(tree, normalizedOptions);
-  }
+  updateIndex(tree, normalizedOptions);
   writeCliConfig(tree, normalizedOptions.projectRoot, config);
 
   const refreshCmd = `nx sync ${normalizedOptions.projectName}`;
@@ -146,5 +144,8 @@ export default async function commandGenerator(
     all: true,
     project: normalizedOptions.projectName,
   });
-  return await formatFiles(tree);
+
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 }

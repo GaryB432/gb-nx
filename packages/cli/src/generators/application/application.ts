@@ -76,7 +76,10 @@ export default async function applicationGenerator(
     all: true,
     project: normalizedOptions.appProjectName,
   });
-  await formatFiles(tree);
+
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
   return () => {
     installPackagesTask(tree, true);
   };

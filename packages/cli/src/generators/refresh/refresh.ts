@@ -105,8 +105,8 @@ export default async function refreshGenerator(
           ];
           const noCommands = [
             ...sheBanger,
-            'import {noCommands} from "@gb-nx/cli"',
-            'noCommands()',
+            "import {noCommands} from '@gb-nx/cli';",
+            'noCommands();',
           ];
           const content = cmdNames.length === 0 ? noCommands : prog;
           tree.write(buildTarget.options.main, content.join('\n'));
@@ -128,5 +128,7 @@ export default async function refreshGenerator(
     }
   }
 
-  await formatFiles(tree);
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 }

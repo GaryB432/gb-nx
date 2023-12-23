@@ -186,7 +186,7 @@ export default async function (
   addWorkspaceToPackageJson(tree, normalizedOptions, 'package.json');
 
   if (normalizedOptions.eslint) {
-    // TODO use @nx/linter
+    // TODO use @nx/eslint
     updateEslint(tree, config);
     addDependenciesToPackageJson(
       tree,

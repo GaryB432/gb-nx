@@ -6,7 +6,6 @@ export interface CliGeneratorOptions {
   e2eTestRunner?: 'jest' | 'none';
   linter?: Linter;
   name: string;
-  projectNameAndRootFormat?: ProjectNameAndRootFormat;
   rootProject?: boolean;
   setParserOptionsProject?: boolean;
   skipFormat?: boolean;

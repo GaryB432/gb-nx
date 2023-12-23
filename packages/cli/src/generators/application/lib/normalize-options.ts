@@ -8,20 +8,16 @@ export async function normalizeOptions(
   tree: Tree,
   options: CliGeneratorOptions
 ): Promise<NormalizedOptions> {
-  const {
-    projectName: appProjectName,
-    projectRoot: appProjectRoot,
-    projectNameAndRootFormat,
-  } = await determineProjectNameAndRootOptions(tree, {
-    name: options.name,
-    projectType: 'application',
-    directory: options.directory,
-    projectNameAndRootFormat: options.projectNameAndRootFormat,
-    rootProject: options.rootProject,
-    callingGenerator: '@gb-nx/cli:application',
-  });
+  const { projectName: appProjectName, projectRoot: appProjectRoot } =
+    await determineProjectNameAndRootOptions(tree, {
+      name: options.name,
+      projectType: 'application',
+      directory: options.directory,
+      projectNameAndRootFormat: 'as-provided',
+      rootProject: options.rootProject,
+      callingGenerator: '@gb-nx/cli:application',
+    });
   options.rootProject = appProjectRoot === '.';
-  options.projectNameAndRootFormat = projectNameAndRootFormat;
 
   return {
     ...options,
@@ -41,7 +37,8 @@ export function toNodeApplicationGeneratorOptions(
     name: options.name,
     directory: options.directory,
     // frontendProject: options.frontendProject,
-    projectNameAndRootFormat: options.projectNameAndRootFormat,
+    // projectNameAndRootFormat: options.projectNameAndRootFormat,
+    projectNameAndRootFormat: 'as-provided',
     linter: options.linter,
     skipFormat: true,
     skipPackageJson: options.skipPackageJson,
@@ -53,6 +50,6 @@ export function toNodeApplicationGeneratorOptions(
     setParserOptionsProject: options.setParserOptionsProject,
     rootProject: options.rootProject,
     bundler: 'webpack', // Some features require webpack plugins such as TS transformers
-    isNest: true,
+    isNest: false,
   };
 }
