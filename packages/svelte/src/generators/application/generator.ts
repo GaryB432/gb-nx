@@ -34,6 +34,52 @@ import {
 
 const PRETTIER_PLUGIN_SVELTE = 'prettier-plugin-svelte';
 
+const pp = {
+  root: 'apps/some-fun-web',
+  name: 'some-fun-web',
+  $schema: '../node_modules/nx/schemas/project-schema.json',
+  sourceRoot: 'apps/web/src',
+  projectType: 'application',
+  targets: {
+    dev: {
+      executor: 'nx:run-script',
+      options: { script: 'dev' },
+      configurations: {},
+    },
+    build: {
+      cache: true,
+      dependsOn: ['^build'],
+      inputs: ['production', '^production'],
+      executor: 'nx:run-script',
+      options: { script: 'build' },
+      configurations: {},
+    },
+    preview: {
+      executor: 'nx:run-script',
+      options: { script: 'preview' },
+      configurations: {},
+    },
+    check: {
+      executor: 'nx:run-script',
+      options: { script: 'check' },
+      configurations: {},
+    },
+    'check:watch': {
+      executor: 'nx:run-script',
+      options: { script: 'check:watch' },
+      configurations: {},
+    },
+    'nx-release-publish': {
+      dependsOn: ['^nx-release-publish'],
+      executor: '@nx/js:release-publish',
+      options: {},
+      configurations: {},
+    },
+  },
+  tags: [],
+  implicitDependencies: [],
+};
+
 const nx: NxProjectPackageJsonConfiguration = {
   namedInputs: {
     default: ['{projectRoot}/**/*'],
