@@ -51,12 +51,13 @@ describe('with eslint', () => {
     const pj: PackageJson = JSON.parse(
       appTree.read('apps/test/package.json', 'utf-8')!
     );
-    expect(pj.devDependencies!['@typescript-eslint/parser']).toBeDefined();
+    expect(pj.devDependencies!['@typescript-eslint/parser']).not.toBeDefined();
   });
   it('should add root dev dependencies', async () => {
     await generator(appTree, options);
     const pj: PackageJson = JSON.parse(appTree.read('package.json', 'utf-8')!);
-    expect(pj.devDependencies!['@nx/eslint-plugin']).not.toBeDefined();
+    expect(pj.devDependencies!['@nx/eslint']).not.toBeDefined();
+    expect(pj.devDependencies!['@nx/eslint-plugin']).toBeDefined();
     expect(
       pj.devDependencies!['@typescript-eslint/eslint-plugin']
     ).toBeDefined();

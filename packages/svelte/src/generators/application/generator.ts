@@ -164,14 +164,6 @@ export default async function (
       {},
       {
         '@nx/eslint-plugin': NX_VERSION,
-        '@typescript-eslint/parser': typescriptESLintVersion,
-      },
-      webPackageJsonPath
-    );
-    addDependenciesToPackageJson(
-      tree,
-      {},
-      {
         '@typescript-eslint/eslint-plugin': typescriptESLintVersion,
         '@typescript-eslint/parser': typescriptESLintVersion,
         eslint: eslintVersion,
