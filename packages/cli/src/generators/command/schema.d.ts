@@ -1,8 +1,8 @@
 export interface Schema {
-  project?: string;
   name: string;
+  option?: string[];
+  parameter?: string[];
+  project?: string;
   skipFormat?: boolean;
   skipTests?: boolean;
-  parameter?: string[];
-  option?: string[];
 }

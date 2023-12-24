@@ -1,16 +1,19 @@
 import {
+  NX_VERSION,
   addDependenciesToPackageJson,
   formatFiles,
-  getWorkspaceLayout,
   installPackagesTask,
   joinPathFragments,
-  names,
   normalizePath,
   readJson,
   updateJson,
   type GeneratorCallback,
   type Tree,
 } from '@nx/devkit';
+import {
+  eslintVersion,
+  typescriptESLintVersion,
+} from '@nx/eslint/src/utils/versions';
 import type {
   NxProjectPackageJsonConfiguration,
   PackageJson,
@@ -21,15 +24,13 @@ import { isSvelte } from '../../utils/svelte';
 import {
   eslintPluginGbVersion,
   eslintPluginSvelteVersion,
-  eslintVersion,
   prettierPluginSvelteVersion,
-  typescriptEslintVersion,
 } from '../../utils/versions';
+import { normalizeOptions } from './lib/normalize-options';
 import {
   type ApplicationGeneratorOptions,
   type NormalizedOptions,
 } from './schema';
-import { normalizeOptions } from './lib/normalize-options';
 
 const PRETTIER_PLUGIN_SVELTE = 'prettier-plugin-svelte';
 
@@ -50,40 +51,6 @@ const nx: NxProjectPackageJsonConfiguration = {
     },
   },
 };
-
-// interface NormalizedSchema extends ApplicationGeneratorOptions {
-//   appsDir: string;
-//   parsedTags: string[];
-//   projectDirectory: string;
-//   projectName: string;
-//   projectRoot: string;
-// }
-
-// function normalizeOptions(
-//   tree: Tree,
-//   options: ApplicationGeneratorOptions
-// ): NormalizedSchema {
-//   const { appsDir } = getWorkspaceLayout(tree);
-//   const name = names(options.name).fileName;
-//   const projectDirectory = options.directory
-//     ? `${names(options.directory).fileName}/${name}`
-//     : name;
-//   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-//   const projectRoot = joinPathFragments(appsDir, projectDirectory);
-
-//   const parsedTags = options.tags
-//     ? options.tags.split(',').map((s) => s.trim())
-//     : [];
-
-//   return {
-//     ...options,
-//     appsDir,
-//     projectName,
-//     projectRoot,
-//     projectDirectory,
-//     parsedTags,
-//   };
-// }
 
 function getWebPackage(
   tree: Tree,
@@ -158,12 +125,10 @@ export default async function (
   options: ApplicationGeneratorOptions
 ): Promise<GeneratorCallback> {
   const notSvelte = (p: string) =>
-    `project '${p}' is not configured for svelte`;
+    `project at '${p}' is not configured for svelte`;
 
   const normalizedOptions = await normalizeOptions(tree, options);
   const config = { root: normalizedOptions.projectRoot };
-
-  console.log(JSON.stringify({ normalizedOptions, options, config }, null, 2));
 
   if (!isSvelte(tree, config)) {
     throw new Error(notSvelte(normalizedOptions.projectRoot));
@@ -198,7 +163,8 @@ export default async function (
       tree,
       {},
       {
-        '@typescript-eslint/parser': typescriptEslintVersion,
+        '@nx/eslint-plugin': NX_VERSION,
+        '@typescript-eslint/parser': typescriptESLintVersion,
       },
       webPackageJsonPath
     );
@@ -206,8 +172,8 @@ export default async function (
       tree,
       {},
       {
-        '@typescript-eslint/eslint-plugin': typescriptEslintVersion,
-        '@typescript-eslint/parser': typescriptEslintVersion,
+        '@typescript-eslint/eslint-plugin': typescriptESLintVersion,
+        '@typescript-eslint/parser': typescriptESLintVersion,
         eslint: eslintVersion,
         'eslint-plugin-gb': eslintPluginGbVersion,
         'eslint-plugin-svelte': eslintPluginSvelteVersion,

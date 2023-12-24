@@ -28,21 +28,21 @@
     },
     "all": {
       "type": "boolean",
-      "description": "Specifies if all files should be generated"
+      "description": "Generate all files"
     },
     "ts": {
       "type": "boolean",
-      "description": "Specifies if command typescript definitions should be generated"
+      "description": "Generate command typescript definitions"
     },
     "main": {
       "type": "boolean",
-      "description": "Specifies if build target main should be generated"
+      "description": "Generate build target main"
     },
     "markdown": {
       "type": "boolean",
-      "description": "Specifies if commands.md should be generated"
+      "description": "Generate commands.md"
     }
   },
   "additionalProperties": false,
-  "required": []
+  "required": ["project"]
 }

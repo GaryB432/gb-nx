@@ -42,4 +42,3 @@ export default async function (
     installPackagesTask(tree);
   };
 }
-

@@ -1,8 +1,8 @@
 export interface ApplicationGeneratorOptions {
-  projectPath: string;
-  tags?: string;
   eslint?: boolean;
+  projectPath: string;
   skipFormat?: boolean;
+  tags?: string;
 }
 
 export interface NormalizedOptions extends ApplicationGeneratorOptions {

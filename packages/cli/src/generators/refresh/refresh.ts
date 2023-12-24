@@ -16,10 +16,10 @@ export default async function refreshGenerator(
   tree: Tree,
   options: RefreshGeneratorSchema
 ): Promise<void> {
-  const ws = readNxJson(tree);
+  // const ws = readNxJson(tree);
   const projects = getProjects(tree);
   if (projects) {
-    const projName = options.project ?? ws?.defaultProject;
+    const projName = options.project;
     if (!projName) {
       throw new Error('no project');
     }

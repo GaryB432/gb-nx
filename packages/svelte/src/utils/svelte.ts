@@ -1,20 +1,20 @@
 import type { ProjectConfiguration, Tree } from '@nx/devkit';
 import { joinPathFragments } from '@nx/devkit';
 import { tsquery } from '@phenomnomnominal/tsquery';
-import type {
-  Identifier,
-  ObjectLiteralExpression,
-  PropertyAssignment,
-  SourceFile,
-  StringLiteral,
-  SyntaxList,
+import {
+  SyntaxKind,
+  type Identifier,
+  type ObjectLiteralExpression,
+  type PropertyAssignment,
+  type SourceFile,
+  type StringLiteral,
+  type SyntaxList,
 } from 'typescript';
-import { SyntaxKind } from 'typescript';
-import { type NamedPath, readModulePackageJson } from './paths';
+import { readModulePackageJson, type NamedPath } from './paths';
 
 export const SVELTE_CONFIG = 'svelte.config.js';
 
-export interface NodeApplicationSchema {
+interface NodeApplicationSchema {
   directory: string;
   name: string;
 }
@@ -167,7 +167,7 @@ export function createSvelteKitApp(
       }
     }
   };`;
-  const projectRoot = joinPathFragments(options.directory, options.name);
+  const projectRoot = joinPathFragments(options.directory ?? '.', options.name);
   appTree.write(joinPathFragments(projectRoot, 'svelte.config.js'), config);
   appTree.write(
     joinPathFragments(projectRoot, 'package.json'),
