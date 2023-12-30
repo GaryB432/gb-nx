@@ -1,25 +1,13 @@
-<% if (language === 'ts') { %>
-<script lang="ts">
-  export let subject = '<%= className %> component';
+<%- language == 'ts' ? '<script lang="ts">' : '<script>' %>
+  export let subject = 'Hello component';
 </script>
-<% } else { %>
-<script>
-  export let subject = '<%= className %> component';
-</script>
-<% } %>
+
 <div class="container">
   {subject} works
 </div>
-<% if (style === 'scss') { %>
-<style lang="scss">
+
+<%- style == 'scss' ? '<style lang="scss">' : '<style>' %>
   .container {
     border: thin solid silver;
   }
 </style>
-<% } else { %>
-<style>
-  .container {
-    border: thin solid silver;
-  }
-</style>
-<% } %>

@@ -19,12 +19,12 @@ describe('component', () => {
       name: 'hello',
       project: projectName,
       directory: 'components',
+      skipFormat: true,
     });
 
     expect(appTree.read('apps/my-app/src/lib/components/Hello.svelte', 'utf-8'))
       .toMatchInlineSnapshot(`
-      "
-      <script>
+      "<script>
         export let subject = 'Hello component';
       </script>
 
@@ -37,7 +37,6 @@ describe('component', () => {
           border: thin solid silver;
         }
       </style>
-
       "
     `);
   });
@@ -46,12 +45,12 @@ describe('component', () => {
     await componentGenerator(appTree, {
       name: 'hello',
       project: projectName,
+      skipFormat: true,
     });
 
     expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8'))
       .toMatchInlineSnapshot(`
-      "
-      <script>
+      "<script>
         export let subject = 'Hello component';
       </script>
 
@@ -64,7 +63,6 @@ describe('component', () => {
           border: thin solid silver;
         }
       </style>
-
       "
     `);
   });
@@ -74,12 +72,12 @@ describe('component', () => {
       name: 'hello',
       project: projectName,
       style: 'scss',
+      skipFormat: true,
     });
 
     expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8'))
       .toMatchInlineSnapshot(`
-      "
-      <script>
+      "<script>
         export let subject = 'Hello component';
       </script>
 
@@ -92,7 +90,6 @@ describe('component', () => {
           border: thin solid silver;
         }
       </style>
-
       "
     `);
   });

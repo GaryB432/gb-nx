@@ -68,5 +68,7 @@ export default async function componentGenerator(
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
-  return await formatFiles(tree);
+  if (!normalizedOptions.skipFormat) {
+    await formatFiles(tree);
+  }
 }
