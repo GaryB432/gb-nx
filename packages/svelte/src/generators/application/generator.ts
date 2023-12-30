@@ -24,7 +24,6 @@ import { isSvelte } from '../../utils/svelte';
 import {
   eslintPluginGbVersion,
   eslintPluginSvelteVersion,
-  prettierPluginSvelteVersion,
 } from '../../utils/versions';
 import { normalizeOptions } from './lib/normalize-options';
 import { type Config as PrettierConfig } from './lib/prettier';
@@ -32,6 +31,7 @@ import {
   type ApplicationGeneratorOptions,
   type NormalizedOptions,
 } from './schema';
+import initGenerator from '../init/generator';
 
 const PRETTIER_PLUGIN_SVELTE = 'prettier-plugin-svelte';
 
@@ -161,18 +161,8 @@ export default async function (
     normalizedOptions.projectRoot,
     'package.json'
   );
-  const webPackage = getWebPackage(tree, webPackageJsonPath);
 
-  addDependenciesToPackageJson(
-    tree,
-    {},
-    {
-      [PRETTIER_PLUGIN_SVELTE]:
-        webPackage.devDependencies[PRETTIER_PLUGIN_SVELTE] ??
-        prettierPluginSvelteVersion,
-    },
-    'package.json'
-  );
+  await initGenerator(tree, { skipFormat: normalizedOptions.skipFormat });
 
   addNxConfig(tree, webPackageJsonPath);
 

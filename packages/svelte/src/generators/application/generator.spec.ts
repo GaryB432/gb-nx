@@ -93,13 +93,6 @@ describe('application generator', () => {
     });
   });
 
-  it('should add prettier-plugin-svelte', async () => {
-    await generator(appTree, options);
-    const p = JSON.parse(appTree.read('package.json')!.toString());
-    const v = p.devDependencies['prettier-plugin-svelte'];
-    expect(v).toEqual('1.1.1');
-  });
-
   it('should run successfully', async () => {
     await generator(appTree, options);
     // const config = readProjectConfiguration(appTree, 'test');
