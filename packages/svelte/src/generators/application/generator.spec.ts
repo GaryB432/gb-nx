@@ -1,9 +1,9 @@
 import { readJson, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { type PackageJson } from 'nx/src/utils/package-json';
-import { Config as PrettierConfig } from 'prettier';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
+import { Config as PrettierConfig } from './lib/prettier';
 import type { ApplicationGeneratorOptions } from './schema';
 
 const PRETTIERIGNORE = '.prettierignore';

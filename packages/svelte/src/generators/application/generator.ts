@@ -18,7 +18,6 @@ import type {
   NxProjectPackageJsonConfiguration,
   PackageJson,
 } from 'nx/src/utils/package-json';
-import { type Config as PrettierConfig } from 'prettier';
 import { updateEslint } from '../../utils/eslint';
 import { includes } from '../../utils/globber';
 import { isSvelte } from '../../utils/svelte';
@@ -28,6 +27,7 @@ import {
   prettierPluginSvelteVersion,
 } from '../../utils/versions';
 import { normalizeOptions } from './lib/normalize-options';
+import { type Config as PrettierConfig } from './lib/prettier';
 import {
   type ApplicationGeneratorOptions,
   type NormalizedOptions,
