@@ -21,6 +21,7 @@ describe('with eslint', () => {
   const options: ApplicationGeneratorOptions = {
     projectPath: 'apps/test',
     eslint: true,
+    skipFormat: true,
   };
 
   const version = '0.0.0-alpha.0';
@@ -71,7 +72,7 @@ describe('application generator', () => {
   let appTree: Tree;
   const options: ApplicationGeneratorOptions = {
     projectPath: 'apps/test',
-    skipFormat: false,
+    skipFormat: true,
   };
 
   const version = '0.0.0-alpha.0';
