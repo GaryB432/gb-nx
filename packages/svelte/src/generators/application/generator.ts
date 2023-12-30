@@ -18,6 +18,7 @@ import type {
   NxProjectPackageJsonConfiguration,
   PackageJson,
 } from 'nx/src/utils/package-json';
+import { type Config as PrettierConfig } from 'prettier';
 import { updateEslint } from '../../utils/eslint';
 import { includes } from '../../utils/globber';
 import { isSvelte } from '../../utils/svelte';
@@ -33,52 +34,6 @@ import {
 } from './schema';
 
 const PRETTIER_PLUGIN_SVELTE = 'prettier-plugin-svelte';
-
-const pp = {
-  root: 'apps/some-fun-web',
-  name: 'some-fun-web',
-  $schema: '../node_modules/nx/schemas/project-schema.json',
-  sourceRoot: 'apps/web/src',
-  projectType: 'application',
-  targets: {
-    dev: {
-      executor: 'nx:run-script',
-      options: { script: 'dev' },
-      configurations: {},
-    },
-    build: {
-      cache: true,
-      dependsOn: ['^build'],
-      inputs: ['production', '^production'],
-      executor: 'nx:run-script',
-      options: { script: 'build' },
-      configurations: {},
-    },
-    preview: {
-      executor: 'nx:run-script',
-      options: { script: 'preview' },
-      configurations: {},
-    },
-    check: {
-      executor: 'nx:run-script',
-      options: { script: 'check' },
-      configurations: {},
-    },
-    'check:watch': {
-      executor: 'nx:run-script',
-      options: { script: 'check:watch' },
-      configurations: {},
-    },
-    'nx-release-publish': {
-      dependsOn: ['^nx-release-publish'],
-      executor: '@nx/js:release-publish',
-      options: {},
-      configurations: {},
-    },
-  },
-  tags: [],
-  implicitDependencies: [],
-};
 
 const nx: NxProjectPackageJsonConfiguration = {
   namedInputs: {
@@ -147,23 +102,45 @@ function addWorkspaceToPackageJson(
   });
 }
 
-function updatePrettierIgnore(tree: Tree, options: NormalizedOptions) {
-  const fname = '.prettierignore';
-  const tbs = ['.svelte-kit', 'build'];
-  const newPatterns = tbs.map((p) => joinPathFragments(options.projectRoot, p));
+function updatePrettier(tree: Tree, options: NormalizedOptions) {
+  const updateConfig = () => {
+    updateJson<PrettierConfig, PrettierConfig>(tree, '.prettierrc', (json) => {
+      json.plugins = json.plugins ?? [];
+      if (!json.plugins.includes(PRETTIER_PLUGIN_SVELTE)) {
+        json.plugins.push(PRETTIER_PLUGIN_SVELTE);
+      }
+      json.overrides = json.overrides ?? [];
+      if (!json.overrides.some((t) => t.files === '*.svelte')) {
+        json.overrides.push({
+          files: '*.svelte',
+          options: { parser: 'svelte' },
+        });
+      }
+      return json;
+    });
+  };
+  const updateIgnore = () => {
+    const fname = '.prettierignore';
+    const tbs = ['.svelte-kit', 'build'];
+    const newPatterns = tbs.map((p) =>
+      joinPathFragments(options.projectRoot, p)
+    );
 
-  const buf = tree.read(fname);
-  const content = buf
-    ? buf.toString()
-    : '# Add files here to ignore them from prettier formatting\n';
+    const buf = tree.read(fname);
+    const content = buf
+      ? buf.toString()
+      : '# Add files here to ignore them from prettier formatting\n';
 
-  const patterns = content.split('\n');
+    const patterns = content.split('\n');
 
-  const lines = patterns
-    .concat(newPatterns.filter((p) => !patterns.includes(p)))
-    .concat('');
+    const lines = patterns
+      .concat(newPatterns.filter((p) => !patterns.includes(p)))
+      .concat('');
 
-  tree.write(fname, lines.join('\n'));
+    tree.write(fname, lines.join('\n'));
+  };
+  updateConfig();
+  updateIgnore();
 }
 
 export default async function (
@@ -199,7 +176,7 @@ export default async function (
 
   addNxConfig(tree, webPackageJsonPath);
 
-  updatePrettierIgnore(tree, normalizedOptions);
+  updatePrettier(tree, normalizedOptions);
   addWorkspaceToPackageJson(tree, normalizedOptions, 'package.json');
 
   if (normalizedOptions.eslint) {

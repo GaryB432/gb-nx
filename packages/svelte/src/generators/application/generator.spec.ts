@@ -1,13 +1,12 @@
-import type { Tree } from '@nx/devkit';
+import { readJson, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { type PackageJson } from 'nx/src/utils/package-json';
+import { Config as PrettierConfig } from 'prettier';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
 import type { ApplicationGeneratorOptions } from './schema';
 
 const PRETTIERIGNORE = '.prettierignore';
-
-const installPackagesTask = jest.fn();
 
 jest.mock('@nx/devkit', () => {
   const devkit = { ...jest.requireActual('@nx/devkit') };
@@ -182,5 +181,29 @@ describe('application generator', () => {
     const s = p ? p.toString() : '';
     const q = JSON.parse(s);
     expect(q.workspaces).toEqual(['apps/a', 'apps/test', 'apps/z']);
+  });
+
+  it('should update prettier', async () => {
+    appTree.write(
+      '.prettierrc',
+      JSON.stringify({
+        useTabs: true,
+        singleQuote: true,
+        trailingComma: 'none',
+        printWidth: 100,
+        plugins: ['prettier-plugin-svelte'],
+        overrides: [{ files: '*.svelte', options: { parser: 'svelte' } }],
+      })
+    );
+    await generator(appTree, options);
+    const ff = readJson<PrettierConfig>(appTree, '.prettierrc');
+    expect(ff).toEqual({
+      useTabs: true,
+      singleQuote: true,
+      trailingComma: 'none',
+      printWidth: 100,
+      plugins: ['prettier-plugin-svelte'],
+      overrides: [{ files: '*.svelte', options: { parser: 'svelte' } }],
+    });
   });
 });
