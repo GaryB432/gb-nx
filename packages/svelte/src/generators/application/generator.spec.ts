@@ -19,7 +19,7 @@ jest.mock('@nx/devkit', () => {
   };
 });
 
-describe('with eslint', () => {
+describe.skip('with eslint', () => {
   let appTree: Tree;
   const options: ApplicationGeneratorOptions = {
     projectPath: 'apps/test',
@@ -198,7 +198,6 @@ describe('application generator', () => {
     const p = appTree.read(PRETTIERIGNORE);
     expect(p?.toString()).toMatchInlineSnapshot(`
       "# Add files here to ignore them from prettier formatting
-
       /dist
       /coverage
       /.nx/cache

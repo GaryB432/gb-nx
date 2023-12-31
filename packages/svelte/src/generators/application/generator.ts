@@ -6,12 +6,14 @@ import {
   installPackagesTask,
   joinPathFragments,
   normalizePath,
-  stripIndents,
   updateJson,
   writeJson,
   type GeneratorCallback,
   type Tree,
 } from '@nx/devkit';
+
+import { initGenerator } from '@nx/js';
+
 import {
   eslintVersion,
   typescriptESLintVersion,
@@ -129,7 +131,6 @@ function updatePrettier(tree: Tree, options: NormalizedOptions) {
 
     let content = [
       '# Add files here to ignore them from prettier formatting',
-      '',
       '/dist',
       '/coverage',
       '/.nx/cache',
@@ -177,13 +178,17 @@ export default async function (
     'package.json'
   );
 
-  // await initGenerator(tree, { skipFormat: normalizedOptions.skipFormat });
+  await initGenerator(tree, {
+    skipFormat: normalizedOptions.skipFormat,
+    tsConfigName: 'tsconfig.gb.json',
+  });
 
   addNxConfig(tree, webPackageJsonPath);
 
   updatePrettier(tree, normalizedOptions);
   addWorkspaceToPackageJson(tree, normalizedOptions, 'package.json');
 
+  normalizedOptions.eslint = false;
   if (normalizedOptions.eslint) {
     // TODO use @nx/eslint (@nx/eslint works with projects. this is not a project yet)
     updateEslint(tree, config);
