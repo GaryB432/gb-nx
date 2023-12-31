@@ -43,7 +43,8 @@ const nx: NxProjectPackageJsonConfiguration = {
     production: [
       '!{projectRoot}/.svelte-kit/*',
       '!{projectRoot}/build/*',
-      '!{projectRoot}/tests/*',
+      '!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)',
+      '!{projectRoot}/tsconfig.spec.json',
     ],
   },
   targets: {

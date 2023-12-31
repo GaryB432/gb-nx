@@ -109,7 +109,8 @@ describe('application generator', () => {
         production: [
           '!{projectRoot}/.svelte-kit/*',
           '!{projectRoot}/build/*',
-          '!{projectRoot}/tests/*',
+          '!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)',
+          '!{projectRoot}/tsconfig.spec.json',
         ],
       },
       targets: {
@@ -195,8 +196,8 @@ describe('application generator', () => {
       })
     );
     await generator(appTree, options);
-    const ff = readJson<PrettierConfig>(appTree, '.prettierrc');
-    expect(ff).toEqual({
+    const config = readJson<PrettierConfig>(appTree, '.prettierrc');
+    expect(config).toEqual({
       useTabs: true,
       singleQuote: true,
       trailingComma: 'none',
