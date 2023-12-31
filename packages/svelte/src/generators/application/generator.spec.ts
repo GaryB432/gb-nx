@@ -1,10 +1,11 @@
-import { readJson, type Tree } from '@nx/devkit';
+import { readJson, readJsonFile, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { type PackageJson } from 'nx/src/utils/package-json';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
 import { type Config as PrettierConfig } from './lib/prettier';
 import type { ApplicationGeneratorOptions } from './schema';
+import { readPackageJson } from '../../utils/paths';
 
 const PRETTIERIGNORE = '.prettierignore';
 
@@ -121,6 +122,38 @@ describe('application generator', () => {
         },
       },
     });
+
+    expect(appTree.read('tsconfig.base.json', 'utf-8')).toMatchInlineSnapshot(
+      `"{"compilerOptions":{"paths":{}}}"`
+    );
+
+    expect(appTree.read('.prettierrc', 'utf-8')).toMatchInlineSnapshot(`
+      "{
+        "singleQuote": true,
+        "plugins": [
+          "prettier-plugin-svelte"
+        ],
+        "overrides": [
+          {
+            "files": "*.svelte",
+            "options": {
+              "parser": "svelte"
+            }
+          }
+        ]
+      }
+      "
+    `);
+
+    expect(appTree.children('').sort()).toEqual([
+      '.prettierignore',
+      '.prettierrc',
+      'apps',
+      'nx.json',
+      'package.json',
+      'tsconfig.base.json',
+    ]);
+
     // expect(installPackagesTask.mock.calls.length).toBe(2);
   });
 
