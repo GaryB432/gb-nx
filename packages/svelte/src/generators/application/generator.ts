@@ -1,12 +1,14 @@
 import {
   NX_VERSION,
   addDependenciesToPackageJson,
+  ensurePackage,
   formatFiles,
   installPackagesTask,
   joinPathFragments,
   normalizePath,
-  readJson,
+  stripIndents,
   updateJson,
+  writeJson,
   type GeneratorCallback,
   type Tree,
 } from '@nx/devkit';
@@ -24,6 +26,7 @@ import { isSvelte } from '../../utils/svelte';
 import {
   eslintPluginGbVersion,
   eslintPluginSvelteVersion,
+  prettierPluginSvelteVersion,
 } from '../../utils/versions';
 import { normalizeOptions } from './lib/normalize-options';
 import { type Config as PrettierConfig } from './lib/prettier';
@@ -31,7 +34,6 @@ import {
   type ApplicationGeneratorOptions,
   type NormalizedOptions,
 } from './schema';
-import initGenerator from '../init/generator';
 
 const PRETTIER_PLUGIN_SVELTE = 'prettier-plugin-svelte';
 
@@ -52,15 +54,6 @@ const nx: NxProjectPackageJsonConfiguration = {
     },
   },
 };
-
-function getWebPackage(
-  tree: Tree,
-  packageJsonPath: string
-): Required<PackageJson> {
-  const json = readJson<PackageJson>(tree, packageJsonPath);
-  json.devDependencies = json.devDependencies ?? {};
-  return json as Required<PackageJson>;
-}
 
 function addNxConfig(tree: Tree, packageJsonPath: string): void {
   return updateJson<PackageJson>(tree, packageJsonPath, (json) => ({
@@ -103,8 +96,15 @@ function addWorkspaceToPackageJson(
 }
 
 function updatePrettier(tree: Tree, options: NormalizedOptions) {
+  ensurePackage(PRETTIER_PLUGIN_SVELTE, prettierPluginSvelteVersion);
+
   const updateConfig = () => {
-    updateJson<PrettierConfig, PrettierConfig>(tree, '.prettierrc', (json) => {
+    const prettierrc = '.prettierrc';
+    if (!tree.exists(prettierrc)) {
+      writeJson(tree, prettierrc, { singleQuote: true });
+    }
+
+    updateJson<PrettierConfig, PrettierConfig>(tree, prettierrc, (json) => {
       json.plugins = json.plugins ?? [];
       if (!json.plugins.includes(PRETTIER_PLUGIN_SVELTE)) {
         json.plugins.push(PRETTIER_PLUGIN_SVELTE);
@@ -126,10 +126,17 @@ function updatePrettier(tree: Tree, options: NormalizedOptions) {
       joinPathFragments(options.projectRoot, p)
     );
 
-    const buf = tree.read(fname);
-    const content = buf
-      ? buf.toString()
-      : '# Add files here to ignore them from prettier formatting\n';
+    let content = [
+      '# Add files here to ignore them from prettier formatting',
+      '',
+      '/dist',
+      '/coverage',
+      '/.nx/cache',
+    ].join('\n');
+
+    if (tree.exists(fname)) {
+      content = tree.read(fname, 'utf-8')!;
+    }
 
     const patterns = content.split('\n');
 
@@ -139,6 +146,13 @@ function updatePrettier(tree: Tree, options: NormalizedOptions) {
 
     tree.write(fname, lines.join('\n'));
   };
+  addDependenciesToPackageJson(
+    tree,
+    {},
+    {
+      'prettier-plugin-svelte': prettierPluginSvelteVersion,
+    }
+  );
   updateConfig();
   updateIgnore();
 }
@@ -162,7 +176,7 @@ export default async function (
     'package.json'
   );
 
-  await initGenerator(tree, { skipFormat: normalizedOptions.skipFormat });
+  // await initGenerator(tree, { skipFormat: normalizedOptions.skipFormat });
 
   addNxConfig(tree, webPackageJsonPath);
 
@@ -170,7 +184,7 @@ export default async function (
   addWorkspaceToPackageJson(tree, normalizedOptions, 'package.json');
 
   if (normalizedOptions.eslint) {
-    // TODO use @nx/eslint
+    // TODO use @nx/eslint (@nx/eslint works with projects. this is not a project yet)
     updateEslint(tree, config);
     addDependenciesToPackageJson(
       tree,

@@ -5,17 +5,10 @@ import {
   type GeneratorCallback,
   type Tree,
 } from '@nx/devkit';
-import { prettierPluginSvelteVersion } from '../../utils/versions';
 import type { Schema } from './schema';
 
 function updateDependencies(tree: Tree) {
-  return addDependenciesToPackageJson(
-    tree,
-    {},
-    {
-      'prettier-plugin-svelte': prettierPluginSvelteVersion,
-    }
-  );
+  return addDependenciesToPackageJson(tree, {}, {});
 }
 
 export default async function initGenerator(

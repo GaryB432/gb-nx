@@ -12,7 +12,9 @@ jest.mock('@nx/devkit', () => {
   const devkit = { ...jest.requireActual('@nx/devkit') };
   return {
     ...devkit,
-    installPackagesTask: jest.fn(),
+    // ensurePackage: (pkg: string) => jest.requireActual(pkg),
+    ensurePackage: jest.fn(),
+    // installPackagesTask: jest.fn(),
   };
 });
 
