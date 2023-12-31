@@ -165,6 +165,9 @@ describe('application generator', () => {
     expect(p?.toString()).toMatchInlineSnapshot(`
       "# Add files here to ignore them from prettier formatting
 
+      /dist
+      /coverage
+      /.nx/cache
       apps/test/.svelte-kit
       apps/test/build
       "

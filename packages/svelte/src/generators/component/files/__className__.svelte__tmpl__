@@ -1,5 +1,5 @@
 <%- language == 'ts' ? '<script lang="ts">' : '<script>' %>
-  export let subject = 'Hello component';
+  export let subject = '<%= className  %> component';
 </script>
 
 <div class="container">

@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/svelte",
-  "version": "6.4.10",
+  "version": "6.4.11",
   "main": "src/index.js",
   "repository": {
     "type": "git",
