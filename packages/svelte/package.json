@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/svelte",
-  "version": "7.0.0-alpha.0",
+  "version": "7.0.0-alpha.1",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -16,6 +16,7 @@
   "peerDependencies": {
     "@nx/devkit": "^17.0.0",
     "@nx/eslint": "^17.0.0",
+    "@nx/js": "^17.0.0",
     "@phenomnomnominal/tsquery": "~5.0.1",
     "nx": "^17.0.0",
     "tslib": "^2.3.0",

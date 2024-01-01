@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`application generator should run successfully 3`] = `
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "test",
+  "namedInputs": {
+    "default": [
+      "{projectRoot}/**/*",
+    ],
+    "production": [
+      "!{projectRoot}/.svelte-kit/*",
+      "!{projectRoot}/build/*",
+      "!{projectRoot}/tests/*",
+    ],
+  },
+  "projectType": "application",
+  "sourceRoot": "apps/test/src",
+  "targets": {
+    "build": {
+      "dependsOn": [
+        "^build",
+      ],
+      "inputs": [
+        "production",
+        "^production",
+      ],
+      "outputs": [
+        "{projectRoot}/build",
+      ],
+    },
+  },
+}
+`;
+
+exports[`with eslint should handle eslint config 1`] = `
+"{
+  "root": true,
+  "ignorePatterns": [
+    "**/*"
+  ],
+  "plugins": [
+    "@nx"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx"
+      ],
+      "rules": {
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": [
+                  "*"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "extends": [
+        "plugin:@nx/typescript"
+      ],
+      "rules": {}
+    },
+    {
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
+      "extends": [
+        "plugin:@nx/javascript"
+      ],
+      "rules": {}
+    }
+  ]
+}
+"
+`;

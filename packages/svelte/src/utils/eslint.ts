@@ -88,6 +88,12 @@ function updateProjectEslint(
   );
 }
 
+/**
+ * 
+ * @param tree 
+ * @param project 
+ * @deprecated
+ */
 export function updateEslint(
   tree: Tree,
   project: Pick<ProjectConfiguration, 'root'>

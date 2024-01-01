@@ -1,11 +1,10 @@
-import { readJson, readJsonFile, type Tree } from '@nx/devkit';
+import { readJson, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { type PackageJson } from 'nx/src/utils/package-json';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
 import { type Config as PrettierConfig } from './lib/prettier';
 import type { ApplicationGeneratorOptions } from './schema';
-import { readPackageJson } from '../../utils/paths';
 
 const PRETTIERIGNORE = '.prettierignore';
 
@@ -19,7 +18,7 @@ jest.mock('@nx/devkit', () => {
   };
 });
 
-describe.skip('with eslint', () => {
+describe('with eslint', () => {
   let appTree: Tree;
   const options: ApplicationGeneratorOptions = {
     projectPath: 'apps/test',
@@ -40,9 +39,9 @@ describe.skip('with eslint', () => {
 
   it('should handle eslint config', async () => {
     await generator(appTree, options);
-    expect(appTree.exists('.eslintrc.json')).toBeTruthy();
+    expect(appTree.read('.eslintrc.json', 'utf-8')).toMatchSnapshot();
   });
-  it('should add script', async () => {
+  it.skip('should add script', async () => {
     await generator(appTree, options);
     const buff = appTree.read('apps/test/package.json', 'utf-8')!;
     const pj = JSON.parse(buff?.toString()) as unknown as PackageJson;
@@ -56,10 +55,10 @@ describe.skip('with eslint', () => {
     );
     expect(pj.devDependencies!['@typescript-eslint/parser']).not.toBeDefined();
   });
-  it('should add root dev dependencies', async () => {
+  it.skip('should add root dev dependencies', async () => {
     await generator(appTree, options);
     const pj: PackageJson = JSON.parse(appTree.read('package.json', 'utf-8')!);
-    expect(pj.devDependencies!['@nx/eslint']).not.toBeDefined();
+    expect(pj.devDependencies!['@nx/eslint']).toBeDefined();
     expect(pj.devDependencies!['@nx/eslint-plugin']).toBeDefined();
     expect(
       pj.devDependencies!['@typescript-eslint/eslint-plugin']
@@ -100,28 +99,10 @@ describe('application generator', () => {
     await generator(appTree, options);
     // const config = readProjectConfiguration(appTree, 'test');
 
-    const { nx } = JSON.parse(
+    const { name } = JSON.parse(
       appTree.read('apps/test/package.json')!.toString()
     );
-
-    expect(nx).toEqual({
-      namedInputs: {
-        default: ['{projectRoot}/**/*'],
-        production: [
-          '!{projectRoot}/.svelte-kit/*',
-          '!{projectRoot}/build/*',
-          '!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)',
-          '!{projectRoot}/tsconfig.spec.json',
-        ],
-      },
-      targets: {
-        build: {
-          inputs: ['production', '^production'],
-          outputs: ['{projectRoot}/build'],
-          dependsOn: ['^build'],
-        },
-      },
-    });
+    expect(name).toEqual('@test/source');
 
     expect(appTree.read('tsconfig.base.json', 'utf-8')).toMatchInlineSnapshot(
       `"{"compilerOptions":{"paths":{}}}"`
@@ -155,6 +136,7 @@ describe('application generator', () => {
     ]);
 
     // expect(installPackagesTask.mock.calls.length).toBe(2);
+    expect(readJson(appTree, 'apps/test/project.json')).toMatchSnapshot();
   });
 
   it('should update prettier', async () => {

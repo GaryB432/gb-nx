@@ -1,35 +1,28 @@
 import {
-  NX_VERSION,
   addDependenciesToPackageJson,
+  addProjectConfiguration,
   ensurePackage,
   formatFiles,
   installPackagesTask,
   joinPathFragments,
   normalizePath,
+  readJson,
   updateJson,
   writeJson,
   type GeneratorCallback,
+  type ProjectConfiguration,
   type Tree,
 } from '@nx/devkit';
-
-import { initGenerator } from '@nx/js';
-
+import { Linter, lintProjectGenerator } from '@nx/eslint';
+import { initGenerator as jsInitGenerator } from '@nx/js';
 import {
-  eslintVersion,
-  typescriptESLintVersion,
-} from '@nx/eslint/src/utils/versions';
-import type {
-  NxProjectPackageJsonConfiguration,
-  PackageJson,
+  type NxProjectPackageJsonConfiguration,
+  type PackageJson,
 } from 'nx/src/utils/package-json';
-import { updateEslint } from '../../utils/eslint';
 import { includes } from '../../utils/globber';
+import { makeAliasName } from '../../utils/paths';
 import { isSvelte } from '../../utils/svelte';
-import {
-  eslintPluginGbVersion,
-  eslintPluginSvelteVersion,
-  prettierPluginSvelteVersion,
-} from '../../utils/versions';
+import { prettierPluginSvelteVersion } from '../../utils/versions';
 import { normalizeOptions } from './lib/normalize-options';
 import { type Config as PrettierConfig } from './lib/prettier';
 import {
@@ -39,7 +32,25 @@ import {
 
 const PRETTIER_PLUGIN_SVELTE = 'prettier-plugin-svelte';
 
-const nx: NxProjectPackageJsonConfiguration = {
+export async function addLintingToApplication(
+  tree: Tree,
+  project: ProjectConfiguration,
+  options: NormalizedOptions
+): Promise<GeneratorCallback> {
+  const lintTask = await lintProjectGenerator(tree, {
+    linter: Linter.EsLint,
+    project: project.name!,
+    tsConfigPaths: [joinPathFragments(project.root, 'tsconfig.app.json')],
+    unitTestRunner: 'vitest',
+    skipFormat: options.skipFormat ?? false,
+    setParserOptionsProject: false,
+    rootProject: false, // TODO handle
+  });
+
+  return lintTask;
+}
+
+const Θnx: NxProjectPackageJsonConfiguration = {
   namedInputs: {
     default: ['{projectRoot}/**/*'],
     production: [
@@ -58,10 +69,39 @@ const nx: NxProjectPackageJsonConfiguration = {
   },
 };
 
-function addNxConfig(tree: Tree, packageJsonPath: string): void {
+function addWorkspaceConfig(tree: Tree, options: NormalizedOptions): void {
+  console.log(options);
+
+  const project: ProjectConfiguration = {
+    root: '',
+    name: 'kit-guy',
+    sourceRoot: 'apps/kit-guy/src',
+    projectType: 'application',
+    // $schema: '../../node_modules/nx/schemas/project-schema.json',
+    namedInputs: {
+      default: ['{projectRoot}/**/*'],
+      production: [
+        '!{projectRoot}/.svelte-kit/*',
+        '!{projectRoot}/build/*',
+        '!{projectRoot}/tests/*',
+      ],
+    },
+    targets: {
+      build: {
+        inputs: ['production', '^production'],
+        outputs: ['{projectRoot}/build'],
+        dependsOn: ['^build'],
+      },
+    },
+    tags: [],
+  };
+  // addProjectConfiguration(tree, 'asdf', project);
+}
+
+function ΘaddNxConfig(tree: Tree, packageJsonPath: string): void {
   return updateJson<PackageJson>(tree, packageJsonPath, (json) => ({
     ...json,
-    nx,
+    nx: Θnx,
   }));
 }
 
@@ -99,8 +139,6 @@ function addWorkspaceToPackageJson(
 }
 
 function updatePrettier(tree: Tree, options: NormalizedOptions) {
-  ensurePackage(PRETTIER_PLUGIN_SVELTE, prettierPluginSvelteVersion);
-
   const updateConfig = () => {
     const prettierrc = '.prettierrc';
     if (!tree.exists(prettierrc)) {
@@ -152,9 +190,10 @@ function updatePrettier(tree: Tree, options: NormalizedOptions) {
     tree,
     {},
     {
-      'prettier-plugin-svelte': prettierPluginSvelteVersion,
+      [PRETTIER_PLUGIN_SVELTE]: prettierPluginSvelteVersion,
     }
   );
+  ensurePackage(PRETTIER_PLUGIN_SVELTE, prettierPluginSvelteVersion);
   updateConfig();
   updateIgnore();
 }
@@ -167,9 +206,27 @@ export default async function (
     `project at '${p}' is not configured for svelte`;
 
   const normalizedOptions = await normalizeOptions(tree, options);
-  const config = { root: normalizedOptions.projectRoot };
+  const project: ProjectConfiguration = {
+    root: normalizedOptions.projectRoot,
+    projectType: 'application',
+    namedInputs: {
+      default: ['{projectRoot}/**/*'],
+      production: [
+        '!{projectRoot}/.svelte-kit/*',
+        '!{projectRoot}/build/*',
+        '!{projectRoot}/tests/*',
+      ],
+    },
+    targets: {
+      build: {
+        inputs: ['production', '^production'],
+        outputs: ['{projectRoot}/build'],
+        dependsOn: ['^build'],
+      },
+    },
+  };
 
-  if (!isSvelte(tree, config)) {
+  if (!isSvelte(tree, project)) {
     throw new Error(notSvelte(normalizedOptions.projectRoot));
   }
 
@@ -178,38 +235,53 @@ export default async function (
     'package.json'
   );
 
-  await initGenerator(tree, {
-    skipFormat: normalizedOptions.skipFormat,
-    tsConfigName: 'tsconfig.gb.json',
+  const { name } = readJson<PackageJson>(tree, webPackageJsonPath);
+  project.name = name;
+  updateJson(tree, webPackageJsonPath, (json) => {
+    json.name = makeAliasName('source', project.name);
+    return json;
   });
 
-  addNxConfig(tree, webPackageJsonPath);
+  await jsInitGenerator(tree, {
+    skipFormat: normalizedOptions.skipFormat,
+    tsConfigName: 'tsconfig.base.json',
+  });
+
+  // ΘaddNxConfig(tree, webPackageJsonPath);
+
+  // addWorkspaceConfig(tree, normalizedOptions);
+  project.sourceRoot = `${project.root}/src`;
+  addProjectConfiguration(tree, project.name, project);
 
   updatePrettier(tree, normalizedOptions);
   addWorkspaceToPackageJson(tree, normalizedOptions, 'package.json');
 
-  normalizedOptions.eslint = false;
   if (normalizedOptions.eslint) {
+    await addLintingToApplication(tree, project, normalizedOptions);
     // TODO use @nx/eslint (@nx/eslint works with projects. this is not a project yet)
-    updateEslint(tree, config);
-    addDependenciesToPackageJson(
-      tree,
-      {},
-      {
-        '@nx/eslint-plugin': NX_VERSION,
-        '@typescript-eslint/eslint-plugin': typescriptESLintVersion,
-        '@typescript-eslint/parser': typescriptESLintVersion,
-        eslint: eslintVersion,
-        'eslint-plugin-gb': eslintPluginGbVersion,
-        'eslint-plugin-svelte': eslintPluginSvelteVersion,
-      },
-      'package.json'
-    );
-    tree.write(
-      joinPathFragments(normalizedOptions.projectRoot, 'tsconfig.base.json'),
-      '{ "extends": "./tsconfig.json" }'
-    );
-    addScriptsToPackageJson(tree, { lint: 'eslint .' }, webPackageJsonPath);
+    // this is still looking for workspace.json and blows with package.json project
+    // await lintProjectGenerator(tree, {
+    //   project: project.name,
+    //   skipFormat: normalizedOptions.skipFormat ?? false,
+    //   eslintFilePatterns: ['apps/', 'b'],
+    //   unitTestRunner: 'vitest',
+    //   rootProject: false, // TODO handle
+    // });
+    // updateEslint(tree, config);
+    // addDependenciesToPackageJson(
+    //   tree,
+    //   {},
+    //   {
+    //     '@nx/eslint-plugin': NX_VERSION,
+    //     '@typescript-eslint/eslint-plugin': typescriptESLintVersion,
+    //     '@typescript-eslint/parser': typescriptESLintVersion,
+    //     eslint: eslintVersion,
+    //     'eslint-plugin-gb': eslintPluginGbVersion,
+    //     'eslint-plugin-svelte': eslintPluginSvelteVersion,
+    //   },
+    //   'package.json'
+    // );
+    // addScriptsToPackageJson(tree, { lint: 'eslint .' }, webPackageJsonPath);
   }
 
   if (!options.skipFormat) {
