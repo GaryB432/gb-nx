@@ -30,7 +30,13 @@
     },
     "scope": {
       "type": "string",
-      "description": "The scope to prepend to the dependency name for the alias name"
+      "description": "The scope to prepend to the dependency name for the alias name (without the @)"
+    },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false,
+      "x-priority": "internal"
     }
   },
   "additionalProperties": false,

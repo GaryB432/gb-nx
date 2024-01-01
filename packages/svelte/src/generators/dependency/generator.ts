@@ -59,8 +59,6 @@ export default async function (
     );
   }
 
-  const dsrc = dep.sourceRoot;
-
   const config = getSvelteConfig(tree, project);
 
   if (!config) {
@@ -98,5 +96,7 @@ export default async function (
       return json;
     }
   );
-  await formatFiles(tree);
+  if (!schema.skipFormat) {
+    await formatFiles(tree);
+  }
 }

@@ -11,6 +11,7 @@ describe('dependency generator', () => {
     project: 'test',
     dependency: 'dep',
     scope: 'proj',
+    skipFormat: true,
   };
 
   beforeEach(async () => {
@@ -64,6 +65,7 @@ describe('dependency generator with scope', () => {
     project: 'test',
     dependency: 'dep',
     scope: 'tbd',
+    skipFormat: true,
   };
 
   beforeEach(async () => {
