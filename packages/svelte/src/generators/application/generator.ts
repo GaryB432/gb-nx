@@ -69,89 +69,6 @@ export async function addLintingToApplication(
       return lintConfig;
     }
   );
-
-  // const lintConfig = JSON.parse(c) as {
-  //   extends: string[];
-  //   ignorePatterns: string[];
-  //   overrides: unknown[];
-  // };
-
-  // console.log(lintConfig);
-
-  // "parserOptions": {
-  //   "sourceType": "module",
-  //   "ecmaVersion": 2020,
-  //   "extraFileExtensions": [".svelte"]
-  // },
-}
-
-const Θnx: NxProjectPackageJsonConfiguration = {
-  namedInputs: {
-    default: ['{projectRoot}/**/*'],
-    production: [
-      '!{projectRoot}/.svelte-kit/*',
-      '!{projectRoot}/build/*',
-      '!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)',
-      '!{projectRoot}/tsconfig.spec.json',
-    ],
-  },
-  targets: {
-    build: {
-      inputs: ['production', '^production'],
-      outputs: ['{projectRoot}/build'],
-      dependsOn: ['^build'],
-    },
-  },
-};
-
-function addWorkspaceConfig(tree: Tree, options: NormalizedOptions): void {
-  console.log(options);
-
-  const project: ProjectConfiguration = {
-    root: '',
-    name: 'kit-guy',
-    sourceRoot: 'apps/kit-guy/src',
-    projectType: 'application',
-    // $schema: '../../node_modules/nx/schemas/project-schema.json',
-    namedInputs: {
-      default: ['{projectRoot}/**/*'],
-      production: [
-        '!{projectRoot}/.svelte-kit/*',
-        '!{projectRoot}/build/*',
-        '!{projectRoot}/tests/*',
-      ],
-    },
-    targets: {
-      build: {
-        inputs: ['production', '^production'],
-        outputs: ['{projectRoot}/build'],
-        dependsOn: ['^build'],
-      },
-    },
-    tags: [],
-  };
-  // addProjectConfiguration(tree, 'asdf', project);
-}
-
-function ΘaddNxConfig(tree: Tree, packageJsonPath: string): void {
-  return updateJson<PackageJson>(tree, packageJsonPath, (json) => ({
-    ...json,
-    nx: Θnx,
-  }));
-}
-
-function addScriptsToPackageJson(
-  tree: Tree,
-  scripts: Record<string, string>,
-  packageJsonPath: string
-): void {
-  updateJson<PackageJson>(tree, packageJsonPath, (json) => {
-    json.scripts = json.scripts ?? {};
-    for (const script of Object.keys(scripts)) {
-      json.scripts[script] = scripts[script];
-    }
-    return json;
-  });
 }
 
 function addWorkspaceToPackageJson(
@@ -291,31 +208,6 @@ export default async function (
 
   if (normalizedOptions.eslint) {
     await addLintingToApplication(tree, project, normalizedOptions);
-
-    // TODO use @nx/eslint (@nx/eslint works with projects. this is not a project yet)
-    // this is still looking for workspace.json and blows with package.json project
-    // await lintProjectGenerator(tree, {
-    //   project: project.name,
-    //   skipFormat: normalizedOptions.skipFormat ?? false,
-    //   eslintFilePatterns: ['apps/', 'b'],
-    //   unitTestRunner: 'vitest',
-    //   rootProject: false, // TODO handle
-    // });
-    // updateEslint(tree, config);
-    // addDependenciesToPackageJson(
-    //   tree,
-    //   {},
-    //   {
-    //     '@nx/eslint-plugin': NX_VERSION,
-    //     '@typescript-eslint/eslint-plugin': typescriptESLintVersion,
-    //     '@typescript-eslint/parser': typescriptESLintVersion,
-    //     eslint: eslintVersion,
-    //     'eslint-plugin-gb': eslintPluginGbVersion,
-    //     'eslint-plugin-svelte': eslintPluginSvelteVersion,
-    //   },
-    //   'package.json'
-    // );
-    // addScriptsToPackageJson(tree, { lint: 'eslint .' }, webPackageJsonPath);
   }
 
   if (!options.skipFormat) {

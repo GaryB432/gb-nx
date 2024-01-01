@@ -1,12 +1,10 @@
-import type { ProjectConfiguration, Tree } from '@nx/devkit';
-import { joinPathFragments, offsetFromRoot } from '@nx/devkit';
-
-interface Package {
-  dependencies?: Record<string, string>;
-  devDependencies?: Record<string, string>;
-  name: string;
-  version: string;
-}
+import {
+  joinPathFragments,
+  offsetFromRoot,
+  type ProjectConfiguration,
+  type Tree,
+} from '@nx/devkit';
+import { type PackageJson } from 'nx/src/utils/package-json';
 
 export interface NamedPath {
   name: string;
@@ -16,10 +14,10 @@ export interface NamedPath {
 export function readPackageJson(
   tree: Tree,
   config: ProjectConfiguration
-): Package | undefined {
+): PackageJson | undefined {
   const pb = tree.read(joinPathFragments(config.root, 'package.json'));
   if (pb) {
-    const pack = JSON.parse(pb.toString()) as Package;
+    const pack = JSON.parse(pb.toString()) as PackageJson;
     return pack;
   }
 }
@@ -28,7 +26,7 @@ export function readModulePackageJson(
   tree: Tree,
   mod: string,
   root: string
-): Package | undefined {
+): PackageJson | undefined {
   return readPackageJson(tree, {
     root: joinPathFragments(root, 'node_modules', mod),
   });
