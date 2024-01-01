@@ -1,4 +1,4 @@
-import { makeAliasName } from './paths';
+import { dependencySourceRoot, makeAliasName } from './paths';
 
 describe('makeAliasName', () => {
   test('a', () => {
@@ -28,4 +28,19 @@ describe('makeAliasName', () => {
   test('i', () => {
     expect(makeAliasName('', 'fun')).toEqual('');
   });
+});
+
+describe('', () => {
+  expect(
+    dependencySourceRoot(
+      { root: 'apps/ab/cd/df/gh/way-in-here' },
+      {
+        root: 'libs/now/is/the/time/for/all/good/men/omg/other-things',
+        sourceRoot:
+          'libs/now/is/the/time/for/all/good/men/omg/other-things/src',
+      }
+    )
+  ).toEqual(
+    '../../../../../../libs/now/is/the/time/for/all/good/men/omg/other-things/src'
+  );
 });

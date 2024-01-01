@@ -1,5 +1,5 @@
 import type { ProjectConfiguration, Tree } from '@nx/devkit';
-import { joinPathFragments } from '@nx/devkit';
+import { joinPathFragments, offsetFromRoot } from '@nx/devkit';
 
 interface Package {
   dependencies?: Record<string, string>;
@@ -42,4 +42,14 @@ export function makeAliasName(name: string, scope?: string): string {
     return '';
   }
   return ['@'.concat(scope), name].join('/');
+}
+
+export function dependencySourceRoot(
+  project: ProjectConfiguration,
+  dep: ProjectConfiguration
+): string {
+  return joinPathFragments(
+    offsetFromRoot(project.root),
+    dep.sourceRoot ?? joinPathFragments(dep.root, 'src')
+  );
 }

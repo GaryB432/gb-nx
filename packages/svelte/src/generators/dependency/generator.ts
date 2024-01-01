@@ -2,13 +2,17 @@ import {
   formatFiles,
   getProjects,
   joinPathFragments,
-  offsetFromRoot,
   readNxJson,
+  updateJson,
   type ProjectConfiguration,
   type Tree,
 } from '@nx/devkit';
-
-import { makeAliasName, type NamedPath } from '../../utils/paths';
+import { type PackageJson } from 'nx/src/utils/package-json';
+import {
+  dependencySourceRoot,
+  makeAliasName,
+  type NamedPath,
+} from '../../utils/paths';
 import { getSvelteConfig } from '../../utils/svelte';
 import { addToSvelteConfiguration, getConfiguredAliases } from './alias';
 import type { Schema as DependencyGeneratorSchema } from './schema';
@@ -49,6 +53,12 @@ export default async function (
     throw new Error(notfound(schema.dependency));
   }
 
+  if (project.projectType !== 'application' || dep.projectType !== 'library') {
+    throw new Error(
+      'dependency may only be from application to library projectType'
+    );
+  }
+
   const dsrc = dep.sourceRoot;
 
   const config = getSvelteConfig(tree, project);
@@ -60,38 +70,33 @@ export default async function (
   const aliases = getConfiguredAliases(config).slice(0);
   const depName = makeAliasName(schema.dependency, aliasScope);
 
-  if (dsrc) {
-    const path = joinPathFragments(offsetFromRoot(dep.root), dsrc);
+  const aliasToAdd = {
+    name: depName,
+    path: dependencySourceRoot(project, dep),
+  };
+  aliases.push(aliasToAdd);
 
-    const aliasToAdd = { name: depName, path };
-    aliases.push(aliasToAdd);
+  // output.log({
+  //   title: 'Configured Aliases',
+  //   bodyLines: aliases.map(
+  //     (p) =>
+  //       `${output.colors.white(p.name)}: "${output.colors.green(p.path)}"`
+  //   ),
+  // });
 
-    // output.log({
-    //   title: 'Configured Aliases',
-    //   bodyLines: aliases.map(
-    //     (p) =>
-    //       `${output.colors.white(p.name)}: "${output.colors.green(p.path)}"`
-    //   ),
-    // });
+  updateSvelteConfig(tree, project, aliasToAdd);
 
-    updateSvelteConfig(tree, project, aliasToAdd);
-  }
-
-  const pjbuff = tree.read(joinPathFragments(project.root, 'package.json'));
-  if (pjbuff) {
-    const pkg = JSON.parse(pjbuff.toString()) as {
-      name: string;
-      nx: { implicitDependencies?: string[] };
-    };
-    pkg.nx = pkg.nx ?? {};
-    const ideps = pkg.nx.implicitDependencies ?? [];
-    if (!ideps.includes(schema.dependency)) {
-      pkg.nx.implicitDependencies = [...ideps, schema.dependency];
-      tree.write(
-        joinPathFragments(project.root, 'package.json'),
-        JSON.stringify(pkg, undefined, 2).concat('\n')
-      );
+  updateJson<PackageJson, PackageJson>(
+    tree,
+    joinPathFragments(project.root, 'package.json'),
+    (json) => {
+      json.nx = json.nx ?? {};
+      const ideps = json.nx.implicitDependencies ?? [];
+      if (!ideps.includes(schema.dependency)) {
+        json.nx.implicitDependencies = [...ideps, schema.dependency];
+      }
+      return json;
     }
-  }
+  );
   await formatFiles(tree);
 }
