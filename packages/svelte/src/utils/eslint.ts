@@ -89,9 +89,9 @@ function updateProjectEslint(
 }
 
 /**
- * 
- * @param tree 
- * @param project 
+ *
+ * @param tree
+ * @param project
  * @deprecated
  */
 export function updateEslint(

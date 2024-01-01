@@ -37,10 +37,16 @@ describe('with eslint', () => {
     });
   });
 
+  it('should handle project eslint config', async () => {
+    await generator(appTree, options);
+    expect(appTree.read('apps/test/.eslintrc.json', 'utf-8')).toMatchSnapshot();
+  });
+
   it('should handle eslint config', async () => {
     await generator(appTree, options);
     expect(appTree.read('.eslintrc.json', 'utf-8')).toMatchSnapshot();
   });
+
   it.skip('should add script', async () => {
     await generator(appTree, options);
     const buff = appTree.read('apps/test/package.json', 'utf-8')!;

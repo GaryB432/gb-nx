@@ -5,7 +5,6 @@ import {
   formatFiles,
   installPackagesTask,
   joinPathFragments,
-  normalizePath,
   readJson,
   updateJson,
   writeJson,
@@ -22,7 +21,10 @@ import {
 import { includes } from '../../utils/globber';
 import { makeAliasName } from '../../utils/paths';
 import { isSvelte } from '../../utils/svelte';
-import { prettierPluginSvelteVersion } from '../../utils/versions';
+import {
+  eslintPluginSvelteVersion,
+  prettierPluginSvelteVersion,
+} from '../../utils/versions';
 import { normalizeOptions } from './lib/normalize-options';
 import { type Config as PrettierConfig } from './lib/prettier';
 import {
@@ -36,18 +38,51 @@ export async function addLintingToApplication(
   tree: Tree,
   project: ProjectConfiguration,
   options: NormalizedOptions
-): Promise<GeneratorCallback> {
-  const lintTask = await lintProjectGenerator(tree, {
+): Promise<void> {
+  await lintProjectGenerator(tree, {
     linter: Linter.EsLint,
     project: project.name!,
-    tsConfigPaths: [joinPathFragments(project.root, 'tsconfig.app.json')],
+    // tsConfigPaths: [joinPathFragments(project.root, 'tsconfig.base.json')],
     unitTestRunner: 'vitest',
     skipFormat: options.skipFormat ?? false,
     setParserOptionsProject: false,
     rootProject: false, // TODO handle
   });
 
-  return lintTask;
+  updateJson(
+    tree,
+    joinPathFragments(project.root, '.eslintrc.json'),
+    (lintConfig) => {
+      lintConfig.extends.push(
+        'plugin:@typescript-eslint/recommended',
+        'plugin:svelte/recommended'
+      );
+      lintConfig.ignorePatterns.push('.svelte-kit/*');
+      lintConfig.overrides.push({
+        files: ['*.svelte'],
+        parser: 'svelte-eslint-parser',
+        parserOptions: {
+          parser: '@typescript-eslint/parser',
+        },
+        rules: {},
+      });
+      return lintConfig;
+    }
+  );
+
+  // const lintConfig = JSON.parse(c) as {
+  //   extends: string[];
+  //   ignorePatterns: string[];
+  //   overrides: unknown[];
+  // };
+
+  // console.log(lintConfig);
+
+  // "parserOptions": {
+  //   "sourceType": "module",
+  //   "ecmaVersion": 2020,
+  //   "extraFileExtensions": [".svelte"]
+  // },
 }
 
 const Θnx: NxProjectPackageJsonConfiguration = {
@@ -128,7 +163,7 @@ function addWorkspaceToPackageJson(
     json.workspaces = json.workspaces ?? [];
     if (Array.isArray(json.workspaces)) {
       if (!includes(options.projectRoot, json.workspaces)) {
-        json.workspaces.push(normalizePath(options.projectRoot));
+        json.workspaces.push(options.projectRoot);
         json.workspaces.sort();
       }
     } else {
@@ -191,6 +226,7 @@ function updatePrettier(tree: Tree, options: NormalizedOptions) {
     {},
     {
       [PRETTIER_PLUGIN_SVELTE]: prettierPluginSvelteVersion,
+      'eslint-plugin-svelte': eslintPluginSvelteVersion,
     }
   );
   ensurePackage(PRETTIER_PLUGIN_SVELTE, prettierPluginSvelteVersion);
@@ -247,9 +283,6 @@ export default async function (
     tsConfigName: 'tsconfig.base.json',
   });
 
-  // ΘaddNxConfig(tree, webPackageJsonPath);
-
-  // addWorkspaceConfig(tree, normalizedOptions);
   project.sourceRoot = `${project.root}/src`;
   addProjectConfiguration(tree, project.name, project);
 
@@ -258,6 +291,7 @@ export default async function (
 
   if (normalizedOptions.eslint) {
     await addLintingToApplication(tree, project, normalizedOptions);
+
     // TODO use @nx/eslint (@nx/eslint works with projects. this is not a project yet)
     // this is still looking for workspace.json and blows with package.json project
     // await lintProjectGenerator(tree, {

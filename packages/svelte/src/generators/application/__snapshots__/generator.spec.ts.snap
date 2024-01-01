@@ -92,3 +92,53 @@ exports[`with eslint should handle eslint config 1`] = `
 }
 "
 `;
+
+exports[`with eslint should handle project eslint config 1`] = `
+"{
+  "extends": [
+    "../../.eslintrc.json",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:svelte/recommended"
+  ],
+  "ignorePatterns": [
+    "!**/*",
+    ".svelte-kit/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx"
+      ],
+      "rules": {}
+    },
+    {
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "rules": {}
+    },
+    {
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
+      "rules": {}
+    },
+    {
+      "files": [
+        "*.svelte"
+      ],
+      "parser": "svelte-eslint-parser",
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser"
+      },
+      "rules": {}
+    }
+  ]
+}
+"
+`;
