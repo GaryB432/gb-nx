@@ -52,12 +52,13 @@
     },
     "zip": {
       "executor": "@gb-nx/browser:zip",
-      "outputs": [],
+      "outputs": ["zip/**/*"],
+      "dependsOn": ["^build", "^build-scripts"],
       "options": {
-        "outputPath": "<%= appProjectRoot %>/zip",
-        "manifest": ["<%= appProjectRoot %>/src/manifest.json"],
+        "project": "<%= appProjectName %>",
+        "outFile": "zip/<%= appProjectName %>-{manifestVersion}.zip"
       }
-    }
+    },
     "build-scripts": {
       "executor": "nx:run-commands",
       "options": {

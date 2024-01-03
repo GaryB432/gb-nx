@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/browser",
-  "version": "6.0.0",
+  "version": "7.0.0-alpha.1",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -24,5 +24,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@nx/devkit": "17.2.7"
   }
 }

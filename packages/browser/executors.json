@@ -10,6 +10,11 @@
       "implementation": "./src/executors/echo/executor",
       "schema": "./src/executors/echo/schema.json",
       "description": "echo executor"
+    },
+    "zip": {
+      "implementation": "./src/executors/zip/executor",
+      "schema": "./src/executors/zip/schema.json",
+      "description": "zip executor"
     }
   }
 }
