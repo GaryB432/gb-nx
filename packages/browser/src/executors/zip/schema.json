@@ -5,20 +5,10 @@
   "description": "Create zip archive of extension app for publishing",
   "type": "object",
   "properties": {
-    "project": {
-      "type": "string",
-      "description": "The name of the project where the component is located.",
-      "$default": {
-        "$source": "projectName"
-      },
-      "x-dropdown": "projects",
-      "x-prompt": "What project contains the extension?",
-      "x-priority": "important"
-    },
     "outputFileName": {
       "type": "string",
-      "description": "Name of the zip output file. Defaults to versioned archive name."
+      "description": "Name of the zip output file. Defaults to versioned archive name in the zip folder."
     }
   },
-  "required": ["project", "outputFileName"]
+  "required": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/browser",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.6",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -14,7 +14,6 @@
   "generators": "./generators.json",
   "executors": "./executors.json",
   "peerDependencies": {
-    "@nx/devkit": "^17.0.0",
     "@nx/jest": "^17.0.0",
     "@nx/eslint": "^17.0.0",
     "fast-glob": "^3.2.0",
@@ -26,6 +25,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@nx/devkit": "17.2.7"
+    "@nx/devkit": "^17.0.0",
+    "@nx/webpack": "^17.0.0",
+    "adm-zip": "^0.5.10"
   }
 }
