@@ -8,7 +8,7 @@
       "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "webpackConfig": "<%= appProjectRoot %>/custom-webpack.config.js",
+        "webpackConfig": "<%= appProjectRoot %>/webpack.config.js",
         "target": "web",
         "compiler": "tsc",
         "outputPath": "dist/<%= appProjectRoot %>",
@@ -50,6 +50,14 @@
         }
       }
     },
+    "zip": {
+      "executor": "@gb-nx/browser:zip",
+      "outputs": [],
+      "options": {
+        "outputPath": "<%= appProjectRoot %>/zip",
+        "manifest": ["<%= appProjectRoot %>/src/manifest.json"],
+      }
+    }
     "build-scripts": {
       "executor": "nx:run-commands",
       "options": {
