@@ -8,14 +8,12 @@ import {
   names,
   offsetFromRoot,
   readJson,
-  writeJson,
-} from '@nx/devkit';
-import { configurationGenerator } from '@nx/jest';
-import { Linter, lintProjectGenerator } from '@nx/eslint';
-import {
   readProjectConfiguration,
   updateProjectConfiguration,
-} from 'nx/src/generators/utils/project-configuration';
+  writeJson,
+} from '@nx/devkit';
+import { Linter, lintProjectGenerator } from '@nx/eslint';
+import { configurationGenerator as jestConfigGenerator } from '@nx/jest';
 import { join } from 'path';
 import type { ESLintConfiguration } from '../../utils/eslint';
 import { addCustomConfig } from '../../utils/eslint';
@@ -58,7 +56,7 @@ async function addJest(
   tree: Tree,
   options: NormalizedOptions
 ): Promise<GeneratorCallback> {
-  return configurationGenerator(tree, {
+  return jestConfigGenerator(tree, {
     project: options.name,
     setupFile: 'none',
     supportTsx: false,
@@ -67,6 +65,21 @@ async function addJest(
     skipFormat: true,
     // compiler: options.compiler,
   });
+}
+
+function updateGitIgnore(tree: Tree) {
+  const fn = '.gitignore';
+  const newIgnore = 'zip';
+
+  let lns = tree.read(fn, 'utf-8');
+  lns ??=
+    '# See http://help.github.com/ignore-files/ for more about ignoring files.';
+
+  const ignoreds = lns.split(/[\r\n]/);
+
+  if (!ignoreds.includes(newIgnore)) {
+    tree.write(fn, [...ignoreds, newIgnore, ''].join('\n'));
+  }
 }
 
 async function addLint(
@@ -83,28 +96,6 @@ async function addLint(
   return generateLint;
 }
 
-// function normalizeOptions(
-//   tree: Tree,
-//   options: ExtensionGeneratorOptions
-// ): NormalizedSchema {
-//   const name = names(options.name).fileName;
-//   const projectDirectory = options.directory
-//     ? `${names(options.directory).fileName}/${name}`
-//     : name;
-//   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-//   const projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
-//   const parsedTags = options.tags
-//     ? options.tags.split(',').map((s) => s.trim())
-//     : [];
-//   return {
-//     ...options,
-//     projectName,
-//     projectRoot,
-//     projectDirectory,
-//     parsedTags,
-//   };
-// }
-
 function addFiles(tree: Tree, options: NormalizedOptions) {
   const templateOptions = {
     ...options,
@@ -118,6 +109,7 @@ function addFiles(tree: Tree, options: NormalizedOptions) {
     options.appProjectRoot,
     templateOptions
   );
+  tree.write('zip/.gitkeep', '');
 }
 
 export default async function (
@@ -138,7 +130,10 @@ export default async function (
   });
   await addJest(tree, normalizedOptions);
   await addLint(tree, normalizedOptions);
-  await formatFiles(tree);
+  updateGitIgnore;
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
   return () => {
     installPackagesTask(tree, true);
   };

@@ -1,8 +1,8 @@
 import {
   joinPathFragments,
+  output,
   type ExecutorContext,
   type TargetConfiguration,
-  output,
 } from '@nx/devkit';
 import { type WebpackExecutorOptions } from '@nx/webpack';
 import { execSync } from 'child_process';
@@ -20,27 +20,18 @@ export default async function runExecutor(
   options: ZipExecutorSchema,
   context: ExecutorContext
 ): Promise<{ success: boolean }> {
-  // console.log('Executor ran for Zip', options);
-  // console.log(Object.keys(context));
-  // console.log(context.isVerbose);
   let success = false;
   if (context.workspace && context.projectName) {
     const { targets } = context.workspace.projects[context.projectName];
-    // console.log(JSON.stringify(targets, null, 2));
     if (targets) {
       const build: TargetConfiguration<WebpackExecutorOptions> =
         targets['build'];
       if (build && build.executor === '@nx/webpack:webpack' && build.options) {
-        options.outputFileName ??= '';
-        console.log(options.outputFileName);
+        options.outputFileName ??= `zip/${context.projectName}-{manifest-version}.zip`;
         const manifestName = joinPathFragments(
-          // context.workspace.
           build.options.outputPath,
           'manifest.json'
         );
-        // console.log(
-        //   joinPathFragments(root, build.options.outputPath, 'manifest.json')
-        // );
         const manifestString = readFileSync(manifestName, {
           encoding: 'utf-8',
         });
@@ -50,20 +41,24 @@ export default async function runExecutor(
             '{manifestVersion}',
             manifest.version
           );
-          console.log(zipName);
+          const bodyLines: string[] = [];
           const zip = new AdmZip();
           zip.addLocalFolder(build.options.outputPath);
           zip.writeZip(zipName);
-          const tagb = execSync(
-            `git tag -a v${manifest.version} -m "${zipName}"`,
-            {
-              cwd: process.cwd(),
-              stdio: [0, 1, 2],
-            }
-          );
+
+          if (options.tagGit) {
+            const tagb = execSync(
+              `git tag -a v${manifest.version} -m "${zipName}"`,
+              {
+                cwd: process.cwd(),
+                stdio: [0, 1, 2],
+              }
+            );
+            bodyLines.push(tagb ? tagb.toString() : 'tagged');
+          }
           output.success({
             title: `Created ${zipName} successfully`,
-            bodyLines: [tagb ? tagb.toString() : 'tagged'],
+            bodyLines,
           });
           success = true;
         }

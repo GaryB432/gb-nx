@@ -8,6 +8,11 @@
     "outputFileName": {
       "type": "string",
       "description": "Name of the zip output file. Defaults to versioned archive name in the zip folder."
+    },
+    "tagGit": {
+      "type": "boolean",
+      "description": "Tag the current branch with the extension version",
+      "default": true
     }
   },
   "required": []

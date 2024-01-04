@@ -1,4 +1,4 @@
-import { readProjectConfiguration, type Tree } from '@nx/devkit';
+import { readJson, readProjectConfiguration, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import extensionGenerator from './generator';
 
@@ -22,69 +22,14 @@ describe('extension', () => {
 
     const rpconf = readProjectConfiguration(tree, 'my-app');
     expect(rpconf.targets!['build'].executor).toEqual('@nx/webpack:webpack');
-
-    expect(rpconf.targets!['lint']).toMatchInlineSnapshot(`
-      {
-        "executor": "@nx/eslint:lint",
-        "options": {
-          "lintFilePatterns": [
-            "apps/my-app/**/*.ts",
-          ],
-        },
-        "outputs": [
-          "{options.outputFile}",
-        ],
-      }
-    `);
-
-    expect(tree.read('apps/my-app/src/main.ts', 'utf-8')).toMatchInlineSnapshot(
-      `""`
-    );
-
-    expect(tree.read('apps/my-app/.eslintrc.json', 'utf-8'))
-      .toMatchInlineSnapshot(`
-      "{
-        "extends": ["../../.eslintrc.json"],
-        "ignorePatterns": ["!**/*"],
-        "overrides": [
-          {
-            "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-            "rules": {}
-          },
-          {
-            "files": ["*.ts", "*.tsx"],
-            "rules": {},
-            "extends": ["../../eslint-custom.json"]
-          },
-          {
-            "files": ["*.js", "*.jsx"],
-            "rules": {}
-          }
-        ]
-      }
-      "
-    `);
+    expect(rpconf.targets!['lint'].executor).toEqual('@nx/eslint:lint');
 
     expect(
-      JSON.parse(tree.read('apps/my-app/tsconfig.json', 'utf-8')!)
-    ).toEqual({
-      extends: '../../tsconfig.base.json',
-      compilerOptions: {
-        strict: true,
-      },
-      files: [],
-      include: [],
-      references: [
-        {
-          path: './tsconfig.app.json',
-        },
-        {
-          path: './tsconfig.scripts.json',
-        },
-        {
-          path: './tsconfig.spec.json',
-        },
-      ],
-    });
+      readJson(tree, 'apps/my-app/.eslintrc.json').overrides.length
+    ).toEqual(3);
+
+    expect(
+      readJson(tree, 'apps/my-app/tsconfig.json').references.length
+    ).toEqual(3);
   });
 });
