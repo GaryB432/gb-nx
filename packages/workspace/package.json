@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/workspace",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -10,16 +10,22 @@
   "bugs": {
     "url": "https://github.com/GaryB432/gb-nx/issues"
   },
+  "keywords": [
+    "nx",
+    "nx-plugin",
+    "workspace"
+  ],
   "homepage": "https://github.com/GaryB432/gb-nx/tree/master/packages/workspace",
   "generators": "./generators.json",
   "executors": "./executors.json",
-  "devDependencies": {
-    "gb-schematics": "^3.0.0"
-  },
+  "devDependencies": {},
   "peerDependencies": {
-    "@nx/devkit": "^17.0.0",
     "tslib": "^2.3.0",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@nx/devkit": "^17.0.0",
+    "gb-schematics": "^3.0.0"
   },
   "publishConfig": {
     "access": "public"

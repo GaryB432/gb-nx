@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/cli",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -10,15 +10,22 @@
   "bugs": {
     "url": "https://github.com/GaryB432/gb-nx/issues"
   },
+  "keywords": [
+    "nx",
+    "nx-plugin",
+    "cli"
+  ],
   "homepage": "https://github.com/GaryB432/gb-nx/tree/master/packages/cli",
   "generators": "./generators.json",
   "executors": "./executors.json",
   "peerDependencies": {
-    "@nx/devkit": "^17.0.0",
-    "@nx/linter": "^17.0.0",
-    "@nx/node": "^17.0.0",
     "tslib": "^2.3.0",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@nx/devkit": "^17.0.0",
+    "@nx/linter": "^17.0.0",
+    "@nx/node": "^17.0.0"
   },
   "publishConfig": {
     "access": "public"
