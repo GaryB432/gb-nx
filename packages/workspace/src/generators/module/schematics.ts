@@ -1,23 +1,15 @@
 import { type ProjectConfiguration } from '@nx/devkit';
+import { type GbModuleOptions } from 'gb-schematics';
 import { type Schema } from './schema';
-
-export interface SchematicOptions {
-  directory?: string;
-  inSourceTests?: boolean;
-  kind?: 'class' | 'values';
-  name: string;
-  sourceRoot?: string;
-  unitTestRunner?: 'jest' | 'vitest' | 'none';
-}
 
 export function optionsForSchematic(
   project: ProjectConfiguration,
   options: Schema
-): SchematicOptions {
+): GbModuleOptions {
   const { name, kind, unitTestRunner, directory } = options;
   const { sourceRoot } = project;
 
-  const schematicOptions: SchematicOptions = {
+  const schematicOptions: GbModuleOptions = {
     name,
     directory,
     kind,
