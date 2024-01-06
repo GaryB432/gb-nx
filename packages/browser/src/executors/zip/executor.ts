@@ -6,15 +6,10 @@ import {
 } from '@nx/devkit';
 import { type WebpackExecutorOptions } from '@nx/webpack';
 import { execSync } from 'child_process';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
+import { getParts, schemaValidate } from '../../manifest/manifest';
 import { type ZipExecutorSchema } from './schema';
 import AdmZip = require('adm-zip');
-
-interface Manifest {
-  manifest_version: number;
-  name: string;
-  version: string;
-}
 
 export default async function runExecutor(
   options: ZipExecutorSchema,
@@ -35,12 +30,26 @@ export default async function runExecutor(
         const manifestString = readFileSync(manifestName, {
           encoding: 'utf-8',
         });
-        const manifest: Manifest = JSON.parse(manifestString);
-        if (manifest.manifest_version === 3) {
+        const sv = schemaValidate(manifestString);
+        if (!sv.success) {
+          throw new Error('Manifest is not valid');
+        }
+        if (sv.manifest.manifest_version === 3) {
           const zipName = options.outputFileName.replace(
             '{manifestVersion}',
-            manifest.version
+            sv.manifest.version
           );
+
+          for (const fn of getParts(sv.manifest).keys()) {
+            const fullName = joinPathFragments(build.options.outputPath, fn);
+            if (context.isVerbose) {
+              console.log('checking', fullName);
+            }
+            if (!existsSync(fullName)) {
+              throw new Error(`${fn} does not exist`);
+            }
+          }
+
           const bodyLines: string[] = [];
           const zip = new AdmZip();
           zip.addLocalFolder(build.options.outputPath);
@@ -48,7 +57,7 @@ export default async function runExecutor(
 
           if (options.tagGit) {
             const tagb = execSync(
-              `git tag -a v${manifest.version} -m "${zipName}"`,
+              `git tag -a v${sv.manifest.version} -m "${zipName}"`,
               {
                 cwd: process.cwd(),
                 stdio: [0, 1, 2],
