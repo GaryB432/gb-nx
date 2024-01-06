@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/browser",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
   "dependencies": {
     "@nx/devkit": "^17.0.0",
     "@nx/webpack": "^17.0.0",
-    "adm-zip": "^0.5.10"
+    "adm-zip": "^0.5.10",
+    "ajv": "^8.0.0"
   }
 }

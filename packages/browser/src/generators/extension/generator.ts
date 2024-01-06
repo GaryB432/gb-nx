@@ -130,7 +130,7 @@ export default async function (
   });
   await addJest(tree, normalizedOptions);
   await addLint(tree, normalizedOptions);
-  updateGitIgnore;
+  updateGitIgnore(tree);
   if (!options.skipFormat) {
     await formatFiles(tree);
   }
