@@ -21,7 +21,7 @@ jest.mock('@nx/devkit', () => {
 describe('with eslint', () => {
   let appTree: Tree;
   const options: ApplicationGeneratorOptions = {
-    projectPath: 'apps/test',
+    projectPath: 'apps/subject-skapp',
     eslint: true,
     skipFormat: true,
   };
@@ -32,14 +32,14 @@ describe('with eslint', () => {
     appTree = createTreeWithEmptyWorkspace();
     jest.clearAllMocks();
     createSvelteKitApp(appTree, version, {
-      name: 'test',
+      name: 'subject-skapp',
       directory: 'apps',
     });
   });
 
   it('should handle project eslint config', async () => {
     await generator(appTree, options);
-    expect(appTree.read('apps/test/.eslintrc.json', 'utf-8')).toMatchSnapshot();
+    expect(appTree.read('apps/subject-skapp/.eslintrc.json', 'utf-8')).toMatchSnapshot();
   });
 
   it('should handle eslint config', async () => {
@@ -50,7 +50,7 @@ describe('with eslint', () => {
   it('should add web dev dependencies', async () => {
     await generator(appTree, options);
     const pj: PackageJson = JSON.parse(
-      appTree.read('apps/test/package.json', 'utf-8')!
+      appTree.read('apps/subject-skapp/package.json', 'utf-8')!
     );
     expect(pj.devDependencies!['@typescript-eslint/parser']).not.toBeDefined();
   });
@@ -72,7 +72,7 @@ describe('with eslint', () => {
 describe('application generator', () => {
   let appTree: Tree;
   const options: ApplicationGeneratorOptions = {
-    projectPath: 'apps/test',
+    projectPath: 'apps/subject-skapp',
     skipFormat: true,
   };
 
@@ -89,7 +89,7 @@ describe('application generator', () => {
     appTree.write('package.json', JSON.stringify(pt));
     jest.clearAllMocks();
     createSvelteKitApp(appTree, version, {
-      name: 'test',
+      name: 'subject-skapp',
       directory: 'apps',
     });
   });
@@ -99,9 +99,9 @@ describe('application generator', () => {
     // const config = readProjectConfiguration(appTree, 'test');
 
     const { name } = JSON.parse(
-      appTree.read('apps/test/package.json')!.toString()
+      appTree.read('apps/subject-skapp/package.json')!.toString()
     );
-    expect(name).toEqual('@test/source');
+    expect(name).toEqual('@subject-skapp/source');
 
     expect(appTree.read('tsconfig.base.json', 'utf-8')).toMatchInlineSnapshot(
       `"{"compilerOptions":{"paths":{}}}"`
@@ -135,7 +135,7 @@ describe('application generator', () => {
     ]);
 
     // expect(installPackagesTask.mock.calls.length).toBe(2);
-    expect(readJson(appTree, 'apps/test/project.json')).toMatchSnapshot();
+    expect(readJson(appTree, 'apps/subject-skapp/project.json')).toMatchSnapshot();
   });
 
   it('should update prettier', async () => {
@@ -148,8 +148,8 @@ describe('application generator', () => {
       dist
       stuff
 
-      apps/test/.svelte-kit
-      apps/test/build
+      apps/subject-skapp/.svelte-kit
+      apps/subject-skapp/build
       "
     `);
   });
@@ -157,7 +157,7 @@ describe('application generator', () => {
   it('should not update prettier twice', async () => {
     appTree.write(
       PRETTIERIGNORE,
-      '# hi\n\ndist\nstuff\n\napps/test/.svelte-kit\napps/test/build\n'
+      '# hi\n\ndist\nstuff\n\napps/subject-skapp/.svelte-kit\napps/subject-skapp/build\n'
     );
     await generator(appTree, options);
     const p = appTree.read(PRETTIERIGNORE);
@@ -167,8 +167,8 @@ describe('application generator', () => {
       dist
       stuff
 
-      apps/test/.svelte-kit
-      apps/test/build
+      apps/subject-skapp/.svelte-kit
+      apps/subject-skapp/build
 
       "
     `);
@@ -182,8 +182,8 @@ describe('application generator', () => {
       /dist
       /coverage
       /.nx/cache
-      apps/test/.svelte-kit
-      apps/test/build
+      apps/subject-skapp/.svelte-kit
+      apps/subject-skapp/build
       "
     `);
   });
@@ -193,7 +193,7 @@ describe('application generator', () => {
     const p = appTree.read('package.json');
     const s = p ? p.toString() : '';
     const q = JSON.parse(s);
-    expect(q.workspaces).toEqual(['apps/a', 'apps/test', 'apps/z']);
+    expect(q.workspaces).toEqual(['apps/a', 'apps/subject-skapp', 'apps/z']);
   });
 
   it('should update prettier', async () => {

@@ -3,7 +3,7 @@
 exports[`application generator should run successfully 3`] = `
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "name": "test",
+  "name": "subject-skapp",
   "namedInputs": {
     "default": [
       "{projectRoot}/**/*",
@@ -15,7 +15,7 @@ exports[`application generator should run successfully 3`] = `
     ],
   },
   "projectType": "application",
-  "sourceRoot": "apps/test/src",
+  "sourceRoot": "apps/subject-skapp/src",
   "targets": {
     "build": {
       "dependsOn": [
