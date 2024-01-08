@@ -7,7 +7,10 @@ export async function createProject(name: string): Promise<void> {
   const root = joinPathFragments(tmpProjPath('apps'), name);
   mkdirSync(root, { recursive: true });
 
-  writeFileSync(`${root}/package.json`, JSON.stringify({ name, version: '0' }));
+  writeFileSync(
+    `${root}/package.json`,
+    JSON.stringify({ name, version: '0.0.0', scripts: { build: 'echo Executor ran' } })
+  );
 
   writeFileSync(
     `${root}/svelte.config.js`,

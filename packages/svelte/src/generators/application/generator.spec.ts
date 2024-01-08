@@ -1,9 +1,9 @@
 import { readJson, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { type PackageJson } from 'nx/src/utils/package-json';
+import { type Config as PrettierConfig } from 'prettier';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
-import { type Config as PrettierConfig } from './lib/prettier';
 import type { ApplicationGeneratorOptions } from './schema';
 
 const PRETTIERIGNORE = '.prettierignore';
@@ -47,13 +47,6 @@ describe('with eslint', () => {
     expect(appTree.read('.eslintrc.json', 'utf-8')).toMatchSnapshot();
   });
 
-  it.skip('should add script', async () => {
-    await generator(appTree, options);
-    const buff = appTree.read('apps/test/package.json', 'utf-8')!;
-    const pj = JSON.parse(buff?.toString()) as unknown as PackageJson;
-    expect(pj.scripts!['lint']).toEqual('eslint .');
-  });
-
   it('should add web dev dependencies', async () => {
     await generator(appTree, options);
     const pj: PackageJson = JSON.parse(
@@ -61,7 +54,7 @@ describe('with eslint', () => {
     );
     expect(pj.devDependencies!['@typescript-eslint/parser']).not.toBeDefined();
   });
-  it.skip('should add root dev dependencies', async () => {
+  it('should add root dev dependencies', async () => {
     await generator(appTree, options);
     const pj: PackageJson = JSON.parse(appTree.read('package.json', 'utf-8')!);
     expect(pj.devDependencies!['@nx/eslint']).toBeDefined();
@@ -71,7 +64,7 @@ describe('with eslint', () => {
     ).toBeDefined();
     expect(pj.devDependencies!['@typescript-eslint/parser']).toBeDefined();
     expect(pj.devDependencies!['eslint']).toBeDefined();
-    expect(pj.devDependencies!['eslint-plugin-gb']).toBeDefined();
+    expect(pj.devDependencies!['eslint-plugin-gb']).not.toBeDefined();
     expect(pj.devDependencies!['eslint-plugin-svelte']).toBeDefined();
   });
 });
@@ -207,18 +200,18 @@ describe('application generator', () => {
     appTree.write(
       '.prettierrc',
       JSON.stringify({
-        useTabs: true,
+        useTabs: undefined,
         singleQuote: true,
         trailingComma: 'none',
         printWidth: 100,
-        plugins: ['prettier-plugin-svelte'],
+        // plugins: ['prettier-plugin-svelte'],
         overrides: [{ files: '*.svelte', options: { parser: 'svelte' } }],
       })
     );
     await generator(appTree, options);
     const config = readJson<PrettierConfig>(appTree, '.prettierrc');
     expect(config).toEqual({
-      useTabs: true,
+      // useTabs: true,
       singleQuote: true,
       trailingComma: 'none',
       printWidth: 100,

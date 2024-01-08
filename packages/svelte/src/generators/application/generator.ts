@@ -14,25 +14,21 @@ import {
 } from '@nx/devkit';
 import { Linter, lintProjectGenerator } from '@nx/eslint';
 import { initGenerator as jsInitGenerator } from '@nx/js';
-import {
-  type NxProjectPackageJsonConfiguration,
-  type PackageJson,
-} from 'nx/src/utils/package-json';
+import { type PackageJson } from 'nx/src/utils/package-json';
+import { type Config as PrettierConfig } from 'prettier';
 import { includes } from '../../utils/globber';
 import { makeAliasName } from '../../utils/paths';
 import { isSvelte } from '../../utils/svelte';
 import {
   eslintPluginSvelteVersion,
   prettierPluginSvelteVersion,
+  prettierVersion,
 } from '../../utils/versions';
 import { normalizeOptions } from './lib/normalize-options';
-import { type Config as PrettierConfig } from './lib/prettier';
 import {
   type ApplicationGeneratorOptions,
   type NormalizedOptions,
 } from './schema';
-
-const PRETTIER_PLUGIN_SVELTE = 'prettier-plugin-svelte';
 
 export async function addLintingToApplication(
   tree: Tree,
@@ -99,8 +95,8 @@ function updatePrettier(tree: Tree, options: NormalizedOptions) {
 
     updateJson<PrettierConfig, PrettierConfig>(tree, prettierrc, (json) => {
       json.plugins = json.plugins ?? [];
-      if (!json.plugins.includes(PRETTIER_PLUGIN_SVELTE)) {
-        json.plugins.push(PRETTIER_PLUGIN_SVELTE);
+      if (!json.plugins.includes('prettier-plugin-svelte')) {
+        json.plugins.push('prettier-plugin-svelte');
       }
       json.overrides = json.overrides ?? [];
       if (!json.overrides.some((t) => t.files === '*.svelte')) {
@@ -142,11 +138,12 @@ function updatePrettier(tree: Tree, options: NormalizedOptions) {
     tree,
     {},
     {
-      [PRETTIER_PLUGIN_SVELTE]: prettierPluginSvelteVersion,
       'eslint-plugin-svelte': eslintPluginSvelteVersion,
+      prettier: prettierVersion,
+      'prettier-plugin-svelte': prettierPluginSvelteVersion,
     }
   );
-  ensurePackage(PRETTIER_PLUGIN_SVELTE, prettierPluginSvelteVersion);
+  ensurePackage('prettier-plugin-svelte', prettierPluginSvelteVersion);
   updateConfig();
   updateIgnore();
 }
