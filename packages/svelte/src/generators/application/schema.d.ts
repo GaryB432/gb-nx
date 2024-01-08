@@ -6,5 +6,6 @@ export interface ApplicationGeneratorOptions {
 }
 
 export interface NormalizedOptions extends ApplicationGeneratorOptions {
+  parsedTags: string[];
   projectRoot: Path;
 }

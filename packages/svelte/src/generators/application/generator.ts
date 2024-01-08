@@ -174,6 +174,7 @@ export default async function (
         dependsOn: ['^build'],
       },
     },
+    tags: normalizedOptions.parsedTags,
   };
 
   if (!isSvelte(tree, project)) {

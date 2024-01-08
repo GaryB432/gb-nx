@@ -7,8 +7,13 @@ export async function normalizeOptions(
 ): Promise<NormalizedOptions> {
   const projectRoot = options.projectPath;
 
+  const parsedTags = options.tags
+    ? options.tags.split(',').map((s) => s.trim())
+    : [];
+
   return {
     ...options,
+    parsedTags,
     projectRoot,
   };
 }

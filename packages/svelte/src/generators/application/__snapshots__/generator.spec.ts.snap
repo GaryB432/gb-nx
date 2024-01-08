@@ -16,6 +16,7 @@ exports[`application generator should run successfully 3`] = `
   },
   "projectType": "application",
   "sourceRoot": "apps/subject-skapp/src",
+  "tags": [],
   "targets": {
     "build": {
       "dependsOn": [
