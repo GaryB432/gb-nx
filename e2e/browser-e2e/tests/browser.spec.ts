@@ -23,33 +23,49 @@ describe('browser e2e', () => {
     runNxCommandAsync('reset');
   });
 
-  it('should create browser', async () => {
-    const project = uniq('browser');
-    await runNxCommandAsync(`generate @gb-nx/browser:browser ${project}`);
+  it('should create extension', async () => {
+    const project = uniq('extension');
+    await runNxCommandAsync(
+      `generate @gb-nx/browser:extension ${project} --directory=a/b --projectNameAndRootFormat=as-provided --no-interactive --skipFormat`
+    );
     const result = await runNxCommandAsync(`build ${project}`);
-    expect(result.stdout).toContain('Executor ran');
+    expect(result.stdout).toContain(`Successfully ran target build for project ${project}`);
   }, 120000);
 
   describe('--directory', () => {
     it('should create src in the specified directory', async () => {
-      const project = uniq('browser');
+      const project = uniq('extension');
       await runNxCommandAsync(
-        `generate @gb-nx/browser:browser ${project} --directory subdir`
+        `generate @gb-nx/browser:extension ${project} --directory=d/efg --projectNameAndRootFormat=as-provided --no-interactive --skipFormat`
       );
       expect(() =>
-        checkFilesExist(`libs/subdir/${project}/src/index.ts`)
+        checkFilesExist(
+          'd/efg/src/environments/environment.prod.ts',
+          'd/efg/src/environments/environment.ts',
+          'd/efg/src/scripts/sw.ts',
+          'd/efg/src/scripts/tbd.content_script.ts',
+          'd/efg/src/main.ts',
+          'd/efg/src/manifest.json',
+          'd/efg/src/options.html',
+          'd/efg/src/options.scss',
+          'd/efg/src/options.ts',
+          'd/efg/src/popup.html',
+          'd/efg/src/popup.scss',
+          'd/efg/src/popup.ts',
+          'd/efg/webpack.config.js'
+        )
       ).not.toThrow();
     }, 120000);
   });
 
   describe('--tags', () => {
     it('should add tags to the project', async () => {
-      const projectName = uniq('browser');
+      const projectName = uniq('extension');
       ensureNxProject('@gb-nx/browser', 'dist/packages/browser');
       await runNxCommandAsync(
-        `generate @gb-nx/browser:browser ${projectName} --tags e2etag,e2ePackage`
+        `generate @gb-nx/browser:extension ${projectName} --directory=e/f/${projectName} --projectNameAndRootFormat=as-provided --skipFormat --tags e2etag,e2ePackage`
       );
-      const project = readJson(`libs/${projectName}/project.json`);
+      const project = readJson(`e/f/${projectName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 120000);
   });

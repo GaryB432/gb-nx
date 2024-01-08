@@ -2,4 +2,5 @@
 /dist
 /coverage
 /.nx/cache
+/tmp
 packages/svelte/src/generators/application/lib/prettier/index.d.ts

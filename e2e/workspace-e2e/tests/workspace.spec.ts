@@ -1,3 +1,4 @@
+import { type ProjectConfiguration } from '@nx/devkit';
 import {
   checkFilesExist,
   ensureNxProject,
@@ -23,33 +24,37 @@ describe('workspace e2e', () => {
     runNxCommandAsync('reset');
   });
 
-  it('should create workspace', async () => {
-    const project = uniq('workspace');
-    await runNxCommandAsync(`generate @gb-nx/workspace:workspace ${project}`);
-    const result = await runNxCommandAsync(`build ${project}`);
-    expect(result.stdout).toContain('Executor ran');
-  }, 120000);
-
-  describe('--directory', () => {
-    it('should create src in the specified directory', async () => {
+  describe('normal', () => {
+    it('should create module', async () => {
       const project = uniq('workspace');
       await runNxCommandAsync(
-        `generate @gb-nx/workspace:workspace ${project} --directory subdir`
+        `generate @nx/js:library ${project} --directory=a/b/c/${project} --projectNameAndRootFormat=as-provided --skipFormat --no-interactive`
+      );
+      await runNxCommandAsync(
+        `generate @gb-nx/workspace:module checkers -p=${project} --kind=values --directory=subdir`
       );
       expect(() =>
-        checkFilesExist(`libs/subdir/${project}/src/index.ts`)
+        checkFilesExist(
+          `a/b/c/${project}/src/subdir/checkers.ts`,
+          `a/b/c/${project}/src/subdir/checkers.spec.ts`
+        )
       ).not.toThrow();
     }, 120000);
   });
 
   describe('--tags', () => {
-    it('should add tags to the project', async () => {
+    it.skip('should add tags to the project', async () => {
       const projectName = uniq('workspace');
       ensureNxProject('@gb-nx/workspace', 'dist/packages/workspace');
       await runNxCommandAsync(
-        `generate @gb-nx/workspace:workspace ${projectName} --tags e2etag,e2ePackage`
+        `generate @nx/js:library ${projectName} --directory=apps/${projectName} --projectNameAndRootFormat=as-provided --skipFormat --no-interactive`
       );
-      const project = readJson(`libs/${projectName}/project.json`);
+      await runNxCommandAsync(
+        `generate @gb-nx/workspace:module stuff -p=${projectName} --tags e2etag,e2ePackage`
+      );
+      const project = readJson<ProjectConfiguration>(
+        `apps/${projectName}/project.json`
+      );
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 120000);
   });

@@ -25,19 +25,35 @@ describe('cli e2e', () => {
 
   it('should create cli', async () => {
     const project = uniq('cli');
-    await runNxCommandAsync(`generate @gb-nx/cli:cli ${project}`);
+    await runNxCommandAsync(`generate @gb-nx/cli:application ${project}`);
     const result = await runNxCommandAsync(`build ${project}`);
-    expect(result.stdout).toContain('Executor ran');
+    expect(result.stdout).toContain('webpack compiled');
+    expect(() => checkFilesExist(`dist/${project}/main.js`)).not.toThrow();
   }, 120000);
 
   describe('--directory', () => {
-    it('should create src in the specified directory', async () => {
+    it('should create config in the specified directory', async () => {
       const project = uniq('cli');
       await runNxCommandAsync(
-        `generate @gb-nx/cli:cli ${project} --directory subdir`
+        `generate @gb-nx/cli:application ${project} --directory subdir/${project} --no-interactive`
       );
       expect(() =>
-        checkFilesExist(`libs/subdir/${project}/src/index.ts`)
+        checkFilesExist(`subdir/${project}/cli.config.json`)
+      ).not.toThrow();
+    }, 120000);
+  });
+
+  describe('command', () => {
+    it('should create command', async () => {
+      const project = uniq('cli');
+      await runNxCommandAsync(
+        `generate @gb-nx/cli:application ${project} --directory subdir/${project} --no-interactive`
+      );
+      await runNxCommandAsync(
+        `generate @gb-nx/cli:command greet --parameter=one --parameter=two --option=three --option=four -p=${project} --no-interactive`
+      );
+      expect(() =>
+        checkFilesExist(`subdir/${project}/cli.config.json`)
       ).not.toThrow();
     }, 120000);
   });
@@ -45,11 +61,11 @@ describe('cli e2e', () => {
   describe('--tags', () => {
     it('should add tags to the project', async () => {
       const projectName = uniq('cli');
-      ensureNxProject('@gb-nx/cli', 'dist/packages/cli');
+      // ensureNxProject('@gb-nx/cli', 'dist/packages/cli');
       await runNxCommandAsync(
-        `generate @gb-nx/cli:cli ${projectName} --tags e2etag,e2ePackage`
+        `generate @gb-nx/cli:application ${projectName} --directory=a --tags e2etag,e2ePackage`
       );
-      const project = readJson(`libs/${projectName}/project.json`);
+      const project = readJson(`a/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 120000);
   });
