@@ -5,7 +5,7 @@ import {
   runNxCommandAsync,
   uniq,
 } from '@nx/plugin/testing';
-import { createProject } from '../utils/create-project';
+import { createSveltekitProject } from '../utils/create-project';
 import { ProjectConfiguration } from '@nx/devkit';
 
 describe('svelte e2e', () => {
@@ -28,7 +28,7 @@ describe('svelte e2e', () => {
   it('should create svelte', async () => {
     const project = uniq('svelte');
     await runCommandAsync('npm add prettier -D');
-    await createProject(project);
+    await createSveltekitProject(project);
     await runNxCommandAsync(
       `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat`
     );
@@ -40,7 +40,7 @@ describe('svelte e2e', () => {
     it('should create src in the specified directory', async () => {
       const project = uniq('svelte');
       await runCommandAsync('npm add prettier -D');
-      await createProject(project);
+      await createSveltekitProject(project);
       await runNxCommandAsync(
         `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat`
       );
@@ -63,14 +63,18 @@ describe('svelte e2e', () => {
 
   describe('--tags', () => {
     it('should add tags to the project', async () => {
-      const projectName = uniq('svelte');
+      const project = uniq('svelte');
       await runCommandAsync('npm add prettier -D');
-      ensureNxProject('@gb-nx/svelte', 'dist/packages/svelte');
+      await createSveltekitProject(project);
       await runNxCommandAsync(
-        `generate @gb-nx/svelte:application --projectPath=apps/${projectName} --tags e2etag,e2ePackage`
+        `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --tags e2etag,e2ePackage`
       );
-      const project = readJson(`libs/${projectName}/project.json`);
-      expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
+
+      const proj = readJson<ProjectConfiguration>(
+        `apps/${project}/project.json`
+      );
+      expect(proj.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 120000);
   });
+
 });

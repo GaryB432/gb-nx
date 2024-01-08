@@ -3,13 +3,20 @@ import { tmpProjPath } from '@nx/plugin/testing';
 import { mkdirSync, writeFileSync } from 'fs';
 
 // TODO use the official thing
-export async function createProject(name: string): Promise<void> {
-  const root = joinPathFragments(tmpProjPath('apps'), name);
+export async function createSveltekitProject(
+  name: string,
+  subdir = 'apps'
+): Promise<void> {
+  const root = joinPathFragments(tmpProjPath(subdir), name);
   mkdirSync(root, { recursive: true });
 
   writeFileSync(
     `${root}/package.json`,
-    JSON.stringify({ name, version: '0.0.0', scripts: { build: 'echo Executor ran' } })
+    JSON.stringify({
+      name,
+      version: '0.0.0',
+      scripts: { build: 'echo Executor ran' },
+    })
   );
 
   writeFileSync(
