@@ -69,7 +69,7 @@ async function addJest(
 
 function updateGitIgnore(tree: Tree) {
   const fn = '.gitignore';
-  const newIgnore = 'zip';
+  const newIgnore = '/zip';
 
   let lns = tree.read(fn, 'utf-8');
   lns ??=
@@ -92,6 +92,7 @@ async function addLint(
     skipFormat: true,
     eslintFilePatterns: [joinPathFragments(options.appProjectRoot, '**/*.ts')],
   });
+  // TODO needed??
   addCustomLint(tree, options);
   return generateLint;
 }

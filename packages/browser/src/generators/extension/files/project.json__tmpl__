@@ -52,10 +52,10 @@
     },
     "zip": {
       "executor": "@gb-nx/browser:zip",
-      "outputs": ["{workspaceRoot}/zip/<%= appProjectName %>-*.zip"],
-      "dependsOn": ["^build", "^build-scripts"],
+      "outputs": ["{options.outputFileName}"],
+      "dependsOn": ["build", "build-scripts"],
       "options": {
-        "outputFileName": "{workspaceRoot}/zip/<%= appProjectName %>-{manifestVersion}.zip"
+        "outputFileName": "{workspaceRoot}/zip/<%= fileName %>.extension@{manifestVersion}.zip"
       }
     },
     "build-scripts": {

@@ -29,7 +29,20 @@ describe('browser e2e', () => {
       `generate @gb-nx/browser:extension ${project} --directory=a/b --projectNameAndRootFormat=as-provided --no-interactive --skipFormat`
     );
     const result = await runNxCommandAsync(`build ${project}`);
-    expect(result.stdout).toContain(`Successfully ran target build for project ${project}`);
+    expect(result.stdout).toContain(
+      `Successfully ran target build for project ${project}`
+    );
+  }, 120000);
+
+  it('should zip extension', async () => {
+    const project = uniq('extension');
+    await runNxCommandAsync(
+      `generate @gb-nx/browser:extension ${project} --directory=flaps/${project} --projectNameAndRootFormat=as-provided --no-interactive --skipFormat`
+    );
+    const result = await runNxCommandAsync(`zip ${project} --no-tagGit`);
+    expect(result.stdout).toContain(
+      `Successfully ran target zip for project ${project}`
+    );
   }, 120000);
 
   describe('--directory', () => {
