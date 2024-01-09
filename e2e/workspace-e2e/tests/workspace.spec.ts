@@ -42,20 +42,4 @@ describe('workspace e2e', () => {
     }, 120000);
   });
 
-  describe('--tags', () => {
-    it.skip('should add tags to the project', async () => {
-      const projectName = uniq('workspace');
-      ensureNxProject('@gb-nx/workspace', 'dist/packages/workspace');
-      await runNxCommandAsync(
-        `generate @nx/js:library ${projectName} --directory=apps/${projectName} --projectNameAndRootFormat=as-provided --skipFormat --no-interactive`
-      );
-      await runNxCommandAsync(
-        `generate @gb-nx/workspace:module stuff -p=${projectName} --tags e2etag,e2ePackage`
-      );
-      const project = readJson<ProjectConfiguration>(
-        `apps/${projectName}/project.json`
-      );
-      expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
-    }, 120000);
-  });
 });

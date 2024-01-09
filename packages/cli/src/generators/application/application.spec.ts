@@ -48,16 +48,6 @@ describe('app', () => {
     });
   });
 
-  describe.skip('nested', () => {
-    it('should generate files', async () => {
-      await generateMyApp(appTree);
-      expect(appTree.exists('apps/my-dir/my-app/src/main.ts')).toBeTruthy();
-      expect(
-        appTree.exists('apps/my-dir/my-app/src/app/shared.ts')
-      ).toBeTruthy();
-      expect(mockRefresher).toHaveBeenCalledTimes(1);
-    });
-  });
 });
 
 async function generateMyApp(appTree: Tree) {
