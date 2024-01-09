@@ -17,8 +17,8 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://tbd.com/*"],
-      "js": ["scripts/tbd.content_script.js"]
+      "matches": ["https://*/<%= fileName %>.com/*"],
+      "js": ["scripts/<%= fileName %>.content_script.js"]
     }
   ],
   "background": {

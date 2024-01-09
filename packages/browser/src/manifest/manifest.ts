@@ -28,17 +28,17 @@ export interface ManifestSchema {
 type Part = 'script' | 'page' | 'icon';
 
 export function schemaValidate(json: string): {
-  messages: string[];
   manifest: ManifestSchema;
+  messages: string[];
   success: boolean;
 } {
   const manifest: ManifestSchema = JSON.parse(json);
 
   const ajv = new Ajv({
-    strict: false,
-    allErrors: true,
-    verbose: false,
-    $data: true,
+    // strict: false,
+    // allErrors: true,
+    // verbose: false,
+    // $data: true,
     formats: {
       'content-security-policy': { type: 'string', validate: () => false },
       'mime-type': { type: 'string', validate: () => false },

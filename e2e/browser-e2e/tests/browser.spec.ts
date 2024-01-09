@@ -56,7 +56,7 @@ describe('browser e2e', () => {
           'd/efg/src/environments/environment.prod.ts',
           'd/efg/src/environments/environment.ts',
           'd/efg/src/scripts/sw.ts',
-          'd/efg/src/scripts/tbd.content_script.ts',
+          `d/efg/src/scripts/${project}.content_script.ts`,
           'd/efg/src/main.ts',
           'd/efg/src/manifest.json',
           'd/efg/src/options.html',
