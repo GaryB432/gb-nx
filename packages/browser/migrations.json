@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "add-zip-target": {
+      "version": "7.3.0",
+      "description": "Add zip target",
+      "implementation": "./src/migrations/update-7.3.0/add-zip-target"
+    }
+  }
+}

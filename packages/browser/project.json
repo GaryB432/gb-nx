@@ -33,6 +33,11 @@
             "input": "./packages/browser",
             "glob": "executors.json",
             "output": "."
+          },
+          {
+            "input": "./packages/browser",
+            "glob": "migrations.json",
+            "output": "."
           }
         ]
       }
