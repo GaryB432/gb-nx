@@ -27,11 +27,10 @@ export default async function (
     {
       '@nx/webpack': nxVersion,
       '@types/chrome': chromeTypingsVersion,
-      'html-webpack-plugin': '^5.5.0',
-      'mini-css-extract-plugin': '^2.6.1',
+      'html-webpack-plugin': '^5.0.0',
+      'mini-css-extract-plugin': '^2.0.0',
       eslint: eslintVersion,
       sass: sassVersion,
-      'webpack-merge': '^5.9.0',
     }
   );
   if (!options.skipFormat) {
