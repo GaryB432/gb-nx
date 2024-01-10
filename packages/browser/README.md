@@ -13,6 +13,7 @@ Here is a list of some of the coolest features of the plugin:
 
 - ✅ Generation of browser extensions applications
 - ✅ Building, testing, etc your extension projects
+- ✅ Packaging your extension projects for web stores
 
 ## Prerequisite
 
@@ -40,12 +41,17 @@ npm install @gb-nx/browser --save-dev
 yarn add @gb-nx/browser --dev
 ```
 
+```
+npx nx build extension -c=production
+npx nx build-scripts extension
+```
+
 ### Generating Project
 
 Simply run the `extension` generator with the following command:
 
 ```
-nx g @gb-nx/browser:extension my-extension
+nx generate @gb-nx/browser:extension --name=my-extension --directory=apps/my-extension --projectNameAndRootFormat=as-provided
 ```
 
 ### Working with your Project
@@ -54,7 +60,7 @@ nx g @gb-nx/browser:extension my-extension
 
 > nx run my-extension:build-scripts
 
-Load (or reload) the unpacked extension from `dist/apps/my-extension` with `Manage Extensions`
+Load (or reload) the unpacked extension from `dist/apps/my-extension` with `Manage Extensions` in your browser.
 
 Refresh a browser page
 
@@ -63,6 +69,12 @@ Observe changes
 Make changes to `my-extension\src`
 
 Repeat
+
+### Packaging your Project for Store Distribution
+
+Run the `zip` target to create a versioned archive of your extension.
+
+> npx nx zip extension --tagGit false
 
 ## Migrations
 

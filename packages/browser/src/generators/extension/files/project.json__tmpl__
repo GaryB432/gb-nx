@@ -53,7 +53,7 @@
     "zip": {
       "executor": "@gb-nx/browser:zip",
       "outputs": ["{options.outputFileName}"],
-      "dependsOn": ["build", "build-scripts"],
+      "dependsOn": ["build:production", "build-scripts"],
       "options": {
         "outputFileName": "{workspaceRoot}/zip/<%= fileName %>.extension@{manifestVersion}.zip"
       }

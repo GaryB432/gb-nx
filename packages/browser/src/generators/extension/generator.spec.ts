@@ -28,7 +28,7 @@ describe('extension', () => {
     expect(rpconf.targets!['build'].executor).toEqual('@nx/webpack:webpack');
     expect(rpconf.targets!['lint'].executor).toEqual('@nx/eslint:lint');
     expect(rpconf.targets!['zip']).toEqual({
-      dependsOn: ['build', 'build-scripts'],
+      dependsOn: ['build:production', 'build-scripts'],
       executor: '@gb-nx/browser:zip',
       options: {
         outputFileName:

@@ -39,6 +39,8 @@ describe('browser e2e', () => {
     await runNxCommandAsync(
       `generate @gb-nx/browser:extension ${project} --directory=flaps/${project} --projectNameAndRootFormat=as-provided --no-interactive --skipFormat`
     );
+    await runNxCommandAsync(`run ${project}:build:production`);
+    await runNxCommandAsync(`run ${project}:build-scripts`);
     const result = await runNxCommandAsync(`zip ${project} --no-tagGit`);
     expect(result.stdout).toContain(
       `Successfully ran target zip for project ${project}`

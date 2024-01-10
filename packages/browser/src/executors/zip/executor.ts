@@ -40,20 +40,33 @@ export default async function runExecutor(
             sv.manifest.version
           );
 
-          for (const fn of getParts(sv.manifest).keys()) {
-            const fullName = joinPathFragments(build.options.outputPath, fn);
+          if (existsSync(zipName)) {
+            throw new Error(`${zipName} already exists.`);
+          }
+
+          for (const filePart of getParts(sv.manifest).keys()) {
+            const fullName = joinPathFragments(
+              build.options.outputPath,
+              filePart
+            );
             if (context.isVerbose) {
               console.log('checking', fullName);
             }
             if (!existsSync(fullName)) {
-              throw new Error(`${fn} does not exist`);
+              throw new Error(`${filePart} does not exist.`);
             }
           }
 
           const bodyLines: string[] = [];
           const zip = new AdmZip();
+
           zip.addLocalFolder(build.options.outputPath);
-          zip.writeZip(zipName);
+          zip.writeZip(zipName, (e) => {
+            if (e) {
+              console.log(e.message);
+              success = false;
+            }
+          });
 
           if (options.tagGit) {
             const tagb = execSync(
