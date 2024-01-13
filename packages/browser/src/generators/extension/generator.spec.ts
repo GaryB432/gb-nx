@@ -1,5 +1,11 @@
+jest.mock('@nx/eslint');
+jest.mock('@nx/jest');
+
 import { readJson, readProjectConfiguration, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import * as nxeslint from '@nx/eslint';
+import * as nxjest from '@nx/jest';
+import { uniq } from '@nx/plugin/testing';
 import { type ManifestSchema } from '../../manifest/manifest';
 import extensionGenerator from './generator';
 
@@ -7,51 +13,115 @@ describe('extension', () => {
   let tree: Tree;
   beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+
+    (nxeslint.lintProjectGenerator as jest.Mock).mockImplementation(
+      (_a: Tree, b) => {
+        if (b.linter !== nxeslint.Linter.EsLint) {
+          throw new Error('only eslint');
+        }
+      }
+    );
+
+    (nxjest.configurationGenerator as jest.Mock).mockImplementation(
+      (_a: Tree, b) => {
+        if (b.testEnvironment !== 'jsdom') {
+          throw new Error('s/b jsdom');
+        }
+      }
+    );
+    jest.clearAllMocks();
   });
 
-  it('should generate extension in directory', async () => {
+  it('should work generally', async () => {
+    const name = uniq('sut');
+
+    const directory = `apps/${name}`;
     await extensionGenerator(tree, {
-      name: 'my-app',
-      directory: 'apps/my-app',
+      name,
+      directory,
       projectNameAndRootFormat: 'as-provided',
       skipFormat: true,
     });
 
-    expect(tree.children('apps/my-app')).toContain('project.json');
-    expect(tree.children('apps/my-app/src')).toContain('main.ts');
-    expect(tree.children('apps/my-app/src/scripts')).toContain(
-      'my-app.content_script.ts'
-    );
-    expect(tree.children('apps/my-app')).toContain('jest.config.ts');
+    expect(tree.exists(`${directory}/src/main.ts`)).toBeTruthy();
+    expect(tree.exists(`${directory}/src/scripts/sw.ts`)).toBeTruthy();
+    expect(
+      tree.exists(`${directory}/src/scripts/${name}.content_script.ts`)
+    ).toBeTruthy();
 
-    const rpconf = readProjectConfiguration(tree, 'my-app');
+    expect(nxeslint.lintProjectGenerator).toHaveBeenCalledWith(
+      expect.anything(),
+      {
+        eslintFilePatterns: [`${directory}/**/*.ts`],
+        linter: 'eslint',
+        project: name,
+        skipFormat: true,
+      }
+    );
+    expect(nxjest.configurationGenerator).toHaveBeenCalledWith(
+      expect.anything(),
+      {
+        project: name,
+        setupFile: 'none',
+        skipFormat: true,
+        skipSerializers: true,
+        supportTsx: false,
+        testEnvironment: 'jsdom',
+      }
+    );
+
+    const rpconf = readProjectConfiguration(tree, name);
     expect(rpconf.targets!['build'].executor).toEqual('@nx/webpack:webpack');
-    expect(rpconf.targets!['lint'].executor).toEqual('@nx/eslint:lint');
     expect(rpconf.targets!['zip']).toEqual({
-      dependsOn: ['build:production', 'build-scripts'],
+      dependsOn: ['build:production'],
       executor: '@gb-nx/browser:zip',
       options: {
-        outputFileName:
-          '{workspaceRoot}/zip/my-app.extension@{manifestVersion}.zip',
+        outputFileName: `{workspaceRoot}/zip/${name}.extension@{manifestVersion}.zip`,
       },
       outputs: ['{options.outputFileName}'],
     });
 
     const manifest = readJson<ManifestSchema>(
       tree,
-      'apps/my-app/src/manifest.json'
+      `${directory}/src/manifest.json`
     );
     expect(manifest.content_scripts).toContainEqual({
-      js: ['scripts/my-app.content_script.js'],
-      matches: ['https://*/my-app.com/*'],
+      js: [`${name}.content_script.js`],
+      matches: ['http://localhost/*', `https://*.${name}.com/*`],
     });
 
     expect(
-      readJson(tree, 'apps/my-app/.eslintrc.json').overrides.length
-    ).toEqual(3);
+      readJson(tree, `${directory}/tsconfig.json`).references.length
+    ).toBeGreaterThan(0);
+  });
 
-    expect(
-      readJson(tree, 'apps/my-app/tsconfig.json').references.length
-    ).toEqual(3);
+  it('should skip eslint', async () => {
+    const name = uniq('sut');
+
+    const directory = `apps/${name}`;
+    await extensionGenerator(tree, {
+      name,
+      directory,
+      projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
+      linter: nxeslint.Linter.None,
+    });
+
+    expect(nxeslint.lintProjectGenerator).not.toHaveBeenCalled();
+  });
+  it('should skip eslint', async () => {
+    const name = uniq('sut');
+
+    const directory = `apps/${name}`;
+    await extensionGenerator(tree, {
+      name,
+      directory,
+      projectNameAndRootFormat: 'as-provided',
+      skipFormat: true,
+      unitTestRunner: 'none',
+      linter: nxeslint.Linter.EsLint,
+    });
+
+    expect(nxjest.configurationGenerator).not.toHaveBeenCalled();
   });
 });

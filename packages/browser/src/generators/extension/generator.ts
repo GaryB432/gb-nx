@@ -7,50 +7,15 @@ import {
   joinPathFragments,
   names,
   offsetFromRoot,
-  readJson,
   readProjectConfiguration,
   updateProjectConfiguration,
-  writeJson,
 } from '@nx/devkit';
 import { Linter, lintProjectGenerator } from '@nx/eslint';
 import { configurationGenerator as jestConfigGenerator } from '@nx/jest';
 import { join } from 'path';
-import type { ESLintConfiguration } from '../../utils/eslint';
-import { addCustomConfig } from '../../utils/eslint';
 import initGenerator from '../init/generator';
 import { normalizeOptions } from './lib/normalize-options';
 import type { ExtensionGeneratorOptions, NormalizedOptions } from './schema';
-
-function addCustomLint(tree: Tree, options: NormalizedOptions): void {
-  const projectRc = joinPathFragments(options.appProjectRoot, '.eslintrc.json');
-  const customPath = 'eslint-custom.json';
-  const rc = readJson(tree, projectRc) as ESLintConfiguration;
-  writeJson(
-    tree,
-    projectRc,
-    addCustomConfig(
-      rc,
-      joinPathFragments(offsetFromRoot(options.appProjectRoot), customPath)
-    )
-  );
-  writeJson(tree, customPath, {
-    overrides: [
-      {
-        files: ['*.ts'],
-        rules: {
-          '@typescript-eslint/no-unused-vars': 'off',
-          '@typescript-eslint/member-ordering': 'warn',
-        },
-      },
-      {
-        files: ['*spec.ts'],
-        rules: {
-          '@typescript-eslint/no-non-null-assertion': 'warn',
-        },
-      },
-    ],
-  });
-}
 
 async function addJest(
   tree: Tree,
@@ -92,8 +57,6 @@ async function addLint(
     skipFormat: true,
     eslintFilePatterns: [joinPathFragments(options.appProjectRoot, '**/*.ts')],
   });
-  // TODO needed??
-  addCustomLint(tree, options);
   return generateLint;
 }
 
@@ -129,8 +92,12 @@ export default async function (
     ...proj,
     tags: options.tags ? options.tags.split(',').map((s) => s.trim()) : [],
   });
-  await addJest(tree, normalizedOptions);
-  await addLint(tree, normalizedOptions);
+  if (normalizedOptions.unitTestRunner === 'jest') {
+    await addJest(tree, normalizedOptions);
+  }
+  if (normalizedOptions.linter === Linter.EsLint) {
+    await addLint(tree, normalizedOptions);
+  }
   updateGitIgnore(tree);
   if (!options.skipFormat) {
     await formatFiles(tree);
