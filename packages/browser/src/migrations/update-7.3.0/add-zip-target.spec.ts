@@ -1,6 +1,6 @@
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import {
-  Tree,
+  type Tree,
   addProjectConfiguration,
   readProjectConfiguration,
 } from '@nx/devkit';
