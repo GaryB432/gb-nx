@@ -42,3 +42,8 @@ chrome.runtime.onMessage.addListener(
     }
   }
 );
+
+// https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts
+// chrome.scripting
+//  .getRegisteredContentScripts()
+//  .then((scripts) => console.log('registered content scripts', scripts));

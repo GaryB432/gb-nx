@@ -1,12 +1,24 @@
+/**
+ * 
+ * @deprecated
+ */
 export interface LintOverride {
   extends?: string[];
   files: string[];
 }
 
+/**
+ * 
+ * @deprecated
+ */
 export interface ESLintConfiguration {
   overrides: LintOverride[];
 }
 
+/**
+ * 
+ * @deprecated
+ */
 export function addCustomConfig(
   config: ESLintConfiguration,
   customPath: string

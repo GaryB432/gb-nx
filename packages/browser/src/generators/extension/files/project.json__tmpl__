@@ -20,6 +20,14 @@
             "entryPath": "<%= appProjectRoot %>/src/options.ts"
           },
           {
+            "entryName": "sw",
+            "entryPath": "<%= appProjectRoot %>/src/scripts/sw.ts"
+          },
+          {
+            "entryName": "<%= appProjectName %>.content_script",
+            "entryPath": "<%= appProjectRoot %>/src/scripts/<%= appProjectName %>.content_script.ts"
+          },
+          {
             "entryName": "popup",
             "entryPath": "<%= appProjectRoot %>/src/popup.ts"
           }
@@ -40,7 +48,6 @@
           "optimization": true,
           "extractLicenses": true,
           "inspect": false,
-          "sourceMap": false,
           "fileReplacements": [
             {
               "replace": "<%= appProjectRoot %>/src/environments/environment.ts",
@@ -53,15 +60,9 @@
     "zip": {
       "executor": "@gb-nx/browser:zip",
       "outputs": ["{options.outputFileName}"],
-      "dependsOn": ["build:production", "build-scripts"],
+      "dependsOn": ["build:production"],
       "options": {
         "outputFileName": "{workspaceRoot}/zip/<%= fileName %>.extension@{manifestVersion}.zip"
-      }
-    },
-    "build-scripts": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx tsc -p <%= appProjectRoot %>/tsconfig.scripts.json --rootdir <%= appProjectRoot %>/src --outdir dist/<%= appProjectRoot %>"
       }
     }
   },

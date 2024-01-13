@@ -1,16 +1,16 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "strict": true
+    "target": "ES2017",
+    "module": "CommonJS",
+    "sourceMap": false,
+    "declaration": false
   },
   "files": [],
   "include": [],
   "references": [
     {
       "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.scripts.json"
     }
   ]
 }

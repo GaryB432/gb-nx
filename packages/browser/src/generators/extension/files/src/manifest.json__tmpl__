@@ -17,12 +17,15 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://*/<%= fileName %>.com/*"],
-      "js": ["scripts/<%= fileName %>.content_script.js"]
+      "matches": [
+        "http://localhost/*",
+        "https://*.<%= fileName %>.com/*"
+      ],
+      "js": ["<%= fileName %>.content_script.js"]
     }
   ],
   "background": {
-    "service_worker": "scripts/sw.js"
+    "service_worker": "sw.js"
   },
   "commands": {
     "open-gn-nx": {
