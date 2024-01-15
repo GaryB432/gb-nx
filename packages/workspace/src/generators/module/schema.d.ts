@@ -25,6 +25,10 @@ export interface Schema {
    */
   kind?: 'class' | 'values';
   /**
+   * Use pascal case file names for class modules.
+   */
+  pascalCaseFiles?: boolean;
+  /**
    * Test runner to use for unit tests.
    */
   unitTestRunner?: 'jest' | 'vitest' | 'none';

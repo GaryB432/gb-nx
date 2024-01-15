@@ -50,6 +50,12 @@
       "default": "values",
       "enum": ["class", "values"]
     },
+    "pascalCaseFiles": {
+      "type": "boolean",
+      "description": "Use pascal case file names for class modules.",
+      "alias": "P",
+      "default": false
+    },
     "unitTestRunner": {
       "type": "string",
       "enum": ["jest", "vitest", "none"],

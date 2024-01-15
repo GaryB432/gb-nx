@@ -1,0 +1,17 @@
+{
+  "generators": {
+    "gratuitous-update": {
+      "version": "4.1.0",
+      "description": "try to get a migration running",
+      "implementation": "./src/migrations/update-4-1-0/gratuitous-update"
+    }
+  },
+  "packageJsonUpdates": {
+    "4.1.0-alpha.1": {
+      "version": "4.1.0",
+      "packages": {
+        "gb-schematics": "^3.7.0"
+      }
+    }
+  }
+}

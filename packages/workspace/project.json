@@ -33,6 +33,11 @@
             "input": "./packages/workspace",
             "glob": "executors.json",
             "output": "."
+          },
+          {
+            "input": "./packages/workspace",
+            "glob": "migrations.json",
+            "output": "."
           }
         ]
       }
