@@ -39,7 +39,9 @@ describe('with eslint', () => {
 
   it('should handle project eslint config', async () => {
     await generator(appTree, options);
-    expect(appTree.read('apps/subject-skapp/.eslintrc.json', 'utf-8')).toMatchSnapshot();
+    expect(
+      appTree.read('apps/subject-skapp/.eslintrc.json', 'utf-8')
+    ).toMatchSnapshot();
   });
 
   it('should handle eslint config', async () => {
@@ -135,7 +137,9 @@ describe('application generator', () => {
     ]);
 
     // expect(installPackagesTask.mock.calls.length).toBe(2);
-    expect(readJson(appTree, 'apps/subject-skapp/project.json')).toMatchSnapshot();
+    expect(
+      readJson(appTree, 'apps/subject-skapp/project.json')
+    ).toMatchSnapshot();
   });
 
   it('should update prettier', async () => {

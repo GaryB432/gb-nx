@@ -76,5 +76,4 @@ describe('svelte e2e', () => {
       expect(proj.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 120000);
   });
-
 });

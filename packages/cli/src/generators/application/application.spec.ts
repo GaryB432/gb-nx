@@ -47,7 +47,6 @@ describe('app', () => {
       expect(targets['sync'].executor).toEqual('nx:run-commands');
     });
   });
-
 });
 
 async function generateMyApp(appTree: Tree) {
