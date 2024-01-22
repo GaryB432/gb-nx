@@ -48,14 +48,17 @@ nx g @nx/node:application payroll
 nx g @gb-nx/workspace:module employee --kind class --project payroll
 ```
 
-| OPTION       | DESCRIPTION                                                                                                     |
-| ------------ | --------------------------------------------------------------------------------------------------------------- |
-| --name       | The name of the module.                                                                                         |
-| --project    | The project to target.                                                                                          |
-| --skipFormat | Skip formatting files.                                                                                          |
-| --directory  | The directory to create the module, relative to your project source.                                            |
-| --kind       | The kind of module. `class` for a class or `values` for a general module to export expressions or functions etc |
-| --skipTests  | Do not create "spec.ts" test files for the new module.                                                          |
+See `nx g @gb-nx/workspace --help` for all options
+
+| OPTION            | DESCRIPTION                                                                                                     |
+| ----------------- | --------------------------------------------------------------------------------------------------------------- |
+| --name            | The name of the module.                                                                                         |
+| --project         | The project to target.                                                                                          |
+| --skipFormat      | Skip formatting files.                                                                                          |
+| --pascalCaseFiles | Use Pascal case for `class` type module file names.                                                             |
+| --directory       | The directory to create the module, relative to your project source.                                            |
+| --kind            | The kind of module. `class` for a class or `values` for a general module to export expressions or functions etc |
+| --skipTests       | Do not create "spec.ts" test files for the new module.                                                          |
 
 ### Add [junit reporter](https://www.npmjs.com/package/jest-junit) to a [@nx/jest](https://nx.dev/nx-api/jest) project
 
