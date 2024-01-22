@@ -6,7 +6,7 @@ export function optionsForSchematic(
   project: ProjectConfiguration,
   options: Schema
 ): GbModuleOptions {
-  const { name, kind, unitTestRunner, directory } = options;
+  const { name, kind, unitTestRunner, directory, pascalCaseFiles } = options;
   const { sourceRoot } = project;
 
   const schematicOptions: GbModuleOptions = {
@@ -15,6 +15,7 @@ export function optionsForSchematic(
     kind,
     unitTestRunner,
     inSourceTests: true,
+    pascalCaseFiles,
     sourceRoot: sourceRoot === '.' ? '' : sourceRoot,
   };
 
