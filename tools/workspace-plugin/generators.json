@@ -9,6 +9,11 @@
       "factory": "./src/generators/make-schemas/generator",
       "schema": "./src/generators/make-schemas/schema.json",
       "description": "make-schemas generator"
+    },
+    "doc": {
+      "factory": "./src/generators/doc/generator",
+      "schema": "./src/generators/doc/schema.json",
+      "description": "Generate documentation  for packages"
     }
   }
 }
