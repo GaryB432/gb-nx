@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Create markdown documents for a plugin workspace",
+  "description": "Create a document detailing options for plugin projects",
+  "examples": [
+    {
+      "command": "nx g doc",
+      "description": "Create a document listing every project"
+    },
+    {
+      "command": "nx g doc --exclude=my-app --exclude=other-plugin",
+      "description": "Create a document listing every project except my-app and other-plugin"
+    }
+  ],
+  "type": "object",
+  "properties": {
+    "exclude": {
+      "type": "array",
+      "description": "Projects to exclude",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": []
+}
