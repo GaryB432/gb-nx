@@ -1,5 +1,5 @@
 {
-  "cli": "nx",
+  "cli": "Gb-Nx",
   "id": "bump-version",
   "type": "object",
   "properties": {
