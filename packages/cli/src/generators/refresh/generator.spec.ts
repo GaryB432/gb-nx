@@ -6,9 +6,9 @@ import {
   joinPathFragments,
 } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import applicationGenerator from '../application/application';
-import commandGenerator from '../command/command';
-import refreshGenerator from './refresh';
+import applicationGenerator from '../application/generator';
+import commandGenerator from '../command/generator';
+import refreshGenerator from './generator';
 
 let noted: unknown;
 jest.spyOn(output, 'note').mockImplementation((m) => {

@@ -1,27 +1,22 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "name": "cli",
-  "version": "0.0.1",
   "generators": {
-    "init": {
-      "factory": "./src/generators/init/init",
-      "schema": "./src/generators/init/schema.json",
-      "description": "init generator"
-    },
     "application": {
-      "factory": "./src/generators/application/application",
+      "factory": "./src/generators/application/generator",
       "schema": "./src/generators/application/schema.json",
-      "aliases": ["app"],
-      "x-type": "application",
       "description": "application generator"
     },
     "command": {
-      "factory": "./src/generators/command/command",
+      "factory": "./src/generators/command/generator",
       "schema": "./src/generators/command/schema.json",
       "description": "command generator"
     },
+    "init": {
+      "factory": "./src/generators/init/generator",
+      "schema": "./src/generators/init/schema.json",
+      "description": "init generator"
+    },
     "refresh": {
-      "factory": "./src/generators/refresh/refresh",
+      "factory": "./src/generators/refresh/generator",
       "schema": "./src/generators/refresh/schema.json",
       "description": "refresh generator"
     }

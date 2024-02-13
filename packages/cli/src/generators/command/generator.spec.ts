@@ -1,15 +1,15 @@
 import { output, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import applicationGenerator from '../application/application';
-import refreshGenerator from '../refresh/refresh';
+import applicationGenerator from '../application/generator';
+import refreshGenerator from '../refresh/generator';
 import { type Schema as RefreshSchema } from '../refresh/schema';
-import commandGenerator from './command';
+import commandGenerator from './generator';
 
 let noted: { title: string };
 
 const projectName = 'my-app';
 
-jest.mock('../refresh/refresh', () => {
+jest.mock('../refresh/generator', () => {
   return {
     default: jest.fn((_tree: unknown, options: RefreshSchema) => {
       if (!options.all || options.project !== projectName) {

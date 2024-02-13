@@ -12,7 +12,7 @@ import {
 import { applicationGenerator as nodeAppGenerator } from '@nx/node';
 import * as path from 'path';
 import { chalkVersion, sadeVersion } from '../../utils/versions';
-import refreshGenerator from '../refresh/refresh';
+import refreshGenerator from '../refresh/generator';
 import {
   normalizeOptions,
   toNodeApplicationGeneratorOptions,

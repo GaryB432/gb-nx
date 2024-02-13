@@ -2,7 +2,7 @@ import type { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import type { Schema as InitGeneratorSchema } from '@nx/node/src/generators/init/schema';
 import { readJson } from 'nx/src/generators/utils/json';
-import initGenerator from './init';
+import initGenerator from './generator';
 
 describe('init generator', () => {
   let appTree: Tree;

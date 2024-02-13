@@ -11,7 +11,7 @@ import {
 import { join } from 'path';
 import type { ConfigProp } from '../../utils/config';
 import { readCliConfig, writeCliConfig } from '../../utils/config';
-import refreshGenerator from '../refresh/refresh';
+import refreshGenerator from '../refresh/generator';
 import type { Schema as CommandGeneratorSchema } from './schema';
 
 export interface NormalizedCommandSchema extends CommandGeneratorSchema {

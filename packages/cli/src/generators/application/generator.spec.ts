@@ -1,8 +1,8 @@
 import type { Tree } from '@nx/devkit';
 import { parseJson, readJson, readProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import * as refresher from '../refresh/refresh';
-import applicationGenerator from './application';
+import * as refresher from '../refresh/generator';
+import applicationGenerator from './generator';
 
 const mockRefresher = jest
   .spyOn(refresher, 'default')
