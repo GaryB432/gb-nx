@@ -56,9 +56,10 @@ export function schemaValidate(json: string): {
     for (const ef of validate.errors!) {
       messages.push(`${ef.instancePath} ${ef.message}`);
     }
+    return { messages, manifest, success: false };
   }
 
-  return { messages, manifest, success };
+  return { messages, manifest, success: true };
 }
 
 export function getParts(manifest: ManifestSchema): Map<string, Part> {

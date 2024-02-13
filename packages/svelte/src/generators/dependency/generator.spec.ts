@@ -1,6 +1,5 @@
-import { type Tree } from '@nx/devkit';
+import { addProjectConfiguration, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { applicationGenerator, libraryGenerator } from '@nx/node';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
 import type { Schema as DependencyGeneratorSchema } from './schema';
@@ -16,19 +15,14 @@ describe('dependency generator', () => {
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    void (await applicationGenerator(appTree, {
-      name: 'test',
-      directory: 'apps/test',
-      projectNameAndRootFormat: 'as-provided',
-      skipFormat: true,
-    }));
-    void (await libraryGenerator(appTree, {
-      name: 'dep',
-      compiler: 'swc',
-      directory: 'libs/dep',
-      projectNameAndRootFormat: 'as-provided',
-      skipFormat: true,
-    }));
+    addProjectConfiguration(appTree, 'test', {
+      projectType: 'application',
+      root: 'apps/test',
+    });
+    addProjectConfiguration(appTree, 'dep', {
+      projectType: 'library',
+      root: 'libs/dep',
+    });
     createSvelteKitApp(appTree, '0', {
       name: 'test',
       directory: 'apps',
@@ -70,19 +64,14 @@ describe('dependency generator with scope', () => {
 
   beforeEach(async () => {
     appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    void (await applicationGenerator(appTree, {
-      name: 'test',
-      directory: 'apps/test',
-      projectNameAndRootFormat: 'as-provided',
-      skipFormat: true,
-    }));
-    void (await libraryGenerator(appTree, {
-      name: 'dep',
-      compiler: 'swc',
-      directory: 'libs/dep',
-      projectNameAndRootFormat: 'as-provided',
-      skipFormat: true,
-    }));
+    addProjectConfiguration(appTree, 'test', {
+      projectType: 'application',
+      root: 'apps/test',
+    });
+    addProjectConfiguration(appTree, 'dep', {
+      projectType: 'library',
+      root: 'libs/dep',
+    });
     createSvelteKitApp(appTree, '0', { name: 'test', directory: 'apps' });
   });
 

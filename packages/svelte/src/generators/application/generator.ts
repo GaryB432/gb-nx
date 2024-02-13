@@ -37,7 +37,7 @@ export async function addLintingToApplication(
 ): Promise<void> {
   await lintProjectGenerator(tree, {
     linter: Linter.EsLint,
-    project: project.name!,
+    project: project.name ?? '',
     // tsConfigPaths: [joinPathFragments(project.root, 'tsconfig.base.json')],
     unitTestRunner: 'vitest',
     skipFormat: options.skipFormat ?? false,
@@ -123,7 +123,7 @@ function updatePrettier(tree: Tree, options: NormalizedOptions) {
     ].join('\n');
 
     if (tree.exists(fname)) {
-      content = tree.read(fname, 'utf-8')!;
+      content = tree.read(fname, 'utf-8') ?? '';
     }
 
     const patterns = content.split('\n');
