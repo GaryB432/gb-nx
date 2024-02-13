@@ -37,16 +37,16 @@
         ]
       }
     },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs svelte {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/packages/svelte",
-        "{workspaceRoot}/junit/packages/svelte.xml"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/svelte/jest.config.ts"
       }

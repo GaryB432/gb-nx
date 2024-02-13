@@ -1,7 +1,6 @@
 {
   "name": "@gb-nx/workspace",
-  "version": "4.1.1",
-  "main": "src/index.js",
+  "version": "5.0.0-alpha.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/GaryB432/gb-nx.git"
@@ -16,20 +15,16 @@
     "workspace"
   ],
   "homepage": "https://github.com/GaryB432/gb-nx/tree/master/packages/workspace",
-  "generators": "./generators.json",
-  "executors": "./executors.json",
-  "nx-migrations": {
-    "migrations": "./migrations.json"
-  },
   "peerDependencies": {
     "tslib": "^2.3.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@nx/devkit": "^17.0.0",
+    "@nx/devkit": "^18.0.0",
     "gb-schematics": "^3.7.0"
   },
-  "publishConfig": {
-    "access": "public"
-  }
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "generators": "./generators.json"
 }

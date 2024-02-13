@@ -11,7 +11,6 @@
         "outputPath": "dist/packages/cli",
         "main": "packages/cli/src/index.ts",
         "tsConfig": "packages/cli/tsconfig.lib.json",
-        "packageJson": "packages/cli/package.json",
         "assets": [
           "packages/cli/*.md",
           {
@@ -33,11 +32,6 @@
             "input": "./packages/cli",
             "glob": "executors.json",
             "output": "."
-          },
-          {
-            "input": "./packages/cli/schemas",
-            "glob": "*.json",
-            "output": "./schemas"
           }
         ]
       }
@@ -47,8 +41,7 @@
       "dependsOn": ["build"]
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",

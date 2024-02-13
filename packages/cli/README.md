@@ -104,6 +104,7 @@ This plugin supports Nx migrations and provides necessary version and code updat
 
 | @gb-nx/cli version | Nx version |
 | ------------------ | ---------- |
+| ^5.0.0             | ^18.0.0    |
 | ^4.0.0             | ^17.0.0    |
 | ^3.0.0             | ^16.0.0    |
 | <3.0.0             | ^15.0.0    |

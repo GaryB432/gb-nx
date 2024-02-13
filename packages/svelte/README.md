@@ -88,6 +88,7 @@ This plugin supports Nx migrations and provides necessary version and code updat
 
 | @gb-nx/svelte version | Nx version |
 | --------------------- | ---------- |
+| ^8.0.0                | ^18.0.0    |
 | ^6.0.0                | ^17.0.0    |
 | ^5.0.0                | ^16.0.0    |
 | <5.0.0                | ^15.0.0    |

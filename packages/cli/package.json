@@ -1,7 +1,6 @@
 {
   "name": "@gb-nx/cli",
-  "version": "4.0.1",
-  "main": "src/index.js",
+  "version": "5.0.0-alpha.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/GaryB432/gb-nx.git"
@@ -16,18 +15,17 @@
     "cli"
   ],
   "homepage": "https://github.com/GaryB432/gb-nx/tree/master/packages/cli",
-  "generators": "./generators.json",
-  "executors": "./executors.json",
   "peerDependencies": {
     "tslib": "^2.3.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@nx/devkit": "^17.0.0",
-    "@nx/linter": "^17.0.0",
-    "@nx/node": "^17.0.0"
+    "@nx/devkit": "^18.0.0",
+    "@nx/linter": "^18.0.0",
+    "@nx/node": "^18.0.0"
   },
-  "publishConfig": {
-    "access": "public"
-  }
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "generators": "./generators.json"
 }

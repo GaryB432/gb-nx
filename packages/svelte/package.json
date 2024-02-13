@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/svelte",
-  "version": "7.0.1",
+  "version": "8.0.0-alpha.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -16,20 +16,21 @@
     "svelte"
   ],
   "homepage": "https://github.com/GaryB432/gb-nx/tree/master/packages/svelte",
-  "generators": "./generators.json",
-  "executors": "./executors.json",
   "peerDependencies": {
-    "@phenomnomnominal/tsquery": "~5.0.1",
-    "nx": "^17.0.0",
-    "prettier": "^2.0.0",
     "tslib": "^2.3.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@nx/devkit": "^17.0.0",
-    "@nx/eslint": "^17.0.0",
-    "@nx/js": "^17.0.0"
+    "@nx/devkit": "^18.0.0",
+    "@nx/eslint": "^18.0.0",
+    "@nx/js": "^18.0.0",
+    "@phenomnomnominal/tsquery": "~5.0.1",
+    "nx": "^18.0.0",
+    "prettier": "^2.0.0"
   },
+  "type": "commonjs",
+  "typings": "./src/index.d.ts",
+  "generators": "./generators.json",
   "publishConfig": {
     "access": "public"
   }

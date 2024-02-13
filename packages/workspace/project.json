@@ -9,9 +9,8 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/workspace",
-        "tsConfig": "packages/workspace/tsconfig.lib.json",
-        "packageJson": "packages/workspace/package.json",
         "main": "packages/workspace/src/index.ts",
+        "tsConfig": "packages/workspace/tsconfig.lib.json",
         "assets": [
           "packages/workspace/*.md",
           {
@@ -33,11 +32,6 @@
             "input": "./packages/workspace",
             "glob": "executors.json",
             "output": "."
-          },
-          {
-            "input": "./packages/workspace",
-            "glob": "migrations.json",
-            "output": "."
           }
         ]
       }
@@ -47,15 +41,11 @@
       "dependsOn": ["build"]
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/packages/workspace",
-        "{workspaceRoot}/junit/packages/workspace.xml"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/workspace/jest.config.ts"
       }

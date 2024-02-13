@@ -1,12 +1,11 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "name": "svelte",
-  "version": "0.0.1",
   "generators": {
-    "route": {
-      "factory": "./src/generators/route/generator",
-      "schema": "./src/generators/route/schema.json",
-      "description": "route generator"
+    "application": {
+      "factory": "./src/generators/application/generator",
+      "schema": "./src/generators/application/schema.json",
+      "description": "application generator",
+      "aliases": ["app"],
+      "x-type": "application"
     },
     "component": {
       "factory": "./src/generators/component/generator",
@@ -18,17 +17,15 @@
       "schema": "./src/generators/dependency/schema.json",
       "description": "dependency generator"
     },
-    "application": {
-      "factory": "./src/generators/application/generator",
-      "schema": "./src/generators/application/schema.json",
-      "aliases": ["app"],
-      "x-type": "application",
-      "description": "application generator"
-    },
     "init": {
       "factory": "./src/generators/init/generator",
       "schema": "./src/generators/init/schema.json",
       "description": "init generator"
+    },
+    "route": {
+      "factory": "./src/generators/route/generator",
+      "schema": "./src/generators/route/schema.json",
+      "description": "route generator"
     }
   }
 }

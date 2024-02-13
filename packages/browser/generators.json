@@ -1,7 +1,4 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "name": "browser",
-  "version": "0.0.1",
   "generators": {
     "extension": {
       "factory": "./src/generators/extension/generator",

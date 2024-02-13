@@ -1,12 +1,8 @@
 {
-  "extends": ["./.eslintrc.base.json"],
+  "root": true,
   "ignorePatterns": ["**/*"],
+  "plugins": ["@nx", "gb"],
   "overrides": [
-    {
-      "files": "*.json",
-      "parser": "jsonc-eslint-parser",
-      "rules": {}
-    },
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
@@ -27,10 +23,16 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript", "plugin:gb/recommended"],
       "rules": {}
     },
     {
+      "files": ["*.spec.ts"],
+      "rules": { "@typescript-eslint/no-non-null-assertion": "off" }
+    },
+    {
       "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {}
     },
     {

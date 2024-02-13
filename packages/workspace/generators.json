@@ -1,13 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "name": "workspace",
-  "version": "0.0.1",
   "generators": {
-    "module": {
-      "factory": "./src/generators/module/generator",
-      "schema": "./src/generators/module/schema.json",
-      "description": "module generator"
-    },
     "init": {
       "factory": "./src/generators/init/generator",
       "schema": "./src/generators/init/schema.json",
@@ -17,6 +9,11 @@
       "factory": "./src/generators/junit/generator",
       "schema": "./src/generators/junit/schema.json",
       "description": "junit generator"
+    },
+    "module": {
+      "factory": "./src/generators/module/generator",
+      "schema": "./src/generators/module/schema.json",
+      "description": "module generator"
     }
   }
 }
