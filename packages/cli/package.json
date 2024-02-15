@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/cli",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -23,9 +23,9 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@nx/devkit": "^17.0.0",
-    "@nx/linter": "^17.0.0",
-    "@nx/node": "^17.0.0"
+    "@nx/devkit": ">=17.0.0",
+    "@nx/linter": ">=17.0.0",
+    "@nx/node": ">=17.0.0"
   },
   "publishConfig": {
     "access": "public"
