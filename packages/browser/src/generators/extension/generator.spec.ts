@@ -52,10 +52,10 @@ describe('extension', () => {
     expect(nxeslint.lintProjectGenerator).toHaveBeenCalledWith(
       expect.anything(),
       {
-        eslintFilePatterns: [`${directory}/**/*.ts`],
         linter: 'eslint',
         project: name,
         skipFormat: true,
+        addPlugin: true,
       }
     );
     expect(nxjest.configurationGenerator).toHaveBeenCalledWith(
