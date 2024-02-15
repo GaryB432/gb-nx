@@ -27,7 +27,7 @@ describe('cli e2e', () => {
     const project = uniq('cli');
     await runNxCommandAsync(`generate @gb-nx/cli:application ${project}`);
     const result = await runNxCommandAsync(`build ${project}`);
-    expect(result.stdout).toContain('webpack compiled');
+    expect(result.stdout).toContain('Successfully ran target build');
     expect(() => checkFilesExist(`dist/${project}/main.js`)).not.toThrow();
   }, 120000);
 

@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/workspace",
-  "version": "4.1.1",
+  "version": "5.0.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@nx/devkit": "^17.0.0",
+    "@nx/devkit": ">=17.0.0",
     "gb-schematics": "^3.7.0"
   },
   "publishConfig": {

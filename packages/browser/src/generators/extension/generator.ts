@@ -55,7 +55,7 @@ async function addLint(
     project: options.appProjectName,
     linter: Linter.EsLint,
     skipFormat: true,
-    eslintFilePatterns: [joinPathFragments(options.appProjectRoot, '**/*.ts')],
+    addPlugin: true,
   });
   return generateLint;
 }

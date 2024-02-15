@@ -3,7 +3,6 @@ import type { Linter } from '@nx/linter';
 
 export interface CliGeneratorOptions {
   directory?: string;
-  e2eTestRunner?: 'jest' | 'none';
   linter?: Linter;
   name: string;
   rootProject?: boolean;
