@@ -29,21 +29,12 @@ yarn create nx-workspace@latest
 
 ## Getting Started
 
-Then you need to install the plugin in order to generate extension applications later on.
+Then you need to install the plugin in order to generate browser applications later on.
 
 ### Installing Plugin
 
 ```
-# npm
-npm install @gb-nx/browser --save-dev
-
-# yarn
-yarn add @gb-nx/browser --dev
-```
-
-```
-npx nx build extension -c=production
-npx nx build-scripts extension
+npx nx add @gb-nx/browser
 ```
 
 ### Generating Project
@@ -57,8 +48,6 @@ nx generate @gb-nx/browser:extension --name=my-extension --directory=apps/my-ext
 ### Working with your Project
 
 > nx run my-extension:build
-
-> nx run my-extension:build-scripts
 
 Load (or reload) the unpacked extension from `dist/apps/my-extension` with `Manage Extensions` in your browser.
 
@@ -74,7 +63,8 @@ Repeat
 
 Run the `zip` target to create a versioned archive of your extension.
 
-> npx nx zip extension --tagGit false
+> nx run my-extension:build:production
+> nx zip my-extension --tagGit false
 
 ## Migrations
 

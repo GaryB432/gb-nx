@@ -67,6 +67,8 @@ describe('extension', () => {
         skipSerializers: true,
         supportTsx: false,
         testEnvironment: 'jsdom',
+        skipPackageJson: false,
+        addPlugin: true,
       }
     );
 

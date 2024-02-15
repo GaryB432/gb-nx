@@ -4,7 +4,6 @@ import {
   formatFiles,
   generateFiles,
   installPackagesTask,
-  joinPathFragments,
   names,
   offsetFromRoot,
   readProjectConfiguration,
@@ -13,7 +12,6 @@ import {
 import { Linter, lintProjectGenerator } from '@nx/eslint';
 import { configurationGenerator as jestConfigGenerator } from '@nx/jest';
 import { join } from 'path';
-import initGenerator from '../init/generator';
 import { normalizeOptions } from './lib/normalize-options';
 import type { ExtensionGeneratorOptions, NormalizedOptions } from './schema';
 
@@ -28,6 +26,8 @@ async function addJest(
     skipSerializers: true,
     testEnvironment: 'jsdom',
     skipFormat: true,
+    skipPackageJson: false,
+    addPlugin: true,
     // compiler: options.compiler,
   });
 }
@@ -84,7 +84,7 @@ export default async function (
   addProjectConfiguration(tree, normalizedOptions.appProjectName, {
     root: normalizedOptions.appProjectRoot,
   });
-  await initGenerator(tree, { ...normalizedOptions, skipFormat: true });
+  // await initGenerator(tree, { ...normalizedOptions, skipFormat: true });
   addFiles(tree, normalizedOptions);
 
   const proj = readProjectConfiguration(tree, normalizedOptions.appProjectName);
