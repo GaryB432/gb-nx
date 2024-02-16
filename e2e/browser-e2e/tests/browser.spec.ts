@@ -26,7 +26,7 @@ describe('browser e2e', () => {
   it('should create extension', async () => {
     const project = uniq('extension');
     await runNxCommandAsync(
-      `generate @gb-nx/browser:extension ${project} --directory=a/b --no-interactive --skipFormat`
+      `generate @gb-nx/browser:extension ${project} --directory=a/b --projectNameAndRootFormat=as-provided --no-interactive --skipFormat`
     );
     const result = await runNxCommandAsync(`build ${project}`);
     expect(result.stdout).toContain(
@@ -37,7 +37,7 @@ describe('browser e2e', () => {
   it('should zip extension', async () => {
     const project = uniq('extension');
     await runNxCommandAsync(
-      `generate @gb-nx/browser:extension ${project} --directory=flaps/${project} --no-interactive --skipFormat`
+      `generate @gb-nx/browser:extension ${project} --directory=flaps/${project} --projectNameAndRootFormat=as-provided --no-interactive --skipFormat`
     );
     await runNxCommandAsync(`run ${project}:build:production`);
     const result = await runNxCommandAsync(`zip ${project} --no-tagGit`);
@@ -50,7 +50,7 @@ describe('browser e2e', () => {
     it('should create src in the specified directory', async () => {
       const project = uniq('extension');
       await runNxCommandAsync(
-        `generate @gb-nx/browser:extension ${project} --directory=d/efg --no-interactive --skipFormat`
+        `generate @gb-nx/browser:extension ${project} --directory=d/efg --projectNameAndRootFormat=as-provided --no-interactive --skipFormat`
       );
       expect(() =>
         checkFilesExist(
@@ -77,7 +77,7 @@ describe('browser e2e', () => {
       const projectName = uniq('extension');
       ensureNxProject('@gb-nx/browser', 'dist/packages/browser');
       await runNxCommandAsync(
-        `generate @gb-nx/browser:extension ${projectName} --directory=e/f/${projectName} --skipFormat --tags e2etag,e2ePackage`
+        `generate @gb-nx/browser:extension ${projectName} --directory=e/f/${projectName} --projectNameAndRootFormat=as-provided --skipFormat --tags e2etag,e2ePackage`
       );
       const project = readJson(`e/f/${projectName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
