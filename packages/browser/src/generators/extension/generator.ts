@@ -9,7 +9,7 @@ import {
   offsetFromRoot,
   readProjectConfiguration,
   runTasksInSerial,
-  updateProjectConfiguration
+  updateProjectConfiguration,
 } from '@nx/devkit';
 import { Linter, lintProjectGenerator } from '@nx/eslint';
 import { configurationGenerator as jestConfigGenerator } from '@nx/jest';
