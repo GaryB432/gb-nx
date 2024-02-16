@@ -5,7 +5,7 @@ export interface ExtensionGeneratorOptions {
   directory?: string;
   linter?: Linter;
   name: string;
-  projectNameAndRootFormat?: ProjectNameAndRootFormat;
+  // projectNameAndRootFormat?: ProjectNameAndRootFormat;
   rootProject?: boolean;
   setParserOptionsProject?: boolean;
   skipFormat?: boolean;

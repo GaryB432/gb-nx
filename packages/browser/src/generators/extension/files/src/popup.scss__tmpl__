@@ -1,15 +1,40 @@
+:root {
+  --brand-color: #00bbff;
+  --brand-contrast-color: #dae7ff;
+}
 body {
   min-width: 400px;
+  background-color: var(--brand-contrast-color);
+  color: var(--brand-color);
+  margin: 0;
 }
-:root {
-  --primary-color: rgb(31, 186, 186);
-  --secondary-color: hsla(11, 50%, 87%, 1);
-  --tertiary-color: #edf0f8;
-  --text-color: black;
-  --background-color: #fff;
-  --ruby-red: hsla(355, 74%, 33%, 1);
+main {
+  display: flex;
+  justify-content: center;
 }
-
-p {
-  border: thin solid silver;
+section {
+  border-radius: 5px;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  align-content: center;
+  justify-content: space-around;
+}
+h1 {
+  color: var(--brand-contrast-color);
+  background-color: var(--brand-color);
+  margin: 0 0 0.5rem 0;
+  padding: 0.5rem;
+}
+button {
+  font-size: 2rem;
+  width: 3rem;
+}
+#count {
+  color: black;
+  min-width: 3ch;
+  background-color: white;
+  font-size: 3rem;
+  text-align: center;
+  margin: 1rem;
 }

@@ -2,4 +2,8 @@
 
 ## Working with your extension
 
-TODO add resource like icon generation, store portal, tips on workflow
+### To install on Chrome
+
+Open chrome://extensions/ and make sure `Developer mode` is enabled in the top right corner.
+Then click the `Load unpacked` button and navigate to the `dist/<%= appProjectRoot %>` folder.
+Once installed, click the extension's icon in the browser's top right toolbar to see popup.html.

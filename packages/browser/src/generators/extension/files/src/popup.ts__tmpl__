@@ -1,18 +1,27 @@
 import { environment } from './environments/environment';
 import './popup.scss';
 
-const el = document.querySelector('#popup-vp');
+async function count(change: number): Promise<void> {
+  chrome.runtime.sendMessage<
+    CounterRequest,
+    CounterResponse
+  >({
+    type: 'COUNTER_REQUEST',
+    change,
+  }, (response)=>{
 
-async function getNotice(): Promise<string> {
-  return Promise.resolve('<%= className %> works');
+    countEl.textContent = response.counter.toString();
+  });
 }
 
-async function main() {
-  if (el) {
-    el.textContent = environment.production
-      ? 'Production Configuration'
-      : await getNotice();
-  }
-}
+const countEl = document.querySelector('#count');
 
-void main();
+document
+  .querySelector('#plus')
+  .addEventListener('click', async () => await count(1));
+document
+  .querySelector('#minus')
+  .addEventListener('click', async () => await count(-1));
+
+void count(0);
+console.log('👋🏻 from <%= className %> Popup', JSON.stringify(environment));

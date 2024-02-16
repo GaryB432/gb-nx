@@ -46,7 +46,6 @@ describe('extension', () => {
     await extensionGenerator(tree, {
       name,
       directory,
-      projectNameAndRootFormat: 'as-provided',
       skipFormat: true,
     });
 
@@ -111,7 +110,6 @@ describe('extension', () => {
     await extensionGenerator(tree, {
       name,
       directory,
-      projectNameAndRootFormat: 'as-provided',
       skipFormat: true,
       linter: nxeslint.Linter.None,
     });
@@ -125,7 +123,6 @@ describe('extension', () => {
     await extensionGenerator(tree, {
       name,
       directory,
-      projectNameAndRootFormat: 'as-provided',
       skipFormat: true,
       unitTestRunner: 'none',
       linter: nxeslint.Linter.EsLint,

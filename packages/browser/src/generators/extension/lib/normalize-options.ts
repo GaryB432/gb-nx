@@ -7,20 +7,16 @@ export async function normalizeOptions(
   tree: Tree,
   options: ExtensionGeneratorOptions
 ): Promise<NormalizedOptions> {
-  const {
-    projectName: appProjectName,
-    projectRoot: appProjectRoot,
-    projectNameAndRootFormat,
-  } = await determineProjectNameAndRootOptions(tree, {
-    name: options.name,
-    projectType: 'application',
-    directory: options.directory,
-    projectNameAndRootFormat: options.projectNameAndRootFormat,
-    rootProject: options.rootProject,
-    callingGenerator: '@gb-nx/browser:extension',
-  });
+  const { projectName: appProjectName, projectRoot: appProjectRoot } =
+    await determineProjectNameAndRootOptions(tree, {
+      name: options.name,
+      projectType: 'application',
+      directory: options.directory,
+      projectNameAndRootFormat: 'as-provided',
+      rootProject: options.rootProject,
+      callingGenerator: '@gb-nx/browser:extension',
+    });
   options.rootProject = appProjectRoot === '.';
-  options.projectNameAndRootFormat = projectNameAndRootFormat;
 
   return {
     ...options,
