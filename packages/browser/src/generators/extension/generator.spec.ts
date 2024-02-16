@@ -1,7 +1,12 @@
 jest.mock('@nx/eslint');
 jest.mock('@nx/jest');
 
-import { readJson, readProjectConfiguration, type Tree } from '@nx/devkit';
+import {
+  addDependenciesToPackageJson,
+  readJson,
+  readProjectConfiguration,
+  type Tree,
+} from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import * as nxeslint from '@nx/eslint';
 import * as nxjest from '@nx/jest';
@@ -13,6 +18,8 @@ describe('extension', () => {
   let tree: Tree;
   beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+
+    addDependenciesToPackageJson(tree, {}, { nx: '>1.0.0' });
 
     (nxeslint.lintProjectGenerator as jest.Mock).mockImplementation(
       (_a: Tree, b) => {
