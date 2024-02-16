@@ -4,6 +4,10 @@ export default function update(tree: Tree): void {
   const projects = getProjects(tree);
 
   for (const [, project] of projects) {
+    if (!project.name) {
+      continue;
+    }
+
     if (project.projectType !== 'application') {
       continue;
     }
@@ -26,6 +30,6 @@ export default function update(tree: Tree): void {
       },
     };
 
-    updateProjectConfiguration(tree, project.name!, project);
+    updateProjectConfiguration(tree, project.name, project);
   }
 }

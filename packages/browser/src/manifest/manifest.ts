@@ -51,9 +51,9 @@ export function schemaValidate(json: string): {
   const messages: string[] = [];
   const validate = ajv.compile(schemaDocument);
   const success = validate(manifest);
-  if (!success) {
+  if (!success && validate.errors) {
     // console.log(JSON.stringify(validate.errors, undefined, 2));
-    for (const ef of validate.errors!) {
+    for (const ef of validate.errors) {
       messages.push(`${ef.instancePath} ${ef.message}`);
     }
   }

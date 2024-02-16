@@ -1,5 +1,6 @@
 import type { GeneratorCallback, Tree } from '@nx/devkit';
 import {
+  addDependenciesToPackageJson,
   addProjectConfiguration,
   formatFiles,
   generateFiles,
@@ -7,11 +8,13 @@ import {
   names,
   offsetFromRoot,
   readProjectConfiguration,
-  updateProjectConfiguration,
+  runTasksInSerial,
+  updateProjectConfiguration
 } from '@nx/devkit';
 import { Linter, lintProjectGenerator } from '@nx/eslint';
 import { configurationGenerator as jestConfigGenerator } from '@nx/jest';
 import { join } from 'path';
+import { chromeTypingsVersion } from '../../utils/versions';
 import { normalizeOptions } from './lib/normalize-options';
 import type { ExtensionGeneratorOptions, NormalizedOptions } from './schema';
 
@@ -51,13 +54,12 @@ async function addLint(
   tree: Tree,
   options: NormalizedOptions
 ): Promise<GeneratorCallback> {
-  const generateLint = lintProjectGenerator(tree, {
+  return lintProjectGenerator(tree, {
     project: options.appProjectName,
     linter: Linter.EsLint,
     skipFormat: true,
     addPlugin: true,
   });
-  return generateLint;
 }
 
 function addFiles(tree: Tree, options: NormalizedOptions) {
@@ -85,6 +87,23 @@ export default async function (
     root: normalizedOptions.appProjectRoot,
   });
   // await initGenerator(tree, { ...normalizedOptions, skipFormat: true });
+
+  const tasks: GeneratorCallback[] = [];
+
+  tasks.push(
+    addDependenciesToPackageJson(
+      tree,
+      {},
+      {
+        'adm-zip': '^0.5.10',
+        ajv: '^8.0.0',
+        '@types/chrome': chromeTypingsVersion,
+        'html-webpack-plugin': '^5.0.0',
+        'mini-css-extract-plugin': '^2.0.0', // TODO install only when needed
+      }
+    )
+  );
+
   addFiles(tree, normalizedOptions);
 
   const proj = readProjectConfiguration(tree, normalizedOptions.appProjectName);
@@ -93,16 +112,17 @@ export default async function (
     tags: options.tags ? options.tags.split(',').map((s) => s.trim()) : [],
   });
   if (normalizedOptions.unitTestRunner === 'jest') {
-    await addJest(tree, normalizedOptions);
+    tasks.push(await addJest(tree, normalizedOptions));
   }
   if (normalizedOptions.linter === Linter.EsLint) {
-    await addLint(tree, normalizedOptions);
+    tasks.push(await addLint(tree, normalizedOptions));
   }
   updateGitIgnore(tree);
   if (!options.skipFormat) {
     await formatFiles(tree);
   }
   return () => {
-    installPackagesTask(tree, true);
+    runTasksInSerial(...tasks);
+    installPackagesTask(tree);
   };
 }
