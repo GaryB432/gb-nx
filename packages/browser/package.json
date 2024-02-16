@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/browser",
-  "version": "8.5.0-alpha.1",
+  "version": "8.5.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
