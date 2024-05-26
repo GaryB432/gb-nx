@@ -41,6 +41,7 @@ function normalizeOptions(
     skipTests: false,
     style: 'css',
     routePath: options.name,
+    runes: false,
   };
   return {
     ...defaultOptions,

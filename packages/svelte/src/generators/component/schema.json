@@ -54,6 +54,10 @@
       "type": "string",
       "enum": ["css", "scss"],
       "default": "css"
+    },
+    "runes": {
+      "description": "Use svelte runes (requires svelte >=5)",
+      "type": "boolean"
     }
   },
   "additionalProperties": false,

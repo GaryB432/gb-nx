@@ -13,7 +13,7 @@ export interface Schema {
    */
   project: string;
   /**
-   * Directory where the generated files are placed.
+   * Directory where the component is placed, relative to your Svelte project lib folder.
    */
   directory?: string;
   /**
@@ -28,4 +28,8 @@ export interface Schema {
    * Component style language (css/scss).
    */
   style?: 'css' | 'scss';
+  /**
+   * Use svelte runes (requires svelte >=5)
+   */
+  runes?: boolean;
 }
