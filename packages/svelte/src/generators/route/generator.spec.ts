@@ -2,6 +2,7 @@ import { addProjectConfiguration, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator, { getSegments } from './generator';
+import { Schema } from './schema';
 
 describe('route generator', () => {
   let appTree: Tree;
@@ -48,7 +49,7 @@ describe('route generator', () => {
     const svelte = appTree
       .read('apps/test/src/routes/tester/+page.svelte')
       ?.toString();
-    expect(svelte).toContain("let data = { subject: 'tester' };");
+    expect(svelte).toContain("let data = $state({ subject: 'tester' });");
     expect(
       appTree.exists('apps/test/src/routes/tester/+page.server.ts')
     ).toBeFalsy();
@@ -182,6 +183,87 @@ describe('route generator', () => {
         .read('apps/test/tests/tbd/[a]/b/[c=ynf]/tester.spec.ts')
         ?.toString()
     ).toContain("await page.goto('/tbd/_a_/b/_c_/tester');");
+  });
+});
+
+describe('route generator runes', () => {
+  let appTree: Tree;
+
+  beforeEach(() => {
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    createSvelteKitApp(appTree, '0', { directory: 'apps', name: 'test' });
+    addProjectConfiguration(appTree, 'test', { root: 'apps/test' });
+  });
+
+  it('should do shared runes', async () => {
+    const opts: Schema = {
+      name: 'tester',
+      project: 'test',
+      load: 'shared',
+      language: 'ts',
+      runes: true,
+    };
+    await generator(appTree, opts);
+
+    expect(
+      appTree.read('apps/test/src/routes/tester/+page.svelte', 'utf-8')
+    ).toMatchSnapshot();
+    expect(
+      appTree.read(
+        `apps/test/src/routes/tester/+page.${opts.language}`,
+        'utf-8'
+      )
+    ).toMatchSnapshot();
+    expect(
+      appTree.exists(
+        `apps/test/src/routes/tester/+page.server.${opts.language}`
+      )
+    ).toBeFalsy();
+  });
+
+  it('should do server runes', async () => {
+    const opts: Schema = {
+      name: 'tester',
+      project: 'test',
+      load: 'server',
+      language: 'ts',
+      runes: true,
+    };
+    await generator(appTree, opts);
+
+    expect(
+      appTree.read('apps/test/src/routes/tester/+page.svelte', 'utf-8')
+    ).toMatchSnapshot();
+    expect(
+      appTree.read(
+        `apps/test/src/routes/tester/+page.server.${opts.language}`,
+        'utf-8'
+      )
+    ).toMatchSnapshot();
+    expect(
+      appTree.exists(`apps/test/src/routes/tester/+page.${opts.language}`)
+    ).toBeFalsy();
+  });
+
+  it('should do none runes', async () => {
+    const opts: Schema = {
+      name: 'tester',
+      project: 'test',
+      load: 'none',
+      language: 'ts',
+      runes: true,
+    };
+    await generator(appTree, opts);
+
+    expect(
+      appTree.read('apps/test/src/routes/tester/+page.svelte', 'utf-8')
+    ).toMatchSnapshot();
+    expect(
+      appTree.exists(`apps/test/src/routes/tester/+page.${opts.language}`)
+    ).toBeFalsy();
+    expect(
+      appTree.exists(`apps/test/src/routes/tester/+page.server.${opts.language}`)
+    ).toBeFalsy();
   });
 });
 

@@ -26,6 +26,7 @@ function normalizeOptions(
   const ws = readNxJson(host);
   options.project = options.project ?? ws?.defaultProject;
   options.directory = options.directory ?? '';
+  options.runes = options.runes ?? false;
 
   if (!options.project) {
     throw new Error('Project or defaultProject required');
@@ -169,28 +170,40 @@ function addSveltePage(
   > = {
     js: {
       none: `<script>
-        let data = { subject: '${options.name}' };
+        ${
+          options.runes
+            ? `let data = $state({ subject: '${options.name}' });`
+            : `let data = { subject: '${options.name}' };`
+        };
       </script>`,
       server: `<script>
         /** @type {import('./$types').PageData} */
-        export let data;
+        ${options.runes ? 'let { data } = $props()' : 'export let data'};
       </script>`,
       shared: `<script>
         /** @type {import('./$types').PageData} */
-        export let data;
-      </script>`,
+        ${options.runes ? 'let { data } = $props()' : 'export let data'};
+        </script>`,
     },
     ts: {
       none: `<script lang="ts">
-        let data = { subject: '${options.name}' };
-      </script>`,
+        let data = $state({ subject: '${options.name}' });
+        </script>`,
       server: `<script lang="ts">
         import type { PageData } from './$types';
-        export let data: PageData;
+        ${
+          options.runes
+            ? 'let { data } = $props()'
+            : 'export let data: PageData'
+        };
       </script>`,
       shared: `<script lang="ts">
         import type { PageData } from './$types';
-        export let data: PageData;
+        ${
+          options.runes
+            ? 'let { data } = $props()'
+            : 'export let data: PageData'
+        };
       </script>`,
     },
   };

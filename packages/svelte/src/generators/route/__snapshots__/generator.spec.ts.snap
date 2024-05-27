@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`route generator runes should do none runes 1`] = `
+"<script lang="ts">
+        let data = $state({ subject: 'tester' });
+        </script>
+
+<svelte:head>
+  <title>test - tester</title>
+</svelte:head>
+
+<article class="container">
+	{data.subject} works
+</article>
+
+
+<style>
+  .container {
+    padding: 1em;
+    border: thin solid silver;
+  }
+  @media screen and (min-width: 576px) { /* landscape phones */ }
+  @media screen and (min-width: 768px) { /* tablets */ }
+  @media screen and (min-width: 992px) { /* desktops */ }
+  @media screen and (min-width: 1200px) { /* large desktops */ }
+  @media screen and (min-width: 1400px) { /* larger desktops */ }
+</style>"
+`;
+
+exports[`route generator runes should do server runes 1`] = `
+"<script lang="ts">
+        import type { PageData } from './$types';
+        let { data } = $props();
+      </script>
+
+<svelte:head>
+  <title>test - tester</title>
+</svelte:head>
+
+<article class="container">
+	{data.subject} works
+</article>
+
+
+<style>
+  .container {
+    padding: 1em;
+    border: thin solid silver;
+  }
+  @media screen and (min-width: 576px) { /* landscape phones */ }
+  @media screen and (min-width: 768px) { /* tablets */ }
+  @media screen and (min-width: 992px) { /* desktops */ }
+  @media screen and (min-width: 1200px) { /* large desktops */ }
+  @media screen and (min-width: 1400px) { /* larger desktops */ }
+</style>"
+`;
+
+exports[`route generator runes should do server runes 2`] = `
+"import type { PageServerLoad, RouteParams } from './$types';
+async function demo(params: RouteParams): Promise<string> {
+  return Promise.resolve(\`tester\`);
+}
+
+export const load = (async ({ params }) => {
+  return {
+    subject: await demo(params),
+  };
+}) satisfies PageServerLoad;
+"
+`;
+
+exports[`route generator runes should do shared runes 1`] = `
+"<script lang="ts">
+        import type { PageData } from './$types';
+        let { data } = $props();
+      </script>
+
+<svelte:head>
+  <title>test - tester</title>
+</svelte:head>
+
+<article class="container">
+	{data.subject} works
+</article>
+
+
+<style>
+  .container {
+    padding: 1em;
+    border: thin solid silver;
+  }
+  @media screen and (min-width: 576px) { /* landscape phones */ }
+  @media screen and (min-width: 768px) { /* tablets */ }
+  @media screen and (min-width: 992px) { /* desktops */ }
+  @media screen and (min-width: 1200px) { /* large desktops */ }
+  @media screen and (min-width: 1400px) { /* larger desktops */ }
+</style>"
+`;
+
+exports[`route generator runes should do shared runes 2`] = `
+"import type { PageLoad, RouteParams } from './$types';
+export const load = (async ({ params }) => {
+  return {
+    subject: \`tester\`,
+  };
+}) satisfies PageLoad;
+"
+`;

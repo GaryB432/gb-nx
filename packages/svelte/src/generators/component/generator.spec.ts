@@ -25,7 +25,9 @@ describe('component', () => {
     expect(appTree.read('apps/my-app/src/lib/components/Hello.svelte', 'utf-8'))
       .toMatchInlineSnapshot(`
       "<script>
+        
         export let subject = 'Hello component';
+
       </script>
 
       <div class="container">
@@ -51,7 +53,9 @@ describe('component', () => {
     expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8'))
       .toMatchInlineSnapshot(`
       "<script>
+        
         export let subject = 'Hello component';
+
       </script>
 
       <div class="container">
@@ -78,7 +82,9 @@ describe('component', () => {
     expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8'))
       .toMatchInlineSnapshot(`
       "<script>
+        
         export let subject = 'Hello component';
+
       </script>
 
       <div class="container">
