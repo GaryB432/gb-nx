@@ -235,14 +235,9 @@ describe('route generator runes', () => {
       appTree.read('apps/test/src/routes/tester/+page.svelte', 'utf-8')
     ).toMatchSnapshot();
     expect(
-      appTree.read(
-        `apps/test/src/routes/tester/+page.server.${opts.language}`,
-        'utf-8'
-      )
+      appTree.read(`apps/test/src/routes/tester/+page.server.ts`, 'utf-8')
     ).toMatchSnapshot();
-    expect(
-      appTree.exists(`apps/test/src/routes/tester/+page.${opts.language}`)
-    ).toBeFalsy();
+    expect(appTree.exists(`apps/test/src/routes/tester/+page.ts`)).toBeFalsy();
   });
 
   it('should do none runes', async () => {
@@ -262,7 +257,9 @@ describe('route generator runes', () => {
       appTree.exists(`apps/test/src/routes/tester/+page.${opts.language}`)
     ).toBeFalsy();
     expect(
-      appTree.exists(`apps/test/src/routes/tester/+page.server.${opts.language}`)
+      appTree.exists(
+        `apps/test/src/routes/tester/+page.server.${opts.language}`
+      )
     ).toBeFalsy();
   });
 });

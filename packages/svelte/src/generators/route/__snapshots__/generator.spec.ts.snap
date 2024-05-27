@@ -30,7 +30,7 @@ exports[`route generator runes should do none runes 1`] = `
 exports[`route generator runes should do server runes 1`] = `
 "<script lang="ts">
         import type { PageData } from './$types';
-        let { data } = $props();
+        let { data }: { data: PageData } = $props();
       </script>
 
 <svelte:head>
@@ -72,7 +72,7 @@ export const load = (async ({ params }) => {
 exports[`route generator runes should do shared runes 1`] = `
 "<script lang="ts">
         import type { PageData } from './$types';
-        let { data } = $props();
+        let { data }: { data: PageData } = $props();
       </script>
 
 <svelte:head>

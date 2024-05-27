@@ -193,7 +193,7 @@ function addSveltePage(
         import type { PageData } from './$types';
         ${
           options.runes
-            ? 'let { data } = $props()'
+            ? 'let { data }: { data: PageData } = $props()'
             : 'export let data: PageData'
         };
       </script>`,
@@ -201,7 +201,7 @@ function addSveltePage(
         import type { PageData } from './$types';
         ${
           options.runes
-            ? 'let { data } = $props()'
+            ? 'let { data }: { data: PageData } = $props()'
             : 'export let data: PageData'
         };
       </script>`,
