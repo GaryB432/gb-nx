@@ -1,8 +1,8 @@
 <%- language == 'ts' ? '<script lang="ts">' : '<script>' %>
 <% if(runes){ %>
-  let subject = $state('<%= className  %> component');
+  let subject = $state("<%= className  %> component");
 <% } else{ %>  
-  export let subject = '<%= className  %> component';
+  export let subject = "<%= className  %> component";
 <% } %>
 </script>
 

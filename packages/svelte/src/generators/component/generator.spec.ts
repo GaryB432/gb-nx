@@ -26,7 +26,7 @@ describe('component', () => {
       .toMatchInlineSnapshot(`
       "<script>
         
-        export let subject = 'Hello component';
+        export let subject = "Hello component";
 
       </script>
 
@@ -54,7 +54,7 @@ describe('component', () => {
       .toMatchInlineSnapshot(`
       "<script>
         
-        export let subject = 'Hello component';
+        export let subject = "Hello component";
 
       </script>
 
@@ -83,7 +83,7 @@ describe('component', () => {
       .toMatchInlineSnapshot(`
       "<script>
         
-        export let subject = 'Hello component';
+        export let subject = "Hello component";
 
       </script>
 
