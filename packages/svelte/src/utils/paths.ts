@@ -11,6 +11,11 @@ export interface NamedPath {
   path: string;
 }
 
+export function readRootPackageJson(tree: Tree): PackageJson | undefined {
+  const pb = tree.read('package.json', 'utf-8');
+  return pb ? (JSON.parse(pb) as PackageJson) : undefined;
+}
+
 export function readPackageJson(
   tree: Tree,
   config: ProjectConfiguration

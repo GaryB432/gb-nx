@@ -33,6 +33,7 @@ describe('with eslint', () => {
     jest.clearAllMocks();
     createSvelteKitApp(appTree, version, {
       name: 'subject-skapp',
+      skipFormat: true,
       directory: 'apps',
     });
   });
@@ -92,6 +93,7 @@ describe('application generator', () => {
     jest.clearAllMocks();
     createSvelteKitApp(appTree, version, {
       name: 'subject-skapp',
+      skipFormat: true,
       directory: 'apps',
     });
   });

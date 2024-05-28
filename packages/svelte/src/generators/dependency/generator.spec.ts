@@ -25,6 +25,7 @@ describe('dependency generator', () => {
     });
     createSvelteKitApp(appTree, '0', {
       name: 'test',
+      skipFormat: true,
       directory: 'apps',
     });
   });
@@ -72,7 +73,7 @@ describe('dependency generator with scope', () => {
       root: 'libs/dep',
       projectType: 'library',
     });
-    createSvelteKitApp(appTree, '0', { name: 'test', directory: 'apps' });
+    createSvelteKitApp(appTree, '0', { name: 'test', directory: 'apps', skipFormat: true });
   });
 
   it('should add dep', async () => {

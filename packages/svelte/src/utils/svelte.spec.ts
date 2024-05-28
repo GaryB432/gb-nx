@@ -24,6 +24,7 @@ describe('Svelte', () => {
     createSvelteKitApp(appTree, '0', {
       name: 'test',
       directory: 'apps',
+      skipFormat: true,
     });
   });
 
@@ -145,7 +146,7 @@ export default config;`;
   });
 });
 
-describe('runes', () => {
+describe.only('runes', () => {
   let appTree: Tree;
 
   beforeEach(async () => {
@@ -153,11 +154,19 @@ describe('runes', () => {
   });
 
   it('supportsRunes', () => {
-    createSvelteKitApp(appTree, '5.0.0-alpha.1', { directory: 'apps', name: 'web' });
+    createSvelteKitApp(appTree, '5.0.0-alpha.1', {
+      directory: 'apps',
+      name: 'web',
+      skipFormat: true,
+    });
     expect(supportsRunes(appTree, { root: 'apps/web' })).toBeTruthy();
   });
   it('does not supportsRunes', () => {
-    createSvelteKitApp(appTree, '4.0.0', { directory: 'apps', name: 'web' });
+    createSvelteKitApp(appTree, '4.0.0', {
+      directory: 'apps',
+      name: 'web',
+      skipFormat: true,
+    });
     expect(supportsRunes(appTree, { root: 'apps/web' })).toBeFalsy();
   });
 });

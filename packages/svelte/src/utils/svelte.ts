@@ -10,7 +10,7 @@ import {
   type StringLiteral,
   type SyntaxList,
 } from 'typescript';
-import { readModulePackageJson, type NamedPath } from './paths';
+import { readPackageJson, type NamedPath } from './paths';
 import semverSatisfies = require('semver/functions/satisfies');
 
 export const SVELTE_CONFIG = 'svelte.config.js';
@@ -18,6 +18,9 @@ export const SVELTE_CONFIG = 'svelte.config.js';
 interface NodeApplicationSchema {
   directory: string;
   name: string;
+  skipFormat?: boolean;
+  skipPackageJson?: boolean;
+  rootProject?: boolean;
 }
 
 interface KitFiles {
@@ -134,10 +137,16 @@ export function getSveltePackageVersions(
   tree: Tree,
   config: ProjectConfiguration
 ): { name: string; version: string | undefined }[] {
+  // const fdf = joinPathFragments(config.root, 'package.json');
+  // console.log(fdf);
+  const pp = readPackageJson(tree, config);
+  // if (!pp) return [];
+
+  // console.log(pp);
   return ['@sveltejs/kit', '@sveltejs/vite-plugin-svelte', 'svelte'].map(
     (name) => {
-      const pn = readModulePackageJson(tree, name, config.root);
-      const version = pn?.version;
+      const version =
+        pp && pp.devDependencies ? pp.devDependencies[name] : undefined;
       return { name, version };
     }
   );
@@ -147,9 +156,9 @@ export function supportsRunes(
   tree: Tree,
   config: ProjectConfiguration
 ): boolean {
-  const sveltePkg = getSveltePackageVersions(tree, config).find(
-    (pkg) => pkg.name === 'svelte'
-  );
+  const sps = getSveltePackageVersions(tree, config);
+  const sveltePkg = sps.find((pkg) => pkg.name === 'svelte');
+  // console.log(sveltePkg);
   if (sveltePkg && sveltePkg.version) {
     return semverSatisfies(sveltePkg.version, '>=5', {
       includePrerelease: true,
@@ -186,15 +195,25 @@ export function createSvelteKitApp(
     }
   };`;
   const projectRoot = joinPathFragments(options.directory ?? '.', options.name);
+
   appTree.write(joinPathFragments(projectRoot, 'svelte.config.js'), config);
+  const pacage = {
+    name: options.name,
+    version: '0.0.0',
+    devDependencies: {
+      '@sveltejs/adapter-auto': '^3.0.0',
+      '@sveltejs/kit': '^2.0.0',
+      '@sveltejs/vite-plugin-svelte': '^3.0.0',
+      svelte: '6.0.0-next.1',
+    },
+  };
+
   appTree.write(
     joinPathFragments(projectRoot, 'package.json'),
-    JSON.stringify({
-      name: options.name,
-      version: '0.0.0',
-      devDependencies: { 'prettier-plugin-svelte': '1.1.1' },
-    })
+    JSON.stringify(pacage)
   );
+
+  return;
 
   appTree.write(
     joinPathFragments(projectRoot, 'node_modules/@sveltejs/kit/package.json'),

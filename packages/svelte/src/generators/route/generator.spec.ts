@@ -9,12 +9,20 @@ describe('route generator', () => {
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    createSvelteKitApp(appTree, '0', { directory: 'apps', name: 'test' });
+    createSvelteKitApp(appTree, '0', {
+      directory: 'apps',
+      name: 'test',
+      skipFormat: true,
+    });
     addProjectConfiguration(appTree, 'test', { root: 'apps/test' });
   });
 
   it('should run successfully', async () => {
-    await generator(appTree, { name: 'tester', project: 'test' });
+    await generator(appTree, {
+      name: 'tester',
+      project: 'test',
+      skipFormat: true,
+    });
 
     const svelte = appTree
       .read('apps/test/src/routes/tester/+page.svelte')
@@ -31,6 +39,7 @@ describe('route generator', () => {
       name: 'tester',
       project: 'test',
       style: 'scss',
+      skipFormat: true,
     });
 
     const svelte = appTree
@@ -44,6 +53,7 @@ describe('route generator', () => {
       name: 'tester',
       project: 'test',
       language: 'ts',
+      skipFormat: true,
     });
 
     const svelte = appTree
@@ -65,6 +75,7 @@ describe('route generator', () => {
       name: 'tester',
       project: 'test',
       load: 'server',
+      skipFormat: true,
     });
 
     const svelte = appTree
@@ -84,6 +95,7 @@ describe('route generator', () => {
       name: 'tester',
       project: 'test',
       load: 'shared',
+      skipFormat: true,
     });
 
     const svelte = appTree
@@ -101,6 +113,7 @@ describe('route generator', () => {
       name: 'a/b/c/tester',
       directory: 'tbd',
       project: 'test',
+      skipFormat: true,
     });
     expect(
       appTree
@@ -119,6 +132,7 @@ describe('route generator', () => {
       project: 'test',
       load: 'server',
       language: 'ts',
+      skipFormat: true,
     });
     expect(
       appTree
@@ -144,6 +158,7 @@ describe('route generator', () => {
       project: 'test',
       load: 'shared',
       language: 'ts',
+      skipFormat: true,
     });
     expect(
       appTree
@@ -167,6 +182,7 @@ describe('route generator', () => {
       project: 'test',
       load: 'shared',
       language: 'ts',
+      skipFormat: true,
     });
     expect(
       appTree
@@ -193,6 +209,7 @@ describe('route generator runes', () => {
     appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     createSvelteKitApp(appTree, '5.0.0-alpha.0', {
       directory: 'apps',
+      skipFormat: true,
       name: 'test',
     });
     addProjectConfiguration(appTree, 'test', { root: 'apps/test' });
@@ -204,6 +221,7 @@ describe('route generator runes', () => {
       project: 'test',
       load: 'shared',
       language: 'ts',
+      skipFormat: true,
       runes: true,
     };
     await generator(appTree, opts);
@@ -230,6 +248,7 @@ describe('route generator runes', () => {
       project: 'test',
       load: 'server',
       language: 'ts',
+      skipFormat: true,
       runes: true,
     };
     await generator(appTree, opts);
@@ -249,6 +268,7 @@ describe('route generator runes', () => {
       project: 'test',
       load: 'none',
       language: 'ts',
+      skipFormat: true,
       runes: true,
     };
     await generator(appTree, opts);
@@ -274,18 +294,22 @@ describe('route generator runes old svelte', () => {
     appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     createSvelteKitApp(appTree, '4.99.99999', {
       directory: 'apps',
+      skipFormat: true,
       name: 'test',
     });
     addProjectConfiguration(appTree, 'test', { root: 'apps/test' });
   });
 
   it('should do shared runes', async () => {
+    const fd = appTree.read('apps/test/package.json', 'utf-8');
+    console.log(fd);
     const opts: Schema = {
       name: 'tester',
       project: 'test',
       load: 'shared',
       language: 'ts',
       runes: true,
+      skipFormat: true,
     };
     expect(async () => await generator(appTree, opts)).rejects.toThrow(
       'runes requires svelte >= 5'
