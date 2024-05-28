@@ -204,7 +204,7 @@ export function createSvelteKitApp(
       '@sveltejs/adapter-auto': '^3.0.0',
       '@sveltejs/kit': '^2.0.0',
       '@sveltejs/vite-plugin-svelte': '^3.0.0',
-      svelte: '6.0.0-next.1',
+      svelte: version,
     },
   };
 

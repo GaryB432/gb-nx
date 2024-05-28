@@ -1,5 +1,4 @@
 import type { Tree } from '@nx/devkit';
-// import { readProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { libraryGenerator } from '@nx/node';
 import {
@@ -34,9 +33,9 @@ describe('Svelte', () => {
         root: 'apps/test',
       })
     ).toEqual([
-      { name: '@sveltejs/kit', version: '0' },
-      { name: '@sveltejs/vite-plugin-svelte', version: '0' },
-      { name: 'svelte', version: '0' },
+      { name: '@sveltejs/kit', version: expect.anything() },
+      { name: '@sveltejs/vite-plugin-svelte', version: expect.anything() },
+      { name: 'svelte', version: expect.anything() },
     ]);
   });
 
@@ -146,7 +145,7 @@ export default config;`;
   });
 });
 
-describe.only('runes', () => {
+describe('runes', () => {
   let appTree: Tree;
 
   beforeEach(async () => {

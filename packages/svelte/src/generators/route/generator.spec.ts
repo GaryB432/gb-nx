@@ -292,7 +292,7 @@ describe('route generator runes old svelte', () => {
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    createSvelteKitApp(appTree, '4.99.99999', {
+    createSvelteKitApp(appTree, '^4.0.0', {
       directory: 'apps',
       skipFormat: true,
       name: 'test',
@@ -301,15 +301,13 @@ describe('route generator runes old svelte', () => {
   });
 
   it('should do shared runes', async () => {
-    const fd = appTree.read('apps/test/package.json', 'utf-8');
-    console.log(fd);
     const opts: Schema = {
       name: 'tester',
       project: 'test',
       load: 'shared',
       language: 'ts',
-      runes: true,
       skipFormat: true,
+      runes: true,
     };
     expect(async () => await generator(appTree, opts)).rejects.toThrow(
       'runes requires svelte >= 5'
