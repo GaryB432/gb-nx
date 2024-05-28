@@ -191,7 +191,10 @@ describe('route generator runes', () => {
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    createSvelteKitApp(appTree, '0', { directory: 'apps', name: 'test' });
+    createSvelteKitApp(appTree, '5.0.0-alpha.0', {
+      directory: 'apps',
+      name: 'test',
+    });
     addProjectConfiguration(appTree, 'test', { root: 'apps/test' });
   });
 
@@ -261,6 +264,32 @@ describe('route generator runes', () => {
         `apps/test/src/routes/tester/+page.server.${opts.language}`
       )
     ).toBeFalsy();
+  });
+});
+
+describe('route generator runes old svelte', () => {
+  let appTree: Tree;
+
+  beforeEach(() => {
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    createSvelteKitApp(appTree, '4.99.99999', {
+      directory: 'apps',
+      name: 'test',
+    });
+    addProjectConfiguration(appTree, 'test', { root: 'apps/test' });
+  });
+
+  it('should do shared runes', async () => {
+    const opts: Schema = {
+      name: 'tester',
+      project: 'test',
+      load: 'shared',
+      language: 'ts',
+      runes: true,
+    };
+    expect(async () => await generator(appTree, opts)).rejects.toThrow(
+      'runes requires svelte >= 5'
+    );
   });
 });
 

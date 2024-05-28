@@ -7,7 +7,11 @@ import {
   type ProjectConfiguration,
   type Tree,
 } from '@nx/devkit';
-import { getSvelteConfig, getSvelteFiles } from '../../utils/svelte';
+import {
+  getSvelteConfig,
+  getSvelteFiles,
+  supportsRunes,
+} from '../../utils/svelte';
 import type { Schema } from './schema';
 
 interface NormalizedSchema extends Schema {
@@ -46,7 +50,6 @@ function normalizeOptions(
   };
   return {
     ...defaultOptions,
-
     ...options,
     routePath: joinPathFragments(options.directory ?? '', options.name),
   };
@@ -278,6 +281,15 @@ export async function routeGenerator(
   const proj = projects.get(options.project);
   if (!proj) {
     throw new Error(notfound(options.project));
+  }
+
+  const runes = supportsRunes(tree, proj);
+  if (schema.runes === void 0) {
+    options.runes = runes;
+  }
+
+  if (options.runes && !runes) {
+    throw new Error('runes requires svelte >= 5');
   }
 
   const configContent = getSvelteConfig(tree, proj);

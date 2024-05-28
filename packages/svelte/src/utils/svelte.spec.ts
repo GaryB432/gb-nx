@@ -2,7 +2,12 @@ import type { Tree } from '@nx/devkit';
 // import { readProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { libraryGenerator } from '@nx/node';
-import { createSvelteKitApp, getSvelteFiles } from './svelte';
+import {
+  createSvelteKitApp,
+  getSvelteFiles,
+  getSveltePackageVersions,
+  supportsRunes,
+} from './svelte';
 
 describe('Svelte', () => {
   let appTree: Tree;
@@ -20,6 +25,18 @@ describe('Svelte', () => {
       name: 'test',
       directory: 'apps',
     });
+  });
+
+  it('gets SveltePackageVersions', () => {
+    expect(
+      getSveltePackageVersions(appTree, {
+        root: 'apps/test',
+      })
+    ).toEqual([
+      { name: '@sveltejs/kit', version: '0' },
+      { name: '@sveltejs/vite-plugin-svelte', version: '0' },
+      { name: 'svelte', version: '0' },
+    ]);
   });
 
   it('getSvelteConfig', async () => {
@@ -125,5 +142,22 @@ export default config;`;
     expect(routes).toEqual('src/routes');
     expect(lib).toEqual('src/lib');
     expect(params).toEqual('src/params');
+  });
+});
+
+describe('runes', () => {
+  let appTree: Tree;
+
+  beforeEach(async () => {
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+  });
+
+  it('supportsRunes', () => {
+    createSvelteKitApp(appTree, '5.0.0-alpha.1', { directory: 'apps', name: 'web' });
+    expect(supportsRunes(appTree, { root: 'apps/web' })).toBeTruthy();
+  });
+  it('does not supportsRunes', () => {
+    createSvelteKitApp(appTree, '4.0.0', { directory: 'apps', name: 'web' });
+    expect(supportsRunes(appTree, { root: 'apps/web' })).toBeFalsy();
   });
 });
