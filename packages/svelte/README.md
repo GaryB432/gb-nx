@@ -33,11 +33,7 @@ Then you need to install the plugin in order to work with svelte applications la
 ### Installing Plugin
 
 ```
-# npm
-npm install @gb-nx/svelte --save-dev
-
-# yarn
-yarn add @gb-nx/svelte --dev
+nx add @gb-nx/svelte
 ```
 
 ### Generating Project
