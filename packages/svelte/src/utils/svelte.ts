@@ -1,6 +1,7 @@
 import type { ProjectConfiguration, Tree } from '@nx/devkit';
 import { joinPathFragments } from '@nx/devkit';
 import { tsquery } from '@phenomnomnominal/tsquery';
+import { parse } from 'semver';
 import {
   SyntaxKind,
   type Identifier,
@@ -10,13 +11,16 @@ import {
   type StringLiteral,
   type SyntaxList,
 } from 'typescript';
-import { readModulePackageJson, type NamedPath } from './paths';
+import { readPackageJson, type NamedPath } from './paths';
 
 export const SVELTE_CONFIG = 'svelte.config.js';
 
 interface NodeApplicationSchema {
   directory: string;
   name: string;
+  rootProject?: boolean;
+  skipFormat?: boolean;
+  skipPackageJson?: boolean;
 }
 
 interface KitFiles {
@@ -47,8 +51,8 @@ export function getKitLiteral(
   return qresults[0];
 }
 
-export function isSvelte(tree: Tree, config: ProjectConfiguration): boolean {
-  return tree.exists(joinPathFragments(config.root, SVELTE_CONFIG));
+export function isSvelte(tree: Tree, root: string): boolean {
+  return tree.exists(joinPathFragments(root, SVELTE_CONFIG));
 }
 
 function namedPathFromPropertyAssignment(node: PropertyAssignment): NamedPath {
@@ -133,11 +137,40 @@ export function getSveltePackageVersions(
   tree: Tree,
   config: ProjectConfiguration
 ): { name: string; version: string | undefined }[] {
-  return ['@sveltejs/kit', '@sveltejs/vite-plugin-svelte'].map((name) => {
-    const pn = readModulePackageJson(tree, name, config.root);
-    const version = pn?.version;
+  // const fdf = joinPathFragments(config.root, 'package.json');
+  // console.log(fdf);
+  const pp = readPackageJson(tree, config);
+
+  return ['@sveltejs/kit', 'svelte'].map((name) => {
+    const version =
+      pp && pp.devDependencies ? pp.devDependencies[name] : undefined;
     return { name, version };
   });
+}
+
+export function satisfiesRunes(svelteRangeDependedUpon: string): boolean {
+  let checked = svelteRangeDependedUpon;
+  if (['^', '~'].includes(checked[0])) {
+    checked = checked.slice(1);
+  }
+  const parsed = parse(checked, true);
+  return (parsed?.major ?? 0) > 4;
+}
+
+export function supportsRunes(
+  tree: Tree,
+  config: ProjectConfiguration
+): { supports: boolean; svelte: string | undefined } {
+  let supports = false;
+  let svelte: string | undefined;
+  const sps = getSveltePackageVersions(tree, config);
+  const sveltePkg = sps.find((pkg) => pkg.name === 'svelte');
+  // console.log(sveltePkg);
+  if (sveltePkg && sveltePkg.version) {
+    svelte = sveltePkg.version;
+    supports = satisfiesRunes(svelte);
+  }
+  return { supports, svelte };
 }
 
 export function createSvelteKitApp(
@@ -168,31 +201,48 @@ export function createSvelteKitApp(
     }
   };`;
   const projectRoot = joinPathFragments(options.directory ?? '.', options.name);
+
   appTree.write(joinPathFragments(projectRoot, 'svelte.config.js'), config);
-  appTree.write(
-    joinPathFragments(projectRoot, 'package.json'),
-    JSON.stringify({
-      name: options.name,
-      version: '0.0.0',
-      devDependencies: { 'prettier-plugin-svelte': '1.1.1' },
-    })
-  );
+  const pacage = {
+    name: options.name,
+    version: '0.0.0',
+    devDependencies: {
+      '@sveltejs/adapter-auto': '^3.0.0',
+      '@sveltejs/kit': '^2.0.0',
+      // '@sveltejs/vite-plugin-svelte': '^3.0.0',
+      svelte: version,
+    },
+  };
 
   appTree.write(
-    joinPathFragments(projectRoot, 'node_modules/@sveltejs/kit/package.json'),
-    JSON.stringify({
-      name: '@sveltejs/kit',
-      version,
-    })
+    joinPathFragments(projectRoot, 'package.json'),
+    JSON.stringify(pacage)
   );
-  appTree.write(
-    joinPathFragments(
-      projectRoot,
-      'node_modules/@sveltejs/vite-plugin-svelte/package.json'
-    ),
-    JSON.stringify({
-      name: '@sveltejs/vite-plugin-svelte',
-      version,
-    })
-  );
+
+  return;
+
+  // appTree.write(
+  //   joinPathFragments(projectRoot, 'node_modules/@sveltejs/kit/package.json'),
+  //   JSON.stringify({
+  //     name: '@sveltejs/kit',
+  //     version,
+  //   })
+  // );
+  // appTree.write(
+  //   joinPathFragments(
+  //     projectRoot,
+  //     'node_modules/@sveltejs/vite-plugin-svelte/package.json'
+  //   ),
+  //   JSON.stringify({
+  //     name: '@sveltejs/vite-plugin-svelte',
+  //     version,
+  //   })
+  // );
+  // appTree.write(
+  //   joinPathFragments(projectRoot, 'node_modules/svelte/package.json'),
+  //   JSON.stringify({
+  //     name: 'svelte',
+  //     version,
+  //   })
+  // );
 }

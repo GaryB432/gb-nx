@@ -10,7 +10,11 @@ describe('component', () => {
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    createSvelteKitApp(appTree, '0', { directory: 'apps', name: projectName });
+    createSvelteKitApp(appTree, '0', {
+      directory: 'apps',
+      name: projectName,
+      skipFormat: true,
+    });
     addProjectConfiguration(appTree, projectName, { root: 'apps/my-app' });
   });
 
@@ -25,7 +29,9 @@ describe('component', () => {
     expect(appTree.read('apps/my-app/src/lib/components/Hello.svelte', 'utf-8'))
       .toMatchInlineSnapshot(`
       "<script>
-        export let subject = 'Hello component';
+        
+        export let subject = "Hello component";
+
       </script>
 
       <div class="container">
@@ -51,7 +57,9 @@ describe('component', () => {
     expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8'))
       .toMatchInlineSnapshot(`
       "<script>
-        export let subject = 'Hello component';
+        
+        export let subject = "Hello component";
+
       </script>
 
       <div class="container">
@@ -78,7 +86,9 @@ describe('component', () => {
     expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8'))
       .toMatchInlineSnapshot(`
       "<script>
-        export let subject = 'Hello component';
+        
+        export let subject = "Hello component";
+
       </script>
 
       <div class="container">

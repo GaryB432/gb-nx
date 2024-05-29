@@ -60,6 +60,10 @@
       "type": "string",
       "enum": ["shared", "server", "none"],
       "default": "none"
+    },
+    "runes": {
+      "description": "Use svelte runes (requires svelte >=5)",
+      "type": "boolean"
     }
   },
   "additionalProperties": false,

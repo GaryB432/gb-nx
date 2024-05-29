@@ -31,6 +31,10 @@ function normalizeOptions(
     throw new Error(`Project "${projectName}" not found`);
   }
 
+  const supportsRunes = false;
+
+  const runes = options.runes ?? supportsRunes;
+
   const config = getSvelteConfig(tree, project);
 
   if (!config) {
@@ -43,6 +47,7 @@ function normalizeOptions(
   options.style = options.style ?? 'css';
   return {
     ...options,
+    runes,
     projectName,
     projectLibRoot: join(project.root, lib),
   };

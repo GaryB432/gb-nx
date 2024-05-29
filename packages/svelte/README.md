@@ -5,6 +5,8 @@ This library was generated with [Nx](https://nx.dev).
 [![CI](https://img.shields.io/github/actions/workflow/status/GaryB432/gb-nx/main.yml?branch=master)](https://github.com/GaryB432/gb-nx/actions)
 [![npm version](https://img.shields.io/npm/v/@gb-nx/svelte?style=flat-square)](https://www.npmjs.com/package/@gb-nx/svelte)
 
+See the [NX Discussion of first class support for Sveltekit](https://github.com/sveltejs/svelte/discussions/10425). You may not need this plugin.
+
 > Nx Plugin for managing svelte-kit applications in your Nx workspace
 
 ## Features
@@ -33,11 +35,7 @@ Then you need to install the plugin in order to work with svelte applications la
 ### Installing Plugin
 
 ```
-# npm
-npm install @gb-nx/svelte --save-dev
-
-# yarn
-yarn add @gb-nx/svelte --dev
+nx add @gb-nx/svelte
 ```
 
 ### Generating Project
@@ -63,11 +61,33 @@ nx test web
 nx g @gb-nx/svelte:route admin/[area] --project web
 ```
 
+| Option     | Type    | Description                                     |
+| ---------- | ------- | ----------------------------------------------- |
+| name       | string  | The name of the route.                          |
+| project    | string  | The Svelte project to target.                   |
+| directory  | string  | Directory where the generated files are placed. |
+| skipFormat | boolean | Skip formatting files.                          |
+| skipTests  | boolean | Do not create 'spec' test file for the route.   |
+| language   | string  | Route script language (ts/js).                  |
+| style      | string  | Route style language (css/scss).                |
+| load       | string  | Source of data for your load function           |
+| runes      | boolean | Use svelte runes (requires svelte >=5)          |
+
 ### Add a component
 
 ```
 nx g @gb-nx/svelte:component SocialMedia --project web
 ```
+
+| Option     | Type    | Description                                                                          |
+| ---------- | ------- | ------------------------------------------------------------------------------------ |
+| name       | string  | The name of the component.                                                           |
+| project    | string  | The Svelte project to target.                                                        |
+| directory  | string  | Directory where the component is placed, relative to your Svelte project lib folder. |
+| skipFormat | boolean | Skip formatting files.                                                               |
+| language   | string  | Component script language (ts/js).                                                   |
+| style      | string  | Component style language (css/scss).                                                 |
+| runes      | boolean | Use svelte runes (requires svelte >=5)                                               |
 
 ### Add a lib dependency
 
@@ -79,6 +99,13 @@ The generator will
 ```
 nx g @gb-nx/svelte:dependency --project web --dependency my-lib
 ```
+
+| Option     | Type    | Description                                                                    |
+| ---------- | ------- | ------------------------------------------------------------------------------ |
+| project    | string  | The project to add the dependency src to                                       |
+| dependency | string  | The dependent project to add                                                   |
+| scope      | string  | The scope to prepend to the dependency name for the alias name (without the @) |
+| skipFormat | boolean | Skip formatting files.                                                         |
 
 ## Migrations
 

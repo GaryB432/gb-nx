@@ -1,4 +1,5 @@
 import {
+  checkFilesExist,
   ensureNxProject,
   readJson,
   runCommandAsync,
@@ -74,6 +75,25 @@ describe('svelte e2e', () => {
         `apps/${project}/project.json`
       );
       expect(proj.tags).toEqual(['e2etag', 'e2ePackage']);
+    }, 120000);
+  });
+
+  describe('route runes', () => {
+    it('should create route with runes', async () => {
+      const project = uniq('svelte');
+      await createSveltekitProject(project, `subdir`);
+      await runNxCommandAsync(
+        `generate @gb-nx/svelte:application --projectPath=subdir/${project} --no-interactive`
+      );
+      await runNxCommandAsync(
+        `generate @gb-nx/svelte:route a/b/c --runes --load=shared -p=${project} --no-interactive`
+      );
+      expect(() =>
+        checkFilesExist(
+          `subdir/${project}/src/routes/a/b/c/+page.svelte`,
+          `subdir/${project}/src/routes/a/b/c/+page.js`
+        )
+      ).not.toThrow();
     }, 120000);
   });
 });

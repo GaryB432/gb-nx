@@ -1,8 +1,22 @@
 import type { Tree } from '@nx/devkit';
-// import { readProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { libraryGenerator } from '@nx/node';
-import { createSvelteKitApp, getSvelteFiles } from './svelte';
+import {
+  createSvelteKitApp,
+  getSvelteFiles,
+  getSveltePackageVersions,
+  satisfiesRunes,
+  supportsRunes,
+} from './svelte';
+
+describe('semver sanity check', () => {
+  it('handles', () => {
+    expect(satisfiesRunes('^4.0.0')).toBeFalsy();
+    expect(satisfiesRunes('^5.0.0')).toBeTruthy();
+    expect(satisfiesRunes('^6.0.0')).toBeTruthy();
+    expect(satisfiesRunes('~6.0.0')).toBeTruthy();
+  });
+});
 
 describe('Svelte', () => {
   let appTree: Tree;
@@ -19,7 +33,20 @@ describe('Svelte', () => {
     createSvelteKitApp(appTree, '0', {
       name: 'test',
       directory: 'apps',
+      skipFormat: true,
     });
+  });
+
+  it('gets SveltePackageVersions', () => {
+    expect(
+      getSveltePackageVersions(appTree, {
+        root: 'apps/test',
+      })
+    ).toEqual([
+      { name: '@sveltejs/kit', version: expect.anything() },
+      // { name: '@sveltejs/vite-plugin-svelte', version: expect.anything() },
+      { name: 'svelte', version: expect.anything() },
+    ]);
   });
 
   it('getSvelteConfig', async () => {
@@ -125,5 +152,36 @@ export default config;`;
     expect(routes).toEqual('src/routes');
     expect(lib).toEqual('src/lib');
     expect(params).toEqual('src/params');
+  });
+});
+
+describe('runes', () => {
+  let appTree: Tree;
+
+  beforeEach(async () => {
+    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+  });
+
+  it('supportsRunes', () => {
+    createSvelteKitApp(appTree, '5.0.0', {
+      directory: 'apps',
+      name: 'web',
+      skipFormat: true,
+    });
+    expect(supportsRunes(appTree, { root: 'apps/web' })).toEqual({
+      supports: true,
+      svelte: '5.0.0',
+    });
+  });
+  it('does not supportsRunes', () => {
+    createSvelteKitApp(appTree, '4.0.0', {
+      directory: 'apps',
+      name: 'web',
+      skipFormat: true,
+    });
+    expect(supportsRunes(appTree, { root: 'apps/web' })).toEqual({
+      supports: false,
+      svelte: '4.0.0',
+    });
   });
 });

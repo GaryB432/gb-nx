@@ -7,7 +7,11 @@ import {
   type ProjectConfiguration,
   type Tree,
 } from '@nx/devkit';
-import { getSvelteConfig, getSvelteFiles } from '../../utils/svelte';
+import {
+  getSvelteConfig,
+  getSvelteFiles,
+  supportsRunes,
+} from '../../utils/svelte';
 import type { Schema } from './schema';
 
 interface NormalizedSchema extends Schema {
@@ -26,6 +30,7 @@ function normalizeOptions(
   const ws = readNxJson(host);
   options.project = options.project ?? ws?.defaultProject;
   options.directory = options.directory ?? '';
+  options.runes = options.runes ?? false;
 
   if (!options.project) {
     throw new Error('Project or defaultProject required');
@@ -41,10 +46,10 @@ function normalizeOptions(
     skipTests: false,
     style: 'css',
     routePath: options.name,
+    runes: false,
   };
   return {
     ...defaultOptions,
-
     ...options,
     routePath: joinPathFragments(options.directory ?? '', options.name),
   };
@@ -100,11 +105,12 @@ function addLoadPage(
         return Promise.resolve(\`${answer}\`);
       }
       
-      export const load = (async({ params }) => {
+      export const load = (async ({ params }) => {
         return {
           subject: await demo(params)
         };
-      }) satisfies PageServerLoad;`;
+      }) satisfies PageServerLoad;
+      `;
 
       const js = `async function demo(params) {
         ${paramDeclaration}
@@ -168,28 +174,40 @@ function addSveltePage(
   > = {
     js: {
       none: `<script>
-        let data = { subject: '${options.name}' };
+        ${
+          options.runes
+            ? `let data = $state({ subject: '${options.name}' });`
+            : `let data = { subject: '${options.name}' };`
+        };
       </script>`,
       server: `<script>
         /** @type {import('./$types').PageData} */
-        export let data;
+        ${options.runes ? 'let { data } = $props()' : 'export let data'};
       </script>`,
       shared: `<script>
         /** @type {import('./$types').PageData} */
-        export let data;
-      </script>`,
+        ${options.runes ? 'let { data } = $props()' : 'export let data'};
+        </script>`,
     },
     ts: {
       none: `<script lang="ts">
-        let data = { subject: '${options.name}' };
-      </script>`,
+        let data = $state({ subject: '${options.name}' });
+        </script>`,
       server: `<script lang="ts">
         import type { PageData } from './$types';
-        export let data: PageData;
+        ${
+          options.runes
+            ? 'let { data }: { data: PageData } = $props()'
+            : 'export let data: PageData'
+        };
       </script>`,
       shared: `<script lang="ts">
         import type { PageData } from './$types';
-        export let data: PageData;
+        ${
+          options.runes
+            ? 'let { data }: { data: PageData } = $props()'
+            : 'export let data: PageData'
+        };
       </script>`,
     },
   };
@@ -264,6 +282,16 @@ export async function routeGenerator(
   const proj = projects.get(options.project);
   if (!proj) {
     throw new Error(notfound(options.project));
+  }
+
+  const { supports, svelte } = supportsRunes(tree, proj);
+  // const runesOk = supportsRunes(tree, proj);
+  if (schema.runes === void 0) {
+    options.runes = supports;
+  }
+
+  if (options.runes && !supports) {
+    throw new Error(`runes feature requires svelte >= 5 (currently '${svelte}')`);
   }
 
   const configContent = getSvelteConfig(tree, proj);

@@ -1,5 +1,9 @@
 <%- language == 'ts' ? '<script lang="ts">' : '<script>' %>
-  export let subject = '<%= className  %> component';
+<% if(runes){ %>
+  let subject = $state("<%= className  %> component");
+<% } else{ %>  
+  export let subject = "<%= className  %> component";
+<% } %>
 </script>
 
 <div class="container">

@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/svelte",
-  "version": "8.0.1",
+  "version": "8.1.1",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
     "@phenomnomnominal/tsquery": "~5.0.1",
     "nx": ">=17.0.0",
     "prettier": ">=2.0.0",
+    "semver": ">=7.2.0",
     "tslib": "^2.3.0",
     "typescript": "^5.2.2"
   },

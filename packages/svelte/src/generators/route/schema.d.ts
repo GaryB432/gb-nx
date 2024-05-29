@@ -36,4 +36,8 @@ export interface Schema {
    * Source of data for your load function
    */
   load?: 'shared' | 'server' | 'none';
+  /**
+   * Use svelte runes (requires svelte >=5)
+   */
+  runes?: boolean;
 }
