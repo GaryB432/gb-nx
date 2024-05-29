@@ -1,6 +1,7 @@
 import type { ProjectConfiguration, Tree } from '@nx/devkit';
 import { joinPathFragments } from '@nx/devkit';
 import { tsquery } from '@phenomnomnominal/tsquery';
+import { parse } from 'semver';
 import {
   SyntaxKind,
   type Identifier,
@@ -11,7 +12,6 @@ import {
   type SyntaxList,
 } from 'typescript';
 import { readPackageJson, type NamedPath } from './paths';
-import semverSatisfies = require('semver/functions/satisfies');
 
 export const SVELTE_CONFIG = 'svelte.config.js';
 
@@ -148,6 +148,15 @@ export function getSveltePackageVersions(
   });
 }
 
+export function satisfiesRunes(svelteRangeDependedUpon: string): boolean {
+  let checked = svelteRangeDependedUpon;
+  if (['^', '~'].includes(checked[0])) {
+    checked = checked.slice(1);
+  }
+  const parsed = parse(checked, true);
+  return (parsed?.major ?? 0) > 4;
+}
+
 export function supportsRunes(
   tree: Tree,
   config: ProjectConfiguration
@@ -159,9 +168,7 @@ export function supportsRunes(
   // console.log(sveltePkg);
   if (sveltePkg && sveltePkg.version) {
     svelte = sveltePkg.version;
-    supports = semverSatisfies(svelte, '>=5', {
-      includePrerelease: true,
-    });
+    supports = satisfiesRunes(svelte);
   }
   return { supports, svelte };
 }

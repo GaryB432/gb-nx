@@ -5,8 +5,18 @@ import {
   createSvelteKitApp,
   getSvelteFiles,
   getSveltePackageVersions,
+  satisfiesRunes,
   supportsRunes,
 } from './svelte';
+
+describe('semver sanity check', () => {
+  it('handles', () => {
+    expect(satisfiesRunes('^4.0.0')).toBeFalsy();
+    expect(satisfiesRunes('^5.0.0')).toBeTruthy();
+    expect(satisfiesRunes('^6.0.0')).toBeTruthy();
+    expect(satisfiesRunes('~6.0.0')).toBeTruthy();
+  });
+});
 
 describe('Svelte', () => {
   let appTree: Tree;

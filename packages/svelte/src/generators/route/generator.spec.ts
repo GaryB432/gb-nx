@@ -300,7 +300,7 @@ describe('route generator runes old svelte', () => {
     addProjectConfiguration(appTree, 'test', { root: 'apps/test' });
   });
 
-  it('should do shared runes', async () => {
+  it('should not do runes', async () => {
     const opts: Schema = {
       name: 'tester',
       project: 'test',
@@ -309,10 +309,10 @@ describe('route generator runes old svelte', () => {
       skipFormat: true,
       runes: true,
     };
-    await generator(appTree, opts);
-    expect(
-      appTree.read('apps/test/src/routes/tester/+page.ts', 'utf-8')
-    ).toContain('export const load =');
+
+    expect(async () => await generator(appTree, opts)).rejects.toThrow(
+      "runes feature requires svelte >= 5 (currently '^4.0.0')"
+    );
   });
 });
 

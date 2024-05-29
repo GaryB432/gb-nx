@@ -285,13 +285,13 @@ export async function routeGenerator(
   }
 
   const { supports, svelte } = supportsRunes(tree, proj);
-  const runesOk = supportsRunes(tree, proj);
+  // const runesOk = supportsRunes(tree, proj);
   if (schema.runes === void 0) {
     options.runes = supports;
   }
 
-  if (options.runes && !runesOk) {
-    throw new Error(`runes requires svelte >= 5 (currently '${svelte}')`);
+  if (options.runes && !supports) {
+    throw new Error(`runes feature requires svelte >= 5 (currently '${svelte}')`);
   }
 
   const configContent = getSvelteConfig(tree, proj);
