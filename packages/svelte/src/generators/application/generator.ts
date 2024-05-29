@@ -37,9 +37,9 @@ export async function addLintingToApplication(
 ): Promise<void> {
   await lintProjectGenerator(tree, {
     linter: Linter.EsLint,
-    project: project.name!,
+    project: project.name ?? '',
     // tsConfigPaths: [joinPathFragments(project.root, 'tsconfig.base.json')],
-    unitTestRunner: 'vitest',
+    unitTestRunner: 'vitest', // TODO hardcoded??
     skipFormat: options.skipFormat ?? false,
     setParserOptionsProject: false,
     rootProject: false, // TODO handle
@@ -115,16 +115,14 @@ function updatePrettier(tree: Tree, options: NormalizedOptions) {
       joinPathFragments(options.projectRoot, p)
     );
 
-    let content = [
-      '# Add files here to ignore them from prettier formatting',
-      '/dist',
-      '/coverage',
-      '/.nx/cache',
-    ].join('\n');
-
-    if (tree.exists(fname)) {
-      content = tree.read(fname, 'utf-8')!;
-    }
+    const content =
+      tree.read(fname, 'utf-8') ??
+      [
+        '# Add files here to ignore them from prettier formatting',
+        '/dist',
+        '/coverage',
+        '/.nx/cache',
+      ].join('\n');
 
     const patterns = content.split('\n');
 

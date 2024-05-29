@@ -22,6 +22,7 @@
     "@phenomnomnominal/tsquery": "~5.0.1",
     "nx": ">=17.0.0",
     "prettier": ">=2.0.0",
+    "semver": ">=7.2.0",
     "tslib": "^2.3.0",
     "typescript": "^5.2.2"
   },

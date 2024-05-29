@@ -18,9 +18,9 @@ export const SVELTE_CONFIG = 'svelte.config.js';
 interface NodeApplicationSchema {
   directory: string;
   name: string;
+  rootProject?: boolean;
   skipFormat?: boolean;
   skipPackageJson?: boolean;
-  rootProject?: boolean;
 }
 
 interface KitFiles {

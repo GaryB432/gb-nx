@@ -2,7 +2,7 @@ import { addProjectConfiguration, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator, { getSegments } from './generator';
-import { Schema } from './schema';
+import type { Schema } from './schema';
 
 describe('route generator', () => {
   let appTree: Tree;
