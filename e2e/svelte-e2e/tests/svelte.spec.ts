@@ -83,7 +83,7 @@ describe('svelte e2e', () => {
       const project = uniq('svelte');
       await createSveltekitProject(project, `subdir`);
       await runNxCommandAsync(
-        `generate @gb-nx/svelte:application ${project} --projectPath=subdir/${project} --no-interactive`
+        `generate @gb-nx/svelte:application --projectPath=subdir/${project} --no-interactive`
       );
       await runNxCommandAsync(
         `generate @gb-nx/svelte:route a/b/c --runes --load=shared -p=${project} --no-interactive`

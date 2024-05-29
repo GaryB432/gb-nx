@@ -153,12 +153,15 @@ describe('runes', () => {
   });
 
   it('supportsRunes', () => {
-    createSvelteKitApp(appTree, '5.0.0-alpha.1', {
+    createSvelteKitApp(appTree, '5.0.0', {
       directory: 'apps',
       name: 'web',
       skipFormat: true,
     });
-    expect(supportsRunes(appTree, { root: 'apps/web' })).toBeTruthy();
+    expect(supportsRunes(appTree, { root: 'apps/web' })).toEqual({
+      supports: true,
+      svelte: '5.0.0',
+    });
   });
   it('does not supportsRunes', () => {
     createSvelteKitApp(appTree, '4.0.0', {
@@ -166,6 +169,9 @@ describe('runes', () => {
       name: 'web',
       skipFormat: true,
     });
-    expect(supportsRunes(appTree, { root: 'apps/web' })).toBeFalsy();
+    expect(supportsRunes(appTree, { root: 'apps/web' })).toEqual({
+      supports: false,
+      svelte: '4.0.0',
+    });
   });
 });

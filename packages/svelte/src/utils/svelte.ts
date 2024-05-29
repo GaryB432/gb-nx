@@ -51,8 +51,8 @@ export function getKitLiteral(
   return qresults[0];
 }
 
-export function isSvelte(tree: Tree, config: ProjectConfiguration): boolean {
-  return tree.exists(joinPathFragments(config.root, SVELTE_CONFIG));
+export function isSvelte(tree: Tree, root: string): boolean {
+  return tree.exists(joinPathFragments(root, SVELTE_CONFIG));
 }
 
 function namedPathFromPropertyAssignment(node: PropertyAssignment): NamedPath {
@@ -155,16 +155,19 @@ export function getSveltePackageVersions(
 export function supportsRunes(
   tree: Tree,
   config: ProjectConfiguration
-): boolean {
+): { supports: boolean; svelte: string | undefined } {
+  let supports = false;
+  let svelte: string | undefined;
   const sps = getSveltePackageVersions(tree, config);
   const sveltePkg = sps.find((pkg) => pkg.name === 'svelte');
   // console.log(sveltePkg);
   if (sveltePkg && sveltePkg.version) {
-    return semverSatisfies(sveltePkg.version, '>=5', {
+    svelte = sveltePkg.version;
+    supports = semverSatisfies(svelte, '>=5', {
       includePrerelease: true,
     });
   }
-  return false;
+  return { supports, svelte };
 }
 
 export function createSvelteKitApp(

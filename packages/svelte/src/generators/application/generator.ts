@@ -177,7 +177,7 @@ export default async function (
     tags: normalizedOptions.parsedTags,
   };
 
-  if (!isSvelte(tree, project)) {
+  if (!isSvelte(tree, normalizedOptions.projectRoot)) {
     throw new Error(notSvelte(normalizedOptions.projectRoot));
   }
 

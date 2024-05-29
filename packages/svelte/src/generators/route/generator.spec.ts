@@ -309,9 +309,10 @@ describe('route generator runes old svelte', () => {
       skipFormat: true,
       runes: true,
     };
-    expect(async () => await generator(appTree, opts)).rejects.toThrow(
-      'runes requires svelte >= 5'
-    );
+    await generator(appTree, opts);
+    expect(
+      appTree.read('apps/test/src/routes/tester/+page.ts', 'utf-8')
+    ).toContain('export const load =');
   });
 });
 
