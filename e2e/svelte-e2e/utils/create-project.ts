@@ -19,13 +19,13 @@ export async function createSveltekitProject(
       devDependencies: {
         '@sveltejs/adapter-auto': '^3.0.0',
         '@sveltejs/kit': '^2.0.0',
-        '@sveltejs/vite-plugin-svelte': '^3.0.0',
+        // '@sveltejs/vite-plugin-svelte': '^3.0.0',
         // eslint: '^8.56.0',
         svelte: '^5.0.0-next.1',
-        // 'svelte-check': '^3.6.0',
-        // tslib: '^2.4.1',
-        // typescript: '^5.0.0',
-        // vite: '^5.0.3',
+        'svelte-check': '^3.6.0',
+        tslib: '^2.4.1',
+        typescript: '^5.0.0',
+        vite: '^5.0.3',
         // vitest: '^1.2.0',
       },
     })

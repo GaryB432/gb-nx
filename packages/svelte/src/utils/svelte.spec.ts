@@ -34,7 +34,7 @@ describe('Svelte', () => {
       })
     ).toEqual([
       { name: '@sveltejs/kit', version: expect.anything() },
-      { name: '@sveltejs/vite-plugin-svelte', version: expect.anything() },
+      // { name: '@sveltejs/vite-plugin-svelte', version: expect.anything() },
       { name: 'svelte', version: expect.anything() },
     ]);
   });

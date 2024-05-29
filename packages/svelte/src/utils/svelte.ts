@@ -140,16 +140,12 @@ export function getSveltePackageVersions(
   // const fdf = joinPathFragments(config.root, 'package.json');
   // console.log(fdf);
   const pp = readPackageJson(tree, config);
-  // if (!pp) return [];
 
-  // console.log(pp);
-  return ['@sveltejs/kit', '@sveltejs/vite-plugin-svelte', 'svelte'].map(
-    (name) => {
-      const version =
-        pp && pp.devDependencies ? pp.devDependencies[name] : undefined;
-      return { name, version };
-    }
-  );
+  return ['@sveltejs/kit', 'svelte'].map((name) => {
+    const version =
+      pp && pp.devDependencies ? pp.devDependencies[name] : undefined;
+    return { name, version };
+  });
 }
 
 export function supportsRunes(
@@ -206,7 +202,7 @@ export function createSvelteKitApp(
     devDependencies: {
       '@sveltejs/adapter-auto': '^3.0.0',
       '@sveltejs/kit': '^2.0.0',
-      '@sveltejs/vite-plugin-svelte': '^3.0.0',
+      // '@sveltejs/vite-plugin-svelte': '^3.0.0',
       svelte: version,
     },
   };
@@ -218,28 +214,28 @@ export function createSvelteKitApp(
 
   return;
 
-  appTree.write(
-    joinPathFragments(projectRoot, 'node_modules/@sveltejs/kit/package.json'),
-    JSON.stringify({
-      name: '@sveltejs/kit',
-      version,
-    })
-  );
-  appTree.write(
-    joinPathFragments(
-      projectRoot,
-      'node_modules/@sveltejs/vite-plugin-svelte/package.json'
-    ),
-    JSON.stringify({
-      name: '@sveltejs/vite-plugin-svelte',
-      version,
-    })
-  );
-  appTree.write(
-    joinPathFragments(projectRoot, 'node_modules/svelte/package.json'),
-    JSON.stringify({
-      name: 'svelte',
-      version,
-    })
-  );
+  // appTree.write(
+  //   joinPathFragments(projectRoot, 'node_modules/@sveltejs/kit/package.json'),
+  //   JSON.stringify({
+  //     name: '@sveltejs/kit',
+  //     version,
+  //   })
+  // );
+  // appTree.write(
+  //   joinPathFragments(
+  //     projectRoot,
+  //     'node_modules/@sveltejs/vite-plugin-svelte/package.json'
+  //   ),
+  //   JSON.stringify({
+  //     name: '@sveltejs/vite-plugin-svelte',
+  //     version,
+  //   })
+  // );
+  // appTree.write(
+  //   joinPathFragments(projectRoot, 'node_modules/svelte/package.json'),
+  //   JSON.stringify({
+  //     name: 'svelte',
+  //     version,
+  //   })
+  // );
 }
