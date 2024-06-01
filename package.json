@@ -22,7 +22,7 @@
     "@types/node": "^18.16.9",
     "@typescript-eslint/eslint-plugin": "6.13.2",
     "@typescript-eslint/parser": "6.13.2",
-    "adm-zip": "^0.5.10",
+    "adm-zip": "^0.5.13",
     "ajv": "^8.12.0",
     "eslint": "8.48.0",
     "eslint-config-prettier": "9.0.0",
