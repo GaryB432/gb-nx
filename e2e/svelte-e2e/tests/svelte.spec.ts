@@ -4,6 +4,7 @@ import {
   ensureNxProject,
   readJson,
   runNxCommandAsync,
+  runPackageManagerInstall,
   tmpProjPath,
   uniq,
 } from '@nx/plugin/testing';
@@ -24,6 +25,7 @@ describe('svelte e2e', () => {
       'install-strategy=nested\n',
       'utf-8'
     );
+    runPackageManagerInstall();
   });
 
   afterAll(() => {
