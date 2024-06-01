@@ -38,7 +38,7 @@ describe('svelte e2e', () => {
     const project = uniq('svelte');
     await createSveltekitProject(project);
     await runNxCommandAsync(
-      `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive`
+      `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive --verbose`
     );
     const result = await runNxCommandAsync(`build ${project}`);
     expect(result.stdout).toContain('Executor ran');
@@ -49,7 +49,7 @@ describe('svelte e2e', () => {
       const project = uniq('svelte');
       await createSveltekitProject(project);
       await runNxCommandAsync(
-        `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive`
+        `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive --verbose`
       );
       const proj = readJson<ProjectConfiguration>(
         `apps/${project}/project.json`
@@ -72,7 +72,7 @@ describe('svelte e2e', () => {
       const project = uniq('svelte');
       await createSveltekitProject(project);
       await runNxCommandAsync(
-        `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive --tags e2etag,e2ePackage`
+        `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive --verbose --tags e2etag,e2ePackage`
       );
       const proj = readJson<ProjectConfiguration>(
         `apps/${project}/project.json`
@@ -86,7 +86,7 @@ describe('svelte e2e', () => {
       const project = uniq('svelte');
       await createSveltekitProject(project, `subdir`);
       await runNxCommandAsync(
-        `generate @gb-nx/svelte:application --projectPath=subdir/${project} --skipFormat --no-interactive`
+        `generate @gb-nx/svelte:application --projectPath=subdir/${project} --skipFormat --no-interactive --verbose`
       );
       await runNxCommandAsync(
         `generate @gb-nx/svelte:route a/b/c --runes --load=shared -p=${project} --skipFormat --no-interactive`
