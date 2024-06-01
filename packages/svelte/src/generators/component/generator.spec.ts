@@ -10,7 +10,7 @@ describe('component', () => {
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    createSvelteKitApp(appTree, '0', {
+    createSvelteKitApp(appTree, '5.0.0', {
       directory: 'apps',
       name: projectName,
       skipFormat: true,
