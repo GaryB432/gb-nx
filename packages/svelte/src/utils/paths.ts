@@ -27,14 +27,13 @@ export function readPackageJson(
   }
 }
 
-export function readModulePackageJson(
-  tree: Tree,
-  mod: string,
-  root: string
-): PackageJson | undefined {
-  return readPackageJson(tree, {
-    root: joinPathFragments(root, 'node_modules', mod),
-  });
+export function nodeResolutionPaths(root: string): string[] {
+  return root
+    .split('/')
+    .map((_, i, lines) => {
+      return lines.slice(0, i + 1).join('/');
+    })
+    .reverse();
 }
 
 export function makeAliasName(name: string, scope?: string): string {
