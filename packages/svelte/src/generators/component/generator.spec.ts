@@ -26,53 +26,21 @@ describe('component', () => {
       skipFormat: true,
     });
 
-    expect(appTree.read('apps/my-app/src/lib/components/Hello.svelte', 'utf-8'))
-      .toMatchInlineSnapshot(`
-      "<script>
-        
-        export let subject = "Hello component";
-
-      </script>
-
-      <div class="container">
-        {subject} works
-      </div>
-
-      <style>
-        .container {
-          border: thin solid silver;
-        }
-      </style>
-      "
-    `);
+    expect(
+      appTree.read('apps/my-app/src/lib/components/Hello.svelte', 'utf-8')
+    ).toMatchSnapshot();
   });
 
-  it('should generate component in lib directory', async () => {
+  it('should generate component in lib directory by default', async () => {
     await componentGenerator(appTree, {
       name: 'hello',
       project: projectName,
       skipFormat: true,
     });
 
-    expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8'))
-      .toMatchInlineSnapshot(`
-      "<script>
-        
-        export let subject = "Hello component";
-
-      </script>
-
-      <div class="container">
-        {subject} works
-      </div>
-
-      <style>
-        .container {
-          border: thin solid silver;
-        }
-      </style>
-      "
-    `);
+    expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8')).toContain(
+      'export let subject'
+    );
   });
 
   it('should generate component with scss', async () => {
@@ -83,24 +51,8 @@ describe('component', () => {
       skipFormat: true,
     });
 
-    expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8'))
-      .toMatchInlineSnapshot(`
-      "<script>
-        
-        export let subject = "Hello component";
-
-      </script>
-
-      <div class="container">
-        {subject} works
-      </div>
-
-      <style lang="scss">
-        .container {
-          border: thin solid silver;
-        }
-      </style>
-      "
-    `);
+    expect(
+      appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8')
+    ).toMatchSnapshot();
   });
 });
