@@ -28,6 +28,8 @@ export async function createSveltekitProject(
         vite: '^5.0.3',
         // vitest: '^1.2.0',
       },
+      type: 'module',
+      nx: {},
     })
   );
 
