@@ -20,6 +20,8 @@ export async function createSveltekitProject(
         '@sveltejs/kit': '^2.0.0',
         svelte: '^5.0.0-next.1',
       },
+      type: 'module',
+      nx: {},
     })
   );
 
