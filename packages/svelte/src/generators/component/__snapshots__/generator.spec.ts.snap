@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component should generate component in components directory 1`] = `
+exports[`component svelte 4 should generate component in components directory 1`] = `
 "<script>
   
   export let subject = "Hello component";
@@ -19,7 +19,7 @@ exports[`component should generate component in components directory 1`] = `
 "
 `;
 
-exports[`component should generate component with scss 1`] = `
+exports[`component svelte 4 should generate component with scss 1`] = `
 "<script>
   
   export let subject = "Hello component";

@@ -99,4 +99,22 @@ describe('svelte e2e', () => {
       ).not.toThrow();
     }, 120000);
   });
+
+  describe('component runes', () => {
+    it('should create component with runes', async () => {
+      const project = uniq('svelte');
+      await createSveltekitProject(project, `subdir`);
+      await runNxCommandAsync(
+        `generate @gb-nx/svelte:application --projectPath=subdir/${project} --skipFormat --no-interactive --verbose`
+      );
+      await runNxCommandAsync(
+        `generate @gb-nx/svelte:component fun-component --directory=moar/for/you -p=${project} --skipFormat`
+      );
+      expect(() =>
+        checkFilesExist(
+          `subdir/${project}/src/lib/moar/for/you/FunComponent.svelte`
+        )
+      ).not.toThrow();
+    }, 120000);
+  });
 });

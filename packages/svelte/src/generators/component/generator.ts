@@ -7,7 +7,11 @@ import {
   type Tree,
 } from '@nx/devkit';
 import { join } from 'path';
-import { getSvelteConfig, getSvelteFiles } from '../../utils/svelte';
+import {
+  getSvelteConfig,
+  getSvelteFiles,
+  supportsRunes,
+} from '../../utils/svelte';
 import type { Schema as ComponentGeneratorSchema } from './schema';
 
 export interface NormalizedComponentSchema extends ComponentGeneratorSchema {
@@ -31,9 +35,15 @@ function normalizeOptions(
     throw new Error(`Project "${projectName}" not found`);
   }
 
-  const supportsRunes = false;
+  const runesSupport = supportsRunes(tree, project);
 
-  const runes = options.runes ?? supportsRunes;
+  if (options.runes && !runesSupport.supports) {
+    throw new Error(
+      `runes feature requires svelte >= 5 (currently '${runesSupport.svelte}')`
+    );
+  }
+
+  const runes = options.runes ?? runesSupport.supports;
 
   const config = getSvelteConfig(tree, project);
 
