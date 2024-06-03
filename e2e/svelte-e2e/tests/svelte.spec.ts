@@ -1,13 +1,15 @@
+import { ProjectConfiguration, joinPathFragments } from '@nx/devkit';
 import {
   checkFilesExist,
   ensureNxProject,
   readJson,
-  runCommandAsync,
   runNxCommandAsync,
+  runPackageManagerInstall,
+  tmpProjPath,
   uniq,
 } from '@nx/plugin/testing';
+import { writeFileSync } from 'fs';
 import { createSveltekitProject } from '../utils/create-project';
-import { ProjectConfiguration } from '@nx/devkit';
 
 describe('svelte e2e', () => {
   // Setting up individual workspaces per
@@ -18,6 +20,12 @@ describe('svelte e2e', () => {
   // are not dependant on one another.
   beforeAll(() => {
     ensureNxProject('@gb-nx/svelte', 'dist/packages/svelte');
+    writeFileSync(
+      joinPathFragments(tmpProjPath(), '.npmrc'),
+      'install-strategy=nested\n',
+      'utf-8'
+    );
+    runPackageManagerInstall();
   });
 
   afterAll(() => {
@@ -28,10 +36,9 @@ describe('svelte e2e', () => {
 
   it('should create svelte', async () => {
     const project = uniq('svelte');
-    await runCommandAsync('npm add prettier -D');
     await createSveltekitProject(project);
     await runNxCommandAsync(
-      `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat`
+      `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive --verbose`
     );
     const result = await runNxCommandAsync(`build ${project}`);
     expect(result.stdout).toContain('Executor ran');
@@ -40,12 +47,10 @@ describe('svelte e2e', () => {
   describe('--directory', () => {
     it('should create src in the specified directory', async () => {
       const project = uniq('svelte');
-      await runCommandAsync('npm add prettier -D');
       await createSveltekitProject(project);
       await runNxCommandAsync(
-        `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat`
+        `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive --verbose`
       );
-
       const proj = readJson<ProjectConfiguration>(
         `apps/${project}/project.json`
       );
@@ -65,12 +70,10 @@ describe('svelte e2e', () => {
   describe('--tags', () => {
     it('should add tags to the project', async () => {
       const project = uniq('svelte');
-      await runCommandAsync('npm add prettier -D');
       await createSveltekitProject(project);
       await runNxCommandAsync(
-        `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --tags e2etag,e2ePackage`
+        `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive --verbose --tags e2etag,e2ePackage`
       );
-
       const proj = readJson<ProjectConfiguration>(
         `apps/${project}/project.json`
       );
@@ -83,10 +86,10 @@ describe('svelte e2e', () => {
       const project = uniq('svelte');
       await createSveltekitProject(project, `subdir`);
       await runNxCommandAsync(
-        `generate @gb-nx/svelte:application --projectPath=subdir/${project} --no-interactive`
+        `generate @gb-nx/svelte:application --projectPath=subdir/${project} --skipFormat --no-interactive --verbose`
       );
       await runNxCommandAsync(
-        `generate @gb-nx/svelte:route a/b/c --runes --load=shared -p=${project} --no-interactive`
+        `generate @gb-nx/svelte:route a/b/c --runes --load=shared -p=${project} --skipFormat --no-interactive`
       );
       expect(() =>
         checkFilesExist(

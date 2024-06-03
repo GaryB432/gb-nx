@@ -1,4 +1,8 @@
-import { dependencySourceRoot, makeAliasName } from './paths';
+import {
+  dependencySourceRoot,
+  makeAliasName,
+  nodeResolutionPaths,
+} from './paths';
 
 describe('makeAliasName', () => {
   test('a', () => {
@@ -30,7 +34,20 @@ describe('makeAliasName', () => {
   });
 });
 
-describe('', () => {
+describe('nodeResolutionPaths', () => {
+  it('works', () => {
+    expect(nodeResolutionPaths('apps/ab/cd/df/gh/way-in-here')).toEqual([
+      'apps/ab/cd/df/gh/way-in-here',
+      'apps/ab/cd/df/gh',
+      'apps/ab/cd/df',
+      'apps/ab/cd',
+      'apps/ab',
+      'apps',
+    ]);
+  });
+});
+
+describe('dependencySourceRoot', () => {
   expect(
     dependencySourceRoot(
       { root: 'apps/ab/cd/df/gh/way-in-here' },

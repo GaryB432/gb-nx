@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`route generator runes should do none runes 1`] = `
+exports[`route generator --language works with --language=ts 1`] = `
 "<script lang="ts">
-        let data = $state({ subject: 'tester' });
+        export let data = { subject: 'some-route' };
         </script>
 
 <svelte:head>
-  <title>test - tester</title>
+  <title>test - some-route</title>
 </svelte:head>
 
 <article class="container">
@@ -27,39 +27,23 @@ exports[`route generator runes should do none runes 1`] = `
 </style>"
 `;
 
-exports[`route generator runes should do server runes 1`] = `
-"<script lang="ts">
-        import type { PageData } from './$types';
-        let { data }: { data: PageData } = $props();
-      </script>
+exports[`route generator --language works with --language=ts 2`] = `
+"import { expect, test } from '@playwright/test';
 
-<svelte:head>
-  <title>test - tester</title>
-</svelte:head>
-
-<article class="container">
-	{data.subject} works
-</article>
-
-
-<style>
-  .container {
-    padding: 1em;
-    border: thin solid silver;
-  }
-  @media screen and (min-width: 576px) { /* landscape phones */ }
-  @media screen and (min-width: 768px) { /* tablets */ }
-  @media screen and (min-width: 992px) { /* desktops */ }
-  @media screen and (min-width: 1200px) { /* large desktops */ }
-  @media screen and (min-width: 1400px) { /* larger desktops */ }
-</style>"
+test('has generated article', async ({ page }) => {
+  await page.goto('/some-route');
+  expect(
+    await page.textContent('article.container')
+  ).toContain('works');
+});
+"
 `;
 
-exports[`route generator runes should do server runes 2`] = `
+exports[`route generator --load works with --load=server 1`] = `
 "import type { PageServerLoad, RouteParams } from './$types';
       async function demo(params: RouteParams): Promise<string> {
         
-        return Promise.resolve(\`tester\`);
+        return Promise.resolve(\`some-route\`);
       }
       
       export const load = (async ({ params }) => {
@@ -70,14 +54,23 @@ exports[`route generator runes should do server runes 2`] = `
       "
 `;
 
-exports[`route generator runes should do shared runes 1`] = `
-"<script lang="ts">
-        import type { PageData } from './$types';
-        let { data }: { data: PageData } = $props();
+exports[`route generator --load works with --load=shared 1`] = `
+"import type { PageLoad, RouteParams } from './$types';
+      export const load = (async ({ params }) => {
+        
+        return {
+          subject: \`some-route\`
+        };
+      }) satisfies PageLoad;"
+`;
+
+exports[`route generator --runes svelte 4 works with --no-runes 1`] = `
+"<script>
+        let data = { subject: 'some-route' };
       </script>
 
 <svelte:head>
-  <title>test - tester</title>
+  <title>test - some-route</title>
 </svelte:head>
 
 <article class="container">
@@ -98,12 +91,68 @@ exports[`route generator runes should do shared runes 1`] = `
 </style>"
 `;
 
-exports[`route generator runes should do shared runes 2`] = `
-"import type { PageLoad, RouteParams } from './$types';
-      export const load = (async ({ params }) => {
-        
-        return {
-          subject: \`tester\`
-        };
-      }) satisfies PageLoad;"
+exports[`route generator --runes svelte 5 works with --no-runes 1`] = `
+"<script>
+        let data = { subject: 'some-route' };
+      </script>
+
+<svelte:head>
+  <title>test - some-route</title>
+</svelte:head>
+
+<article class="container">
+	{data.subject} works
+</article>
+
+
+<style>
+  .container {
+    padding: 1em;
+    border: thin solid silver;
+  }
+  @media screen and (min-width: 576px) { /* landscape phones */ }
+  @media screen and (min-width: 768px) { /* tablets */ }
+  @media screen and (min-width: 992px) { /* desktops */ }
+  @media screen and (min-width: 1200px) { /* large desktops */ }
+  @media screen and (min-width: 1400px) { /* larger desktops */ }
+</style>"
+`;
+
+exports[`route generator basics works with default values 1`] = `
+"<script>
+        let data = { subject: 'some-route' };
+      </script>
+
+<svelte:head>
+  <title>test - some-route</title>
+</svelte:head>
+
+<article class="container">
+	{data.subject} works
+</article>
+
+
+<style>
+  .container {
+    padding: 1em;
+    border: thin solid silver;
+  }
+  @media screen and (min-width: 576px) { /* landscape phones */ }
+  @media screen and (min-width: 768px) { /* tablets */ }
+  @media screen and (min-width: 992px) { /* desktops */ }
+  @media screen and (min-width: 1200px) { /* large desktops */ }
+  @media screen and (min-width: 1400px) { /* larger desktops */ }
+</style>"
+`;
+
+exports[`route generator basics works with default values 2`] = `
+"import { expect, test } from '@playwright/test';
+
+test('has generated article', async ({ page }) => {
+  await page.goto('/some-route');
+  expect(
+    await page.textContent('article.container')
+  ).toContain('works');
+});
+"
 `;

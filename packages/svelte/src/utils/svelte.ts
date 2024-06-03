@@ -1,7 +1,8 @@
 import type { ProjectConfiguration, Tree } from '@nx/devkit';
 import { joinPathFragments } from '@nx/devkit';
 import { tsquery } from '@phenomnomnominal/tsquery';
-import { parse } from 'semver';
+import { type PackageJson } from 'nx/src/utils/package-json';
+import { parse, valid } from 'semver';
 import {
   SyntaxKind,
   type Identifier,
@@ -11,7 +12,7 @@ import {
   type StringLiteral,
   type SyntaxList,
 } from 'typescript';
-import { readPackageJson, type NamedPath } from './paths';
+import { nodeResolutionPaths, type NamedPath } from './paths';
 
 export const SVELTE_CONFIG = 'svelte.config.js';
 
@@ -137,23 +138,27 @@ export function getSveltePackageVersions(
   tree: Tree,
   config: ProjectConfiguration
 ): { name: string; version: string | undefined }[] {
-  // const fdf = joinPathFragments(config.root, 'package.json');
-  // console.log(fdf);
-  const pp = readPackageJson(tree, config);
-
   return ['@sveltejs/kit', 'svelte'].map((name) => {
-    const version =
-      pp && pp.devDependencies ? pp.devDependencies[name] : undefined;
+    let version: string | undefined;
+    for (const pjname of nodeResolutionPaths(config.root).map((p) =>
+      joinPathFragments(p, 'node_modules', name, 'package.json')
+    )) {
+      if (tree.exists(pjname)) {
+        const deppj = JSON.parse(
+          tree.read(pjname, 'utf-8') ?? ''
+        ) as PackageJson;
+        version = deppj.version;
+      }
+    }
     return { name, version };
   });
 }
 
-export function satisfiesRunes(svelteRangeDependedUpon: string): boolean {
-  let checked = svelteRangeDependedUpon;
-  if (['^', '~'].includes(checked[0])) {
-    checked = checked.slice(1);
+export function satisfiesRunes(svelteDependedUpon: string): boolean {
+  if (!valid(svelteDependedUpon)) {
+    throw new Error('not a good semver');
   }
-  const parsed = parse(checked, true);
+  const parsed = parse(svelteDependedUpon, true);
   return (parsed?.major ?? 0) > 4;
 }
 
@@ -176,7 +181,11 @@ export function supportsRunes(
 export function createSvelteKitApp(
   appTree: Tree,
   version: string,
-  options: NodeApplicationSchema
+  options: NodeApplicationSchema,
+  devDependencies: Record<'@sveltejs/kit' | 'svelte', string> = {
+    '@sveltejs/kit': '2.0.0',
+    svelte: version,
+  }
 ): void {
   const config0 = 'const config = { kit: {} };';
 
@@ -203,46 +212,24 @@ export function createSvelteKitApp(
   const projectRoot = joinPathFragments(options.directory ?? '.', options.name);
 
   appTree.write(joinPathFragments(projectRoot, 'svelte.config.js'), config);
-  const pacage = {
-    name: options.name,
-    version: '0.0.0',
-    devDependencies: {
-      '@sveltejs/adapter-auto': '^3.0.0',
-      '@sveltejs/kit': '^2.0.0',
-      // '@sveltejs/vite-plugin-svelte': '^3.0.0',
-      svelte: version,
-    },
-  };
 
   appTree.write(
     joinPathFragments(projectRoot, 'package.json'),
-    JSON.stringify(pacage)
+    JSON.stringify({
+      name: options.name,
+      version: '0.0.1-tester.0',
+      devDependencies,
+    })
   );
 
-  return;
+  for (const [name, version] of Object.entries(devDependencies)) {
+    if (!valid(version)) {
+      throw new Error(`'${version}' in not a valid semver for '${name}' `);
+    }
 
-  // appTree.write(
-  //   joinPathFragments(projectRoot, 'node_modules/@sveltejs/kit/package.json'),
-  //   JSON.stringify({
-  //     name: '@sveltejs/kit',
-  //     version,
-  //   })
-  // );
-  // appTree.write(
-  //   joinPathFragments(
-  //     projectRoot,
-  //     'node_modules/@sveltejs/vite-plugin-svelte/package.json'
-  //   ),
-  //   JSON.stringify({
-  //     name: '@sveltejs/vite-plugin-svelte',
-  //     version,
-  //   })
-  // );
-  // appTree.write(
-  //   joinPathFragments(projectRoot, 'node_modules/svelte/package.json'),
-  //   JSON.stringify({
-  //     name: 'svelte',
-  //     version,
-  //   })
-  // );
+    appTree.write(
+      joinPathFragments(projectRoot, 'node_modules', name, 'package.json'),
+      JSON.stringify({ name, version })
+    );
+  }
 }

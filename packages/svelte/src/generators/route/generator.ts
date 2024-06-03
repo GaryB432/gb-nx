@@ -15,6 +15,7 @@ import {
 import type { Schema } from './schema';
 
 interface NormalizedSchema extends Schema {
+  project: string;
   routePath: string;
 }
 
@@ -23,34 +24,18 @@ function getRouteParam(typedParam: string): [string, string] {
   return [r[0], r[1]];
 }
 
-function normalizeOptions(
-  host: Tree,
-  options: Schema
-): Required<NormalizedSchema> {
+function normalizeOptions(host: Tree, options: Schema): NormalizedSchema {
   const ws = readNxJson(host);
   options.project = options.project ?? ws?.defaultProject;
   options.directory = options.directory ?? '';
-  options.runes = options.runes ?? false;
 
   if (!options.project) {
     throw new Error('Project or defaultProject required');
   }
 
-  const defaultOptions: Required<NormalizedSchema> = {
-    directory: options.directory,
-    language: 'js',
-    load: 'none',
-    name: options.name,
-    project: options.project,
-    skipFormat: false,
-    skipTests: false,
-    style: 'css',
-    routePath: options.name,
-    runes: false,
-  };
   return {
-    ...defaultOptions,
     ...options,
+    project: options.project,
     routePath: joinPathFragments(options.directory ?? '', options.name),
   };
 }
@@ -159,7 +144,7 @@ function addSveltePage(
   tree: Tree,
   proj: ProjectConfiguration,
   locations: { routes: string },
-  options: Required<NormalizedSchema>
+  options: NormalizedSchema
 ): void {
   const fname = joinPathFragments(
     proj.root,
@@ -176,8 +161,8 @@ function addSveltePage(
       none: `<script>
         ${
           options.runes
-            ? `let data = $state({ subject: '${options.name}' });`
-            : `let data = { subject: '${options.name}' };`
+            ? `let data = $state({ subject: '${options.name}' })`
+            : `let data = { subject: '${options.name}' }`
         };
       </script>`,
       server: `<script>
@@ -191,7 +176,11 @@ function addSveltePage(
     },
     ts: {
       none: `<script lang="ts">
-        let data = $state({ subject: '${options.name}' });
+        ${
+          options.runes
+            ? `let data = $state({ subject: '${options.name}' })`
+            : `export let data = { subject: '${options.name}' }`
+        };
         </script>`,
       server: `<script lang="ts">
         import type { PageData } from './$types';
@@ -212,7 +201,7 @@ function addSveltePage(
     },
   };
 
-  const script = scripts[options.language][options.load];
+  const script = scripts[options.language ?? 'js'][options.load ?? 'none'];
 
   const html = `<svelte:head>
   <title>${options.project} - ${options.name}</title>
@@ -291,7 +280,9 @@ export async function routeGenerator(
   }
 
   if (options.runes && !supports) {
-    throw new Error(`runes feature requires svelte >= 5 (currently '${svelte}')`);
+    throw new Error(
+      `runes feature requires svelte >= 5 (currently '${svelte}')`
+    );
   }
 
   const configContent = getSvelteConfig(tree, proj);

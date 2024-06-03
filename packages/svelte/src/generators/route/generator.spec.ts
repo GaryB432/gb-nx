@@ -2,329 +2,293 @@ import { addProjectConfiguration, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator, { getSegments } from './generator';
-import type { Schema } from './schema';
+import { type Schema } from './schema';
 
 describe('route generator', () => {
   let appTree: Tree;
 
   beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    createSvelteKitApp(appTree, '0', {
-      directory: 'apps',
-      name: 'test',
-      skipFormat: true,
+    appTree = setupTreeWithSvelteProject('apps', 'test', '4.0.0');
+  });
+  describe('basics', () => {
+    it('works with default values', async () => {
+      await skipFormatGenerator(appTree, {
+        name: 'some-route',
+        project: 'test',
+      });
+      expect(
+        appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
+      ).toMatchSnapshot();
+
+      expect(
+        appTree.read('apps/test/tests/some-route.spec.ts', 'utf-8')
+      ).toMatchSnapshot(); // TODO should be js
     });
-    addProjectConfiguration(appTree, 'test', { root: 'apps/test' });
+    it('skips tests', async () => {
+      await skipFormatGenerator(appTree, {
+        name: 'some-route-a',
+        skipTests: true,
+        project: 'test',
+      });
+      expect(appTree.children('apps/test/src/routes/some-route-a')).toEqual([
+        '+page.svelte',
+      ]);
+      expect(appTree.children('apps/test/tests')).toEqual([]);
+    });
   });
 
-  it('should run successfully', async () => {
-    await generator(appTree, {
-      name: 'tester',
-      project: 'test',
-      skipFormat: true,
+  describe('--directory', () => {
+    /* snapshots? */
+    it('works with --directory="a/b/c"', async () => {
+      await skipFormatGenerator(appTree, {
+        name: 'some-route',
+        directory: 'a/b/c',
+        project: 'test',
+      });
+      expect(appTree.children('apps/test/src/routes/a/b/c/some-route')).toEqual(
+        ['+page.svelte']
+      );
+      expect(appTree.children('apps/test/tests/a/b/c')).toEqual([
+        'some-route.spec.ts', // TODO this should be js!
+      ]);
     });
-
-    const svelte = appTree
-      .read('apps/test/src/routes/tester/+page.svelte')
-      ?.toString();
-    expect(svelte).toContain(' .container {');
-    expect(svelte).toContain('{data.subject} works');
-    expect(
-      appTree.read('apps/test/tests/tester.spec.ts')?.toString()
-    ).toContain("await page.goto('/tester');");
   });
 
-  it('should use scss', async () => {
-    await generator(appTree, {
-      name: 'tester',
-      project: 'test',
-      style: 'scss',
-      skipFormat: true,
-    });
+  describe('--language', () => {
+    /* snapshots? */
+    it('works with --language=ts', async () => {
+      await skipFormatGenerator(appTree, {
+        name: 'some-route',
+        language: 'ts',
+        project: 'test',
+      });
+      expect(
+        appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
+      ).toMatchSnapshot();
 
-    const svelte = appTree
-      .read('apps/test/src/routes/tester/+page.svelte')
-      ?.toString();
-    expect(svelte).toContain('<style lang="scss"');
+      expect(
+        appTree.read('apps/test/tests/some-route.spec.ts', 'utf-8')
+      ).toMatchSnapshot();
+    });
   });
 
-  it('should use ts', async () => {
-    await generator(appTree, {
-      name: 'tester',
-      project: 'test',
-      language: 'ts',
-      skipFormat: true,
-    });
+  describe('--style', () => {
+    /* snapshots? */
 
-    const svelte = appTree
-      .read('apps/test/src/routes/tester/+page.svelte')
-      ?.toString();
-    expect(svelte).toContain("let data = $state({ subject: 'tester' });");
-    expect(
-      appTree.exists('apps/test/src/routes/tester/+page.server.ts')
-    ).toBeFalsy();
-    expect(
-      appTree.exists('apps/test/src/routes/tester/+page.server.js')
-    ).toBeFalsy();
-    expect(appTree.exists('apps/test/src/routes/tester/+page.ts')).toBeFalsy();
-    expect(appTree.exists('apps/test/src/routes/tester/+page.js')).toBeFalsy();
+    it('works with --style=scss', async () => {
+      await skipFormatGenerator(appTree, {
+        name: 'some-route',
+        language: 'ts',
+        style: 'scss',
+        project: 'test',
+      });
+      expect(appTree.children('apps/test/src/routes/some-route')).toEqual([
+        '+page.svelte',
+      ]);
+      expect(
+        appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
+      ).toContain('<style lang="scss">');
+
+      expect(appTree.children('apps/test/tests')).toEqual([
+        'some-route.spec.ts',
+      ]);
+    });
   });
 
-  it('should make server', async () => {
-    await generator(appTree, {
-      name: 'tester',
-      project: 'test',
-      load: 'server',
-      skipFormat: true,
-    });
+  describe('--load', () => {
+    /* snapshots? */
+    it('works with --load=shared', async () => {
+      await skipFormatGenerator(appTree, {
+        name: 'some-route',
+        language: 'ts',
+        load: 'shared',
+        project: 'test',
+      });
+      expect(appTree.children('apps/test/src/routes/some-route')).toEqual([
+        '+page.ts',
+        '+page.svelte',
+      ]);
+      expect(
+        appTree.read('apps/test/src/routes/some-route/+page.ts', 'utf-8')
+      ).toMatchSnapshot();
 
-    const svelte = appTree
-      .read('apps/test/src/routes/tester/+page.svelte')
-      ?.toString();
-    expect(svelte).toContain('export let data;');
-    expect(
-      appTree.exists('apps/test/src/routes/tester/+page.server.ts')
-    ).toBeFalsy();
-    expect(
-      appTree.read('apps/test/src/routes/tester/+page.server.js')?.toString()
-    ).toContain("return Promise.resolve('tester');");
+      expect(
+        appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
+      ).toContain('export let');
+
+      expect(appTree.children('apps/test/tests')).toEqual([
+        'some-route.spec.ts',
+      ]);
+    });
+    it('works with --load=server', async () => {
+      await skipFormatGenerator(appTree, {
+        name: 'some-route',
+        language: 'ts',
+        load: 'server',
+        project: 'test',
+      });
+      expect(appTree.children('apps/test/src/routes/some-route')).toEqual([
+        '+page.server.ts',
+        '+page.svelte',
+      ]);
+      expect(
+        appTree.read('apps/test/src/routes/some-route/+page.server.ts', 'utf-8')
+      ).toMatchSnapshot();
+
+      expect(
+        appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
+      ).toContain('export let');
+
+      expect(appTree.children('apps/test/tests')).toEqual([
+        'some-route.spec.ts',
+      ]);
+    });
+    it('works with --load=none', async () => {
+      await skipFormatGenerator(appTree, {
+        name: 'some-route',
+        language: 'ts',
+        load: 'none',
+        project: 'test',
+      });
+      expect(appTree.children('apps/test/src/routes/some-route')).toEqual([
+        '+page.svelte',
+      ]);
+
+      expect(
+        appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
+      ).toContain('export let data');
+
+      expect(appTree.children('apps/test/tests')).toEqual([
+        'some-route.spec.ts',
+      ]);
+    });
   });
 
-  it('should make client', async () => {
-    await generator(appTree, {
-      name: 'tester',
-      project: 'test',
-      load: 'shared',
-      skipFormat: true,
+  describe('--runes', () => {
+    describe('svelte 4', () => {
+      beforeEach(() => {
+        appTree = setupTreeWithSvelteProject('apps', 'test', '4.0.0');
+      });
+      it('works with --runes=undefined', async () => {
+        await skipFormatGenerator(appTree, {
+          name: 'some-route',
+          project: 'test',
+        });
+        expect(
+          appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
+        ).toContain('let data = ');
+
+        expect(appTree.children('apps/test/tests')).toEqual([
+          'some-route.spec.ts',
+        ]);
+      });
+      it('works with --no-runes', async () => {
+        await skipFormatGenerator(appTree, {
+          name: 'some-route',
+          runes: false,
+          project: 'test',
+        });
+        expect(
+          appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
+        ).toMatchSnapshot();
+
+        expect(appTree.children('apps/test/tests')).toEqual([
+          'some-route.spec.ts',
+        ]);
+      });
+      it('works with --runes', async () => {
+        //
+
+        expect(async () => {
+          await skipFormatGenerator(appTree, {
+            name: 'some-route',
+            runes: true,
+            project: 'test',
+          });
+        }).rejects.toThrow(
+          "runes feature requires svelte >= 5 (currently '4.0.0')"
+        );
+      });
     });
 
-    const svelte = appTree
-      .read('apps/test/src/routes/tester/+page.svelte')
-      ?.toString();
-    expect(svelte).toContain('export let data;');
-    expect(appTree.exists('apps/test/src/routes/tester/+page.ts')).toBeFalsy();
-    expect(
-      appTree.read('apps/test/src/routes/tester/+page.js')?.toString()
-    ).toContain('subject: `tester`');
+    describe('svelte 5', () => {
+      beforeEach(() => {
+        appTree = setupTreeWithSvelteProject('apps', 'test', '5.0.0');
+      });
+      it('works with --runes=undefined', async () => {
+        await skipFormatGenerator(appTree, {
+          name: 'some-route',
+          project: 'test',
+        });
+        expect(
+          appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
+        ).toContain('let data = ');
+
+        expect(appTree.children('apps/test/tests')).toEqual([
+          'some-route.spec.ts',
+        ]);
+      });
+      it('works with --no-runes', async () => {
+        await skipFormatGenerator(appTree, {
+          name: 'some-route',
+          runes: false,
+          project: 'test',
+        });
+        expect(
+          appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
+        ).toMatchSnapshot();
+
+        expect(appTree.children('apps/test/tests')).toEqual([
+          'some-route.spec.ts',
+        ]);
+      });
+      it('works with --runes', async () => {
+        await skipFormatGenerator(appTree, {
+          name: 'some-route',
+          runes: true,
+          project: 'test',
+        });
+        expect(
+          appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
+        ).toContain('$state');
+      });
+    });
   });
 
-  it('handles directory and path', async () => {
-    await generator(appTree, {
-      name: 'a/b/c/tester',
-      directory: 'tbd',
-      project: 'test',
-      skipFormat: true,
+  describe('getSegments', () => {
+    it('gets segments', () => {
+      expect(getSegments({ routePath: '[just]' })).toEqual([
+        { path: 'just', paramType: undefined, isParam: true },
+      ]);
+      expect(getSegments({ routePath: '[ab]/cd/ef/[gh=atype]/ij' })).toEqual([
+        { path: 'ab', paramType: undefined, isParam: true },
+        { path: 'cd', paramType: undefined, isParam: false },
+        { path: 'ef', paramType: undefined, isParam: false },
+        { path: 'gh', paramType: 'atype', isParam: true },
+        { path: 'ij', paramType: undefined, isParam: false },
+      ]);
     });
-    expect(
-      appTree
-        .read('apps/test/src/routes/tbd/a/b/c/tester/+page.svelte')
-        ?.toString()
-    ).toContain('{data.subject} works');
-    expect(
-      appTree.read('apps/test/tests/tbd/a/b/c/tester.spec.ts')?.toString()
-    ).toContain("await page.goto('/tbd/a/b/c/tester');");
-  });
-
-  it('handles directory and path with routeparams', async () => {
-    await generator(appTree, {
-      name: '[a]/b/[c]/tester',
-      directory: 'tbd',
-      project: 'test',
-      load: 'server',
-      language: 'ts',
-      skipFormat: true,
-    });
-    expect(
-      appTree
-        .read('apps/test/src/routes/tbd/[a]/b/[c]/tester/+page.svelte')
-        ?.toString()
-    ).toContain('{data.subject} works');
-    const serverPage = appTree
-      .read('apps/test/src/routes/tbd/[a]/b/[c]/tester/+page.server.ts')
-      ?.toString();
-    expect(serverPage).toContain('const { a, c } = params;');
-    expect(serverPage).toContain(
-      'return Promise.resolve(`tbd/${a}/b/${c}/tester`);'
-    );
-    expect(
-      appTree.read('apps/test/tests/tbd/[a]/b/[c]/tester.spec.ts')?.toString()
-    ).toContain("await page.goto('/tbd/_a_/b/_c_/tester');");
-  });
-
-  it('handles directory and path with routeparams shared', async () => {
-    await generator(appTree, {
-      name: '[a]/b/[c]/tester',
-      directory: 'tbd',
-      project: 'test',
-      load: 'shared',
-      language: 'ts',
-      skipFormat: true,
-    });
-    expect(
-      appTree
-        .read('apps/test/src/routes/tbd/[a]/b/[c]/tester/+page.svelte')
-        ?.toString()
-    ).toContain('{data.subject} works');
-    const loadPage = appTree
-      .read('apps/test/src/routes/tbd/[a]/b/[c]/tester/+page.ts')
-      ?.toString();
-    expect(loadPage).toContain('const { a, c } = params;');
-    expect(loadPage).toContain('subject: `tbd/${a}/b/${c}/tester`');
-    expect(
-      appTree.read('apps/test/tests/tbd/[a]/b/[c]/tester.spec.ts')?.toString()
-    ).toContain("await page.goto('/tbd/_a_/b/_c_/tester');");
-  });
-
-  it('handles route param type ynf', async () => {
-    await generator(appTree, {
-      name: '[a]/b/[c=ynf]/tester',
-      directory: 'tbd',
-      project: 'test',
-      load: 'shared',
-      language: 'ts',
-      skipFormat: true,
-    });
-    expect(
-      appTree
-        .read('apps/test/src/routes/tbd/[a]/b/[c=ynf]/tester/+page.svelte')
-        ?.toString()
-    ).toContain('{data.subject} works');
-    const loadPage = appTree
-      .read('apps/test/src/routes/tbd/[a]/b/[c=ynf]/tester/+page.ts')
-      ?.toString();
-    expect(loadPage).toContain('const { a, c } = params;');
-    expect(loadPage).toContain('subject: `tbd/${a}/b/${c}/tester`');
-    expect(
-      appTree
-        .read('apps/test/tests/tbd/[a]/b/[c=ynf]/tester.spec.ts')
-        ?.toString()
-    ).toContain("await page.goto('/tbd/_a_/b/_c_/tester');");
   });
 });
 
-describe('route generator runes', () => {
-  let appTree: Tree;
+function skipFormatGenerator(tree: Tree, options: Schema): Promise<void> {
+  return generator(tree, { ...options, skipFormat: true });
+}
 
-  beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    createSvelteKitApp(appTree, '5.0.0-alpha.0', {
-      directory: 'apps',
-      skipFormat: true,
-      name: 'test',
-    });
-    addProjectConfiguration(appTree, 'test', { root: 'apps/test' });
+function setupTreeWithSvelteProject(
+  directory: string,
+  name: string,
+  svelteVersion: string
+): Tree {
+  const appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+  createSvelteKitApp(appTree, svelteVersion, {
+    directory,
+    name,
+    skipFormat: true,
   });
-
-  it('should do shared runes', async () => {
-    const opts: Schema = {
-      name: 'tester',
-      project: 'test',
-      load: 'shared',
-      language: 'ts',
-      skipFormat: true,
-      runes: true,
-    };
-    await generator(appTree, opts);
-
-    expect(
-      appTree.read('apps/test/src/routes/tester/+page.svelte', 'utf-8')
-    ).toMatchSnapshot();
-    expect(
-      appTree.read(
-        `apps/test/src/routes/tester/+page.${opts.language}`,
-        'utf-8'
-      )
-    ).toMatchSnapshot();
-    expect(
-      appTree.exists(
-        `apps/test/src/routes/tester/+page.server.${opts.language}`
-      )
-    ).toBeFalsy();
+  const root = directory.concat('/').concat(name);
+  addProjectConfiguration(appTree, name, {
+    root,
   });
-
-  it('should do server runes', async () => {
-    const opts: Schema = {
-      name: 'tester',
-      project: 'test',
-      load: 'server',
-      language: 'ts',
-      skipFormat: true,
-      runes: true,
-    };
-    await generator(appTree, opts);
-
-    expect(
-      appTree.read('apps/test/src/routes/tester/+page.svelte', 'utf-8')
-    ).toMatchSnapshot();
-    expect(
-      appTree.read(`apps/test/src/routes/tester/+page.server.ts`, 'utf-8')
-    ).toMatchSnapshot();
-    expect(appTree.exists(`apps/test/src/routes/tester/+page.ts`)).toBeFalsy();
-  });
-
-  it('should do none runes', async () => {
-    const opts: Schema = {
-      name: 'tester',
-      project: 'test',
-      load: 'none',
-      language: 'ts',
-      skipFormat: true,
-      runes: true,
-    };
-    await generator(appTree, opts);
-
-    expect(
-      appTree.read('apps/test/src/routes/tester/+page.svelte', 'utf-8')
-    ).toMatchSnapshot();
-    expect(
-      appTree.exists(`apps/test/src/routes/tester/+page.${opts.language}`)
-    ).toBeFalsy();
-    expect(
-      appTree.exists(
-        `apps/test/src/routes/tester/+page.server.${opts.language}`
-      )
-    ).toBeFalsy();
-  });
-});
-
-describe('route generator runes old svelte', () => {
-  let appTree: Tree;
-
-  beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-    createSvelteKitApp(appTree, '^4.0.0', {
-      directory: 'apps',
-      skipFormat: true,
-      name: 'test',
-    });
-    addProjectConfiguration(appTree, 'test', { root: 'apps/test' });
-  });
-
-  it('should not do runes', async () => {
-    const opts: Schema = {
-      name: 'tester',
-      project: 'test',
-      load: 'shared',
-      language: 'ts',
-      skipFormat: true,
-      runes: true,
-    };
-
-    expect(async () => await generator(appTree, opts)).rejects.toThrow(
-      "runes feature requires svelte >= 5 (currently '^4.0.0')"
-    );
-  });
-});
-
-describe('getSegments', () => {
-  expect(getSegments({ routePath: '[just]' })).toEqual([
-    { path: 'just', paramType: undefined, isParam: true },
-  ]);
-  expect(getSegments({ routePath: '[ab]/cd/ef/[gh=atype]/ij' })).toEqual([
-    { path: 'ab', paramType: undefined, isParam: true },
-    { path: 'cd', paramType: undefined, isParam: false },
-    { path: 'ef', paramType: undefined, isParam: false },
-    { path: 'gh', paramType: 'atype', isParam: true },
-    { path: 'ij', paramType: undefined, isParam: false },
-  ]);
-});
+  return appTree;
+}

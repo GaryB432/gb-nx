@@ -11,10 +11,10 @@ import {
 
 describe('semver sanity check', () => {
   it('handles', () => {
-    expect(satisfiesRunes('^4.0.0')).toBeFalsy();
-    expect(satisfiesRunes('^5.0.0')).toBeTruthy();
-    expect(satisfiesRunes('^6.0.0')).toBeTruthy();
-    expect(satisfiesRunes('~6.0.0')).toBeTruthy();
+    expect(satisfiesRunes('4.0.0')).toBeFalsy();
+    expect(satisfiesRunes('5.0.0-alpha.1')).toBeTruthy();
+    expect(satisfiesRunes('5.0.0')).toBeTruthy();
+    expect(satisfiesRunes('6.0.0')).toBeTruthy();
   });
 });
 
@@ -30,7 +30,7 @@ describe('Svelte', () => {
       projectNameAndRootFormat: 'as-provided',
       skipFormat: true,
     }));
-    createSvelteKitApp(appTree, '0', {
+    createSvelteKitApp(appTree, '5.0.0', {
       name: 'test',
       directory: 'apps',
       skipFormat: true,

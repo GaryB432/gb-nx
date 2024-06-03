@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component should generate component in components directory 1`] = `
+"<script>
+  
+  export let subject = "Hello component";
+
+</script>
+
+<div class="container">
+  {subject} works
+</div>
+
+<style>
+  .container {
+    border: thin solid silver;
+  }
+</style>
+"
+`;
+
+exports[`component should generate component with scss 1`] = `
+"<script>
+  
+  export let subject = "Hello component";
+
+</script>
+
+<div class="container">
+  {subject} works
+</div>
+
+<style lang="scss">
+  .container {
+    border: thin solid silver;
+  }
+</style>
+"
+`;

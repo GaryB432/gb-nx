@@ -5,8 +5,8 @@
   "description": "Add NX configuration to your Svelte-kit package.",
   "examples": [
     {
-      "command": "nx g @gb-nx/svelte:application myapp",
-      "description": "Adds nx key to the svelte kit package.json in the workspace's myapp project"
+      "command": "nx g @gb-nx/svelte:application --projectPath=apps/my-web",
+      "description": "Adds nx project corresponding to the svelte kit package.json in apps/my-web"
     }
   ],
   "type": "object",
