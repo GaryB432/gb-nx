@@ -4,6 +4,8 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { createSvelteKitApp } from '../../utils/svelte';
 import componentGenerator from './generator';
 
+import '../../utils/testing/matchers';
+
 describe('component svelte 4', () => {
   let appTree: Tree;
   const projectName = 'my-app';
@@ -38,9 +40,12 @@ describe('component svelte 4', () => {
       skipFormat: true,
     });
 
-    expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8')).toContain(
-      'export let subject'
+    const helloSvelte = appTree.read(
+      'apps/my-app/src/lib/Hello.svelte',
+      'utf-8'
     );
+    expect(helloSvelte).not.toUseRunes();
+    expect(helloSvelte).toContain('export let subject');
   });
 
   it('should generate component with scss', async () => {
@@ -67,10 +72,6 @@ describe('component svelte 4', () => {
     }).rejects.toThrow(
       "runes feature requires svelte >= 5 (currently '4.0.0')"
     );
-
-    // expect(appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8')).toContain(
-    //   '$state'
-    // );
   });
 });
 
@@ -98,7 +99,7 @@ describe('component svelte 5', () => {
 
     expect(
       appTree.read('apps/my-app-5/src/lib/Hello.svelte', 'utf-8')
-    ).toContain('$state');
+    ).toUseRunes();
   });
 
   it('should default runes', async () => {
@@ -111,6 +112,6 @@ describe('component svelte 5', () => {
 
     expect(
       appTree.read('apps/my-app-5/src/lib/Hello.svelte', 'utf-8')
-    ).toContain('$state');
+    ).toUseRunes();
   });
 });
