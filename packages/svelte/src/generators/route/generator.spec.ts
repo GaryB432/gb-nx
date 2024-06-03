@@ -4,6 +4,8 @@ import { createSvelteKitApp } from '../../utils/svelte';
 import generator, { getSegments } from './generator';
 import { type Schema } from './schema';
 
+import '../../utils/testing/matchers';
+
 describe('route generator', () => {
   let appTree: Tree;
 
@@ -112,9 +114,11 @@ describe('route generator', () => {
         appTree.read('apps/test/src/routes/some-route/+page.ts', 'utf-8')
       ).toMatchSnapshot();
 
-      expect(
-        appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
-      ).toContain('export let');
+      const pageSvelte = appTree.read(
+        'apps/test/src/routes/some-route/+page.svelte',
+        'utf-8'
+      );
+      expect(pageSvelte).not.toUseRunes();
 
       expect(appTree.children('apps/test/tests')).toEqual([
         'some-route.spec.ts',
@@ -135,9 +139,12 @@ describe('route generator', () => {
         appTree.read('apps/test/src/routes/some-route/+page.server.ts', 'utf-8')
       ).toMatchSnapshot();
 
-      expect(
-        appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
-      ).toContain('export let');
+      const pageSvelte = appTree.read(
+        'apps/test/src/routes/some-route/+page.svelte',
+        'utf-8'
+      );
+      expect(pageSvelte).not.toUseRunes();
+      expect(pageSvelte).toContain('export let');
 
       expect(appTree.children('apps/test/tests')).toEqual([
         'some-route.spec.ts',
@@ -154,9 +161,12 @@ describe('route generator', () => {
         '+page.svelte',
       ]);
 
-      expect(
-        appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
-      ).toContain('export let data');
+      const pageSvelte = appTree.read(
+        'apps/test/src/routes/some-route/+page.svelte',
+        'utf-8'
+      );
+      expect(pageSvelte).not.toUseRunes();
+      expect(pageSvelte).toContain('export let data');
 
       expect(appTree.children('apps/test/tests')).toEqual([
         'some-route.spec.ts',
@@ -250,7 +260,7 @@ describe('route generator', () => {
         });
         expect(
           appTree.read('apps/test/src/routes/some-route/+page.svelte', 'utf-8')
-        ).toContain('$state');
+        ).toUseRunes();
       });
     });
   });
