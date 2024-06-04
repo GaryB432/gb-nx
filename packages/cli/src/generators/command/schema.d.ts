@@ -1,8 +1,31 @@
+/* eslint-disable */
+
+/**
+ * Generate a CLI command.
+ */
 export interface Schema {
-  name: string;
-  option?: string[];
-  parameter?: string[];
+  /**
+   * The name of the project.
+   */
   project?: string;
-  skipFormat?: boolean;
+  /**
+   * The name of the command.
+   */
+  name: string;
+  /**
+   * Do not create "spec.ts" test files.
+   */
   skipTests?: boolean;
+  /**
+   * Skip formatting files.
+   */
+  skipFormat?: boolean;
+  /**
+   * Parameters for the command
+   */
+  parameter?: string[];
+  /**
+   * Options for the command
+   */
+  option?: string[];
 }

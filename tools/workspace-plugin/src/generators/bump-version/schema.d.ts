@@ -13,7 +13,7 @@ export interface Schema {
     | 'prepatch'
     | 'prerelease';
   /**
-   * Which part to increment
+   * Identifier to be used to prefix premajor, preminor, prepatch or prerelease version increments.
    */
   preid?: string;
   /**
