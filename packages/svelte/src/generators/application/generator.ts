@@ -24,11 +24,29 @@ import {
   prettierPluginSvelteVersion,
   prettierVersion,
 } from '../../utils/versions';
-import { normalizeOptions } from './lib/normalize-options';
-import {
-  type ApplicationGeneratorOptions,
-  type NormalizedOptions,
-} from './schema';
+import { type Schema as ApplicationGeneratorOptions } from './schema';
+
+interface NormalizedOptions extends ApplicationGeneratorOptions {
+  parsedTags: string[];
+  projectRoot: string;
+}
+
+async function normalizeOptions(
+  _tree: Tree,
+  options: ApplicationGeneratorOptions
+): Promise<NormalizedOptions> {
+  const projectRoot = options.projectPath;
+
+  const parsedTags = options.tags
+    ? options.tags.split(',').map((s) => s.trim())
+    : [];
+
+  return {
+    ...options,
+    parsedTags,
+    projectRoot,
+  };
+}
 
 export async function addLintingToApplication(
   tree: Tree,

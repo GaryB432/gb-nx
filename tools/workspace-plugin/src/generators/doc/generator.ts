@@ -9,7 +9,7 @@ import {
 import { type JSONSchema } from 'json-schema-to-typescript';
 import { type PackageJson } from 'nx/src/utils/package-json';
 import { Document, h1, h2, h3, table } from '../../markdown';
-import { type DocGeneratorSchema } from './schema';
+import { type Schema as DocGeneratorSchema } from './schema';
 
 export async function docGenerator(
   tree: Tree,

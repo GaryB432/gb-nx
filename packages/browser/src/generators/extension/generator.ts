@@ -11,12 +11,43 @@ import {
   runTasksInSerial,
   updateProjectConfiguration,
 } from '@nx/devkit';
+import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { Linter, lintProjectGenerator } from '@nx/eslint';
 import { configurationGenerator as jestConfigGenerator } from '@nx/jest';
 import { join } from 'path';
 import { chromeTypingsVersion } from '../../utils/versions';
-import { normalizeOptions } from './lib/normalize-options';
-import type { ExtensionGeneratorOptions, NormalizedOptions } from './schema';
+import type { Schema as ExtensionGeneratorOptions } from './schema';
+
+interface NormalizedOptions extends ExtensionGeneratorOptions {
+  appProjectName: string;
+  appProjectRoot: string;
+}
+
+async function normalizeOptions(
+  tree: Tree,
+  options: ExtensionGeneratorOptions
+): Promise<NormalizedOptions> {
+  const { projectName: appProjectName, projectRoot: appProjectRoot } =
+    await determineProjectNameAndRootOptions(tree, {
+      name: options.name,
+      projectType: 'application',
+      directory: options.directory,
+      projectNameAndRootFormat: 'as-provided',
+      rootProject: options.rootProject,
+      callingGenerator: '@gb-nx/browser:extension',
+    });
+  options.rootProject = appProjectRoot === '.';
+
+  return {
+    ...options,
+    strict: options.strict ?? false,
+    appProjectName,
+    appProjectRoot,
+    linter: options.linter ?? Linter.EsLint,
+    unitTestRunner: options.unitTestRunner ?? 'jest',
+    tags: options.tags,
+  };
+}
 
 async function addJest(
   tree: Tree,

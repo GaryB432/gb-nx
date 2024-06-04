@@ -1,7 +1,7 @@
 import { type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { docGenerator } from './generator';
-import { type DocGeneratorSchema } from './schema';
+import { type Schema as DocGeneratorSchema } from './schema';
 
 describe('doc generator', () => {
   let tree: Tree;

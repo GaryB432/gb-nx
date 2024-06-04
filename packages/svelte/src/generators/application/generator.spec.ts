@@ -4,7 +4,7 @@ import { type PackageJson } from 'nx/src/utils/package-json';
 import { type Config as PrettierConfig } from 'prettier';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator from './generator';
-import type { ApplicationGeneratorOptions } from './schema';
+import type { Schema as ApplicationGeneratorOptions } from './schema';
 
 const PRETTIERIGNORE = '.prettierignore';
 

@@ -8,7 +8,7 @@ import { type WebpackExecutorOptions } from '@nx/webpack';
 import { execSync } from 'child_process';
 import { existsSync, readFileSync } from 'fs';
 import { getParts, schemaValidate } from '../../manifest/manifest';
-import { type ZipExecutorSchema } from './schema';
+import { type Schema as ZipExecutorSchema } from './schema';
 import AdmZip = require('adm-zip');
 
 export default async function runExecutor(

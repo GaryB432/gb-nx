@@ -153,7 +153,7 @@ function addSveltePage(
     '+page.svelte'
   );
 
-  const scripts: Record<
+  const scriptsRecord: Record<
     string,
     { none: string; server: string; shared: string }
   > = {
@@ -201,7 +201,8 @@ function addSveltePage(
     },
   };
 
-  const script = scripts[options.language ?? 'js'][options.load ?? 'none'];
+  const script =
+    scriptsRecord[options.language ?? 'js'][options.load ?? 'none'];
 
   const html = `<svelte:head>
   <title>${options.project} - ${options.name}</title>
