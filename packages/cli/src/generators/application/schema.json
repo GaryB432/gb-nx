@@ -41,6 +41,13 @@
       "default": false,
       "x-priority": "internal"
     },
+    "rootProject": {
+      "description": "Create node application at the root of the workspace",
+      "type": "boolean",
+      "default": false,
+      "hidden": true,
+      "x-priority": "internal"
+    },
     "linter": {
       "description": "The tool to use for running lint checks.",
       "type": "string",
