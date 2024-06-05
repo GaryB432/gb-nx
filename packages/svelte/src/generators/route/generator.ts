@@ -4,6 +4,7 @@ import {
   joinPathFragments,
   names,
   readNxJson,
+  updateNxJson,
   type ProjectConfiguration,
   type Tree,
 } from '@nx/devkit';
@@ -257,6 +258,24 @@ test('has generated article', async ({ page }) => {
 `;
   tree.write(fname, content);
 }
+function addGeneratorDefaults(tree: Tree, options: NormalizedSchema): void {
+  const nxJson = readNxJson(tree);
+
+  if (!nxJson) {
+    return;
+  }
+
+  const { directory, language, style } = options;
+  nxJson.generators = nxJson.generators ?? {};
+  nxJson.generators['@gb-nx/svelte:route'] = {
+    directory,
+    language,
+    style,
+    ...(nxJson.generators['@gb-nx/svelte:route'] || {}),
+  };
+
+  updateNxJson(tree, nxJson);
+}
 
 export async function routeGenerator(
   tree: Tree,
@@ -297,6 +316,8 @@ export async function routeGenerator(
   addLoadPage(tree, proj, locations, options);
 
   addSveltePage(tree, proj, locations, options);
+
+  addGeneratorDefaults(tree, options);
 
   if (!options.skipTests) {
     addPlaywrightPage(tree, proj, { tests: 'tests' }, options);
