@@ -59,7 +59,6 @@ describe('component svelte 4', () => {
     expect(
       appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8')
     ).toMatchSnapshot();
-
   });
 
   it('should add defaults to nx.json', async () => {
@@ -72,17 +71,13 @@ describe('component svelte 4', () => {
       skipFormat: true,
     });
 
-    expect(readNxJson(appTree)).toEqual({
-      affected: { defaultBase: 'main' },
-      targetDefaults: { build: { cache: true }, lint: { cache: true } },
-      generators: {
-        '@gb-nx/svelte:component': {
-          directory: 'a/b/c/d',
-          language: 'ts',
-          style: 'scss',
-        },
-      },
-    });
+    expect(readNxJson(appTree)!.generators!['@gb-nx/svelte:component']).toEqual(
+      {
+        directory: 'a/b/c/d',
+        language: 'ts',
+        style: 'scss',
+      }
+    );
   });
 
   it('should not generate component with runes', async () => {

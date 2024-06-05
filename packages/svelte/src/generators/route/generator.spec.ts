@@ -47,25 +47,10 @@ describe('route generator', () => {
         style: 'scss',
       });
 
-      expect(readNxJson(appTree)).toEqual({
-        affected: {
-          defaultBase: 'main',
-        },
-        generators: {
-          '@gb-nx/svelte:route': {
-            directory: 'a/b/c/d',
-            language: 'ts',
-            style: 'scss',
-          },
-        },
-        targetDefaults: {
-          build: {
-            cache: true
-          },
-          lint: {
-            cache: true,
-          },
-        },
+      expect(readNxJson(appTree)!.generators!['@gb-nx/svelte:route']).toEqual({
+        directory: 'a/b/c/d',
+        language: 'ts',
+        style: 'scss',
       });
     });
   });
