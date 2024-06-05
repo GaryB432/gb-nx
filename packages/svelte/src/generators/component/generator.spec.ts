@@ -1,5 +1,5 @@
 import type { Tree } from '@nx/devkit';
-import { addProjectConfiguration } from '@nx/devkit';
+import { addProjectConfiguration, readNxJson } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { createSvelteKitApp } from '../../utils/svelte';
 import componentGenerator from './generator';
@@ -59,6 +59,25 @@ describe('component svelte 4', () => {
     expect(
       appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8')
     ).toMatchSnapshot();
+  });
+
+  it('should add defaults to nx.json', async () => {
+    await componentGenerator(appTree, {
+      name: 'hello',
+      project: projectName,
+      directory: 'a/b/c/d',
+      language: 'ts',
+      style: 'scss',
+      skipFormat: true,
+    });
+
+    expect(readNxJson(appTree)!.generators!['@gb-nx/svelte:component']).toEqual(
+      {
+        directory: 'a/b/c/d',
+        language: 'ts',
+        style: 'scss',
+      }
+    );
   });
 
   it('should not generate component with runes', async () => {

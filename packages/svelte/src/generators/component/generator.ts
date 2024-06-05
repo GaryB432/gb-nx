@@ -4,6 +4,7 @@ import {
   getProjects,
   names,
   readNxJson,
+  updateNxJson,
   type Tree,
 } from '@nx/devkit';
 import { join } from 'path';
@@ -77,12 +78,35 @@ function addFiles(tree: Tree, options: NormalizedComponentSchema) {
   );
 }
 
+function addGeneratorDefaults(
+  tree: Tree,
+  options: NormalizedComponentSchema
+): void {
+  const nxJson = readNxJson(tree);
+
+  if (!nxJson) {
+    return;
+  }
+
+  const { directory, language, style } = options;
+  nxJson.generators = nxJson.generators ?? {};
+  nxJson.generators['@gb-nx/svelte:component'] = {
+    directory,
+    language,
+    style,
+    ...(nxJson.generators['@gb-nx/svelte:component'] || {}),
+  };
+
+  updateNxJson(tree, nxJson);
+}
+
 export default async function componentGenerator(
   tree: Tree,
   options: ComponentGeneratorSchema
 ): Promise<void> {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
+  addGeneratorDefaults(tree, normalizedOptions);
   if (!normalizedOptions.skipFormat) {
     await formatFiles(tree);
   }

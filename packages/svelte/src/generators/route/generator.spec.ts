@@ -1,4 +1,4 @@
-import { addProjectConfiguration, type Tree } from '@nx/devkit';
+import { addProjectConfiguration, readNxJson, type Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { createSvelteKitApp } from '../../utils/svelte';
 import generator, { getSegments } from './generator';
@@ -36,6 +36,22 @@ describe('route generator', () => {
         '+page.svelte',
       ]);
       expect(appTree.children('apps/test/tests')).toEqual([]);
+    });
+
+    it('should add defaults to nx.json', async () => {
+      await skipFormatGenerator(appTree, {
+        name: 'hello',
+        project: 'test',
+        directory: 'a/b/c/d',
+        language: 'ts',
+        style: 'scss',
+      });
+
+      expect(readNxJson(appTree)!.generators!['@gb-nx/svelte:route']).toEqual({
+        directory: 'a/b/c/d',
+        language: 'ts',
+        style: 'scss',
+      });
     });
   });
 
