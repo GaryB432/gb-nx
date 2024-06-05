@@ -1,34 +1,15 @@
-import { Workspaces } from '@nx/devkit';
+import { retrieveProjectConfigurations } from 'nx/src/project-graph/utils/retrieve-workspace-files';
 
-(async () => {
-  const opts = { path: '.' };
+async function main() {
   try {
-    // TODO deprecations throughout
-    const ws = new Workspaces(process.cwd());
+    const { projects } = await retrieveProjectConfigurations(process.cwd(), {});
 
-    // console.log(ws.isNxGenerator('./packages/junit', 'junit'));
-
-    // const defaultProject = ws.calculateDefaultProjectName(
-    //   process.cwd(),
-    //   ws.readProjectsConfig(),
-    //   ws.readNxJson()
-    // );
-
-    const { projects } = ws.readWorkspaceConfiguration();
-    //  const dp = ws.calculateDefaultProjectName(process.cwd(), {projects}, ws.readNxJson())
-
-    // console.log(projects);
-
-    // const wsConfig = ws.readProjectsConfig();
-
-    for (const k in projects) {
-      console.log(
-        // k === defaultProject ? '*' : ' ',
-        k,
-        projects[k].projectType
-      );
+    for (const [name, project] of Object.entries(projects)) {
+      console.log(name, project.projectType, project.root);
     }
   } catch (e) {
     console.error(e);
   }
-})();
+}
+
+main();
