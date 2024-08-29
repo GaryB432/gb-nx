@@ -26,6 +26,7 @@ describe('svelte e2e', () => {
       'utf-8'
     );
     runPackageManagerInstall();
+    runNxCommandAsync('add prettier');
   });
 
   afterAll(() => {
