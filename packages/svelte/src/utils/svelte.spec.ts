@@ -5,6 +5,7 @@ import {
   createSvelteKitApp,
   getSvelteFiles,
   getSveltePackageVersions,
+  inferSourceDirectory,
   satisfiesRunes,
   supportsRunes,
 } from './svelte';
@@ -152,6 +153,32 @@ export default config;`;
     expect(routes).toEqual('src/routes');
     expect(lib).toEqual('src/lib');
     expect(params).toEqual('src/params');
+  });
+
+  it('no config getSvelteFiles', async () => {
+    expect(
+      inferSourceDirectory({
+        lib: 'src/lib',
+        params: 'src/params',
+        routes: 'src/routes',
+      })
+    ).toEqual('src');
+
+    expect(
+      inferSourceDirectory({
+        assets: 'static',
+        hooks: {
+          client: 'sorcery/hooks.client',
+          server: 'sorcery/hooks.server',
+        },
+        lib: 'sorcery/my/lib',
+        params: 'sorcery/my/params',
+        routes: 'sorcery/my/routes',
+        serviceWorker: 'sorcery/my/service-worker',
+        appTemplate: 'sorcery/my/app.html',
+        errorTemplate: 'sorcery/my/error.html',
+      })
+    ).toEqual('sorcery/my');
   });
 });
 

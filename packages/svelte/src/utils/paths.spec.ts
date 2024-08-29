@@ -1,4 +1,5 @@
 import {
+  commonParentFolder,
   dependencySourceRoot,
   makeAliasName,
   nodeResolutionPaths,
@@ -44,6 +45,20 @@ describe('nodeResolutionPaths', () => {
       'apps/ab',
       'apps',
     ]);
+  });
+});
+
+describe('commonParentFolder', () => {
+  it('works', () => {
+    expect(
+      commonParentFolder({
+        a: 'src/abc/def',
+        b: 'src/abc/ghi',
+        c: 'src/abc/fun/long',
+        d: 'src/abc/fun/more/names/here',
+        e: 'src/abc',
+      })
+    ).toEqual('src/abc');
   });
 });
 
