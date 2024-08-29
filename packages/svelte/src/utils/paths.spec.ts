@@ -62,6 +62,20 @@ describe('commonParentFolder', () => {
   });
 });
 
+describe('commonParentFolder src', () => {
+  it('works', () => {
+    expect(
+      commonParentFolder({
+        a: 'src/abc/def',
+        b: 'src/ghi',
+        c: 'src/abc/fun/long',
+        d: 'src/abc/fun/more/names/here',
+        e: 'src/abc',
+      })
+    ).toEqual('src');
+  });
+});
+
 describe('dependencySourceRoot', () => {
   expect(
     dependencySourceRoot(

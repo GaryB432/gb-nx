@@ -59,11 +59,11 @@ export function dependencySourceRoot(
 export function commonParentFolder(
   recordOfPaths: Record<string, unknown>
 ): string {
-  const fdf = Object.values(recordOfPaths) as string[];
+  const paths = Object.values(recordOfPaths) as string[];
 
   return (
     findTopLevelCommonFolder(
-      Object.values(fdf).filter((f) => typeof f === 'string')
+      Object.values(paths).filter((f) => typeof f === 'string')
     ) ?? 'src'
   );
 }
@@ -87,19 +87,3 @@ function findTopLevelCommonFolder(folders: string[]): string | null {
 
   return commonPrefix.length > 0 ? commonPrefix.slice(0, -1) : null;
 }
-
-// Tests
-// const testCases: [string[], string | null][] = [
-//   [["src/abc/def", "src/abc/ghi", "src/abc/fun/long", "src/abc/fun/more/names/here", "src/abc"], "src/abc"],
-//   [["src/abc/def", "src/abc/ghi", "src/abc/fun/long", "src/abc/fun/more/names/here", "src/abc", "banana"], "src/abc"],
-//   [["a/b/c", "a/b/d", "a/b/e"], "a/b"],
-//   [["a/b", "c/d", "e/f"], null],
-//   [["a"], "a"],
-//   [[]], null
-// ];
-
-// testCases.forEach(([folders, expected]) => {
-//   const result = findTopLevelCommonFolder(folders);
-//   console.log(`Input: ${folders}, Expected: ${expected}, Result: ${result}`);
-//   expect(result).toBe(expected);
-// });
