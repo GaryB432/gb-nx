@@ -17,6 +17,7 @@ export async function createSveltekitProject(
       version: '0.0.0-e2e.0',
       scripts: { build: 'echo Executor ran' },
       devDependencies: {
+        prettier: '^2.0.0',
         '@sveltejs/kit': '^2.0.0',
         svelte: '^5.0.0-next.1',
       },
