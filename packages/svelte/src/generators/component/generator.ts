@@ -17,7 +17,6 @@ import {
 import type { Schema as ComponentGeneratorSchema } from './schema';
 
 export interface NormalizedComponentSchema extends ComponentGeneratorSchema {
-  // ΘprojectLibRoot: string;
   projectSourceRoot: string;
   projectName: string;
 }
@@ -64,7 +63,6 @@ function normalizeOptions(
     runes,
     projectName,
     projectSourceRoot,
-    // ΘprojectLibRoot: join(project.root, lib),
   };
 }
 

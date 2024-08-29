@@ -113,7 +113,7 @@ describe('svelte e2e', () => {
       );
       expect(() =>
         checkFilesExist(
-          `subdir/${project}/src/lib/moar/for/you/FunComponent.svelte`
+          `subdir/${project}/src/moar/for/you/FunComponent.svelte`
         )
       ).not.toThrow();
     }, 120000);
