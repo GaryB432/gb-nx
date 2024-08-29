@@ -11,14 +11,6 @@ import {
 import { writeFileSync } from 'fs';
 import { createSveltekitProject } from '../utils/create-project';
 
-async function ensureSveltekitProject(
-  project: string,
-  subdir?: string
-): Promise<void> {
-  await createSveltekitProject(project, subdir);
-  runPackageManagerInstall();
-}
-
 describe('svelte e2e', () => {
   // Setting up individual workspaces per
   // test can cause e2e runs to take a long time.
@@ -28,7 +20,6 @@ describe('svelte e2e', () => {
   // are not dependant on one another.
   beforeAll(() => {
     ensureNxProject('@gb-nx/svelte', 'dist/packages/svelte');
-
     writeFileSync(
       joinPathFragments(tmpProjPath(), '.npmrc'),
       'install-strategy=nested\n',
@@ -46,7 +37,7 @@ describe('svelte e2e', () => {
 
   it('should create svelte', async () => {
     const project = uniq('svelte');
-    await ensureSveltekitProject(project);
+    await createSveltekitProject(project);
     await runNxCommandAsync(
       `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive --verbose`
     );
@@ -57,7 +48,7 @@ describe('svelte e2e', () => {
   describe('--directory', () => {
     it('should create src in the specified directory', async () => {
       const project = uniq('svelte');
-      await ensureSveltekitProject(project);
+      await createSveltekitProject(project);
       await runNxCommandAsync(
         `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive --verbose`
       );
@@ -80,7 +71,7 @@ describe('svelte e2e', () => {
   describe('--tags', () => {
     it('should add tags to the project', async () => {
       const project = uniq('svelte');
-      await ensureSveltekitProject(project);
+      await createSveltekitProject(project);
       await runNxCommandAsync(
         `generate @gb-nx/svelte:application --projectPath=apps/${project} --skipFormat --no-interactive --verbose --tags e2etag,e2ePackage`
       );
@@ -94,7 +85,7 @@ describe('svelte e2e', () => {
   describe('route runes', () => {
     it('should create route with runes', async () => {
       const project = uniq('svelte');
-      await ensureSveltekitProject(project, `subdir`);
+      await createSveltekitProject(project, `subdir`);
       await runNxCommandAsync(
         `generate @gb-nx/svelte:application --projectPath=subdir/${project} --skipFormat --no-interactive --verbose`
       );
@@ -113,7 +104,7 @@ describe('svelte e2e', () => {
   describe('component runes', () => {
     it('should create component with runes', async () => {
       const project = uniq('svelte');
-      await ensureSveltekitProject(project, `subdir`);
+      await createSveltekitProject(project, `subdir`);
       await runNxCommandAsync(
         `generate @gb-nx/svelte:application --projectPath=subdir/${project} --skipFormat --no-interactive --verbose`
       );
