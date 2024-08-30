@@ -13,7 +13,7 @@ export interface Schema {
    */
   project: string;
   /**
-   * Directory where the component is placed, relative to your project's source root.
+   * Directory where the component is placed, relative to your Svelte project's source root.
    */
   directory?: string;
   /**

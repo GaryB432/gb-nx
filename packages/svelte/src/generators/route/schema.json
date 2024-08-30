@@ -29,7 +29,7 @@
       "alias": "p"
     },
     "directory": {
-      "description": "Directory where the generated files are placed, relative to your project's source root.",
+      "description": "Directory where the generated files are placed, relative to your Svelte project's source root.",
       "type": "string",
       "aliases": ["dir", "path"]
     },
