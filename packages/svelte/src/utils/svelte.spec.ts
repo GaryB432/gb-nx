@@ -155,7 +155,7 @@ export default config;`;
     expect(params).toEqual('src/params');
   });
 
-  it('no config getSvelteFiles', async () => {
+  it('inferSourceDirectory', async () => {
     expect(
       inferSourceDirectory({
         lib: 'src/lib',
