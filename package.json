@@ -47,6 +47,9 @@
     "includedScripts": []
   },
   "license": "MIT",
-  "repository": "github:GaryB432/gb-nx",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GaryB432/gb-nx.git"
+  },
   "bugs": "https://github.com/GaryB432/gb-nx/issues"
 }

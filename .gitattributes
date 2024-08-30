@@ -1,1 +1,2 @@
 *.schema.d.ts merge=ours
+*.snap merge=ours

@@ -1,10 +1,10 @@
 {
   "name": "@gb-nx/svelte",
-  "version": "8.2.0",
+  "version": "8.3.0-alpha.5",
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GaryB432/gb-nx.git"
+    "url": "git+https://github.com/GaryB432/gb-nx.git"
   },
   "license": "MIT",
   "bugs": {
