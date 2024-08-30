@@ -12,7 +12,11 @@ import {
   type StringLiteral,
   type SyntaxList,
 } from 'typescript';
-import { nodeResolutionPaths, type NamedPath } from './paths';
+import {
+  nodeResolutionPaths,
+  commonParentFolder,
+  type NamedPath,
+} from './paths';
 
 export const SVELTE_CONFIG = 'svelte.config.js';
 
@@ -28,6 +32,7 @@ interface KitFiles {
   lib: string;
   params: string;
   routes: string;
+  [s: string]: unknown;
 }
 
 const defaultSvelteFiles: KitFiles = {
@@ -124,6 +129,11 @@ export function getSvelteFiles(configContents: string): KitFiles {
   }
 
   return defaultSvelteFiles;
+}
+
+export function inferSourceDirectory(files: KitFiles): string {
+  const { lib, routes, params } = files;
+  return commonParentFolder({ lib, routes, params });
 }
 
 export function getSvelteConfig(

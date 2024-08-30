@@ -13,7 +13,7 @@ export interface Schema {
    */
   project?: string;
   /**
-   * Directory where the generated files are placed.
+   * Directory where the generated files are placed, relative to your Svelte project's source root.
    */
   directory?: string;
   /**

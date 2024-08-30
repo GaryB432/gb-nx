@@ -8,7 +8,7 @@ import {
 import type { Schema } from './schema';
 
 function updateDependencies(tree: Tree) {
-  return addDependenciesToPackageJson(tree, {}, {});
+  return addDependenciesToPackageJson(tree, {}, { 'gb-schematics': '^3.8.0' });
 }
 
 export default async function initGenerator(

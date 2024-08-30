@@ -11,12 +11,13 @@ import { join } from 'path';
 import {
   getSvelteConfig,
   getSvelteFiles,
+  inferSourceDirectory,
   supportsRunes,
 } from '../../utils/svelte';
 import type { Schema as ComponentGeneratorSchema } from './schema';
 
 export interface NormalizedComponentSchema extends ComponentGeneratorSchema {
-  projectLibRoot: string;
+  projectSourceRoot: string;
   projectName: string;
 }
 
@@ -52,15 +53,16 @@ function normalizeOptions(
     throw new Error(`Project "${projectName}" not configured for svelte`);
   }
 
-  // TODO choose lib or routes (new sverdle has components next to route files)
-  const { lib } = getSvelteFiles(config);
+  const projectSourceRoot =
+    project.sourceRoot ??
+    join(project.root, inferSourceDirectory(getSvelteFiles(config)));
   options.language = options.language ?? 'js';
   options.style = options.style ?? 'css';
   return {
     ...options,
     runes,
     projectName,
-    projectLibRoot: join(project.root, lib),
+    projectSourceRoot,
   };
 }
 
@@ -73,7 +75,7 @@ function addFiles(tree: Tree, options: NormalizedComponentSchema) {
   generateFiles(
     tree,
     join(__dirname, './files'),
-    join(options.projectLibRoot, options.directory ?? ''),
+    join(options.projectSourceRoot, options.directory ?? ''),
     templateOptions
   );
 }

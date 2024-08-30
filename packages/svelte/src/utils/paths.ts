@@ -6,6 +6,31 @@ import {
 } from '@nx/devkit';
 import { type PackageJson } from 'nx/src/utils/package-json';
 
+/**
+ * written by google gemini with my prompting! 8/29/24 🔥
+ * @param folders the folders to work with
+ * @returns the top-level container of the folders array, see spec file
+ */
+function findTopLevelCommonFolder(folders: string[]): string | null {
+  if (folders.length === 0) {
+    return null;
+  }
+
+  const paths = folders.map((folder) => folder.split('/'));
+  const shortestPath = paths.reduce((acc, path) =>
+    path.length < acc.length ? path : acc
+  );
+
+  const commonPrefix = shortestPath.reduce((acc, segment, index) => {
+    if (paths.every((path) => path[index] === segment)) {
+      return acc + segment + '/';
+    }
+    return acc;
+  }, '');
+
+  return commonPrefix.length > 0 ? commonPrefix.slice(0, -1) : null;
+}
+
 export interface NamedPath {
   name: string;
   path: string;
@@ -53,5 +78,17 @@ export function dependencySourceRoot(
   return joinPathFragments(
     offsetFromRoot(project.root),
     dep.sourceRoot ?? joinPathFragments(dep.root, 'src')
+  );
+}
+
+export function commonParentFolder(
+  recordOfPaths: Record<string, unknown>
+): string {
+  const paths = Object.values(recordOfPaths) as string[];
+
+  return (
+    findTopLevelCommonFolder(
+      Object.values(paths).filter((f) => typeof f === 'string')
+    ) ?? 'src'
   );
 }

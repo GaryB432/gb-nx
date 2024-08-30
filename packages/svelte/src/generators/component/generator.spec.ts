@@ -29,7 +29,7 @@ describe('component svelte 4', () => {
     });
 
     expect(
-      appTree.read('apps/my-app/src/lib/components/Hello.svelte', 'utf-8')
+      appTree.read('apps/my-app/src/components/Hello.svelte', 'utf-8')
     ).toMatchSnapshot();
   });
 
@@ -40,10 +40,7 @@ describe('component svelte 4', () => {
       skipFormat: true,
     });
 
-    const helloSvelte = appTree.read(
-      'apps/my-app/src/lib/Hello.svelte',
-      'utf-8'
-    );
+    const helloSvelte = appTree.read('apps/my-app/src/Hello.svelte', 'utf-8');
     expect(helloSvelte).not.toUseRunes();
     expect(helloSvelte).toContain('export let subject');
   });
@@ -57,7 +54,7 @@ describe('component svelte 4', () => {
     });
 
     expect(
-      appTree.read('apps/my-app/src/lib/Hello.svelte', 'utf-8')
+      appTree.read('apps/my-app/src/Hello.svelte', 'utf-8')
     ).toMatchSnapshot();
   });
 
@@ -117,7 +114,7 @@ describe('component svelte 5', () => {
     });
 
     expect(
-      appTree.read('apps/my-app-5/src/lib/Hello.svelte', 'utf-8')
+      appTree.read('apps/my-app-5/src/Hello.svelte', 'utf-8')
     ).toUseRunes();
   });
 
@@ -130,7 +127,7 @@ describe('component svelte 5', () => {
     });
 
     expect(
-      appTree.read('apps/my-app-5/src/lib/Hello.svelte', 'utf-8')
+      appTree.read('apps/my-app-5/src/Hello.svelte', 'utf-8')
     ).toUseRunes();
   });
 });
