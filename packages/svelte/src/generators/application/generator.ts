@@ -71,7 +71,7 @@ export async function addLintingToApplication(
         'plugin:@typescript-eslint/recommended',
         'plugin:svelte/recommended'
       );
-      lintConfig.ignorePatterns.push('.svelte-kit/*');
+      lintConfig.ignorePatterns.push('node_modules/*', '.svelte-kit/*');
       lintConfig.overrides.push({
         files: ['*.svelte'],
         parser: 'svelte-eslint-parser',

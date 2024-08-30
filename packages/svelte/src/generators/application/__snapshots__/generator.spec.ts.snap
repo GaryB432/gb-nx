@@ -103,6 +103,7 @@ exports[`with eslint should handle project eslint config 1`] = `
   ],
   "ignorePatterns": [
     "!**/*",
+    "node_modules/*",
     ".svelte-kit/*"
   ],
   "overrides": [
