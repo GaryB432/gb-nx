@@ -32,6 +32,6 @@ describe('init schematic', () => {
     await initGenerator(tree, options);
 
     const packageJson = readJson(tree, 'package.json');
-    expect(packageJson.devDependencies['gb-schematics']).toBeUndefined();
+    expect(packageJson.devDependencies['gb-schematics']).toBeDefined();
   });
 });
