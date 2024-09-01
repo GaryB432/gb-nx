@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "change-shared-to-universal": {
+      "version": "8.4.0",
+      "description": "Migration for v8.4.0",
+      "implementation": "./src/migrations/update-8.4.0/change-shared-to-universal"
+    }
+  }
+}

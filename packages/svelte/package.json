@@ -1,6 +1,6 @@
 {
   "name": "@gb-nx/svelte",
-  "version": "8.3.2",
+  "version": "8.4.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -34,5 +34,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "nx-migrations": {
+    "migrations": "./migrations.json"
   }
 }

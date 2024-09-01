@@ -33,6 +33,11 @@
             "input": "./packages/svelte",
             "glob": "executors.json",
             "output": "."
+          },
+          {
+            "input": "./packages/svelte",
+            "glob": "migrations.json",
+            "output": "."
           }
         ]
       }
