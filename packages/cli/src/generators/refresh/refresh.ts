@@ -3,10 +3,13 @@ import {
   getProjects,
   joinPathFragments,
   names,
-  readNxJson,
   type Tree,
 } from '@nx/devkit';
-import { getKindTypes, readCliConfig } from '../../utils/config';
+import {
+  type ConfigCommand,
+  getKindTypes,
+  readCliConfig,
+} from '../../utils/config';
 import { getCommandMarkdown } from '../../utils/markdown';
 import { getCommandTs } from '../../utils/sade';
 import { makeCommandDeclarations } from '../../utils/typescript';
@@ -42,19 +45,7 @@ export default async function refreshGenerator(
 
     if (options.all || options.ts) {
       for (const [name, cmd] of Object.entries(config.commands)) {
-        tree.write(
-          joinPathFragments(
-            project.sourceRoot ?? '',
-            'app',
-            'commands',
-            `${names(name).fileName}.types.d.ts`
-          ),
-          makeCommandDeclarations(
-            projName,
-            getKindTypes(cmd.parameters ?? {}),
-            getKindTypes(cmd.options ?? {})
-          )
-        );
+        writeTsFiles(project.sourceRoot, name, projName, cmd);
       }
     }
 
@@ -130,5 +121,26 @@ export default async function refreshGenerator(
 
   if (!options.skipFormat) {
     await formatFiles(tree);
+  }
+
+  function writeTsFiles(
+    sourceRoot: string | undefined,
+    commandName: string,
+    projName: string,
+    cmd: ConfigCommand
+  ) {
+    tree.write(
+      joinPathFragments(
+        sourceRoot ?? '',
+        'app',
+        'commands',
+        `${names(commandName).fileName}.types.d.ts`
+      ),
+      makeCommandDeclarations(
+        projName,
+        getKindTypes(cmd.parameters ?? {}),
+        getKindTypes(cmd.options ?? {})
+      )
+    );
   }
 }
