@@ -90,7 +90,7 @@ describe('svelte e2e', () => {
         `generate @gb-nx/svelte:application --projectPath=subdir/${project} --skipFormat --no-interactive --verbose`
       );
       await runNxCommandAsync(
-        `generate @gb-nx/svelte:route a/b/c --runes --load=shared -p=${project} --skipFormat --no-interactive`
+        `generate @gb-nx/svelte:route a/b/c --runes --load=universal -p=${project} --skipFormat --no-interactive`
       );
       expect(() =>
         checkFilesExist(

@@ -112,7 +112,7 @@ function addLoadPage(
       tree.write(fname, options.language === 'ts' ? ts : js);
       break;
     }
-    case 'shared': {
+    case 'universal': {
       const fname = joinPathFragments(
         proj.root,
         locations.routes,
@@ -156,7 +156,7 @@ function addSveltePage(
 
   const scriptsRecord: Record<
     string,
-    { none: string; server: string; shared: string }
+    { none: string; server: string; universal: string }
   > = {
     js: {
       none: `<script>
@@ -170,7 +170,7 @@ function addSveltePage(
         /** @type {import('./$types').PageData} */
         ${options.runes ? 'let { data } = $props()' : 'export let data'};
       </script>`,
-      shared: `<script>
+      universal: `<script>
         /** @type {import('./$types').PageData} */
         ${options.runes ? 'let { data } = $props()' : 'export let data'};
         </script>`,
@@ -191,7 +191,7 @@ function addSveltePage(
             : 'export let data: PageData'
         };
       </script>`,
-      shared: `<script lang="ts">
+      universal: `<script lang="ts">
         import type { PageData } from './$types';
         ${
           options.runes

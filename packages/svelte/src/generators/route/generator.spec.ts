@@ -119,7 +119,7 @@ describe('route generator', () => {
       await skipFormatGenerator(appTree, {
         name: 'some-route',
         language: 'ts',
-        load: 'shared',
+        load: 'universal',
         project: 'test',
       });
       expect(appTree.children('apps/test/src/routes/some-route')).toEqual([

@@ -33,9 +33,9 @@ export interface Schema {
    */
   style?: 'css' | 'scss';
   /**
-   * Source of data for your load function
+   * Should the load function run on client and server (universal) or just server
    */
-  load?: 'shared' | 'server' | 'none';
+  load?: 'universal' | 'server' | 'none';
   /**
    * Use svelte runes (requires svelte >=5)
    */

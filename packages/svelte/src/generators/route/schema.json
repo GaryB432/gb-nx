@@ -7,6 +7,10 @@
     {
       "command": "nx g @gb-nx/svelte:route myroute --project myapp --language scss",
       "description": "Generate a route in the myapp Svelte Kit package"
+    },
+    {
+      "command": "nx g @gb-nx/svelte:route myroute --project myapp --load universal",
+      "description": "Generate a route with a load function to run on both client and server"
     }
   ],
   "type": "object",
@@ -56,9 +60,9 @@
       "default": "css"
     },
     "load": {
-      "description": "Source of data for your load function",
+      "description": "Should the load function run on client and server (universal) or just server",
       "type": "string",
-      "enum": ["shared", "server", "none"],
+      "enum": ["universal", "server", "none"],
       "default": "none"
     },
     "runes": {
