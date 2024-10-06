@@ -2,8 +2,16 @@
 
 ## Working with your extension
 
-### To install on Chrome
+### Load your extension locally
 
-Open chrome://extensions/ and make sure `Developer mode` is enabled in the top right corner.
-Then click the `Load unpacked` button and navigate to the `dist/<%= appProjectRoot %>` folder.
-Once installed, click the extension's icon in the browser's top right toolbar to see popup.html.
+To load an unpacked extension in developer mode, follow the steps in [Development Basics](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked).
+
+## See also
+
+[Chrome Extension Icon Generator](https://alexleybourne.github.io/chrome-extension-icon-generator/)
+
+[Chrome Extension Icons Generator](https://www.chromeextensionimages.com/)
+
+[Configure extension icons  |  Chrome Extensions  |  Chrome for Developers](https://developer.chrome.com/docs/extensions/develop/ui/configure-icons)
+
+[Icon Generator - Chrome Web Store](https://chromewebstore.google.com/detail/icon-generator/iakcaohfiocglhldcddchfmfdbjioone)

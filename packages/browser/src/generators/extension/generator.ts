@@ -15,7 +15,6 @@ import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/pr
 import { Linter, lintProjectGenerator } from '@nx/eslint';
 import { configurationGenerator as jestConfigGenerator } from '@nx/jest';
 import { join } from 'path';
-import { chromeTypingsVersion } from '../../utils/versions';
 import type { Schema as ExtensionGeneratorOptions } from './schema';
 
 interface NormalizedOptions extends ExtensionGeneratorOptions {
@@ -128,7 +127,7 @@ export default async function (
       {
         'adm-zip': '^0.5.10',
         ajv: '^8.0.0',
-        '@types/chrome': chromeTypingsVersion,
+        '@types/chrome': '0.0.277',
         'html-webpack-plugin': '^5.0.0',
         'mini-css-extract-plugin': '^2.0.0', // TODO install only when needed
       }

@@ -93,10 +93,12 @@ describe('extension', () => {
       tree,
       `${directory}/src/manifest.json`
     );
-    expect(manifest.content_scripts).toContainEqual({
-      js: [`${name}.content_script.js`],
-      matches: ['http://localhost/*', `https://*.${name}.com/*`],
-    });
+    expect(manifest.content_scripts).toMatchObject([
+      {
+        js: [`${name}.content_script.js`],
+        matches: ['<all_urls>'],
+      },
+    ]);
 
     expect(
       readJson(tree, `${directory}/tsconfig.json`).references.length
