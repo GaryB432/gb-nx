@@ -19,18 +19,23 @@ export default async function runExecutor(
   if (context.workspace && context.projectName) {
     const { targets } = context.workspace.projects[context.projectName];
     if (targets) {
-      const build: TargetConfiguration<WebpackExecutorOptions> =
+      const buildTarget: TargetConfiguration<WebpackExecutorOptions> =
         targets['build'];
-      if (build && build.executor === '@nx/webpack:webpack' && build.options) {
+      if (
+        buildTarget &&
+        buildTarget.executor === '@nx/webpack:webpack' &&
+        buildTarget.options
+      ) {
         options.outputFileName ??= `zip/${context.projectName}-{manifest-version}.zip`;
-        const manifestName = joinPathFragments(
-          build.options.outputPath,
+        const manifestPath = joinPathFragments(
+          buildTarget.options.outputPath,
           'manifest.json'
         );
-        const manifestString = readFileSync(manifestName, {
-          encoding: 'utf-8',
-        });
-        const sv = schemaValidate(manifestString);
+        const sv = schemaValidate(
+          readFileSync(manifestPath, {
+            encoding: 'utf-8',
+          })
+        );
         if (!sv.success) {
           throw new Error('Manifest is not valid');
         }
@@ -46,7 +51,7 @@ export default async function runExecutor(
 
           for (const filePart of getParts(sv.manifest).keys()) {
             const fullName = joinPathFragments(
-              build.options.outputPath,
+              buildTarget.options.outputPath,
               filePart
             );
             if (context.isVerbose) {
@@ -60,7 +65,7 @@ export default async function runExecutor(
           const bodyLines: string[] = [];
           const zip = new AdmZip();
 
-          zip.addLocalFolder(build.options.outputPath);
+          zip.addLocalFolder(buildTarget.options.outputPath);
           zip.writeZip(zipName, (e) => {
             if (e) {
               console.log(e.message);

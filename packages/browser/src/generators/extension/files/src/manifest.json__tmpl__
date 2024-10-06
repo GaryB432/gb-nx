@@ -17,10 +17,7 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "http://localhost/*",
-        "https://*.<%= fileName %>.com/*"
-      ],
+      "matches": ["<all_urls>"],
       "js": ["<%= fileName %>.content_script.js"]
     }
   ],
