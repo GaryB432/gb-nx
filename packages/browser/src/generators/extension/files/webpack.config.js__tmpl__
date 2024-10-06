@@ -19,7 +19,14 @@ module.exports = composePlugins(
 
     config.module.rules.push({
       test: /\.(sa|sc|c)ss$/,
-      use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        {
+          loader: 'sass-loader',
+          options: { api: 'modern' },
+        },
+      ],
     });
     config.plugins.push(...plugins);
     return config;
